@@ -1,5 +1,7 @@
 package com.cpigeon.app.modular.usercenter.view.fragment;
 
+import android.os.Bundle;
+
 import com.cpigeon.app.commonstandard.view.fragment.BasePageTurnFragment;
 import com.cpigeon.app.modular.usercenter.model.bean.UserScore;
 import com.cpigeon.app.modular.usercenter.presenter.ScorePresenter;
@@ -42,4 +44,5 @@ public class UserScoreSub2Fragment extends BasePageTurnFragment<ScorePresenter, 
     protected void loadDataByPresenter() {
         mPresenter.loadScoreRecord();
     }
+
 }

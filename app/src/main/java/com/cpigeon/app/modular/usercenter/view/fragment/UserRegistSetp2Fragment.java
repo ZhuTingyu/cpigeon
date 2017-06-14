@@ -50,7 +50,7 @@ public class UserRegistSetp2Fragment extends BaseFragment implements IRegisterVi
 
 
     @Override
-    protected void initView(View view) {
+    public void finishCreateView(Bundle state) {
         etRegistYzm.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

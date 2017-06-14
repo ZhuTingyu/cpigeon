@@ -295,7 +295,7 @@ public class RaceChaZuBaoDaoActivity extends BasePageTurnActivity<ChaZuBaoDaoDet
     @Override
     public void showMenuGroup() {
         if (mSelectGroupMenuDialog == null) {
-            mSelectGroupMenuDialog = new SaActionSheetDialog(mContext).builder();
+            mSelectGroupMenuDialog = new SaActionSheetDialog(this).builder();
             mSelectGroupMenuDialog.setTitle("切换插组");
             for (int group = 0; group < getData_CZTJ().size(); group++) {
                 final Map<String, Object> map = getData_CZTJ().get(group);

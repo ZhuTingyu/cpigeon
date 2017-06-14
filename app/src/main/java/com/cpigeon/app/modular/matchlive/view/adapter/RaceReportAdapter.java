@@ -23,10 +23,10 @@ import static com.cpigeon.app.modular.matchlive.view.adapter.MatchLiveExpandAdap
  */
 
 public class RaceReportAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
-    String mathType;
-    int mc;
-    String name;
-    String footNumber;
+    private String mathType;
+    private int mc;
+    private String name;
+    private String footNumber;
 
     public RaceReportAdapter(String mathType) {
         super(null);
@@ -117,15 +117,19 @@ public class RaceReportAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
             return result;
         MatchTitleXHItem titleItem;
         MatchDetialXHItem detialItem;
-        for (MatchReportXH matchInfo : data) {
-            titleItem = new MatchTitleXHItem(matchInfo);
+        if (data.size() > 0)
+        {
+            for (MatchReportXH matchInfo : data) {
+                titleItem = new MatchTitleXHItem(matchInfo);
 
-            detialItem = new MatchDetialXHItem();
-            detialItem.addSubItem(matchInfo);
+                detialItem = new MatchDetialXHItem();
+                detialItem.addSubItem(matchInfo);
 
-            titleItem.addSubItem(detialItem);
-            result.add(titleItem);
+                titleItem.addSubItem(detialItem);
+                result.add(titleItem);
+            }
         }
+
         return result;
     }
 
@@ -135,14 +139,16 @@ public class RaceReportAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
             return result;
         MatchTitleGPItem titleItem;
         MatchDetialGPItem detialItem;
-        for (MatchReportGP matchInfo : data) {
-            titleItem = new MatchTitleGPItem(matchInfo);
+        if (data.size() > 0) {
+            for (MatchReportGP matchInfo : data) {
+                titleItem = new MatchTitleGPItem(matchInfo);
 
-            detialItem = new MatchDetialGPItem();
-            detialItem.addSubItem(matchInfo);
+                detialItem = new MatchDetialGPItem();
+                detialItem.addSubItem(matchInfo);
 
-            titleItem.addSubItem(detialItem);
-            result.add(titleItem);
+                titleItem.addSubItem(detialItem);
+                result.add(titleItem);
+            }
         }
         return result;
     }

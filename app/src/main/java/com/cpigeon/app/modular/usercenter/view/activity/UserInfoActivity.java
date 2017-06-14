@@ -299,7 +299,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
             case R.id.iv_user_head_img:
                 break;
             case R.id.ll_user_head_img:
-                new SaActionSheetDialog(mContext)
+                new SaActionSheetDialog(UserInfoActivity.this)
                         .builder()
                         .addSheetItem("相册选取", OnSheetItemClickListener)
                         .addSheetItem("拍一张", OnSheetItemClickListener)
@@ -318,7 +318,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
                 MyDialogFragment.getInstance(MyDialogFragment.DIALOG_TYPE_DATE).show(getFragmentManager(), "提示");
                 break;
             case R.id.ll_user_sex:
-                new SaActionSheetDialog(mContext)
+                new SaActionSheetDialog(UserInfoActivity.this)
                         .builder()
                         .addSheetItem("男", mOnSheetItemClickListener)
                         .addSheetItem("女", mOnSheetItemClickListener)

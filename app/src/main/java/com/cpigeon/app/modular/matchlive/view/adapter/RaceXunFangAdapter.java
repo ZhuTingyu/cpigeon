@@ -90,14 +90,17 @@ public class RaceXunFangAdapter extends BaseMultiItemQuickAdapter<MultiItemEntit
             return result;
         MatchTitleGPItem titleItem;
         MatchDetialGPItem detialItem;
-        for (MatchReportGP matchInfo : data) {
-            titleItem = new MatchTitleGPItem(matchInfo);
+        if (data.size() > 0){
+            for (MatchReportGP matchInfo : data) {
+                titleItem = new MatchTitleGPItem(matchInfo);
 
-            detialItem = new MatchDetialGPItem();
-            detialItem.addSubItem(matchInfo);
+                detialItem = new MatchDetialGPItem();
+                detialItem.addSubItem(matchInfo);
 
-            titleItem.addSubItem(detialItem);
-            result.add(titleItem);
+                titleItem.addSubItem(detialItem);
+                result.add(titleItem);
+            }
+
         }
         return result;
     }

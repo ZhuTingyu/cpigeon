@@ -1,6 +1,7 @@
 package com.cpigeon.app.modular.matchlive.view.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -42,8 +43,10 @@ public class MatchLiveFragment extends BaseFragment {
     private MatchLiveSubFragment currMatchLiveSubFragment;
     private ContentFragmentAdapter mContentFragmentAdapter;
 
+
     @Override
-    protected void initView(View view) {
+    public void finishCreateView(Bundle state) {
+
         currMatchType = Const.MATCHLIVE_TYPE_XH;
         matchLiveSubFragment_GP = new MatchLiveSubFragment();
         matchLiveSubFragment_GP.setMatchType(Const.MATCHLIVE_TYPE_GP);
@@ -83,7 +86,6 @@ public class MatchLiveFragment extends BaseFragment {
                 setCurrMatchType(currType);
             }
         });
-
     }
 
     @Override

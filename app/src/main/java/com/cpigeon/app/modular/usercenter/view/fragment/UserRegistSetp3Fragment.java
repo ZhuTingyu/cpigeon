@@ -37,7 +37,7 @@ public class UserRegistSetp3Fragment extends BaseFragment implements IRegisterVi
 
 
     @Override
-    protected void initView(View view) {
+    public void finishCreateView(Bundle state) {
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

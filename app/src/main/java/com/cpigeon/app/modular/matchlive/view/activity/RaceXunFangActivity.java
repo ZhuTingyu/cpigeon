@@ -200,7 +200,7 @@ public class RaceXunFangActivity extends BasePageTurnActivity<RacePre, RaceXunFa
                 String key = sKey;
                 boolean show = false;
                 if (!TextUtils.isEmpty(key)) {
-                    new SaActionSheetDialog(mContext)
+                    new SaActionSheetDialog(RaceXunFangActivity.this)
                             .builder()
                             .addSheetItem(getString(R.string.search_prompt_clear_key), new SaActionSheetDialog.OnSheetItemClickListener() {
                                 @Override
@@ -220,7 +220,7 @@ public class RaceXunFangActivity extends BasePageTurnActivity<RacePre, RaceXunFa
                     }
                     final String finalKey = key;
                     if (show)
-                        new SaActionSheetDialog(mContext)
+                        new SaActionSheetDialog(RaceXunFangActivity.this)
                                 .builder()
                                 .addSheetItem(String.format(getString(R.string.search_prompt_has_key), key), new SaActionSheetDialog.OnSheetItemClickListener() {
                                     @Override

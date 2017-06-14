@@ -10,13 +10,10 @@ import android.view.ViewStub;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.cpigeon.app.R;
-import com.cpigeon.app.commonstandard.view.fragment.BaseLazyLoadFragment;
-import com.cpigeon.app.modular.matchlive.model.bean.Bulletin;
+import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
 import com.cpigeon.app.modular.matchlive.presenter.ChaZuReportPre;
-import com.cpigeon.app.modular.matchlive.view.activity.RaceChaZuBaoDaoActivity;
 import com.cpigeon.app.modular.matchlive.view.activity.RaceChaZuZhiDingActivity;
 import com.cpigeon.app.modular.matchlive.view.activity.RaceReportActivity;
 import com.cpigeon.app.modular.matchlive.view.adapter.ChaZuAdapter;
@@ -32,7 +29,7 @@ import butterknife.BindView;
  * Created by Administrator on 2017/4/15.
  */
 
-public class ChaZuZhiDingFragment extends BaseLazyLoadFragment<ChaZuReportPre> implements IChaZuReport {
+public class ChaZuZhiDingFragment extends BaseMVPFragment<ChaZuReportPre> implements IChaZuReport {
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
     @BindView(R.id.viewstub_empty)
@@ -65,10 +62,6 @@ public class ChaZuZhiDingFragment extends BaseLazyLoadFragment<ChaZuReportPre> i
     }
 
 
-    @Override
-    protected void initView(View view) {
-
-    }
 
     @Override
     protected int getLayoutResource() {
@@ -77,7 +70,17 @@ public class ChaZuZhiDingFragment extends BaseLazyLoadFragment<ChaZuReportPre> i
 
     @Override
     protected void lazyLoad() {
+        if (!isPrepared || !isVisible) {
+            return;
+        }
         mPresenter.loadChaZuReport();
+        isPrepared = false;
+    }
+
+    @Override
+    public void finishCreateView(Bundle state) {
+        isPrepared = true;
+        lazyLoad();
     }
 
 

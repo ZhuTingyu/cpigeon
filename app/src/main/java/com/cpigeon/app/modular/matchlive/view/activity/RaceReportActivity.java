@@ -93,8 +93,6 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
         if (TextUtils.isEmpty(loadType)) {
             loadType = matchInfo.getLx();
         }
-
-//        Logger.e("当前页面加载的数据是：" + loadType + "类型的数据");
         if ("xh".equals(loadType)) {
             tablayout_seconde_name = "集鸽数据";
         } else if ("gp".equals(loadType)) {
@@ -103,7 +101,6 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
         mPresenter.showBulletin();
         mPresenter.addRaceClickCount();
         if (matchInfo != null) {
-//            Logger.e("matchinfo" + matchInfo.getBsmc());
             if (bundle.getString("jigesuccess") != null) {
                 mFragmentPagerAdapter = new FragmentPagerItemAdapter(
                         getSupportFragmentManager(), FragmentPagerItems.with(this)
@@ -129,27 +126,6 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
             setSupportActionBar(mToolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-//        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int i, float v, int i1) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int i) {
-//                if (i == 1 || i == 3) {
-//
-//                } else {
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int i) {
-//
-//            }
-//        });
-//        searchEditText.setOnSearchClickListener(this);
     }
 
     public String getLoadType() {

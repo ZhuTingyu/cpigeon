@@ -98,15 +98,18 @@ public class JiGeDataAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
             return result;
         JiGeTitleItem_XH titleItem;
         JiGeDetialItem_XH detialItem;
-        for (MatchPigeonsXH matchInfo : data) {
-            titleItem = new JiGeTitleItem_XH(matchInfo);
+        if (data.size() > 0){
+            for (MatchPigeonsXH matchInfo : data) {
+                titleItem = new JiGeTitleItem_XH(matchInfo);
 
-            detialItem = new JiGeDetialItem_XH();
-            detialItem.addSubItem(matchInfo);
+                detialItem = new JiGeDetialItem_XH();
+                detialItem.addSubItem(matchInfo);
 
-            titleItem.addSubItem(detialItem);
-            result.add(titleItem);
+                titleItem.addSubItem(detialItem);
+                result.add(titleItem);
+            }
         }
+
         return result;
     }
 
@@ -116,15 +119,18 @@ public class JiGeDataAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
             return result;
         JiGeTitleItem_GP titleItem;
         JiGeDetialItem_GP detialItem;
-        for (MatchPigeonsGP matchInfo : data) {
-            titleItem = new JiGeTitleItem_GP(matchInfo);
+        if (data.size() > 0){
+            for (MatchPigeonsGP matchInfo : data) {
+                titleItem = new JiGeTitleItem_GP(matchInfo);
 
-            detialItem = new JiGeDetialItem_GP();
-            detialItem.addSubItem(matchInfo);
+                detialItem = new JiGeDetialItem_GP();
+                detialItem.addSubItem(matchInfo);
 
-            titleItem.addSubItem(detialItem);
-            result.add(titleItem);
+                titleItem.addSubItem(detialItem);
+                result.add(titleItem);
+            }
         }
+
         return result;
     }
 

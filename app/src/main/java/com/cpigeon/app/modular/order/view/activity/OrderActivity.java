@@ -25,6 +25,7 @@ import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.NetUtils;
 import com.orhanobut.logger.Logger;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import butterknife.BindView;
@@ -41,13 +42,13 @@ public class OrderActivity extends BasePageTurnActivity<OrderPre, OrderAdapter, 
         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
             CpigeonOrderInfo orderInfo = (CpigeonOrderInfo) adapter.getData().get(position);
             if (!orderInfo.ispaid() && "待支付".equals(orderInfo.getStatusName())) {
-                Intent intent = new Intent(mContext, OrderPayActivity.class);
+                Intent intent = new Intent(OrderActivity.this, OrderPayActivity.class);
                 intent.putExtra(OrderPayActivity.INTENT_DATA_KEY_ORDERINFO, orderInfo);
                 startActivity(intent);
             }
         }
     };
-    CpigeonData.OnWxPayListener onWxPayListener = new CpigeonData.OnWxPayListener() {
+    private CpigeonData.OnWxPayListener onWxPayListener = new CpigeonData.OnWxPayListener() {
         @Override
         public void onPayFinished(int wxPayReturnCode) {
             if (wxPayReturnCode == ERR_OK)
@@ -59,6 +60,7 @@ public class OrderActivity extends BasePageTurnActivity<OrderPre, OrderAdapter, 
                 }, 400);
             else
                 showTips("支付失败", TipType.ToastShort);
+
         }
     };
 

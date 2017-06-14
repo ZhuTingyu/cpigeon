@@ -61,8 +61,13 @@ public class MatchLiveSubFragment extends BaseFragment implements IMatchSubView,
     private Intent intent;
     private int lastExpandItemPosition = -1;//最后一个索引
 
+
+    public void setOnRefreshListener(OnRefreshListener onRefreshListener) {
+        this.onRefreshListener = onRefreshListener;
+    }
+
     @Override
-    protected void initView(View view) {
+    public void finishCreateView(Bundle state) {
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -93,11 +98,9 @@ public class MatchLiveSubFragment extends BaseFragment implements IMatchSubView,
                             lastExpandItemPosition = -1;
                         }
                         adapter.collapse(position);
-//                        Logger.e("当前被关闭的项的postion" + position);
                     } else {
                         if (lastExpandItemPosition >= 0) {
                             adapter.collapse(lastExpandItemPosition);
-//                            Logger.e("上一个关闭的项的postion" + lastExpandItemPosition);
                             if (lastExpandItemPosition > position) {//展开上面的项
                                 adapter.expand(position);
                                 lastExpandItemPosition = position;
@@ -109,29 +112,12 @@ public class MatchLiveSubFragment extends BaseFragment implements IMatchSubView,
                         } else {
                             lastExpandItemPosition = position;
                             adapter.expand(lastExpandItemPosition);
-//                            Logger.e("当前被展开的项的lastExpandItemPosition" + lastExpandItemPosition);
                         }
 
-//                        RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
-//                        //判断是当前layoutManager是否为LinearLayoutManager
-//                        // 只有LinearLayoutManager才有查找第一个和最后一个可见view位置的方法
-//                        if (layoutManager instanceof LinearLayoutManager) {
-//                            LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
-//                            //获取最后一个可见view的位置
-//                            int lastItemPosition = linearManager.findLastVisibleItemPosition();
-//                            Logger.d("最后一个可见view的位置:" + lastItemPosition + ";当前打开的项：" + lastExpandItemPosition);
-//                            //获取第一个可见view的位置
-////                                int firstItemPosition = linearManager.findFirstVisibleItemPosition();
-//                            if (lastExpandItemPosition > lastItemPosition) {
-//                                mRecyclerView.smoothScrollToPosition(lastExpandItemPosition);
-//                            }
-//                        }
 
                     }
                     if (lastExpandItemPosition == -1) {
-//                        Logger.e("当前没有任何项被展开");
                     }
-//                    Logger.e("lastExpandItemPosition:" + lastExpandItemPosition);
                 } else if (item instanceof MatchLiveExpandAdapter.MatchDetialItem) {
                     MatchInfo mi = ((MatchLiveExpandAdapter.MatchDetialItem) item).getSubItem(0);
                     if (checkArrearage(mi)) return;
@@ -180,11 +166,7 @@ public class MatchLiveSubFragment extends BaseFragment implements IMatchSubView,
         });
         mRecyclerView.setAdapter(matchLiveAdapter);
         onRefresh();
-    }
-
-
-    public void setOnRefreshListener(OnRefreshListener onRefreshListener) {
-        this.onRefreshListener = onRefreshListener;
+        isPrepared = false;
     }
 
     @Override
@@ -216,9 +198,6 @@ public class MatchLiveSubFragment extends BaseFragment implements IMatchSubView,
     @Override
     public void showXHData(List<MatchInfo> matchInfoList, int type) {
         this.matchInfos = matchInfoList;
-//        if (type == 1) {
-//            matchLiveAdapter.setNewData(MatchLiveExpandAdapter.get(matchInfos));
-//        }
         matchLiveAdapter.setNewData(MatchLiveExpandAdapter.get(matchInfoList));
         if (onRefreshListener != null)
             onRefreshListener.onRefreshFinished(OnRefreshListener.DATA_Type_XH, matchInfoList);
@@ -278,17 +257,13 @@ public class MatchLiveSubFragment extends BaseFragment implements IMatchSubView,
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-//                if (!isNetworkConnected()) {
-//                    mSwipeRefreshLayout.setRefreshing(false);
-//                    showTips("网络无法连接", hasDataList() ? IView.TipType.ToastShort : IView.TipType.View);
-//                } else
+
                 lastExpandItemPosition = -1;
                 if (Const.MATCHLIVE_TYPE_GP.equals(currMatchType)) {
                     pre.loadGPData(0);
                 } else if (Const.MATCHLIVE_TYPE_XH.equals(currMatchType)) {
                     pre.loadXHData(0);
                 }
-//                mSwipeRefreshLayout.setRefreshing(false);
                 matchLiveAdapter.setEnableLoadMore(true);
             }
         }, delayMillis);

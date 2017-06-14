@@ -12,10 +12,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
-import com.cpigeon.app.commonstandard.view.fragment.BaseLazyLoadFragment;
+import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
+import com.cpigeon.app.modular.footsearch.presenter.FootSearchPre;
 import com.cpigeon.app.modular.footsearch.view.activity.FootSearchResultActivity;
 import com.cpigeon.app.modular.order.model.bean.CpigeonServicesInfo;
-import com.cpigeon.app.modular.footsearch.presenter.FootSearchPre;
 import com.cpigeon.app.modular.order.view.activity.OpenServiceActivity;
 import com.cpigeon.app.modular.usercenter.model.bean.CpigeonUserServiceInfo;
 import com.cpigeon.app.utils.CpigeonData;
@@ -35,7 +35,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  * Created by Administrator on 2017/4/5.
  */
 
-public class FootSearchFragment extends BaseLazyLoadFragment<FootSearchPre> implements IFootSearchView {
+public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> implements IFootSearchView {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -67,7 +67,15 @@ public class FootSearchFragment extends BaseLazyLoadFragment<FootSearchPre> impl
     };
 
     @Override
-    protected void initView(View view) {
+    protected int getLayoutResource() {
+        return R.layout.fragment_footsearch;
+    }
+
+    @Override
+    protected void lazyLoad() {
+        if (!isPrepared || !isVisible) {
+            return;
+        }
         initToolbar();
         if (searchEdittext != null) {
             searchEdittext.setOnSearchClickListener(new SearchEditText.OnSearchClickListener() {
@@ -78,16 +86,14 @@ public class FootSearchFragment extends BaseLazyLoadFragment<FootSearchPre> impl
             });
 
         }
-    }
-
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.fragment_footsearch;
-    }
-
-    @Override
-    protected void lazyLoad() {
         mPresenter.loadUserServiceInfo();
+        isPrepared = false;
+    }
+
+    @Override
+    public void finishCreateView(Bundle state) {
+        isPrepared = true;
+        lazyLoad();
     }
 
     private void initToolbar() {
@@ -100,12 +106,13 @@ public class FootSearchFragment extends BaseLazyLoadFragment<FootSearchPre> impl
 
     @Override
     public void onResume() {
+        super.onResume();
         if (isDev) {
             super.onResume();
             return;
         }
         mPresenter.loadUserServiceInfo();
-        super.onResume();
+
     }
 
     @Override

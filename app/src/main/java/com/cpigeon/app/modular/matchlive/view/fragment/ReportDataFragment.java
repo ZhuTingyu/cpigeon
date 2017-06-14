@@ -85,14 +85,7 @@ public class ReportDataFragment extends BasePageTurnFragment<RacePre, RaceReport
         return true;
     }
 
-    @Override
-    protected void initView(View view) {
-        super.initView(view);
-        initSearch();
-        if ("gp".equals(getMatchType())) {
-            listHeaderRaceDetialTableHeader1.setText("名次");
-        }
-    }
+
 
     private void initSearch() {
         searchEditText.setOnSearchClickListener(new SearchEditText.OnSearchClickListener() {
@@ -280,4 +273,12 @@ public class ReportDataFragment extends BasePageTurnFragment<RacePre, RaceReport
         onRefresh();
     }
 
+    @Override
+    public void finishCreateView(Bundle state) {
+        super.finishCreateView(state);
+        initSearch();
+        if ("gp".equals(getMatchType())) {
+            listHeaderRaceDetialTableHeader1.setText("名次");
+        }
+    }
 }

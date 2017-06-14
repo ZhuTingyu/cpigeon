@@ -1,16 +1,13 @@
 package com.cpigeon.app.utils;
 
 import android.content.Context;
-import android.telecom.Call;
 import android.text.TextUtils;
 import android.util.Log;
 
-
 import com.cpigeon.app.MyApp;
-import com.cpigeon.app.commonstandard.model.dao.IGetUserBandPhone;
-import com.cpigeon.app.commonstandard.model.daoimpl.GetUserBandPhoneImpl;
 import com.cpigeon.app.modular.usercenter.model.bean.CpigeonUserServiceInfo;
 import com.cpigeon.app.modular.usercenter.model.bean.UserInfo;
+import com.orhanobut.logger.Logger;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 
 import java.lang.ref.WeakReference;
@@ -29,16 +26,17 @@ public class CpigeonData {
     public static final int USER_SIGN_STATUS_NONE = -1;
     public static final int USER_SIGN_STATUS_SIGNED = 1;
     public static final int USER_SIGN_STATUS_NOT_SIGN = 0;
-    private static CpigeonData mCpigeonData;
+    private volatile static CpigeonData mCpigeonData;
     private int userScore = 0;
     private int userId = 0;
     private String userBindPhone = "";
     private double userBalance = 0d;
     private CpigeonUserServiceInfo userFootSearchServiceInfo;
-    private List<WeakReference<OnWxPayListener>> onWxPayListenerList;
     private UserInfo.DataBean mCurrUserInfo;
-    private List<WeakReference<OnDataChangedListener>> onDataChangedListenerList;
-    // private WeakReference<List<OnWxPayListener>> onWxPayListenerListRef;
+
+
+    private List<OnDataChangedListener> onDataChangedListenerList;
+    private List<OnWxPayListener> onWxPayListenerList;
 
     private int mSignStatus = USER_SIGN_STATUS_NONE;
     //标记是否可以调用更新数据回调
@@ -230,10 +228,10 @@ public class CpigeonData {
             }
         }
         //清理为空的引用
-        Iterator<WeakReference<OnWxPayListener>> iterator = onWxPayListenerList.iterator();
+        Iterator<OnWxPayListener> iterator = onWxPayListenerList.iterator();
         while (iterator.hasNext()) {
-            WeakReference<OnWxPayListener> ref = iterator.next();
-            if (ref.get() == null)
+           OnWxPayListener ref = iterator.next();
+            if (ref == null)
                 iterator.remove();
         }
     }
@@ -246,7 +244,7 @@ public class CpigeonData {
     public void addOnWxPayListener(OnWxPayListener onWxPayListener) {
         initWxPayListenerListRef();
         synchronized (this) {
-            this.onWxPayListenerList.add(new WeakReference<OnWxPayListener>(onWxPayListener));
+            this.onWxPayListenerList.add(onWxPayListener);
         }
     }
 
@@ -269,10 +267,12 @@ public class CpigeonData {
      */
     public void onWxPay(Context context, int wxPayReturnCode) {
         if (context instanceof IWXAPIEventHandler) {
-            if (this.onWxPayListenerList == null || onWxPayListenerList == null) return;
-            for (WeakReference<OnWxPayListener> ref : this.onWxPayListenerList) {
-                if (ref.get() != null)
-                    ref.get().onPayFinished(wxPayReturnCode);
+            if (this.onWxPayListenerList == null || onWxPayListenerList.size()==0) return;
+            for (OnWxPayListener ref : this.onWxPayListenerList) {
+                if (ref!= null) {
+
+                    ref.onPayFinished(wxPayReturnCode);
+                }
             }
         } else {
             Log.e("ERROR", "onWxPay called error");
@@ -283,10 +283,15 @@ public class CpigeonData {
      * 触发信息修改回调
      */
     private void triggerOnDataChanged() {
-        if (onDataChangedListenerList == null || !dataIsChanged) return;
-        for (WeakReference<OnDataChangedListener> listener : onDataChangedListenerList) {
-            if (listener.get() != null)
-                listener.get().OnDataChanged(this);
+//        if (onDataChangedListenerList == null || !dataIsChanged) return;
+
+        Logger.e("triggerOnDataChanged 触发");
+        if (onDataChangedListenerList == null) return;
+        for (OnDataChangedListener listener : onDataChangedListenerList) {
+            if (listener!= null) {
+                Logger.e("回调触发");
+                listener.OnDataChanged(this);
+            }
         }
         dataIsChanged = false;
     }
@@ -303,10 +308,10 @@ public class CpigeonData {
             }
         }
         //清理为空的引用
-        Iterator<WeakReference<OnDataChangedListener>> iterator = onDataChangedListenerList.iterator();
+        Iterator<OnDataChangedListener> iterator = onDataChangedListenerList.iterator();
         while (iterator.hasNext()) {
-            WeakReference<OnDataChangedListener> ref = iterator.next();
-            if (ref.get() == null)
+            OnDataChangedListener ref = iterator.next();
+            if (ref == null)
                 iterator.remove();
         }
     }
@@ -316,10 +321,10 @@ public class CpigeonData {
      *
      * @param
      */
-    public void addOnDataChangedListener(OnDataChangedListener onDataChangedListener) {
+    public void addOnDataChangedListener(OnDataChangedListener onDataChangedListenerWeakReference) {
         initOnDataChangedListRef();
         synchronized (this) {
-            this.onDataChangedListenerList.add(new WeakReference<OnDataChangedListener>(onDataChangedListener));
+            this.onDataChangedListenerList.add(onDataChangedListenerWeakReference);
         }
     }
 
@@ -328,10 +333,10 @@ public class CpigeonData {
      *
      * @param
      */
-    private void removeOnDataChangedListener(OnDataChangedListener onDataChangedListener) {
+    public void removeOnDataChangedListener(OnDataChangedListener onDataChangedListenerWeakReference) {
         initOnDataChangedListRef();
         synchronized (this) {
-            this.onDataChangedListenerList.remove(onDataChangedListener);
+            this.onDataChangedListenerList.remove(onDataChangedListenerWeakReference);
         }
     }
 
@@ -350,9 +355,6 @@ public class CpigeonData {
      * @param signStatus <code>USER_SIGN_STATUS_NONE</code> <code>USER_SIGN_STATUS_NOT_SIGN</code> <code>USER_SIGN_STATUS_SIGNED</code>
      */
     public void setUserSignStatus(int signStatus) {
-        if (signStatus != USER_SIGN_STATUS_NONE || signStatus != USER_SIGN_STATUS_NOT_SIGN || signStatus != USER_SIGN_STATUS_SIGNED) {
-            return;
-        }
         synchronized (this) {
             this.mSignStatus = signStatus;
         }
