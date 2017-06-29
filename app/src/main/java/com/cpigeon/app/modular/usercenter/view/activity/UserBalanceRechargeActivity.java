@@ -34,6 +34,8 @@ import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+import java.lang.ref.WeakReference;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -66,8 +68,7 @@ public class UserBalanceRechargeActivity extends BaseActivity<UserBalanceRecharg
     private int currPayway = -1;
     double mInputFee = 0;
     private IWXAPI mWxApi = null;
-
-    CpigeonData.OnWxPayListener onWxPayListener = new CpigeonData.OnWxPayListener() {
+    private CpigeonData.OnWxPayListener onWxPayListenerWeakReference = new CpigeonData.OnWxPayListener() {
         @Override
         public void onPayFinished(int wxPayReturnCode) {
             if (wxPayReturnCode == 0) {
@@ -124,7 +125,7 @@ public class UserBalanceRechargeActivity extends BaseActivity<UserBalanceRecharg
 
             }
         });
-        CpigeonData.getInstance().addOnWxPayListener(onWxPayListener);
+        CpigeonData.getInstance().addOnWxPayListener(onWxPayListenerWeakReference);
 
         if (mWxApi == null) {
             mWxApi = WXAPIFactory.createWXAPI(mContext, WXPayEntryActivity.APP_ID, true);
@@ -213,7 +214,7 @@ public class UserBalanceRechargeActivity extends BaseActivity<UserBalanceRecharg
 
     @Override
     protected void onDestroy() {
-        CpigeonData.getInstance().removeOnWxPayListener(onWxPayListener);
+        CpigeonData.getInstance().removeOnWxPayListener(onWxPayListenerWeakReference);
         super.onDestroy();
     }
 

@@ -93,15 +93,18 @@ public class ChaZuZhiDingDetailsAdapter extends BaseMultiItemQuickAdapter<MultiI
             return result;
         ChaZuZhiDingDetailsAdapter.MatchTitleXHItem titleItem;
         ChaZuZhiDingDetailsAdapter.MatchDetialXHItem detialItem;
-        for (MatchPigeonsXH matchInfo : data) {
-            titleItem = new ChaZuZhiDingDetailsAdapter.MatchTitleXHItem(matchInfo);
+        if (data.size() > 0){
+            for (MatchPigeonsXH matchInfo : data) {
+                titleItem = new ChaZuZhiDingDetailsAdapter.MatchTitleXHItem(matchInfo);
 
-            detialItem = new ChaZuZhiDingDetailsAdapter.MatchDetialXHItem();
-            detialItem.addSubItem(matchInfo);
+                detialItem = new ChaZuZhiDingDetailsAdapter.MatchDetialXHItem();
+                detialItem.addSubItem(matchInfo);
 
-            titleItem.addSubItem(detialItem);
-            result.add(titleItem);
+                titleItem.addSubItem(detialItem);
+                result.add(titleItem);
+            }
         }
+
         return result;
     }
 
@@ -111,15 +114,18 @@ public class ChaZuZhiDingDetailsAdapter extends BaseMultiItemQuickAdapter<MultiI
             return result;
         ChaZuZhiDingDetailsAdapter.MatchTitleGPItem titleItem;
         ChaZuZhiDingDetailsAdapter.MatchDetialGPItem detialItem;
-        for (MatchPigeonsGP matchInfo : data) {
-            titleItem = new ChaZuZhiDingDetailsAdapter.MatchTitleGPItem(matchInfo);
+        if (data.size() > 0){
+            for (MatchPigeonsGP matchInfo : data) {
+                titleItem = new ChaZuZhiDingDetailsAdapter.MatchTitleGPItem(matchInfo);
 
-            detialItem = new ChaZuZhiDingDetailsAdapter.MatchDetialGPItem();
-            detialItem.addSubItem(matchInfo);
+                detialItem = new ChaZuZhiDingDetailsAdapter.MatchDetialGPItem();
+                detialItem.addSubItem(matchInfo);
 
-            titleItem.addSubItem(detialItem);
-            result.add(titleItem);
+                titleItem.addSubItem(detialItem);
+                result.add(titleItem);
+            }
         }
+
         return result;
     }
 

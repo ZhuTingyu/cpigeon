@@ -1,7 +1,6 @@
 package com.cpigeon.app.modular.matchlive.view.activity;
 
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -150,27 +149,6 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
             setSupportActionBar(mToolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-//        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int i, float v, int i1) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int i) {
-//                if (i == 1 || i == 3) {
-//
-//                } else {
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int i) {
-//
-//            }
-//        });
-//        searchEditText.setOnSearchClickListener(this);
         initBoomMnue();
     }
 
@@ -297,12 +275,16 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
             case android.R.id.home: //android.R.id.home是Android内置home按钮的id
                 finish();
                 break;
+            case R.id.action_save:
+
+                break;
             case R.id.action_details:
                 showDialogFragment();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 
     @OnClick({R.id.layout_gg})
@@ -336,6 +318,7 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
         }
         RaceDetailsFragment detailsFragment = RaceDetailsFragment.newInstance("直播数据");
         detailsFragment.show(mFragmentTransaction, "dialogFragment");
+
     }
 
 }

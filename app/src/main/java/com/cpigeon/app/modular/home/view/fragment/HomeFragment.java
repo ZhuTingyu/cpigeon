@@ -76,8 +76,9 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements IHom
     RecyclerView recyclerviewHomeXh;
     private HomeAdapter mAdapter;
 
+
     @Override
-    protected void initView(View view) {
+    public void finishCreateView(Bundle state) {
         ViewGroup.LayoutParams lp = homeBanner.getLayoutParams();
         lp.height = ScreenTool.getScreenWidth(getActivity()) / 2;
         homeBanner.setLayoutParams(lp);

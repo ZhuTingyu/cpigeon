@@ -2,16 +2,20 @@ package com.cpigeon.app.modular.usercenter.view.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
-import com.cpigeon.app.commonstandard.view.fragment.BaseLazyLoadFragment;
+import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.modular.home.view.activity.WebActivity;
 import com.cpigeon.app.modular.order.view.activity.OrderActivity;
 import com.cpigeon.app.modular.settings.view.activity.SettingsActivity;
@@ -32,6 +36,7 @@ import com.cpigeon.app.utils.customview.MarqueeTextView;
 import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Picasso;
 
+import java.lang.ref.WeakReference;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -44,7 +49,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by Administrator on 2017/4/6.
  */
 
-public class UserCenterFragment extends BaseLazyLoadFragment {
+public class UserCenterFragment extends BaseMVPFragment {
 
     @BindView(R.id.fragment_user_center_userLogo)
     CircleImageView fragmentUserCenterUserLogo;
@@ -83,31 +88,39 @@ public class UserCenterFragment extends BaseLazyLoadFragment {
     @BindView(R.id.ll_user_center_help)
     LinearLayout llUserCenterHelp;
     long lastUpdateViewTime = -1;
-    WeakHandler mHandler;
 
-    CpigeonData.OnDataChangedListener onDataChangedListener = new CpigeonData.OnDataChangedListener() {
+    private CpigeonData.OnDataChangedListener onDataChangedListenerWeakReference = new CpigeonData.OnDataChangedListener() {
         @Override
         public void OnDataChanged(CpigeonData cpigeonData) {
+            Logger.e("用户数据更新回调");
             refreshUserInfo(true);
         }
     };
-
-    @Override
-    protected void initView(View view) {
-        CpigeonData.getInstance().addOnDataChangedListener(onDataChangedListener);
-        mHandler = new WeakHandler();
-    }
-
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_usercenter;
     }
 
+    @Nullable
     @Override
-    protected void lazyLoad() {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        CpigeonData.getInstance().addOnDataChangedListener(onDataChangedListenerWeakReference);
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+
+
+    @Override
+    protected void loadData() {
         CpigeonData.DataHelper.getInstance().updateUserBalanceAndScoreFromServer();
         CpigeonData.DataHelper.getInstance().updateUserSignStatus();
         CpigeonData.DataHelper.getInstance().updateUserInfo(null);
+    }
+
+    @Override
+    public void finishCreateView(Bundle state) {
+        refreshUserInfo(false);
+        loadData();
     }
 
     @OnClick({R.id.fragment_user_center_details, R.id.cv_sign, R.id.ll_user_center_msg, R.id.ll_user_center_feedback, R.id.ll_user_center_focus, R.id.ll_user_center_order, R.id.ll_user_money, R.id.ll_user_jifen, R.id.ll_user_center_setting, R.id.ll_user_center_aboutus, R.id.ll_user_center_help})
@@ -168,27 +181,8 @@ public class UserCenterFragment extends BaseLazyLoadFragment {
         return super.showTips(tip, tipType);
     }
 
-    private void refreshUserInfo() {
-        refreshUserInfo(false);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        refreshUserInfo();
-    }
 
     private void refreshUserInfo(boolean isRefersh) {
-        if (!isVisible) {
-            //if (System.currentTimeMillis() - lastUpdateViewTime > 1000)
-//                mHandler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        refreshUserInfo();
-//                    }
-//                }, 500);
-            return;
-        }
         if (checkLogin()) {
             UserInfo.DataBean userInfo = CpigeonData.getInstance().getUserInfo();
             String userHeadImageURl = "";
@@ -244,18 +238,6 @@ public class UserCenterFragment extends BaseLazyLoadFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        CpigeonData.DataHelper.getInstance().updateUserSignStatus();
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refreshUserInfo(true);
-            }
-        }, 3000);
-    }
-
-    @Override
     protected BasePresenter initPresenter() {
         return null;
     }
@@ -263,6 +245,14 @@ public class UserCenterFragment extends BaseLazyLoadFragment {
     @Override
     protected boolean isCanDettach() {
         return true;
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        CpigeonData.getInstance().removeOnDataChangedListener(onDataChangedListenerWeakReference);
+        super.onDestroyView();
+        Logger.e("监听移除了");
     }
 
 }

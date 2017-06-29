@@ -33,9 +33,9 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
     protected abstract boolean isCanDettach();
 
     @Override
-    public void onDestroy() {
+    public void onDestroyView() {
+        super.onDestroyView();
         if (isCanDettach() && mPresenter != null && mPresenter.isAttached())
             mPresenter.detach();
-        super.onDestroy();
     }
 }

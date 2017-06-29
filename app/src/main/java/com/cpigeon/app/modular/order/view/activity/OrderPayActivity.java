@@ -31,6 +31,8 @@ import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+import java.lang.ref.WeakReference;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -79,7 +81,7 @@ public class OrderPayActivity extends BaseActivity<OrderPayPresenter> implements
     private String payType;
     PayReq payReq;
 
-    CpigeonData.OnWxPayListener onWxPayListener = new CpigeonData.OnWxPayListener() {
+    private CpigeonData.OnWxPayListener onWxPayListenerWeakReference = new CpigeonData.OnWxPayListener() {
         @Override
         public void onPayFinished(int wxPayReturnCode) {
             if (wxPayReturnCode == ERR_OK)
@@ -121,12 +123,11 @@ public class OrderPayActivity extends BaseActivity<OrderPayPresenter> implements
             mWxApi = WXAPIFactory.createWXAPI(mContext, WXPayEntryActivity.APP_ID, true);
             mWxApi.registerApp(WXPayEntryActivity.APP_ID);
         }
-        CpigeonData.getInstance().addOnWxPayListener(onWxPayListener);
+        CpigeonData.getInstance().addOnWxPayListener(onWxPayListenerWeakReference);
         mPresenter.loadUserScoreAndBalance();
         mcpigeoCpigeonOrderInfo = (CpigeonOrderInfo) getIntent().getSerializableExtra(INTENT_DATA_KEY_ORDERINFO);
         mCpigeonOrderId = getIntent().getIntExtra(INTENT_DATA_KEY_ORDERID, 0);
         if (mCpigeonOrderId != 0) {
-            // TODO: 2017/1/7  加载订单信息（后台加载，新开线程）
             mPresenter.getOrderInfoById(mCpigeonOrderId);
         } else if (mcpigeoCpigeonOrderInfo == null) {
             throw new NullPointerException("intent parameter " + INTENT_DATA_KEY_ORDERINFO + " is null");
@@ -265,7 +266,7 @@ public class OrderPayActivity extends BaseActivity<OrderPayPresenter> implements
                         return;
                     }
                     if (CpigeonData.getInstance().getUserScore() < mcpigeoCpigeonOrderInfo.getScores()) {
-                        SweetAlertDialog dialogPrompt = new SweetAlertDialog(mContext, SweetAlertDialog.NORMAL_TYPE);
+                        SweetAlertDialog dialogPrompt = new SweetAlertDialog(OrderPayActivity.this, SweetAlertDialog.NORMAL_TYPE);
                         dialogPrompt.setCancelable(false);
                         dialogPrompt.setTitleText("鸽币不足")
                                 .setContentText(String.format("您的当前鸽币：%d", CpigeonData.getInstance().getUserScore()))
@@ -273,7 +274,7 @@ public class OrderPayActivity extends BaseActivity<OrderPayPresenter> implements
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        Intent intent = new Intent(mContext, WebActivity.class);
+                                        Intent intent = new Intent(OrderPayActivity.this, WebActivity.class);
                                         intent.putExtra(WebActivity.INTENT_DATA_KEY_URL, Const.URL_HELP_GETSCORE);
                                         intent.putExtra(WebActivity.INTENT_DATA_KEY_BACKNAME, "订单支付");
                                         startActivity(intent);

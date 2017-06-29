@@ -3,8 +3,6 @@ package com.cpigeon.app.modular.matchlive.view.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,9 +10,8 @@ import android.view.ViewStub;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.cpigeon.app.R;
-import com.cpigeon.app.commonstandard.view.fragment.BaseLazyLoadFragment;
+import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.modular.matchlive.model.bean.Bulletin;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
 import com.cpigeon.app.modular.matchlive.presenter.ChaZuReportPre;
@@ -25,7 +22,6 @@ import com.cpigeon.app.modular.matchlive.view.fragment.viewdao.IChaZuReport;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 
@@ -34,7 +30,7 @@ import butterknife.BindView;
  * Created by Administrator on 2017/4/15.
  */
 
-public class ChaZuBaoDaoFragment extends BaseLazyLoadFragment<ChaZuReportPre> implements IChaZuReport {
+public class ChaZuBaoDaoFragment extends BaseMVPFragment<ChaZuReportPre> implements IChaZuReport {
     private int CURRENT_DATA_TYPE;//当前数据类型
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
@@ -71,10 +67,6 @@ public class ChaZuBaoDaoFragment extends BaseLazyLoadFragment<ChaZuReportPre> im
     }
 
 
-    @Override
-    protected void initView(View view) {
-
-    }
 
     @Override
     protected int getLayoutResource() {
@@ -83,7 +75,17 @@ public class ChaZuBaoDaoFragment extends BaseLazyLoadFragment<ChaZuReportPre> im
 
     @Override
     protected void lazyLoad() {
+        if (!isPrepared || !isVisible) {
+            return;
+        }
         mPresenter.loadChaZuReport();
+        isPrepared = false;
+    }
+
+    @Override
+    public void finishCreateView(Bundle state) {
+        isPrepared = true;
+        lazyLoad();
     }
 
 

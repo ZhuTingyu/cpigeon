@@ -1,6 +1,7 @@
 package com.cpigeon.app.modular.matchlive.view.fragment;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -73,12 +74,7 @@ public class JiGeDataFragment extends BasePageTurnFragment<JiGePre, JiGeDataAdap
         }
     }
 
-    @Override
-    protected void initView(View view) {
-        super.initView(view);
-        initSearch();
-        listHeaderRaceDetialTableHeader1.setText("序号");
-    }
+
 
     private void initSearch() {
         searchEditText.setOnSearchClickListener(new SearchEditText.OnSearchClickListener() {
@@ -297,5 +293,12 @@ public class JiGeDataFragment extends BasePageTurnFragment<JiGePre, JiGeDataAdap
     public void search(String keyword) {
         this.sKey = keyword;
         onRefresh();
+    }
+
+    @Override
+    public void finishCreateView(Bundle state) {
+        super.finishCreateView(state);
+        initSearch();
+        listHeaderRaceDetialTableHeader1.setText("序号");
     }
 }

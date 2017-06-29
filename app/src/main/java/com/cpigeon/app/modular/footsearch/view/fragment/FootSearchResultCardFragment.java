@@ -64,7 +64,7 @@ public class FootSearchResultCardFragment extends BaseFragment {
 
 
     @Override
-    protected void initView(View view) {
+    public void finishCreateView(Bundle state) {
         if (mFootQueryResult != null) {
             tvCardContentFoot.setText(mFootQueryResult.getFoot());
             tvCardContentXm.setText(mFootQueryResult.getXmmc());

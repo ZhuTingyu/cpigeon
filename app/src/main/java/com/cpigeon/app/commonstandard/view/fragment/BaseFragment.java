@@ -1,5 +1,6 @@
 package com.cpigeon.app.commonstandard.view.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,9 +32,17 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  */
 
 public abstract class BaseFragment extends Fragment implements IView {
-    protected View rootView;
-    private Unbinder mUnbinder;
-    protected String TAG = this.getClass().getSimpleName();
+    private View parentView;
+
+    private FragmentActivity activity;
+
+    // 标志位 标志已经初始化完成。
+    protected boolean isPrepared;
+
+    //标志位 fragment是否可见
+    protected boolean isVisible;
+
+    private Unbinder bind;
     /**
      * 加载中--对话框
      */
@@ -41,19 +51,68 @@ public abstract class BaseFragment extends Fragment implements IView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (rootView == null) {
-            rootView = inflater.inflate(getLayoutResource(), container, false);
-            mUnbinder = ButterKnife.bind(this, rootView);
-            initView(rootView);
-        }
-        ViewGroup parent = (ViewGroup) rootView.getParent();
-        if (parent != null) {
-            parent.removeView(rootView);
-        }
-        return rootView;
+        parentView = inflater.inflate(getLayoutResource(), container, false);
+        activity = getSupportActivity();
+        return parentView;
     }
 
-    protected abstract void initView(View view);
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        this.activity = null;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = (FragmentActivity) activity;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        bind = ButterKnife.bind(this, view);
+        finishCreateView(savedInstanceState);
+    }
+
+    public abstract void finishCreateView(Bundle state);
+
+    public Context getApplicationContext() {
+
+        return this.activity == null
+                ? (getActivity() == null ? null :
+                getActivity().getApplicationContext())
+                : this.activity.getApplicationContext();
+    }
+
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+
+        super.setUserVisibleHint(isVisibleToUser);
+        if (getUserVisibleHint()) {
+            isVisible = true;
+            onVisible();
+        } else {
+            isVisible = false;
+            onInvisible();
+        }
+    }
+
+
+    protected void onVisible() {
+
+        lazyLoad();
+    }
+
+    protected void lazyLoad() {}
+
+
+    protected void onInvisible() {}
+
+
+    protected void loadData() {}
+
 
     //获取布局文件
     @LayoutRes
@@ -63,10 +122,7 @@ public abstract class BaseFragment extends Fragment implements IView {
         ConnectivityManager mConnectivityManager = (ConnectivityManager) getActivity()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
-        if (mNetworkInfo != null) {
-            return mNetworkInfo.isAvailable();
-        }
-        return false;
+        return mNetworkInfo != null && mNetworkInfo.isAvailable();
     }
 
     @Override
@@ -92,7 +148,6 @@ public abstract class BaseFragment extends Fragment implements IView {
                 dialogPrompt.setCancelable(false);
                 dialogPrompt.setTitleText("失败")
                         .setContentText(tip)
-                        //// TODO: 2017/4/10 图标
                         .setConfirmText(getString(R.string.confirm)).show();
                 return true;
             case View:
@@ -125,9 +180,7 @@ public abstract class BaseFragment extends Fragment implements IView {
 
     @Override
     public boolean showTips(String tip, TipType tipType, int tag) {
-        if (tag == 0)
-            return showTips(tip, tipType);
-        return false;
+        return tag == 0 && showTips(tip, tipType);
     }
 
     @Override
@@ -157,7 +210,12 @@ public abstract class BaseFragment extends Fragment implements IView {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        bind.unbind();
 
+    }
+
+    public FragmentActivity getSupportActivity() {
+        return super.getActivity();
     }
 
 }

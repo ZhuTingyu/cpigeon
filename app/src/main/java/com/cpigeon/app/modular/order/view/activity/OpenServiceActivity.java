@@ -79,7 +79,7 @@ public class OpenServiceActivity extends BaseActivity<OpenServicePresenter> impl
                     showTips(cpigeonServicesInfo.getPackageName() + "已下架，感谢您的支持", TipType.Dialog);
                     return;
                 }
-                SweetAlertDialog dialog = new SweetAlertDialog(mContext);
+                SweetAlertDialog dialog = new SweetAlertDialog(OpenServiceActivity.this);
                 dialog.setConfirmText("确认");
                 dialog.setTitleText("提示");
                 dialog.setContentText(String.format("确认开通%s?", cpigeonServicesInfo.getPackageName()));
@@ -119,9 +119,9 @@ public class OpenServiceActivity extends BaseActivity<OpenServicePresenter> impl
 
     @Override
     public void createServiceOrderSuccess(CpigeonOrderInfo orderInfo) {
-        Intent intent = new Intent(mContext, OrderPayActivity.class);
+        Intent intent = new Intent(OpenServiceActivity.this, OrderPayActivity.class);
         intent.putExtra(OrderPayActivity.INTENT_DATA_KEY_ORDERINFO, orderInfo);
         startActivity(intent);
-        ((BaseActivity) mContext).finish();
+        OpenServiceActivity.this.finish();
     }
 }

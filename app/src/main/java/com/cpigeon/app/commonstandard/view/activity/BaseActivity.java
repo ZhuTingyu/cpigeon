@@ -3,7 +3,6 @@ package com.cpigeon.app.commonstandard.view.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -23,14 +22,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
-import com.cpigeon.app.broadcastreceiver.NetWorkStateReceiver;
 import com.cpigeon.app.commonstandard.AppManager;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.EncryptionTool;
-import com.cpigeon.app.utils.NetUtils;
 import com.cpigeon.app.utils.SharedPreferencesTool;
 import com.cpigeon.app.utils.StatusBarSetting;
 import com.cpigeon.app.utils.ToastUtil;
@@ -42,23 +40,16 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.pedant.SweetAlert.SweetAlertDialog;
-import me.imid.swipebacklayout.lib.SwipeBackLayout;
-import me.imid.swipebacklayout.lib.Utils;
-import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
-import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
 
 /**
  * Created by Administrator on 2017/4/5.
  */
 
-public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements IView, SwipeBackActivityBase {
+public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements IView{
     public Context mContext;
     private Unbinder mUnbinder;
     private WeakReference<Activity> weakReference;
-    private SwipeBackActivityHelper mHelper;
-    private SwipeBackLayout mSwipeBackLayout;
     private SweetAlertDialog dialogPrompt;
-    private NetWorkStateReceiver netWorkStateReceiver;
     protected T mPresenter;
     /**
      * 加载中--对话框
@@ -68,31 +59,13 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Window window = getWindow();
-//        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         doBeforeSetcontentView();
         setContentView(getLayoutId());
-
-        if (canSwipeBack()) {
-            mHelper = new SwipeBackActivityHelper(this);
-            mHelper.onActivityCreate();
-            mSwipeBackLayout = getSwipeBackLayout();
-            mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
-        }
         mUnbinder = ButterKnife.bind(this);
-        mContext = this;
         mPresenter = this.initPresenter();
         initView();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
-//        Logger.e("当前" + this.getClass().getSimpleName() + "上面的栈内存Activity还有" + AppManager.getAppManager().stackSize());
 
-    }
-
-    @Override
-    public void onPostCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onPostCreate(savedInstanceState, persistentState);
-        if (canSwipeBack())
-            mHelper.onPostCreate();
     }
 
     //获取布局文件
@@ -103,73 +76,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     public abstract void initView();
 
-    /**
-     * 是否可以滑动返回
-     *
-     * @return
-     */
-    public boolean canSwipeBack() {
-        return false;
-    }
 
-    @Override
-    public View findViewById(int id) {
-        View v = super.findViewById(id);
-        if (canSwipeBack() && v == null && mHelper != null)
-            return mHelper.findViewById(id);
-        return v;
-    }
-
-    @Override
-    public SwipeBackLayout getSwipeBackLayout() {
-        return mHelper.getSwipeBackLayout();
-    }
-
-    @Override
-    public void setSwipeBackEnable(boolean enable) {
-        getSwipeBackLayout().setEnableGesture(enable);
-    }
-
-    @Override
-    public void scrollToFinishActivity() {
-        Utils.convertActivityToTranslucent(this);
-        getSwipeBackLayout().scrollToFinishActivity();
-    }
-
-    /**
-     * 着色状态栏（4.4以上系统有效）
-     */
-    protected void SetStatusBarColor() {
-        StatusBarSetting.setColor(this, getResources().getColor(R.color.colorPrimary));
-    }
-
-    /**
-     * 着色状态栏（4.4以上系统有效）
-     */
-    protected void SetStatusBarColor(int color) {
-        StatusBarSetting.setColor(this, color);
-    }
-
-    /**
-     * 沉浸状态栏（4.4以上系统有效）
-     */
-    protected void SetTranslanteBar() {
-        StatusBarSetting.setTransparent(this);
-    }
-
-    /**
-     * 设置沉浸式
-     *
-     * @param on
-     */
-    protected void setTranslucentStatus(boolean on) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            //透明状态栏
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //透明导航栏
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
-    }
 
     /**
      * 通过Class跳转界面
@@ -198,14 +105,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         // 设置竖屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        mContext = this;
     }
 
-    /**
-     * 通过Class跳转界面
-     **/
-    public void startActivityForResult(Class<?> cls, int requestCode) {
-        startActivityForResult(cls, null, requestCode);
-    }
 
     /**
      * 含有Bundle通过Class跳转界面
@@ -244,36 +146,14 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         overridePendingTransition(R.anim.in_from_right, R.anim.out_to_right);
     }
 
-    /**
-     * 含有Bundle通过Class跳转界面
-     **/
-    public void startActivityForResult(Class<?> cls, Bundle bundle,
-                                       int requestCode) {
-        Intent intent = new Intent();
-        intent.setClass(this, cls);
-        if (bundle != null) {
-            intent.putExtras(bundle);
-        }
-        startActivityForResult(intent, requestCode);
-        overridePendingTransition(R.anim.enter, R.anim.exit);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-//        if (netWorkStateReceiver == null) {
-//            netWorkStateReceiver = new NetWorkStateReceiver();
-//        }
-//        IntentFilter filter = new IntentFilter();
-//        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-//        registerReceiver(netWorkStateReceiver, filter);
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-//        unregisterReceiver(netWorkStateReceiver);
     }
 
     // 获取点击事件

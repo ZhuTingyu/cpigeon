@@ -15,6 +15,8 @@ import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.NetUtils;
 
+import java.lang.ref.WeakReference;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -36,7 +38,7 @@ public class BalanceActivity extends BaseActivity {
     @BindView(R.id.tv_question)
     TextView tvQuestion;
 
-    private CpigeonData.OnDataChangedListener onDataChangedLisenter = new CpigeonData.OnDataChangedListener() {
+    private CpigeonData.OnDataChangedListener onDataChangedLisenter  = new CpigeonData.OnDataChangedListener() {
         @Override
         public void OnDataChanged(CpigeonData cpigeonData) {
             if (tvUserBalance != null)

@@ -133,15 +133,18 @@ public class MatchLiveExpandAdapter extends BaseMultiItemQuickAdapter<MultiItemE
             return result;
         MatchTitleItem titleItem;
         MatchDetialItem detialItem;
-        for (MatchInfo matchInfo : data) {
-            titleItem = new MatchTitleItem(matchInfo);
+        if (data.size() > 0){
+            for (MatchInfo matchInfo : data) {
+                titleItem = new MatchTitleItem(matchInfo);
 
-            detialItem = new MatchDetialItem();
-            detialItem.addSubItem(matchInfo);
+                detialItem = new MatchDetialItem();
+                detialItem.addSubItem(matchInfo);
 
-            titleItem.addSubItem(detialItem);
-            result.add(titleItem);
+                titleItem.addSubItem(detialItem);
+                result.add(titleItem);
+            }
         }
+
         return result;
     }
 

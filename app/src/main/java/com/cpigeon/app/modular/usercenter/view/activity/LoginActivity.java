@@ -212,11 +212,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     }
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-    }
 
     @Override
     public String getLoginName() {
@@ -240,9 +235,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
 
     @Override
     public void loginSuccess() {
+        SharedPreferencesTool.Save(this, "loginname", getLoginName(), SharedPreferencesTool.SP_FILE_LOGIN);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-        SharedPreferencesTool.Save(this, "loginname", getLoginName(), SharedPreferencesTool.SP_FILE_LOGIN);
         finish();
     }
 

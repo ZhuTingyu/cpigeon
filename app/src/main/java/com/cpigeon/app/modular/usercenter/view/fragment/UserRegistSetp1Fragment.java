@@ -46,8 +46,10 @@ public class UserRegistSetp1Fragment extends BaseFragment implements IRegisterVi
     private String phoneNumber;
     private boolean isAgreeprotocol = false;
 
+
+
     @Override
-    protected void initView(View view) {
+    public void finishCreateView(Bundle state) {
         etRegistPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -67,6 +69,7 @@ public class UserRegistSetp1Fragment extends BaseFragment implements IRegisterVi
         if (((RegisterActivity) getActivity()).getRunModel() == RegisterActivity.START_TYPE_FINDPASSWORD)
             layoutRegistProtocol.setVisibility(View.GONE);
     }
+
 
     @Override
     protected int getLayoutResource() {

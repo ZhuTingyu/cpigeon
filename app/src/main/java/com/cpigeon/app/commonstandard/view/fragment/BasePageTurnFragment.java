@@ -2,12 +2,12 @@ package com.cpigeon.app.commonstandard.view.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.TextView;
@@ -16,12 +16,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
-import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.commonstandard.view.activity.IPageTurn;
 import com.cpigeon.app.commonstandard.view.activity.IRefresh;
-import com.cpigeon.app.utils.MyItemDecoration;
 import com.orhanobut.logger.Logger;
-import com.tencent.bugly.proguard.t;
 
 import java.util.List;
 
@@ -32,7 +29,7 @@ import butterknife.BindView;
  * 可翻页，可刷新的Fragment
  */
 
-public abstract class BasePageTurnFragment<Pre extends BasePresenter, Adapter extends BaseQuickAdapter<DataBean, BaseViewHolder>, DataBean> extends BaseLazyLoadFragment<Pre> implements IPageTurn<DataBean>, IRefresh, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+public abstract class BasePageTurnFragment<Pre extends BasePresenter, Adapter extends BaseQuickAdapter<DataBean, BaseViewHolder>, DataBean> extends BaseMVPFragment<Pre> implements IPageTurn<DataBean>, IRefresh, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
     @BindView(R.id.recyclerview)
     protected RecyclerView recyclerview;
     @BindView(R.id.swiperefreshlayout)
@@ -48,7 +45,7 @@ public abstract class BasePageTurnFragment<Pre extends BasePresenter, Adapter ex
     protected Adapter mAdapter;
 
     @Override
-    protected void initView(View view) {
+    protected void loadData() {
         swiperefreshlayout.setOnRefreshListener(this);
         swiperefreshlayout.setColorSchemeColors(Color.rgb(47, 223, 189));
         swiperefreshlayout.setEnabled(false);
@@ -57,15 +54,15 @@ public abstract class BasePageTurnFragment<Pre extends BasePresenter, Adapter ex
         iniPageAndAdapter();
     }
 
-
     @Override
     protected int getLayoutResource() {
         return R.layout.layout_com_swiperefreshlayout_recyclerview;
     }
 
     @Override
-    protected void lazyLoad() {
+    public void finishCreateView(Bundle state) {
         if (isNetworkConnected()) {
+            loadData();
             showRefreshLoading();
             loadDataByPresenter();
         } else {
@@ -73,7 +70,6 @@ public abstract class BasePageTurnFragment<Pre extends BasePresenter, Adapter ex
             showTips("网络连接已断开", TipType.View);
         }
     }
-
 
     @Override
     public void onRefresh() {

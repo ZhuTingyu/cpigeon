@@ -31,11 +31,11 @@ public class MessageFragment extends BaseFragment {
     TextView mEmptyTipTextView;
     AppCompatImageView mEmptyTipImage;
 
+
     @Override
-    protected void initView(View view) {
+    public void finishCreateView(Bundle state) {
         showTips("暂无通知", TipType.View);
         mEmptyTipImage.setVisibility(View.GONE);
-
     }
 
     @Override

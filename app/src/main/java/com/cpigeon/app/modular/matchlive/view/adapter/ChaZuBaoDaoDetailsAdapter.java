@@ -26,9 +26,7 @@ import static com.cpigeon.app.modular.matchlive.view.adapter.MatchLiveExpandAdap
 
 public class ChaZuBaoDaoDetailsAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
     private String mathType;//加载的数据类型，xh-协会，gp-公棚
-    private int ranking;
-    private String name;
-    private String footNumber;
+
     public ChaZuBaoDaoDetailsAdapter(String mathType) {
         super(null);
         this.mathType = mathType;
@@ -52,6 +50,9 @@ public class ChaZuBaoDaoDetailsAdapter extends BaseMultiItemQuickAdapter<MultiIt
                 helper.setVisible(R.id.report_info_item_mc_img, false);
                 helper.setVisible(R.id.report_info_item_mc, true);
                 helper.setVisible(R.id.report_info_item_rank, true);
+                int ranking;
+                String name;
+                String footNumber;
                 if ("xh".equals(mathType)) {
                     ChaZuBaoDaoDetailsAdapter.MatchTitleXHItem titleItem = (ChaZuBaoDaoDetailsAdapter.MatchTitleXHItem) item;
                     ranking = titleItem.getMatchReportXH().getMc();
@@ -175,7 +176,7 @@ public class ChaZuBaoDaoDetailsAdapter extends BaseMultiItemQuickAdapter<MultiIt
         }
     }
 
-    public static class MatchDetialXHItem extends AbstractExpandableItem<MatchReportXH> implements MultiItemEntity {
+    static class MatchDetialXHItem extends AbstractExpandableItem<MatchReportXH> implements MultiItemEntity {
 
         @Override
         public int getItemType() {
@@ -211,7 +212,7 @@ public class ChaZuBaoDaoDetailsAdapter extends BaseMultiItemQuickAdapter<MultiIt
         }
     }
 
-    public static class MatchDetialGPItem extends AbstractExpandableItem<MatchReportGP> implements MultiItemEntity {
+    static class MatchDetialGPItem extends AbstractExpandableItem<MatchReportGP> implements MultiItemEntity {
 
         @Override
         public int getItemType() {

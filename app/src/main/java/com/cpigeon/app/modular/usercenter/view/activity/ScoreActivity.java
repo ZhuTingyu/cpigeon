@@ -24,6 +24,8 @@ import com.cpigeon.app.utils.NetUtils;
 import com.cpigeon.app.utils.customview.listener.AppBarStateChangeListener;
 import com.cpigeon.app.utils.customview.smarttab.SmartTabLayout;
 
+import java.lang.ref.WeakReference;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;

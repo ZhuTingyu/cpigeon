@@ -115,29 +115,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
             if (useDevInfo == null) return false;
 
             Logger.d(useDevInfo.getString());
-//            Date time = DateTool.strToDateTime(useDevInfo.getTime());
-//            StringBuilder builder = new StringBuilder();
-//            builder.append("您的账号于")
-//                    .append(dateTimeFormat.format(time))
-//                    .append("在另一台")
-//                    .append(useDevInfo.getType())
-//                    .append(TextUtils.isEmpty(useDevInfo.getDevinfo()) ? "" : "(" + useDevInfo.getDevinfo() + ")")
-//                    .append("设备登录。如非本人操作，则密码可能已泄漏，建议尽快修改密码。");
-//            SweetAlertDialog dialog = new SweetAlertDialog(mContext, SweetAlertDialog.WARNING_TYPE);
-////                    dialog.getWindow().setType(WindowManager.LayoutParams.FIRST_APPLICATION_WINDOW);
-//            dialog.setTitleText("下线通知")
-//                    .setContentText(builder.toString())
-//                    .setConfirmText("确定")
-//                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-//                        @Override
-//                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-//                            sweetAlertDialog.dismiss();
-//                            Intent intent = new Intent(mContext, LoginActivity.class);
-//                            startActivity(intent);
-//                        }
-//                    });
-//            dialog.setCancelable(false);
-//            dialog.show();
+
             clearLoginInfo();
             return true;
         }
@@ -388,7 +366,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         }
         checkAvailableVersion();
         // startService(new Intent(mContext.getApplicationContext(), CoreService.class));
-        bindService(new Intent(mContext.getApplicationContext(), MainActivityService.class), conn, Context.BIND_AUTO_CREATE);
+        bindService(new Intent(MyApp.getInstance(), MainActivityService.class), conn, Context.BIND_AUTO_CREATE);
     }
 
 //

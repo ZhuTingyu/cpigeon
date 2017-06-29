@@ -119,9 +119,6 @@ public class LoginDaoImpl implements ILoginDao {
                         map.put("sltoken", data.getString("sltoken"));
                         CpigeonData.getInstance().setUserId((int) map.get("userid"));
                         SharedPreferencesTool.Save(MyApp.getInstance(), map, SharedPreferencesTool.SP_FILE_LOGIN);
-//                        Intent intent = new Intent(mContext, HomeActivity.class);
-//                        startActivity(intent);
-//                        finish();
                         if (onLoginListener != null)
                             onLoginListener.loginSuccess();
                     } else {
@@ -135,7 +132,6 @@ public class LoginDaoImpl implements ILoginDao {
                                 msg = "用户名或密码错误";
                                 break;
                         }
-//                        showShortToast(msg);
                         SharedPreferencesTool.Save(MyApp.getInstance(), "logined", false, SharedPreferencesTool.SP_FILE_LOGIN);
                         if (onLoginListener != null)
                             onLoginListener.loginFailed(msg);
