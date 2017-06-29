@@ -19,6 +19,7 @@ import cn.jpush.android.api.JPushInterface;
 
 public class JPushBroadcastReceiver extends BroadcastReceiver {
     private static final String TYPE_CIRCLEMESSAGE = "circlemsg";
+    private static final String TYPE_RACELIVE = "racelive";
 
     private NotificationManager nm;
 
@@ -30,41 +31,42 @@ public class JPushBroadcastReceiver extends BroadcastReceiver {
 
         Bundle bundle = intent.getExtras();
 //        Logger.d(TAG, "onReceive - " + intent.getAction() + ", extras: " + AndroidUtil.printBundle(bundle));
-        Logger.d( "onReceive - " + intent.getAction());
+        Logger.d("onReceive - " + intent.getAction());
 
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
-            Logger.d( "JPush用户注册成功");
+            Logger.d("JPush用户注册成功");
 
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
-            Logger.d( "接受到推送下来的自定义消息");
+            Logger.d("接受到推送下来的自定义消息");
 
             // Push Talk messages are push down by custom message format
             processCustomMessage(context, bundle);
 
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
-            Logger.d( "接受到推送下来的通知");
+            Logger.d("接受到推送下来的通知");
 
-            receivingNotification(context,bundle);
+            receivingNotification(context, bundle);
 
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-            Logger.d( "用户点击打开了通知");
+            Logger.d("用户点击打开了通知");
 
-            openNotification(context,bundle);
+            openNotification(context, bundle);
 
         } else {
-            Logger.d( "Unhandled intent - " + intent.getAction());
+            Logger.d("Unhandled intent - " + intent.getAction());
         }
     }
-    private void receivingNotification(Context context, Bundle bundle){
+
+    private void receivingNotification(Context context, Bundle bundle) {
         String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
-        Logger.d( " title : " + title);
+        Logger.d(" title : " + title);
         String message = bundle.getString(JPushInterface.EXTRA_ALERT);
-        Logger.d( "message : " + message);
+        Logger.d("message : " + message);
         String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-        Logger.d( "extras : " + extras);
+        Logger.d("extras : " + extras);
     }
 
-    private void openNotification(Context context, Bundle bundle){
+    private void openNotification(Context context, Bundle bundle) {
         String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
         String myValue = "";
         try {
@@ -79,13 +81,16 @@ public class JPushBroadcastReceiver extends BroadcastReceiver {
 //            mIntent.putExtras(bundle);
 //            mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //            context.startActivity(mIntent);
-        } else{
+        } else if (TYPE_RACELIVE.equals((myValue))) {
+            
+        } else {
             Intent mIntent = new Intent(context, SplashActivity.class);
             mIntent.putExtras(bundle);
             mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(mIntent);
         }
     }
+
     private void processCustomMessage(Context context, Bundle bundle) {
 //        String title = bundle.getString(JPushInterface.EXTRA_TITLE);
 //        String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);

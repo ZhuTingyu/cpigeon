@@ -22,11 +22,11 @@ public class FeedBackResultListActivity extends BasePageTurnActivity<FeedBackRes
         @Override
         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
             FeedBackResult feedBackResult = (FeedBackResult) adapter.getData().get(position);
-            if (feedBackResult.getState().equals("已回复")) {
-                Intent intent = new Intent(FeedBackResultListActivity.this, FeedBackResultDetialActivity.class);
-                intent.putExtra(FeedBackResultDetialActivity.INTENT_KEY_FEEDBACKRESULT, feedBackResult);
-                startActivity(intent);
-            }
+            //if (feedBackResult.getState().equals("已回复")) {
+            Intent intent = new Intent(FeedBackResultListActivity.this, FeedBackResultDetialActivity.class);
+            intent.putExtra(FeedBackResultDetialActivity.INTENT_KEY_FEEDBACKRESULT, feedBackResult);
+            startActivity(intent);
+            //}
         }
     };
 

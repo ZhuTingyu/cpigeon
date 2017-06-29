@@ -27,6 +27,7 @@ import com.cpigeon.app.modular.matchlive.view.fragment.viewdao.IReportData;
 import com.cpigeon.app.modular.usercenter.model.bean.UserFollow;
 import com.cpigeon.app.utils.CpigeonConfig;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.EncryptionTool;
 import com.cpigeon.app.utils.customview.MarqueeTextView;
 import com.cpigeon.app.utils.customview.SaActionSheetDialog;
 import com.cpigeon.app.utils.customview.SearchEditText;
@@ -137,6 +138,7 @@ public class RaceXunFangActivity extends BasePageTurnActivity<RacePre, RaceXunFa
             userFollow = db.selector(UserFollow.class)
                     .where("uid", "=", CpigeonData.getInstance().getUserId(this))
                     .and("ftype", "=", matchInfo.getLx().equals("xh") ? "协会" : "公棚")
+                    .and("rela", "=", EncryptionTool.encryptAES(EncryptionTool.decryptAES(matchInfo.getSsid()).split("/")[0]))
                     .findFirst();
         } catch (DbException e) {
             e.printStackTrace();
@@ -156,6 +158,7 @@ public class RaceXunFangActivity extends BasePageTurnActivity<RacePre, RaceXunFa
                 userFollow = db.selector(UserFollow.class)
                         .where("uid", "=", CpigeonData.getInstance().getUserId(this))
                         .and("ftype", "=", "比赛")
+                        .and("rela", "=", matchInfo.getSsid())
                         .findFirst();
             } catch (DbException e) {
                 e.printStackTrace();

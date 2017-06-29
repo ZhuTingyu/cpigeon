@@ -138,7 +138,6 @@ dependencies {
     compile 'cn.jiguang.sdk:jpush:3.0.3'
     // 此处以JCore 1.1.1 版本为例。
     compile 'cn.jiguang.sdk:jcore:1.1.1'
-    compile files('libs/nineoldandroids-2.4.0.jar')
     compile 'com.alibaba:fastjson:1.2.31'
     //可展开收起的textView
     compile 'cn.carbs.android:ExpandableTextView:1.0.3'
@@ -148,11 +147,9 @@ dependencies {
     annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.3.2'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 
-    compile 'com.nineoldandroids:library:2.4.0'
+    //compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.2@aar'
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:1.5.0@aar'
-
-    compile 'com.nightonke:boommenu:2.1.0'
 }
 
 int getCustomVersionCode() {

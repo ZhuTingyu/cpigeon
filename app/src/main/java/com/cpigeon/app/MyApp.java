@@ -43,14 +43,8 @@ public class MyApp extends Application {
         if (BuildConfig.DEBUG) {
             Logger.init(TAG).methodCount(3);
         }
-        //极光推送
-//        JPushInterface.setDebugMode(BuildConfig.DEBUG);
-//        JPushInterface.init(this);
-
-        CacheManager.setCacheModel(CacheManager.ALL_ALLOW);
-        CacheManager.setMemaryCacheTime(30 * 1000);
-        CacheManager.setDiskCacheTime(3 * 60 * 1000);
-        CacheManager.init(this);
+        initJPhsh();
+        initLocalCacheManager();
     }
 
     /**
@@ -110,4 +104,24 @@ public class MyApp extends Application {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 初始化极光推送
+     */
+    private void initJPhsh() {
+        //极光推送
+        JPushInterface.setDebugMode(BuildConfig.DEBUG);
+        JPushInterface.init(this);
+    }
+
+    /**
+     * 初始化本地缓存管理器
+     */
+    private void initLocalCacheManager() {
+        CacheManager.setCacheModel(CacheManager.ALL_ALLOW);
+        CacheManager.setMemaryCacheTime(30 * 1000);
+        CacheManager.setDiskCacheTime(3 * 60 * 1000);
+        CacheManager.init(this);
+    }
+
 }

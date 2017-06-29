@@ -1,6 +1,7 @@
 package com.cpigeon.app.modular.matchlive.view.activity;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -29,6 +30,7 @@ import com.cpigeon.app.modular.matchlive.view.fragment.ReportDataFragment;
 import com.cpigeon.app.modular.usercenter.model.bean.UserFollow;
 import com.cpigeon.app.utils.CpigeonConfig;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.EncryptionTool;
 import com.cpigeon.app.utils.customview.MarqueeTextView;
 import com.cpigeon.app.utils.customview.smarttab.SmartTabLayout;
 import com.nightonke.boommenu.BoomButtons.BoomButton;
@@ -120,7 +122,7 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
         } else if ("gp".equals(loadType)) {
             tablayout_seconde_name = "上笼清单";
         }
-        mPresenter.showBulletin();
+        initBulletin();
         mPresenter.addRaceClickCount();
         if (matchInfo != null) {
 //            Logger.e("matchinfo" + matchInfo.getBsmc());
@@ -152,6 +154,10 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
         initBoomMnue();
     }
 
+    public void initBulletin() {
+        mPresenter.showBulletin();
+    }
+
     private void initBoomMnue() {
         boolean _isJg = "jg".equals(matchInfo.getDt());
         boomMenuButton.setButtonEnum(ButtonEnum.TextInsideCircle);
@@ -167,6 +173,7 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
             userFollow = db.selector(UserFollow.class)
                     .where("uid", "=", CpigeonData.getInstance().getUserId(this))
                     .and("ftype", "=", matchInfo.getLx().equals("xh") ? "协会" : "公棚")
+                    .and("rela", "=", EncryptionTool.encryptAES(EncryptionTool.decryptAES(matchInfo.getSsid()).split("/")[0]))
                     .findFirst();
         } catch (DbException e) {
             e.printStackTrace();
@@ -186,6 +193,7 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
                 userFollow = db.selector(UserFollow.class)
                         .where("uid", "=", CpigeonData.getInstance().getUserId(this))
                         .and("ftype", "=", "比赛")
+                        .and("rela", "=", matchInfo.getSsid())
                         .findFirst();
             } catch (DbException e) {
                 e.printStackTrace();
@@ -284,7 +292,6 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
     @OnClick({R.id.layout_gg})

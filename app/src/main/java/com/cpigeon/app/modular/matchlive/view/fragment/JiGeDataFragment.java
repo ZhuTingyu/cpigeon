@@ -237,6 +237,7 @@ public class JiGeDataFragment extends BasePageTurnFragment<JiGePre, JiGeDataAdap
 
     @Override
     protected void loadDataByPresenter() {
+        ((RaceReportActivity) getActivity()).initBulletin();
         mPresenter.loadJiGe();
     }
 

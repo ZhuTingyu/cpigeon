@@ -45,7 +45,7 @@ public class FeedBackResultDetialActivity extends BaseActivity {
         feedBackResult = (FeedBackResult) intent.getSerializableExtra(INTENT_KEY_FEEDBACKRESULT);
         if (feedBackResult == null) finish();
         etvFeedbackContent.setText(feedBackResult.getContent());
-        etvFeedbackResult.setText(feedBackResult.getResult());
+        etvFeedbackResult.setText("已回复".equals(feedBackResult.getState()) ? feedBackResult.getResult() : feedBackResult.getState());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

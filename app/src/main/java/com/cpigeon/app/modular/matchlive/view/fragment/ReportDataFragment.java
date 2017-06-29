@@ -86,7 +86,6 @@ public class ReportDataFragment extends BasePageTurnFragment<RacePre, RaceReport
     }
 
 
-
     private void initSearch() {
         searchEditText.setOnSearchClickListener(new SearchEditText.OnSearchClickListener() {
             @Override
@@ -276,6 +275,7 @@ public class ReportDataFragment extends BasePageTurnFragment<RacePre, RaceReport
 
     @Override
     protected void loadDataByPresenter() {
+        ((RaceReportActivity) getActivity()).initBulletin();
         mPresenter.loadRaceData(0);
     }
 
