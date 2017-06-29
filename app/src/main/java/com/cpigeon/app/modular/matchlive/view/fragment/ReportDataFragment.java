@@ -142,6 +142,17 @@ public class ReportDataFragment extends BasePageTurnFragment<RacePre, RaceReport
     }
 
     @Override
+    public MatchInfo getMatchInfo() {
+        initMatchinfo();
+        return matchInfo;
+    }
+
+    @Override
+    public void refreshBoomMnue() {
+
+    }
+
+    @Override
     protected int getDefaultPageSize() {
         return 100;
     }

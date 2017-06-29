@@ -1,6 +1,7 @@
 package com.cpigeon.app.utils;
 
 import android.content.Context;
+import android.database.DatabaseUtils;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -24,13 +25,13 @@ import com.cpigeon.app.modular.order.model.bean.CpigeonOrderInfo;
 import com.cpigeon.app.modular.order.model.bean.CpigeonServicesInfo;
 import com.cpigeon.app.modular.usercenter.model.bean.CpigeonRechargeInfo;
 import com.cpigeon.app.modular.usercenter.model.bean.CpigeonUserServiceInfo;
+import com.cpigeon.app.modular.usercenter.model.bean.FeedBackResult;
+import com.cpigeon.app.modular.usercenter.model.bean.UserFollow;
 import com.cpigeon.app.modular.usercenter.model.bean.UserInfo;
 import com.cpigeon.app.modular.usercenter.model.bean.UserScore;
-import com.cpigeon.app.service.MainActivityService;
 import com.cpigeon.app.service.databean.UseDevInfo;
 import com.cpigeon.app.utils.cache.CacheManager;
 import com.cpigeon.app.utils.databean.ApiResponse;
-import com.cpigeon.app.utils.databean.WxPayRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
@@ -41,6 +42,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.DbManager;
 import org.xutils.common.util.KeyValue;
+import org.xutils.db.sqlite.WhereBuilder;
 import org.xutils.ex.DbException;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.RequestParams;
@@ -1646,6 +1648,234 @@ public class CallAPI {
             }
         });
 
+    }
+
+    /**
+     * 获取用户比赛关注列表
+     *
+     * @param context
+     * @param pageIndex
+     * @param pageSize
+     * @param followType
+     * @param callback
+     * @return
+     */
+    public static org.xutils.common.Callback.Cancelable getUserRaceFollows(Context context,
+                                                                           int pageIndex,
+                                                                           int pageSize,
+                                                                           String followType,
+                                                                           @NonNull final Callback<List<UserFollow>> callback) {
+        final int userid = CpigeonData.getInstance().getUserId(context);
+
+        RequestParams requestParams = new RequestParams(CPigeonApiUrl.getInstance().getServer() + CPigeonApiUrl.GET_RACE_FOLLOWS_URL);
+        pretreatmentParams(requestParams);
+        requestParams.addParameter("u", userid);
+        requestParams.addParameter("type", followType);
+        requestParams.addParameter("pi", pageIndex);
+        requestParams.addParameter("ps", pageSize);
+        requestParams.addHeader("u", CommonTool.getUserToken(context));//      requestParams.setConnectTimeout(CpigeonConfig.CONNECT_TIMEOUT);
+
+        return x.http().get(requestParams, new org.xutils.common.Callback.CommonCallback<String>() {
+
+            @Override
+            public void onSuccess(String result) {
+                if (result != null) dealData(result);
+            }
+
+            private void dealData(String result) {
+                Logger.i(result);
+                try {
+                    JSONObject obj = new JSONObject(result);
+                    if (obj.getBoolean("status") && !obj.isNull("data")) {
+                        ApiResponse<List<UserFollow>> apiResponse = JSON.parseObject(result, new TypeReference<ApiResponse<List<UserFollow>>>() {
+                        });
+                        try {
+                            int size = apiResponse.getData() == null ? 0 : apiResponse.getData().size();
+                            for (int i = 0; i < size; i++) {
+                                apiResponse.getData().get(i).setUid(userid);
+                            }
+                            DbManager db = x.getDb(getDataDb());
+                            db.saveOrUpdate(apiResponse.getData());
+//                            Logger.json(JSON.toJSON(apiResponse.getData()).toString());
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                        callback.onSuccess(apiResponse.getData());
+                    } else {
+                        callback.onError(Callback.ERROR_TYPE_API_RETURN, obj.getInt("errorCode"));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    callback.onError(Callback.ERROR_TYPE_PARSING_EXCEPTION, 0);
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                callback.onError(Callback.ERROR_TYPE_REQUST_EXCEPTION, ex);
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+        });
+
+    }
+
+    /**
+     * 添加比赛关注
+     *
+     * @param context
+     * @param ssid
+     * @param followType
+     * @param displayName
+     * @param callback
+     * @return
+     */
+    public static org.xutils.common.Callback.Cancelable addUserRaceFollows(final Context context,
+                                                                           String ssid,
+                                                                           String followType,
+                                                                           String displayName,
+                                                                           @NonNull final Callback<UserFollow> callback) {
+        final int userid = CpigeonData.getInstance().getUserId(context);
+
+        RequestParams requestParams = new RequestParams(CPigeonApiUrl.getInstance().getServer() + CPigeonApiUrl.ADD_RACE_FOLLOW_URL);
+        pretreatmentParams(requestParams);
+        requestParams.addParameter("u", userid);
+        requestParams.addParameter("type", followType);
+        requestParams.addParameter("bi", ssid);
+        requestParams.addParameter("dn", displayName);
+        requestParams.addHeader("u", CommonTool.getUserToken(context));//      requestParams.setConnectTimeout(CpigeonConfig.CONNECT_TIMEOUT);
+
+        return x.http().get(requestParams, new org.xutils.common.Callback.CommonCallback<String>() {
+
+            @Override
+            public void onSuccess(String result) {
+                if (result != null) dealData(result);
+            }
+
+            private void dealData(String result) {
+                Logger.i(result);
+                try {
+                    JSONObject obj = new JSONObject(result);
+                    if (obj.getBoolean("status") && !obj.isNull("data")) {
+                        ApiResponse<UserFollow> apiResponse = JSON.parseObject(result, new TypeReference<ApiResponse<UserFollow>>() {
+                        });
+                        try {
+                            DbManager db = x.getDb(getDataDb());
+                            apiResponse.getData().setUid(userid);
+                            db.saveOrUpdate(apiResponse.getData());
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                        callback.onSuccess(apiResponse.getData());
+                    } else {
+                        callback.onError(Callback.ERROR_TYPE_API_RETURN, obj.getInt("errorCode"));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    callback.onError(Callback.ERROR_TYPE_PARSING_EXCEPTION, 0);
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                callback.onError(Callback.ERROR_TYPE_REQUST_EXCEPTION, ex);
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+        });
+    }
+
+    /**
+     * 移除比赛关注
+     *
+     * @param context
+     * @param followId
+     * @param ssid
+     * @param followType
+     * @param callback
+     * @return
+     */
+    public static org.xutils.common.Callback.Cancelable removeUserRaceFollows(Context context,
+                                                                              final int followId,
+                                                                              String ssid,
+                                                                              String followType,
+                                                                              @NonNull final Callback<Integer> callback) {
+        RequestParams requestParams = new RequestParams(CPigeonApiUrl.getInstance().getServer() + CPigeonApiUrl.REMOVE_RACE_FOLLOW_URL);
+        pretreatmentParams(requestParams);
+        requestParams.addParameter("u", CpigeonData.getInstance().getUserId(context));
+        requestParams.addParameter("fid", followId);
+        requestParams.addParameter("type", followType);
+        requestParams.addParameter("bi", ssid);
+        requestParams.addHeader("u", CommonTool.getUserToken(context));//      requestParams.setConnectTimeout(CpigeonConfig.CONNECT_TIMEOUT);
+
+        return x.http().get(requestParams, new org.xutils.common.Callback.CommonCallback<String>() {
+
+            @Override
+            public void onSuccess(String result) {
+                if (result != null) dealData(result);
+            }
+
+            private void dealData(String result) {
+                Logger.i(result);
+                try {
+                    JSONObject obj = new JSONObject(result);
+                    if (obj.getBoolean("status") && !obj.isNull("data")) {
+                        ApiResponse<Integer> apiResponse = JSON.parseObject(result, new TypeReference<ApiResponse<Integer>>() {
+                        });
+                        try {
+                            DbManager db = x.getDb(getDataDb());
+                            WhereBuilder whereBuilder = null;
+                            if (followId > 0) {
+                                whereBuilder = WhereBuilder.b("fid", "=", followId);
+                                db.delete(UserFollow.class, whereBuilder);
+                            }
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                        callback.onSuccess(apiResponse.getData());
+                    } else {
+                        callback.onError(Callback.ERROR_TYPE_API_RETURN, obj.getInt("errorCode"));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    callback.onError(Callback.ERROR_TYPE_PARSING_EXCEPTION, 0);
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                callback.onError(Callback.ERROR_TYPE_REQUST_EXCEPTION, ex);
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+        });
     }
 
     /**
@@ -4134,6 +4364,137 @@ public class CallAPI {
                     JSONObject obj = new JSONObject(result);
                     if (obj.getBoolean("status") && !obj.isNull("data")) {
                         callback.onSuccess(obj.getBoolean("data"));
+                    } else {
+                        callback.onError(Callback.ERROR_TYPE_API_RETURN, obj.getInt("errorCode"));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    callback.onError(Callback.ERROR_TYPE_PARSING_EXCEPTION, 0);
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                callback.onError(Callback.ERROR_TYPE_REQUST_EXCEPTION, ex);
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+        });
+    }
+
+    /**
+     * 获取最新反馈结果
+     *
+     * @param context
+     * @param callback
+     * @return
+     */
+    public static org.xutils.common.Callback.Cancelable getFeedbackResult(final Context context,
+                                                                          @NonNull final Callback<FeedBackResult> callback) {
+
+        //计算TOKEN
+        String userToken = CommonTool.getUserToken(context);
+
+        RequestParams requestParams = new RequestParams(CPigeonApiUrl.getInstance().getServer() + CPigeonApiUrl.FEEDBACK_RESULTLIST_URL);
+        pretreatmentParams(requestParams);
+        requestParams.addParameter("uid", CpigeonData.getInstance().getUserId(context));
+//        requestParams.addParameter("pi", pageIndex);
+//        requestParams.addParameter("ps", pageSize);
+        requestParams.addParameter("t", "last");
+        requestParams.addHeader("u", userToken);
+
+//        requestParams.setConnectTimeout(CpigeonConfig.CONNECT_TIMEOUT);
+        return x.http().post(requestParams, new org.xutils.common.Callback.CommonCallback<String>() {
+
+            @Override
+            public void onSuccess(String result) {
+                if (result != null) dealData(result);
+            }
+
+            private void dealData(String result) {
+                Logger.i(result);
+                try {
+                    JSONObject obj = new JSONObject(result);
+                    if (obj.getBoolean("status") && !obj.isNull("data")) {
+                        ApiResponse<FeedBackResult> apiResponse = JSON.parseObject(result, new TypeReference<ApiResponse<FeedBackResult>>() {
+                        });
+                        callback.onSuccess(apiResponse.getData());
+                    } else {
+                        callback.onError(Callback.ERROR_TYPE_API_RETURN, obj.getInt("errorCode"));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    callback.onError(Callback.ERROR_TYPE_PARSING_EXCEPTION, 0);
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                callback.onError(Callback.ERROR_TYPE_REQUST_EXCEPTION, ex);
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+        });
+    }
+
+    /**
+     * 获取反馈结果列表
+     *
+     * @param context
+     * @param pageIndex
+     * @param pageSize
+     * @param callback
+     * @return
+     */
+    public static org.xutils.common.Callback.Cancelable getFeedbackResults(final Context context,
+                                                                           int pageIndex, int pageSize,
+                                                                           @NonNull final Callback<List<FeedBackResult>> callback) {
+
+        //计算TOKEN
+        String userToken = CommonTool.getUserToken(context);
+
+        RequestParams requestParams = new RequestParams(CPigeonApiUrl.getInstance().getServer() + CPigeonApiUrl.FEEDBACK_RESULTLIST_URL);
+        pretreatmentParams(requestParams);
+        requestParams.addParameter("uid", CpigeonData.getInstance().getUserId(context));
+        requestParams.addParameter("pi", pageIndex);
+        requestParams.addParameter("ps", pageSize);
+        requestParams.addParameter("t", "list");
+        requestParams.addHeader("u", userToken);
+
+//        requestParams.setConnectTimeout(CpigeonConfig.CONNECT_TIMEOUT);
+        return x.http().post(requestParams, new org.xutils.common.Callback.CommonCallback<String>() {
+
+            @Override
+            public void onSuccess(String result) {
+                if (result != null) dealData(result);
+            }
+
+            private void dealData(String result) {
+                Logger.i(result);
+                try {
+                    JSONObject obj = new JSONObject(result);
+                    if (obj.getBoolean("status") && !obj.isNull("data")) {
+                        ApiResponse<List<FeedBackResult>> apiResponse = JSON.parseObject(result, new TypeReference<ApiResponse<List<FeedBackResult>>>() {
+                        });
+                        callback.onSuccess(apiResponse.getData());
                     } else {
                         callback.onError(Callback.ERROR_TYPE_API_RETURN, obj.getInt("errorCode"));
                     }

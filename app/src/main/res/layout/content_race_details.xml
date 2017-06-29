@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -18,7 +20,6 @@
         app:stl_defaultTabTextSize="16sp"
         app:stl_distributeEvenly="true"
         app:stl_dividerColor="@color/colorPrimary"
-
         app:stl_indicatorColor="@color/colorWhite"
         app:stl_indicatorInterpolation="smart"
         app:stl_indicatorThickness="3dp"
@@ -52,4 +53,5 @@
         android:id="@+id/race_report_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </LinearLayout>

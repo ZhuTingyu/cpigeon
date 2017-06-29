@@ -1,6 +1,7 @@
 package com.cpigeon.app.modular.matchlive.view.activity;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -26,12 +27,29 @@ import com.cpigeon.app.modular.matchlive.view.fragment.ChaZuZhiDingFragment;
 import com.cpigeon.app.modular.matchlive.view.fragment.JiGeDataFragment;
 import com.cpigeon.app.modular.matchlive.view.fragment.RaceDetailsFragment;
 import com.cpigeon.app.modular.matchlive.view.fragment.ReportDataFragment;
-import com.cpigeon.app.utils.NetUtils;
+import com.cpigeon.app.modular.usercenter.model.bean.UserFollow;
+import com.cpigeon.app.utils.CpigeonConfig;
+import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.customview.MarqueeTextView;
 import com.cpigeon.app.utils.customview.smarttab.SmartTabLayout;
+import com.nightonke.boommenu.BoomButtons.BoomButton;
+import com.nightonke.boommenu.BoomButtons.ButtonPlaceEnum;
+import com.nightonke.boommenu.BoomButtons.TextInsideCircleButton;
+import com.nightonke.boommenu.BoomMenuButton;
+import com.nightonke.boommenu.ButtonEnum;
+import com.nightonke.boommenu.OnBoomListenerAdapter;
+import com.nightonke.boommenu.Piece.PiecePlaceEnum;
+import com.nightonke.boommenu.Util;
+import com.orhanobut.logger.Logger;
+
+import org.xutils.DbManager;
+import org.xutils.ex.DbException;
+import org.xutils.x;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -52,6 +70,8 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
     LinearLayout layoutGg;
     @BindView(R.id.race_report_viewpager)
     ViewPager mViewPager;
+    @BindView(R.id.boom)
+    BoomMenuButton boomMenuButton;
 
     ///////////////////////////////////////////////////////////////////////////
     // 视图
@@ -73,6 +93,7 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
     private Bulletin bulletin;
     private String loadType;
     private String tablayout_seconde_name;
+    private List<UserFollow> userFollows = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -150,6 +171,82 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
 //            }
 //        });
 //        searchEditText.setOnSearchClickListener(this);
+        initBoomMnue();
+    }
+
+    private void initBoomMnue() {
+        boolean _isJg = "jg".equals(matchInfo.getDt());
+        boomMenuButton.setButtonEnum(ButtonEnum.TextInsideCircle);
+        boomMenuButton.setPiecePlaceEnum(_isJg ? PiecePlaceEnum.DOT_1 : PiecePlaceEnum.DOT_2_2);
+        boomMenuButton.setButtonPlaceEnum(ButtonPlaceEnum.Vertical);
+        boomMenuButton.clearBuilders();
+        userFollows.clear();
+        int _itemCount = 0;
+        //加载数据
+        DbManager db = x.getDb(CpigeonConfig.getDataDb());
+        UserFollow userFollow = null;
+        try {
+            userFollow = db.selector(UserFollow.class)
+                    .where("uid", "=", CpigeonData.getInstance().getUserId(this))
+                    .and("ftype", "=", matchInfo.getLx().equals("xh") ? "协会" : "公棚")
+                    .findFirst();
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        boomMenuButton.addBuilder(new TextInsideCircleButton.Builder()
+                .normalText((userFollow != null ? "取消关注" : "关注") + (matchInfo.getLx().equals("xh") ? "协会" : "公棚"))
+                .textSize(15)
+                .imagePadding(new Rect(Util.dp2px(4), Util.dp2px(4), Util.dp2px(4), Util.dp2px(16)))
+                .normalColorRes(R.color.colorButton_orange_normal)
+                .pieceColorRes(R.color.colorButton_orange_normal)
+                .normalImageRes(userFollow != null ? R.drawable.ic_svg_favorite_white_24dp : R.drawable.ic_svg_favorite_border_white_24dp));
+        userFollows.add(userFollow);
+
+        if (!_isJg) {
+            try {
+                userFollow = null;
+                userFollow = db.selector(UserFollow.class)
+                        .where("uid", "=", CpigeonData.getInstance().getUserId(this))
+                        .and("ftype", "=", "比赛")
+                        .findFirst();
+            } catch (DbException e) {
+                e.printStackTrace();
+            }
+            boomMenuButton.addBuilder(new TextInsideCircleButton.Builder()
+                    .normalText(userFollow != null ? "取消关注比赛" : "关注比赛")
+                    .textSize(15)
+                    .imagePadding(new Rect(Util.dp2px(4), Util.dp2px(4), Util.dp2px(4), Util.dp2px(16)))
+                    .normalColorRes(R.color.colorButton_Default_normal)
+                    .pieceColorRes(R.color.colorButton_Default_normal)
+                    .normalImageRes(userFollow != null ? R.drawable.ic_svg_favorite_white_24dp : R.drawable.ic_svg_favorite_border_white_24dp));
+            userFollows.add(userFollow);
+        }
+
+//        boomMenuButton.addBuilder(new TextInsideCircleButton.Builder()
+//                .normalText("鸽车监控")
+//                .textSize(16)
+//                .normalColorRes(R.color.colorButton_orange_normal)
+//                .pieceColorRes(R.color.colorButton_orange_normal)
+//                .normalImageRes(R.drawable.ic_svg_truck));
+
+        boomMenuButton.setOnBoomListener(new OnBoomListenerAdapter() {
+            @Override
+            public void onClicked(int i, BoomButton boomButton) {
+                Logger.d(i + " " + boomButton.getTextView().getText());
+                UserFollow tag = i < userFollows.size() ? userFollows.get(i) : null;
+                if (tag != null) {
+                    mPresenter.removeFollow(tag);
+                    return;
+                }
+
+                if (i == 0) {
+                    mPresenter.addRaceOrgFollow();
+                } else if (i == 1) {
+                    mPresenter.addRaceFollow();
+                }
+            }
+        });
+
     }
 
     public String getLoadType() {
@@ -183,6 +280,12 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
     }
 
     @Override
+    public void refreshBoomMnue() {
+        Logger.d("刷新BoomMenu");
+        this.initBoomMnue();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_race_details, menu);
         return true;
@@ -194,16 +297,12 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
             case android.R.id.home: //android.R.id.home是Android内置home按钮的id
                 finish();
                 break;
-            case R.id.action_save:
-
-                break;
             case R.id.action_details:
                 showDialogFragment();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
     @OnClick({R.id.layout_gg})
@@ -237,7 +336,6 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
         }
         RaceDetailsFragment detailsFragment = RaceDetailsFragment.newInstance("直播数据");
         detailsFragment.show(mFragmentTransaction, "dialogFragment");
-
     }
 
 }

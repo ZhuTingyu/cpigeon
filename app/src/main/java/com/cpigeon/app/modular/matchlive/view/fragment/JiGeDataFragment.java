@@ -283,6 +283,17 @@ public class JiGeDataFragment extends BasePageTurnFragment<JiGePre, JiGeDataAdap
         return sKey;
     }
 
+    @Override
+    public MatchInfo getMatchInfo() {
+        initMatchinfo();
+        return matchInfo;
+    }
+
+    @Override
+    public void refreshBoomMnue() {
+
+    }
+
     public void search(String keyword) {
         this.sKey = keyword;
         onRefresh();

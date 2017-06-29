@@ -8,6 +8,7 @@ import com.cpigeon.app.modular.matchlive.model.daoimpl.RaceDaoImpl;
 import com.cpigeon.app.modular.matchlive.view.adapter.RaceReportAdapter;
 import com.cpigeon.app.modular.matchlive.view.adapter.RaceXunFangAdapter;
 import com.cpigeon.app.modular.matchlive.view.fragment.viewdao.IReportData;
+import com.cpigeon.app.modular.usercenter.model.bean.UserFollow;
 
 import java.util.List;
 
@@ -79,5 +80,117 @@ public class RacePre extends BasePresenter<IReportData, IRaceDao> {
                         }, 300);
                     }
                 });
+    }
+
+    public void addRaceFollow() {
+//        Collection collection = new Collection();
+//        collection.setCollUserid(CpigeonData.getInstance().getUserId(MyApp.getInstance()));
+//        collection.setType(Collection.CollectionType.RACE.getValue());
+//        collection.setCollTime(System.currentTimeMillis());
+//        collection.setKey(mView.getMatchInfo().getSsid() + "");
+//        collection.setContent(mView.getMatchInfo().getMc());
+//        addFollow(collection);
+        mView.showTips("正在使劲处理...", IView.TipType.LoadingShow);
+        mDao.addUserRaceFollow(mView.getSsid(), "race", mView.getMatchInfo().computerBSMC(), new IBaseDao.OnCompleteListener<UserFollow>() {
+            @Override
+            public void onSuccess(final UserFollow data) {
+                postDelayed(new CheckAttachRunnable() {
+                    @Override
+                    public void runAttached() {
+                        mView.showTips("", IView.TipType.LoadingHide);
+                        if (data != null) {
+                            mView.showTips("关注成功", IView.TipType.DialogSuccess);
+                            mView.refreshBoomMnue();
+                        } else {
+                            mView.showTips("关注失败", IView.TipType.View);
+                        }
+                    }
+                }, 300);
+            }
+
+            @Override
+            public void onFail(String msg) {
+                postDelayed(new CheckAttachRunnable() {
+                    @Override
+                    public void runAttached() {
+                        mView.showTips("", IView.TipType.LoadingHide);
+                        mView.showTips("关注失败", IView.TipType.View);
+                    }
+                }, 300);
+            }
+        });
+
+    }
+
+    public void addRaceOrgFollow() {
+//        Collection collection = new Collection();
+//        collection.setCollUserid(CpigeonData.getInstance().getUserId(MyApp.getInstance()));
+//        collection.setType(Collection.CollectionType.ORG.getValue());
+//        collection.setCollTime(System.currentTimeMillis());
+//        collection.setKey(mView.getMatchInfo().getZzid() + "");
+//        collection.setContent(mView.getMatchInfo().getMc());
+//        addFollow(collection);
+        mView.showTips("正在使劲处理...", IView.TipType.LoadingShow);
+        mDao.addUserRaceFollow(mView.getSsid(), mView.getMatchInfo().getLx().equals("xh") ? "xiehui" : "gongpeng", mView.getMatchInfo().getMc(), new IBaseDao.OnCompleteListener<UserFollow>() {
+            @Override
+            public void onSuccess(final UserFollow data) {
+                postDelayed(new CheckAttachRunnable() {
+                    @Override
+                    public void runAttached() {
+                        mView.showTips("", IView.TipType.LoadingHide);
+                        if (data != null) {
+                            mView.showTips("关注成功", IView.TipType.DialogSuccess);
+                            mView.refreshBoomMnue();
+                        } else {
+                            mView.showTips("关注失败", IView.TipType.View);
+                        }
+                    }
+                }, 300);
+            }
+
+            @Override
+            public void onFail(String msg) {
+                postDelayed(new CheckAttachRunnable() {
+                    @Override
+                    public void runAttached() {
+                        mView.showTips("", IView.TipType.LoadingHide);
+                        mView.showTips("关注失败", IView.TipType.View);
+                    }
+                }, 300);
+            }
+        });
+    }
+
+    public void removeFollow(UserFollow userFollow) {
+
+        mView.showTips("正在使劲处理...", IView.TipType.LoadingShow);
+        mDao.removeUserRaceFollow(userFollow.getFid(), userFollow.getRela(), userFollow.getFtype(), new IBaseDao.OnCompleteListener<Integer>() {
+            @Override
+            public void onSuccess(final Integer data) {
+                postDelayed(new CheckAttachRunnable() {
+                    @Override
+                    public void runAttached() {
+                        mView.showTips("", IView.TipType.LoadingHide);
+                        if (data != null && data > 0) {
+                            mView.showTips("取消关注成功", IView.TipType.DialogSuccess);
+                            mView.refreshBoomMnue();
+                        } else {
+                            mView.showTips("取消关注失败", IView.TipType.View);
+                        }
+                    }
+                }, 300);
+            }
+
+            @Override
+            public void onFail(String msg) {
+                postDelayed(new CheckAttachRunnable() {
+                    @Override
+                    public void runAttached() {
+                        mView.showTips("", IView.TipType.LoadingHide);
+                        mView.showTips("取消关注失败", IView.TipType.View);
+                    }
+                }, 300);
+            }
+        });
     }
 }

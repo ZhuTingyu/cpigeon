@@ -23,10 +23,7 @@ public class Collection {
     private String content;//关注内容
 
     @Column(name = "type", property = " NOT NULL")
-    private int type;//关注类型
-
-    @Column(name = "iscoll")
-    private boolean isCollection;
+    private String type;//关注类型
 
     @Column(name = "colltime")
     private long collTime;
@@ -37,28 +34,20 @@ public class Collection {
     public Collection() {
     }
 
-    public Collection(int id, int type, String key, boolean isCollection, long collTime) {
+    public Collection(int id, String type, String key,  long collTime) {
         this.id = id;
         this.type = type;
         this.key = key;
-        this.isCollection = isCollection;
         this.collTime = collTime;
     }
 
-    public Collection(int type, String value, boolean isCollection, long collTime) {
-        this.type = type;
-        this.value = value;
-        this.isCollection = isCollection;
-        this.collTime = collTime;
-    }
-
-    public Collection(int type, String value, long collTime) {
+    public Collection(String type, String value,  long collTime) {
         this.type = type;
         this.value = value;
         this.collTime = collTime;
     }
 
-    public Collection(int type, long collTime) {
+    public Collection(String type, long collTime) {
         this.type = type;
         this.collTime = collTime;
     }
@@ -95,21 +84,14 @@ public class Collection {
         this.content = content;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public boolean isCollection() {
-        return isCollection;
-    }
-
-    public void setCollection(boolean collection) {
-        isCollection = collection;
-    }
 
     public long getCollTime() {
         return collTime;
@@ -134,23 +116,22 @@ public class Collection {
                 ", value='" + value + '\'' +
                 ", key='" + key + '\'' +
                 ", type=" + type +
-                ", isCollection=" + isCollection +
                 ", collTime=" + collTime +
                 '}';
     }
 
     public enum CollectionType {
-        NEWS(1),//新闻
-        RACE(2),//比赛
-        ORG(3);//组织(协会 公棚)
+        NEWS("news"),//新闻
+        RACE("race"),//比赛
+        ORG("org");//组织(协会 公棚)
 
-        private final int value;
+        private final String value;
 
-        CollectionType(int value) {
+        CollectionType(String value) {
             this.value = value;
         }
 
-        public int getValue() {
+        public String getValue() {
             return value;
         }
 

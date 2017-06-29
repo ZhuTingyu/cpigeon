@@ -4,6 +4,7 @@ import com.cpigeon.app.MyApp;
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.modular.matchlive.model.bean.Bulletin;
 import com.cpigeon.app.modular.matchlive.model.dao.IRaceReport;
+import com.cpigeon.app.modular.usercenter.model.daoimpl.UserFollowDaoImpl;
 import com.cpigeon.app.utils.CallAPI;
 import com.cpigeon.app.utils.CpigeonConfig;
 
@@ -18,7 +19,7 @@ import java.util.List;
  * Created by Administrator on 2017/4/18.
  */
 
-public class IRaceReportImpl implements IRaceReport {
+public class IRaceReportImpl extends UserFollowDaoImpl implements IRaceReport {
     private Bulletin bull = null;//公告信息
 
     @Override

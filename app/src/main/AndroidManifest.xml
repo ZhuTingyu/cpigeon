@@ -24,11 +24,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
+
         <!-- UMeng 配置 -->
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${CHANNEL_VALUE}" />
-        <!--APP 渠到配置-->
+        <!-- APP 渠到配置 -->
         <meta-data
             android:name="APP_CHANNEL"
             android:value="${CHANNEL_VALUE}" />
@@ -52,7 +53,7 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.TransparentStatusBar"
-            android:windowSoftInputMode="adjustPan|stateHidden"/>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".modular.usercenter.view.activity.RegisterActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
@@ -79,7 +80,6 @@
                     android:scheme="cpigeon" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".modular.home.view.activity.WebActivity"
             android:launchMode="singleTask"
@@ -177,21 +177,21 @@
             android:name=".modular.usercenter.view.activity.UserBalanceRechargeActivity"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-
-        <activity android:name=".modular.guide.view.WelcomeActivity"
+        <activity
+            android:name=".modular.guide.view.WelcomeActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.TransparentStatusBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
-        <!--<provider-->
-            <!--android:name="android.support.v4.content.FileProvider"-->
-            <!--android:authorities="${applicationId}.provider"-->
-            <!--android:exported="false"-->
-            <!--android:grantUriPermissions="true">-->
-            <!--<meta-data-->
-                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
-                <!--android:resource="@xml/file_paths" />-->
-        <!--</provider>-->
+        <!-- <provider -->
+        <!-- android:name="android.support.v4.content.FileProvider" -->
+        <!-- android:authorities="${applicationId}.provider" -->
+        <!-- android:exported="false" -->
+        <!-- android:grantUriPermissions="true"> -->
+        <!-- <meta-data -->
+        <!-- android:name="android.support.FILE_PROVIDER_PATHS" -->
+        <!-- android:resource="@xml/file_paths" /> -->
+        <!-- </provider> -->
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -217,6 +217,17 @@
                 <category android:name="com.cpigeon.app" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".modular.usercenter.view.activity.FeedBackResultListActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".modular.usercenter.view.activity.FeedBackResultDetialActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

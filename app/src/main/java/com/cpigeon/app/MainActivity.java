@@ -239,7 +239,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_NETWORK_STATE})
     void sysytemAlertWindow() {
 
@@ -248,7 +247,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     @OnShowRationale({Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_NETWORK_STATE})
     void systemAlertWindowOnShowRationale(final PermissionRequest request) {
         showRequest(request);
@@ -282,7 +280,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     @OnPermissionDenied({Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_NETWORK_STATE})
     void systemAlertWindowOnPermissionDenied() {
 //        showTips("权限被拒绝了", TipType.ToastShort);

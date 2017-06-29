@@ -162,9 +162,10 @@ public class CacheManager {
 
     /**
      * 索引key对应的data写入缓存
-     *
-     * @param key  缓存索引
-     * @param data String数据
+     * @param key
+     * @param data
+     * @param memoryCacheTime 内存缓存时间（毫秒）
+     * @param diskCacheTime 文件缓存时间（毫秒）
      */
     public static void put(String key, Object data, long memoryCacheTime, long diskCacheTime) {
         switch (model) {
@@ -191,10 +192,21 @@ public class CacheManager {
         }
     }
 
+    /**
+     * 索引key对应的data写入缓存
+     * @param key
+     * @param data
+     * @param cacheTime 内存缓存时间（毫秒）
+     */
     public static void put(String key, Object data, long cacheTime) {
         put(key, data, cacheTime, -1);
     }
 
+    /**
+     * 索引key对应的data写入缓存
+     * @param key
+     * @param data
+     */
     public static void put(String key, Object data) {
         switch (model) {
             case ALL_ALLOW:

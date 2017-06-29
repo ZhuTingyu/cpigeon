@@ -41,11 +41,11 @@ public class CPigeonApiUrl {
 
     private void initServers() {
         if (Servers == null) {
-            if (BuildConfig.DEBUG)
-//                Servers = new String[]{"http://192.168.0.52:8889"};//调试版
-                Servers = new String[]{SERVER};//调试版
-            else
-                Servers = new String[]{"http://114.141.132.146:818", "http://221.236.20.76:818", "http://118.123.244.89:818"};//服务器
+//            if (BuildConfig.DEBUG)
+//                Servers = new String[]{"http://192.168.0.5:8888"};//调试版
+////                Servers = new String[]{SERVER};//调试版
+//            else
+            Servers = new String[]{"http://114.141.132.146:818", "http://221.236.20.76:818", "http://118.123.244.89:818"};//服务器
         }
 
     }
@@ -167,6 +167,20 @@ public class CPigeonApiUrl {
      * 比赛集鸽数据URL
      */
     public static final String RACE_PIGEONS_INFO_URL = API_VERSION + "GetJGSJ";
+
+    /**
+     * 添加比赛关注URL
+     */
+    public static final String ADD_RACE_FOLLOW_URL = API_VERSION + "AddRaceFollow";
+    /**
+     * 移除比赛关注URL
+     */
+    public static final String REMOVE_RACE_FOLLOW_URL = API_VERSION + "RemoveRaceFollow";
+    /**
+     * 获取比赛关注列表URL
+     */
+    public static final String GET_RACE_FOLLOWS_URL = API_VERSION + "GetRaceFollows";
+
     /**
      * 获取资讯列表URL
      */
@@ -314,6 +328,11 @@ public class CPigeonApiUrl {
      * 反馈提交URL
      */
     public static final String FEEDBACK_URL = API_VERSION + "Feedback";
+
+    /**
+     * 获取意见反馈结果URL
+     */
+    public static final String FEEDBACK_RESULTLIST_URL = API_VERSION + "GetFeedBackResult";
 
 
     /**

@@ -1,10 +1,14 @@
 package com.cpigeon.app.modular.usercenter.model.daoimpl;
 
 import com.cpigeon.app.MyApp;
+import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.model.dao.IGetUserBandPhone;
 import com.cpigeon.app.commonstandard.model.daoimpl.GetUserBandPhoneImpl;
+import com.cpigeon.app.modular.usercenter.model.bean.FeedBackResult;
 import com.cpigeon.app.modular.usercenter.model.dao.IFeedBackDao;
 import com.cpigeon.app.utils.CallAPI;
+
+import java.util.List;
 
 /**
  * Created by chenshuai on 2017/4/11.
@@ -45,5 +49,47 @@ public class FeedBackDaoImpl extends GetUserBandPhoneImpl implements IFeedBackDa
     public void feedback(String content, String phoneNum, IFeedBackDao.OnCompleteListener onCompleteListener) {
         this.onCompleteListener = onCompleteListener;
         CallAPI.addFeedback(MyApp.getInstance(), content, phoneNum, mSendFeedbackCallback);
+    }
+
+    /**
+     * 获取最新意见反馈结果
+     *
+     * @param onCompleteListener
+     */
+    @Override
+    public void getLastFeedback(final IBaseDao.OnCompleteListener<FeedBackResult> onCompleteListener) {
+        CallAPI.getFeedbackResult(MyApp.getInstance(), new CallAPI.Callback<FeedBackResult>() {
+            @Override
+            public void onSuccess(FeedBackResult data) {
+                if (onCompleteListener != null) onCompleteListener.onSuccess(data);
+            }
+
+            @Override
+            public void onError(int errorType, Object data) {
+                if (onCompleteListener != null) onCompleteListener.onFail("获取失败");
+            }
+        });
+    }
+
+    /**
+     * 获取意见反馈结果列表
+     *
+     * @param pageIndex
+     * @param pageSize
+     * @param onCompleteListener
+     */
+    @Override
+    public void getFeedbacks(int pageIndex, int pageSize, final IBaseDao.OnCompleteListener<List<FeedBackResult>> onCompleteListener) {
+        CallAPI.getFeedbackResults(MyApp.getInstance(), pageIndex, pageSize, new CallAPI.Callback<List<FeedBackResult>>() {
+            @Override
+            public void onSuccess(List<FeedBackResult> data) {
+                if (onCompleteListener != null) onCompleteListener.onSuccess(data);
+            }
+
+            @Override
+            public void onError(int errorType, Object data) {
+                if (onCompleteListener != null) onCompleteListener.onFail("获取失败");
+            }
+        });
     }
 }

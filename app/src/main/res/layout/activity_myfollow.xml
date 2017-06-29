@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -10,17 +11,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/smlv_myFollowList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TextView
-            android:id="@+id/tv_tip"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="暂无关注，快去找点兴趣吧"
-            android:textSize="@dimen/sp_18" />
+            android:orientation="vertical"
+
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <com.cpigeon.app.utils.customview.smarttab.SmartTabLayout
+                android:id="@+id/viewpagertab"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                app:stl_defaultTabTextColor="#6D6D6D"
+                app:stl_defaultTabTextSize="16dp"
+                app:stl_distributeEvenly="true"
+                app:stl_indicatorColor="@color/colorPrimary"
+                app:stl_indicatorCornerRadius="1.5dp"
+                app:stl_indicatorInterpolation="smart"
+                app:stl_indicatorThickness="3dp"
+                app:stl_underlineColor="@android:color/transparent" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
     </RelativeLayout>
 </LinearLayout>

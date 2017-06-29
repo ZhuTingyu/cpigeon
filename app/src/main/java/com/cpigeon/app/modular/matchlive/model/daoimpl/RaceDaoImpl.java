@@ -9,6 +9,7 @@ import com.cpigeon.app.modular.matchlive.model.bean.MatchPigeonsXH;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchReportGP;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchReportXH;
 import com.cpigeon.app.modular.matchlive.model.dao.IRaceDao;
+import com.cpigeon.app.modular.usercenter.model.daoimpl.UserFollowDaoImpl;
 import com.cpigeon.app.utils.CallAPI;
 import com.cpigeon.app.utils.CpigeonConfig;
 import com.orhanobut.logger.Logger;
@@ -25,15 +26,17 @@ import java.util.List;
  * Created by Administrator on 2017/4/15.
  */
 
-public class RaceDaoImpl implements IRaceDao {
+public class RaceDaoImpl extends UserFollowDaoImpl implements IRaceDao {
     private final static int DATA_TYPE_BDSJ = 1;//数据类型-报到数据
     private int CURRENT_DATA_TYPE;//当前数据类型
     private List<HashMap<String, Object>> data_BDSJ = null;//显示数据缓存-报到数据
     private MatchInfo matchInfo;//赛事信息
     private final static int mLoadMoreSize = 100;
     private Context mContext = MyApp.getInstance();
+
     /**
      * 获取报到数据
+     *
      * @param matchType
      * @param ssid
      * @param foot
@@ -63,6 +66,7 @@ public class RaceDaoImpl implements IRaceDao {
 
     /**
      * 获取集鸽数据
+     *
      * @param matchType
      * @param ssid
      * @param foot
@@ -94,7 +98,7 @@ public class RaceDaoImpl implements IRaceDao {
         List list = null;
         list = getLocalReportDataPage(offset, limit, czIndex);
         HashMap<String, Object> map;
-        if (list !=null){
+        if (list != null) {
             if ("xh".equals(matchInfo.getLx())) {
                 MatchReportXH matchReport;
                 for (int i = data_BDSJ.size(); i < list.size(); i++) {

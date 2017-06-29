@@ -82,7 +82,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_NETWORK_STATE})
     void AlertWindow() {
 
@@ -91,7 +90,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     @OnShowRationale({Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_NETWORK_STATE})
     void AlertWindowOnShowRationale(final PermissionRequest request) {
         showRequest(request);
@@ -100,7 +98,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     @OnPermissionDenied({Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_NETWORK_STATE})
     void AlertWindowOnPermissionDenied() {
         ToastUtil.showToast(MyApp.getInstance(), "权限已被拒绝，程序即将退出", Toast.LENGTH_SHORT);
@@ -115,7 +112,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     @OnNeverAskAgain({Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_NETWORK_STATE})
     void AlertWindowOnNeverAskAgain() {
         SweetAlertDialog dialog = new SweetAlertDialog(this)

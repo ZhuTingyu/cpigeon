@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,10 +15,14 @@ import android.widget.TextView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.commonstandard.view.activity.IView;
+import com.cpigeon.app.modular.usercenter.model.bean.FeedBackResult;
 import com.cpigeon.app.modular.usercenter.presenter.FeedBackPresenter;
 import com.cpigeon.app.modular.usercenter.view.activity.viewdao.IFeedBackView;
+import com.cpigeon.app.utils.CallAPI;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.NetUtils;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -144,5 +150,22 @@ public class FeedBackActivity extends BaseActivity<FeedBackPresenter> implements
     @OnClick(R.id.btn_submit)
     public void onViewClicked() {
         mPresenter.feedback();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_activity_feedback, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_feedbackresult:
+                startActivity(FeedBackResultListActivity.class);
+                break;
+        }
+        return true;
     }
 }
