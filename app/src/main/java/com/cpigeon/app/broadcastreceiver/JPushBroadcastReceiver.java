@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.cpigeon.app.MainActivity;
+import com.cpigeon.app.commonstandard.AppManager;
 import com.cpigeon.app.modular.guide.view.SplashActivity;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
 import com.cpigeon.app.modular.matchlive.view.activity.RaceReportActivity;
@@ -100,11 +101,11 @@ public class JPushBroadcastReceiver extends BroadcastReceiver {
 //            mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //            context.startActivity(mIntent);
             } else if (TYPE_TODAY_RACE_COUNT.equals((extraType))) {
-                SharedPreferencesTool.Save(context, MainActivity.APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(context), 1, SharedPreferencesTool.SP_FILE_APPSTATE);
+                SharedPreferencesTool.Save(context.getApplicationContext(), MainActivity.APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(context.getApplicationContext()), 1, SharedPreferencesTool.SP_FILE_APPSTATE);
             } else if (TYPE_USER_RACE_FOLLOW.equals((extraType))) {
                 MatchInfo matchInfo = JSON.parseObject(extraData, new TypeReference<MatchInfo>() {
                 });
-                SharedPreferencesTool.Save(context, MainActivity.APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(context), 1, SharedPreferencesTool.SP_FILE_APPSTATE);
+                SharedPreferencesTool.Save(context.getApplicationContext(), MainActivity.APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(context.getApplicationContext()), 1, SharedPreferencesTool.SP_FILE_APPSTATE);
                 if (matchInfo != null && matchInfo.getRuid() == 0 && !"jg".equals(matchInfo.getDt())) {
                     if (matchInfo.isMatch()) {
                         intent = new Intent(context, RaceReportActivity.class);
@@ -124,7 +125,13 @@ public class JPushBroadcastReceiver extends BroadcastReceiver {
             Logger.w("Unexpected: extras is not a valid json", e);
             return;
         }
-        Intent mIntent = new Intent(context, SplashActivity.class);
+        MainActivity mainActivity = (MainActivity) AppManager.getAppManager().getActivityByClass(MainActivity.class);
+        Intent mIntent = null;
+        if (mainActivity == null) {
+            mIntent = new Intent(context, SplashActivity.class);
+        } else {
+            mIntent = new Intent(context, MainActivity.class);
+        }
         mIntent.putExtras(bundle);
         mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(mIntent);

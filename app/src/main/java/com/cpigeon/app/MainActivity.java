@@ -73,7 +73,7 @@ import permissions.dispatcher.RuntimePermissions;
 @RuntimePermissions
 public class MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
 
-    public final static String APP_STATE_KEY_VIEWPAGER_SELECT_INDEX = "com.cpigeon.app.MainActivity.SelectItemIndex.";
+    public final static String APP_STATE_KEY_VIEWPAGER_SELECT_INDEX = "MainActivity.SelectItemIndex.";
     private static boolean isExit = false;
     @BindView(R.id.viewpager)
     ViewPager mViewPager;
@@ -371,7 +371,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         bindService(new Intent(MyApp.getInstance(), MainActivityService.class), conn, Context.BIND_AUTO_CREATE);
         int selectIndex = SharedPreferencesTool.Get(mContext, APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(mContext), 0, SharedPreferencesTool.SP_FILE_APPSTATE);
         setCurrIndex(selectIndex);
-        mBottomNavigationBar.selectTab(selectIndex);
     }
 
 //
@@ -427,9 +426,14 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         StatusBarTool.setWindowStatusBarColor(this, getResources().getColor(index == 4 ? R.color.user_center_header_top : R.color.colorPrimary));
         lastTabIndex = index;
         mViewPager.setCurrentItem(index);
+        mBottomNavigationBar.selectTab(index);
+        SharedPreferencesTool.Save(MyApp.getInstance(), APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(MyApp.getInstance()), index, SharedPreferencesTool.SP_FILE_APPSTATE);
         onTabSelected(index);
     }
 
+    public void setSelectIndex(int index) {
+        setCurrIndex(index);
+    }
 
     @Override
     public void onTabUnselected(int position) {
@@ -469,7 +473,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
                 if (onMatchTypeChangeListener != null)
                     onMatchTypeChangeListener.onChanged(matchLiveFragment.getCurrMatchType(), Const.MATCHLIVE_TYPE_XH);
                 setCurrIndex(1);
-                mBottomNavigationBar.selectTab(1);
                 break;
 //            case R.id.layout_gpzb:
 //                if (onMatchTypeChangeListener != null)
@@ -487,7 +490,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
             case R.id.layout_zhcx:
                 onTabReselected(2);
                 setCurrIndex(2);
-                mBottomNavigationBar.selectTab(2);
                 break;
             case R.id.layout_wdsc:
                 startActivity(new Intent(MainActivity.this, MyFollowActivity.class));
@@ -497,26 +499,22 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
                     onMatchTypeChangeListener.onChanged(matchLiveFragment.getCurrMatchType(), Const.MATCHLIVE_TYPE_GP);
 
                 setCurrIndex(1);
-                mBottomNavigationBar.selectTab(1);
                 break;
             case R.id.recyclerview_home_gp:
                 if (onMatchTypeChangeListener != null)
                     onMatchTypeChangeListener.onChanged(matchLiveFragment.getCurrMatchType(), Const.MATCHLIVE_TYPE_GP);
 
                 setCurrIndex(1);
-                mBottomNavigationBar.selectTab(1);
                 break;
             case R.id.tv_raceinfo_xh_count:
                 if (onMatchTypeChangeListener != null)
                     onMatchTypeChangeListener.onChanged(matchLiveFragment.getCurrMatchType(), Const.MATCHLIVE_TYPE_XH);
                 setCurrIndex(1);
-                mBottomNavigationBar.selectTab(1);
                 break;
             case R.id.recyclerview_home_xh:
                 if (onMatchTypeChangeListener != null)
                     onMatchTypeChangeListener.onChanged(matchLiveFragment.getCurrMatchType(), Const.MATCHLIVE_TYPE_XH);
                 setCurrIndex(1);
-                mBottomNavigationBar.selectTab(1);
                 break;
 
         }
@@ -524,7 +522,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
 
     @Override
     protected void onDestroy() {
-        SharedPreferencesTool.Save(mContext, APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(mContext), 0, SharedPreferencesTool.SP_FILE_APPSTATE);
+        // TODO: 2017/7/12 在此处无法将数据写入到SharedPreferences中
+        // SharedPreferencesTool.Save(MyApp.getInstance(), APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(MyApp.getInstance()), 0, SharedPreferencesTool.SP_FILE_APPSTATE);
         super.onDestroy();
         unbindService(conn);
     }
@@ -534,7 +533,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         if (lastTabIndex != 0) {
             onTabReselected(0);
             setCurrIndex(0);
-            mBottomNavigationBar.selectTab(0);
         } else {
             if (!isExit) {
                 isExit = true;

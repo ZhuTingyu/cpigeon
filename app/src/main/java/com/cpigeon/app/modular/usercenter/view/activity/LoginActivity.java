@@ -209,6 +209,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
         etUsername.setText(SharedPreferencesTool.Get(this, "loginname", "", SharedPreferencesTool.SP_FILE_LOGIN).toString());
         String username = getLoginName();
         etUsername.setSelection(username.length() > 0 ? username.length() : 0);
+        MyApp.clearJPushAlias();
     }
 
 
