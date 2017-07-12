@@ -48,6 +48,7 @@ public class SharedPreferencesTool {
     public static void Save(Context context, String key, Object data, String filename) {
 
         if (filename.equals("")) filename = SharedPreferencesTool.SP_FILE_DEFAULT;
+        if (SP_FILE_APPSTATE.equals(filename)) key = EncryptionTool.MD5(key);
         String type = data.getClass().getSimpleName();
         SharedPreferences sharedPreferences = context.getSharedPreferences(
                 filename, Context.MODE_PRIVATE);
@@ -65,7 +66,7 @@ public class SharedPreferencesTool {
             editor.putLong(key, (Long) data);
         }
         editor.apply();
-        Logger.i("Save();filename=" + filename + ";key=" + key
+        Logger.i("filename=" + filename + ";key=" + key
                 + ";data=" + data);
     }
 
@@ -88,6 +89,7 @@ public class SharedPreferencesTool {
      */
     public static void Save(Context context, Map<String, Object> key_data, String filename) {
         if (TextUtils.isEmpty(filename)) filename = SharedPreferencesTool.SP_FILE_DEFAULT;
+
         SharedPreferences sharedPreferences = context.getSharedPreferences(
                 filename, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -96,6 +98,7 @@ public class SharedPreferencesTool {
         for (int i = 0; i < key_data.size(); i++) {
             type = key_data.values().toArray()[i].getClass().getSimpleName();
             key = key_data.keySet().toArray()[i].toString();
+            if (SP_FILE_APPSTATE.equals(filename)) key = EncryptionTool.MD5(key);
             data = key_data.values().toArray()[i];
             if ("Integer".equals(type)) {
                 editor.putInt(key, (Integer) data);
@@ -136,6 +139,7 @@ public class SharedPreferencesTool {
      */
     public static <T> T Get(Context context, String key, T defValue, String filename) {
         if (TextUtils.isEmpty(filename)) filename = SharedPreferencesTool.SP_FILE_DEFAULT;
+        if (SP_FILE_APPSTATE.equals(filename)) key = EncryptionTool.MD5(key);
         Object result = null;
         String type = defValue.getClass().getSimpleName();
         SharedPreferences sharedPreferences = context.getSharedPreferences(
@@ -153,6 +157,8 @@ public class SharedPreferencesTool {
         } else if ("Long".equals(type)) {
             result = sharedPreferences.getLong(key, (Long) defValue);
         }
+        Logger.i("filename=" + filename + ";key=" + key
+                + ";data=" + result);
         return (T) result;
     }
 
@@ -187,6 +193,7 @@ public class SharedPreferencesTool {
                     .getSimpleName();
             key = key_defValue.keySet().toArray()[i].toString();
             defValue = key_defValue.values().toArray()[i];
+            if (SP_FILE_APPSTATE.equals(filename)) key = EncryptionTool.MD5(key);
             if ("Integer".equals(type)) {
                 result = sharedPreferences.getInt(key, (Integer) defValue);
             } else if ("Boolean".equals(type)) {

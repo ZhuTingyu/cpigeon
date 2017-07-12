@@ -32,6 +32,7 @@ import com.cpigeon.app.commonstandard.view.adapter.ContentFragmentAdapter;
 import com.cpigeon.app.modular.footsearch.view.fragment.FootSearchFragment;
 import com.cpigeon.app.modular.home.view.fragment.HomeFragment;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
+import com.cpigeon.app.modular.matchlive.view.activity.GeCheJianKongListActicity;
 import com.cpigeon.app.modular.matchlive.view.fragment.MatchLiveFragment;
 import com.cpigeon.app.modular.matchlive.view.fragment.MatchLiveSubFragment;
 import com.cpigeon.app.modular.usercenter.view.activity.LoginActivity;
@@ -72,6 +73,7 @@ import permissions.dispatcher.RuntimePermissions;
 @RuntimePermissions
 public class MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
 
+    public final static String APP_STATE_KEY_VIEWPAGER_SELECT_INDEX = "com.cpigeon.app.MainActivity.SelectItemIndex.";
     private static boolean isExit = false;
     @BindView(R.id.viewpager)
     ViewPager mViewPager;
@@ -367,6 +369,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         checkAvailableVersion();
         // startService(new Intent(mContext.getApplicationContext(), CoreService.class));
         bindService(new Intent(MyApp.getInstance(), MainActivityService.class), conn, Context.BIND_AUTO_CREATE);
+        int selectIndex = SharedPreferencesTool.Get(mContext, APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(mContext), 0, SharedPreferencesTool.SP_FILE_APPSTATE);
+        setCurrIndex(selectIndex);
+        mBottomNavigationBar.selectTab(selectIndex);
     }
 
 //
@@ -443,7 +448,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
             AppManager.getAppManager().AppExit();
         }
         StatusBarTool.setWindowStatusBarColor(this, getResources().getColor(lastTabIndex == 3 ? R.color.user_center_header_top : R.color.colorPrimary));
-//        setAlias();
+        MyApp.setJPushAlias();
     }
 
 
@@ -457,19 +462,28 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
 
     public void onHomeItemClick(View v) {
         switch (v.getId()) {
-            case R.id.layout_gpzb:
-                if (onMatchTypeChangeListener != null)
-                    onMatchTypeChangeListener.onChanged(matchLiveFragment.getCurrMatchType(), Const.MATCHLIVE_TYPE_GP);
-
-                setCurrIndex(1);
-                mBottomNavigationBar.selectTab(1);
+            case R.id.layout_gcjk:
+                startActivity(GeCheJianKongListActicity.class);
                 break;
-            case R.id.layout_xhzb:
+            case R.id.layout_bszb:
                 if (onMatchTypeChangeListener != null)
                     onMatchTypeChangeListener.onChanged(matchLiveFragment.getCurrMatchType(), Const.MATCHLIVE_TYPE_XH);
                 setCurrIndex(1);
                 mBottomNavigationBar.selectTab(1);
                 break;
+//            case R.id.layout_gpzb:
+//                if (onMatchTypeChangeListener != null)
+//                    onMatchTypeChangeListener.onChanged(matchLiveFragment.getCurrMatchType(), Const.MATCHLIVE_TYPE_GP);
+//
+//                setCurrIndex(1);
+//                mBottomNavigationBar.selectTab(1);
+//                break;
+//            case R.id.layout_xhzb:
+//                if (onMatchTypeChangeListener != null)
+//                    onMatchTypeChangeListener.onChanged(matchLiveFragment.getCurrMatchType(), Const.MATCHLIVE_TYPE_XH);
+//                setCurrIndex(1);
+//                mBottomNavigationBar.selectTab(1);
+//                break;
             case R.id.layout_zhcx:
                 onTabReselected(2);
                 setCurrIndex(2);
@@ -510,6 +524,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
 
     @Override
     protected void onDestroy() {
+        SharedPreferencesTool.Save(mContext, APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(mContext), 0, SharedPreferencesTool.SP_FILE_APPSTATE);
         super.onDestroy();
         unbindService(conn);
     }
@@ -531,64 +546,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
                 AppManager.getAppManager().AppExit();
             }
         }
-
-
     }
 
-    // 这是来自 JPush Example 的设置别名的 Activity 里的代码。一般 App 的设置的调用入口，在任何方便的地方调用都可以。
-    private void setAlias() {
-
-        String alias = String.valueOf(CpigeonData.getInstance().getUserId(mContext));
-        if (TextUtils.isEmpty(alias)) {
-            return;
-        }
-        if (alias.equals(SharedPreferencesTool.Get(mContext, "jpush_alia", ""))) {
-            return;
-        }
-        // 调用 Handler 来异步设置别名
-        mJpushHandler.sendMessage(mJpushHandler.obtainMessage(MSG_SET_ALIAS, alias));
-    }
-
-    private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
-        @Override
-        public void gotResult(int code, String alias, Set<String> tags) {
-            String logs;
-            switch (code) {
-                case 0:
-                    logs = "Set tag and alias success";
-                    Logger.i(logs);
-                    // 建议这里往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
-                    SharedPreferencesTool.Save(mContext, "jpush_alia", String.valueOf(CpigeonData.getInstance().getUserId(mContext)));
-                    break;
-                case 6002:
-                    logs = "Failed to set alias and tags due to timeout. Try again after 60s.";
-                    Logger.i(logs);
-                    // 延迟 60 秒来调用 Handler 设置别名
-                    mJpushHandler.sendMessageDelayed(mJpushHandler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 60);
-                    break;
-                default:
-                    logs = "Failed with errorCode = " + code;
-                    Logger.e(logs);
-            }
-        }
-    };
-    private static final int MSG_SET_ALIAS = 1001;
-    private final Handler mJpushHandler = new Handler() {
-        @Override
-        public void handleMessage(android.os.Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case MSG_SET_ALIAS:
-                    Logger.d("Set alias in handler.");
-                    // 调用 JPush 接口来设置别名。
-                    JPushInterface.setAliasAndTags(getApplicationContext(),
-                            (String) msg.obj,
-                            null,
-                            mAliasCallback);
-                    break;
-                default:
-                    Logger.i("Unhandled msg - " + msg.what);
-            }
-        }
-    };
 }

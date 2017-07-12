@@ -6,7 +6,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.cpigeon.app.MainActivity;
 import com.cpigeon.app.modular.guide.view.SplashActivity;
+import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
+import com.cpigeon.app.modular.matchlive.view.activity.RaceReportActivity;
+import com.cpigeon.app.modular.matchlive.view.activity.RaceXunFangActivity;
+import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.SharedPreferencesTool;
 import com.orhanobut.logger.Logger;
 
 import org.json.JSONObject;
@@ -18,8 +26,18 @@ import cn.jpush.android.api.JPushInterface;
  */
 
 public class JPushBroadcastReceiver extends BroadcastReceiver {
-    private static final String TYPE_CIRCLEMESSAGE = "circlemsg";
-    private static final String TYPE_RACELIVE = "racelive";
+    /**
+     * 鸽友圈推送
+     */
+    private static final String TYPE_CIRCLE_MESSAGE = "circlemsg";
+    /**
+     * 今日比赛场次统计推送类型
+     */
+    public static final String TYPE_TODAY_RACE_COUNT = "TodayRaceCount";
+    /**
+     * 用户比赛关注推送
+     */
+    public static final String TYPE_USER_RACE_FOLLOW = "UserRaceFollow";
 
     private NotificationManager nm;
 
@@ -68,27 +86,48 @@ public class JPushBroadcastReceiver extends BroadcastReceiver {
 
     private void openNotification(Context context, Bundle bundle) {
         String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-        String myValue = "";
+        Logger.d("extras : " + extras);
+        String extraType = "", extraData = "";
+        Intent intent;
         try {
             JSONObject extrasJson = new JSONObject(extras);
-            myValue = extrasJson.optString("type");
-        } catch (Exception e) {
-            Logger.w("Unexpected: extras is not a valid json", e);
-            return;
-        }
-        if (TYPE_CIRCLEMESSAGE.equals(myValue)) {
+            extraType = extrasJson.optString("type");
+            extraData = extrasJson.getString("data");
+            Logger.d("data : " + extraData);
+            if (TYPE_CIRCLE_MESSAGE.equals(extraType)) {
 //            Intent mIntent = new Intent(context, GroupFriendActivity.class);
 //            mIntent.putExtras(bundle);
 //            mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //            context.startActivity(mIntent);
-        } else if (TYPE_RACELIVE.equals((myValue))) {
-            
-        } else {
-            Intent mIntent = new Intent(context, SplashActivity.class);
-            mIntent.putExtras(bundle);
-            mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(mIntent);
+            } else if (TYPE_TODAY_RACE_COUNT.equals((extraType))) {
+                SharedPreferencesTool.Save(context, MainActivity.APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(context), 1, SharedPreferencesTool.SP_FILE_APPSTATE);
+            } else if (TYPE_USER_RACE_FOLLOW.equals((extraType))) {
+                MatchInfo matchInfo = JSON.parseObject(extraData, new TypeReference<MatchInfo>() {
+                });
+                SharedPreferencesTool.Save(context, MainActivity.APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(context), 1, SharedPreferencesTool.SP_FILE_APPSTATE);
+                if (matchInfo != null && matchInfo.getRuid() == 0 && !"jg".equals(matchInfo.getDt())) {
+                    if (matchInfo.isMatch()) {
+                        intent = new Intent(context, RaceReportActivity.class);
+                    } else {
+                        intent = new Intent(context, RaceXunFangActivity.class);
+                    }
+                    Bundle bundle1 = new Bundle();                //创建Bundle对象
+                    bundle1.putSerializable("matchinfo", matchInfo);     //装入数据
+                    bundle1.putString("loadType", matchInfo.getLx());
+                    intent.putExtras(bundle1);
+                    context.startActivity(intent);
+                    return;
+                }
+            }
+
+        } catch (Exception e) {
+            Logger.w("Unexpected: extras is not a valid json", e);
+            return;
         }
+        Intent mIntent = new Intent(context, SplashActivity.class);
+        mIntent.putExtras(bundle);
+        mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(mIntent);
     }
 
     private void processCustomMessage(Context context, Bundle bundle) {

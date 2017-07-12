@@ -1,4 +1,4 @@
-package com.cpigeon.app.modular.usercenter.view.activity;
+package com.cpigeon.app.modular.matchlive.view.activity;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -10,6 +10,7 @@ import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.commonstandard.view.adapter.fragmentpager.FragmentPagerItemAdapter;
 import com.cpigeon.app.commonstandard.view.adapter.fragmentpager.FragmentPagerItems;
+import com.cpigeon.app.modular.matchlive.view.fragment.GeCheJianKongListFragment;
 import com.cpigeon.app.modular.usercenter.view.fragment.MyFollowSubFragment;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.SharedPreferencesTool;
@@ -18,13 +19,12 @@ import com.cpigeon.app.utils.customview.smarttab.SmartTabLayout;
 import butterknife.BindView;
 
 /**
- * Created by chenshuai on 2017/4/20.
- * 我的关注
+ * Created by chenshuai on 2017/7/11.
+ * 鸽车监控列表显示页面
  */
 
-public class MyFollowActivity extends BaseActivity {
-
-    private final static String APP_STATE_KEY_VIEWPAGER_SELECT_INDEX = "com.cpigeon.app.modular.usercenter.view.activity.MyFollowActivity.SelectItemIndex.";
+public class GeCheJianKongListActicity extends BaseActivity {
+    //private final static String APP_STATE_KEY_VIEWPAGER_SELECT_INDEX = "com.cpigeon.app.modular.usercenter.view.activity.MyFollowActivity.SelectItemIndex.";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.viewpagertab)
@@ -44,7 +44,7 @@ public class MyFollowActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        toolbar.setTitle("我的关注");
+        toolbar.setTitle("鸽车监控");
         setSupportActionBar(this.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -54,29 +54,26 @@ public class MyFollowActivity extends BaseActivity {
             }
         });
 
-        Bundle bundleRace = new Bundle();
         Bundle bundleXiehui = new Bundle();
         Bundle bundleGonepeng = new Bundle();
 
-        bundleRace.putString(MyFollowSubFragment.KEY_FOLLOW_TYPE, MyFollowSubFragment.FOLLOW_TYPE_RACE);
-        bundleXiehui.putString(MyFollowSubFragment.KEY_FOLLOW_TYPE, MyFollowSubFragment.FOLLOW_TYPE_XIEHUI);
-        bundleGonepeng.putString(MyFollowSubFragment.KEY_FOLLOW_TYPE, MyFollowSubFragment.FOLLOW_TYPE_GONGPENG);
+        bundleXiehui.putString(GeCheJianKongListFragment.KEY_TYPE, GeCheJianKongListFragment.TYPE_XIEHUI);
+        bundleGonepeng.putString(GeCheJianKongListFragment.KEY_TYPE, GeCheJianKongListFragment.TYPE_GONGPENG);
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), FragmentPagerItems.with(this)
-                .add("关注公棚", MyFollowSubFragment.class, bundleGonepeng)
-                .add("关注协会", MyFollowSubFragment.class, bundleXiehui)
-                .add("关注比赛", MyFollowSubFragment.class, bundleRace)
+                .add("协会", GeCheJianKongListFragment.class, bundleXiehui)
+                .add("公棚", GeCheJianKongListFragment.class, bundleGonepeng)
                 .create());
 
         viewPager.setAdapter(adapter);
         viewpagertab.setViewPager(viewPager);
-        viewPager.setCurrentItem(SharedPreferencesTool.Get(mContext, APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(mContext), 0, SharedPreferencesTool.SP_FILE_APPSTATE));
+        //viewPager.setCurrentItem(SharedPreferencesTool.Get(mContext, APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(mContext), 0, SharedPreferencesTool.SP_FILE_APPSTATE));
     }
 
     @Override
     protected void onDestroy() {
-        SharedPreferencesTool.Save(mContext, APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(mContext), viewPager.getCurrentItem(), SharedPreferencesTool.SP_FILE_APPSTATE);
+        //SharedPreferencesTool.Save(mContext, APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(mContext), viewPager.getCurrentItem(), SharedPreferencesTool.SP_FILE_APPSTATE);
         super.onDestroy();
     }
 }

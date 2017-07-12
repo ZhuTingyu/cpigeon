@@ -43,6 +43,33 @@
 
             </RelativeLayout>
 
+            <!--<View-->
+                <!--style="@style/Setting_Item_Split_Line"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/split_line_width" />-->
+
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/rl_push_notification"-->
+                <!--style="@style/Setting_Item"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/activity_setting_item_layout_height">-->
+
+                <!--<com.kyleduo.switchbutton.SwitchButton-->
+                    <!--android:id="@+id/sb_push_notification"-->
+                    <!--style="@style/Setting_Item_CheckBox"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content" />-->
+
+                <!--<TextView-->
+                    <!--style="@style/Setting_Item_Name"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:text="@string/Push_Notifications"-->
+                    <!--android:textSize="@dimen/activity_setting_item_title_textsize" />-->
+
+            <!--</RelativeLayout>-->
+
             <View
                 style="@style/Setting_Item_Split_Line"
                 android:layout_width="match_parent"
@@ -54,12 +81,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/activity_setting_item_layout_height">
 
-                <com.kyleduo.switchbutton.SwitchButton
-                    android:id="@+id/sb_push_notification"
-                    style="@style/Setting_Item_CheckBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
                 <TextView
                     style="@style/Setting_Item_Name"
                     android:layout_width="wrap_content"
@@ -68,6 +89,13 @@
                     android:text="@string/Push_Notifications"
                     android:textSize="@dimen/activity_setting_item_title_textsize" />
 
+                <android.support.v7.widget.AppCompatImageView
+                    style="@style/Setting_Item_Explain"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:rotation="-90"
+                    app:srcCompat="@drawable/ic_arrow_down" />
             </RelativeLayout>
 
             <!--<View-->

@@ -54,10 +54,6 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements IHom
     SearchEditText searchEdittext;
     @BindView(R.id.home_banner)
     Banner homeBanner;
-    @BindView(R.id.layout_gpzb)
-    LinearLayout layoutGpzb;
-    @BindView(R.id.layout_xhzb)
-    LinearLayout layoutXhzb;
     @BindView(R.id.layout_zhcx)
     LinearLayout layoutZhcx;
     @BindView(R.id.layout_wdsc)
@@ -74,6 +70,11 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements IHom
     TextView tvRaceinfoXhCount;
     @BindView(R.id.recyclerview_home_xh)
     RecyclerView recyclerviewHomeXh;
+    @BindView(R.id.layout_gcjk)
+    LinearLayout layoutGcjk;
+    @BindView(R.id.layout_bszb)
+    LinearLayout layoutBszb;
+    Unbinder unbinder;
     private HomeAdapter mAdapter;
 
 
@@ -92,7 +93,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements IHom
     }
 
 
-    @OnClick({R.id.layout_gpzb, R.id.layout_xhzb, R.id.layout_zhcx, R.id.layout_wdsc
+    @OnClick({R.id.layout_gcjk, R.id.layout_bszb, R.id.layout_zhcx, R.id.layout_wdsc
             , R.id.tv_raceinfo_gp_count, R.id.recyclerview_home_gp, R.id.tv_raceinfo_xh_count, R.id.recyclerview_home_xh})
     public void onClick(View view) {
         ((MainActivity) getActivity()).onHomeItemClick(view);
@@ -244,6 +245,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements IHom
     }
 
     public void loadMatchInfo() {
+        if (mPresenter == null) return;
         Logger.d("首页加载赛事列表");
         mPresenter.loadMatchInfo(1);
         mPresenter.loadMatchInfo(0);
@@ -275,6 +277,20 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements IHom
     @OnClick(R.id.search_edittext)
     public void onViewClicked(View view) {
         startActivity(new Intent(getActivity(), SearchActivity.class));
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
 

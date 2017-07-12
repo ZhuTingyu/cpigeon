@@ -85,7 +85,7 @@ public class UserBalanceRechargePresenter extends BasePresenter<IUserBalanceRech
     public void recharge() {
         if (isDetached()) return;
         if (mView.getInputFee() <= 0) {
-            mView.showTips("请输入充值金额", IView.TipType.DialogError);
+            mView.showTips("充值金额不正确", IView.TipType.DialogError);
             return;
         }
 

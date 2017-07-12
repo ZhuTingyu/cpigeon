@@ -9,6 +9,7 @@ import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.AppManager;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
@@ -55,8 +56,8 @@ public class SettingsActivity extends BaseActivity {
     TextView tvClearCacheCount;
     @BindView(R.id.rl_clear_cache)
     RelativeLayout rlClearCache;
-    @BindView(R.id.sb_push_notification)
-    SwitchButton sbPushNotification;
+//    @BindView(R.id.sb_push_notification)
+//    SwitchButton sbPushNotification;
     @BindView(R.id.rl_push_notification)
     RelativeLayout rlPushNotification;
     @BindView(R.id.rl_security)
@@ -93,12 +94,12 @@ public class SettingsActivity extends BaseActivity {
                 finish();
             }
         });
-        sbPushNotification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SharedPreferencesTool.Save(SettingsActivity.this, SETTING_KEY_PUSH_NOTIFICATION, isChecked, SharedPreferencesTool.SP_FILE_APPSETTING);
-            }
-        });
+//        sbPushNotification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                SharedPreferencesTool.Save(SettingsActivity.this, SETTING_KEY_PUSH_NOTIFICATION, isChecked, SharedPreferencesTool.SP_FILE_APPSETTING);
+//            }
+//        });
 //        sbSearchOnline.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 //            @Override
 //            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -116,7 +117,7 @@ public class SettingsActivity extends BaseActivity {
     protected void initData() {
         if (mEntryInstall)
             AppManager.getAppManager().AppExit();
-        sbPushNotification.setChecked(SharedPreferencesTool.Get(SettingsActivity.this, SETTING_KEY_PUSH_NOTIFICATION, true, SharedPreferencesTool.SP_FILE_APPSETTING));
+//        sbPushNotification.setChecked(SharedPreferencesTool.Get(SettingsActivity.this, SETTING_KEY_PUSH_NOTIFICATION, true, SharedPreferencesTool.SP_FILE_APPSETTING));
 //        sbSearchOnline.setChecked(SharedPreferencesTool.Get(SettingsActivity.this, SETTING_KEY_SEARCH_ONLINE, true, SharedPreferencesTool.SP_FILE_APPSETTING));
         tvCheckNewVersionVersionName.setText(CommonTool.getVersionName(this));
         double cacheCount = FileTool.getFileOrFilesSize(CpigeonConfig.CACHE_FOLDER, FileTool.SIZETYPE_B);
@@ -126,11 +127,14 @@ public class SettingsActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.rl_clear_cache, R.id.rl_security, R.id.rl_market_score, R.id.rl_check_new_version, R.id.btn_logout})
+    @OnClick({R.id.rl_clear_cache, R.id.rl_security, R.id.rl_push_notification, R.id.rl_market_score, R.id.rl_check_new_version, R.id.btn_logout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_clear_cache:
                 clearCache();
+                break;
+            case R.id.rl_push_notification:
+                startActivity(SettingPushActivity.class);
                 break;
             case R.id.rl_security:
                 startActivity(new Intent(mContext, SettingSecurityActivity.class));
@@ -164,6 +168,7 @@ public class SettingsActivity extends BaseActivity {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
                             showTips("退出登录成功", TipType.ToastShort);
+                            MyApp.clearJPushAlias();
                             dialog.dismiss();
                             Intent intent = new Intent(mContext, LoginActivity.class);
                             startActivity(intent);

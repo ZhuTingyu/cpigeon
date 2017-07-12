@@ -1,5 +1,6 @@
 package com.cpigeon.app.modular.matchlive.view.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -14,10 +15,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.cpigeon.app.MainActivity;
 import com.cpigeon.app.R;
+import com.cpigeon.app.commonstandard.AppManager;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.commonstandard.view.adapter.fragmentpager.FragmentPagerItemAdapter;
 import com.cpigeon.app.commonstandard.view.adapter.fragmentpager.FragmentPagerItems;
+import com.cpigeon.app.modular.guide.view.SplashActivity;
 import com.cpigeon.app.modular.matchlive.model.bean.Bulletin;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
 import com.cpigeon.app.modular.matchlive.presenter.RaceReportPre;
@@ -328,4 +332,15 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
 
     }
 
+    @Override
+    protected void onDestroy() {
+        Activity activity = AppManager.getAppManager().getActivityByClass(MainActivity.class);
+        if(activity==null){
+            Intent mIntent = new Intent(this, SplashActivity.class);
+            mIntent.putExtras(bundle);
+            mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(mIntent);
+        }
+        super.onDestroy();
+    }
 }

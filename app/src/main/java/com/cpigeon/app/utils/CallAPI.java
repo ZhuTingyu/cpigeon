@@ -15,6 +15,7 @@ import com.cpigeon.app.modular.cpigeongroup.model.bean.MyFoucs;
 import com.cpigeon.app.modular.cpigeongroup.model.bean.ShieldMessage;
 import com.cpigeon.app.modular.footsearch.model.bean.FootQueryResult;
 import com.cpigeon.app.modular.matchlive.model.bean.Bulletin;
+import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongOrgInfo;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchPigeons;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchPigeonsGP;
@@ -4493,6 +4494,71 @@ public class CallAPI {
                     JSONObject obj = new JSONObject(result);
                     if (obj.getBoolean("status") && !obj.isNull("data")) {
                         ApiResponse<List<FeedBackResult>> apiResponse = JSON.parseObject(result, new TypeReference<ApiResponse<List<FeedBackResult>>>() {
+                        });
+                        callback.onSuccess(apiResponse.getData());
+                    } else {
+                        callback.onError(Callback.ERROR_TYPE_API_RETURN, obj.getInt("errorCode"));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    callback.onError(Callback.ERROR_TYPE_PARSING_EXCEPTION, 0);
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                callback.onError(Callback.ERROR_TYPE_REQUST_EXCEPTION, ex);
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+        });
+    }
+
+    /**
+     * 获取鸽运通比赛列表
+     *
+     * @param context
+     * @param searchkey 搜索关键字【可搜索组织名称】
+     * @param orgType   组织类型【1：公棚 2：协会】【默认全部】
+     * @param pageIndex 页码【默认-1】【-1获取全部】
+     * @param pageSize  一页的条数【默认10】
+     * @param callback
+     * @return
+     */
+    public static org.xutils.common.Callback.Cancelable getGYTRaceListGroupByOrg(String searchkey,
+                                                                                 String orgType,
+                                                                                 int pageIndex, int pageSize,
+                                                                                 @NonNull final Callback<List<GeCheJianKongOrgInfo>> callback) {
+        RequestParams requestParams = new RequestParams(CPigeonApiUrl.getInstance().getServer() + CPigeonApiUrl.GetGYTRaceListGroupByOrg);
+        pretreatmentParams(requestParams);
+        requestParams.addParameter("key", searchkey);
+        requestParams.addParameter("pi", pageIndex);
+        requestParams.addParameter("ps", pageSize);
+        if (orgType != null)
+            requestParams.addParameter("t", orgType);
+
+        return x.http().get(requestParams, new org.xutils.common.Callback.CommonCallback<String>() {
+
+            @Override
+            public void onSuccess(String result) {
+                if (result != null) dealData(result);
+            }
+
+            private void dealData(String result) {
+                Logger.i(result);
+                try {
+                    JSONObject obj = new JSONObject(result);
+                    if (obj.getBoolean("status") && !obj.isNull("data")) {
+                        ApiResponse<List<GeCheJianKongOrgInfo>> apiResponse = JSON.parseObject(result, new TypeReference<ApiResponse<List<GeCheJianKongOrgInfo>>>() {
                         });
                         callback.onSuccess(apiResponse.getData());
                     } else {

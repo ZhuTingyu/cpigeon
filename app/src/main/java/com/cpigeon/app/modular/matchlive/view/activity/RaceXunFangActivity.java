@@ -1,5 +1,6 @@
 package com.cpigeon.app.modular.matchlive.view.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -16,8 +17,11 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.cpigeon.app.MainActivity;
 import com.cpigeon.app.R;
+import com.cpigeon.app.commonstandard.AppManager;
 import com.cpigeon.app.commonstandard.view.activity.BasePageTurnActivity;
+import com.cpigeon.app.modular.guide.view.SplashActivity;
 import com.cpigeon.app.modular.matchlive.model.bean.Bulletin;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
 import com.cpigeon.app.modular.matchlive.presenter.RacePre;
@@ -413,5 +417,17 @@ public class RaceXunFangActivity extends BasePageTurnActivity<RacePre, RaceXunFa
         }
         RaceDetailsXunFangFragment detailsFragment = RaceDetailsXunFangFragment.newInstance("训放数据");
         detailsFragment.show(mFragmentTransaction, "xunfangdialogFragment");
+    }
+
+    @Override
+    protected void onDestroy() {
+        Activity activity = AppManager.getAppManager().getActivityByClass(MainActivity.class);
+        if (activity == null) {
+            Intent mIntent = new Intent(this, SplashActivity.class);
+            mIntent.putExtras(bundle);
+            mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(mIntent);
+        }
+        super.onDestroy();
     }
 }

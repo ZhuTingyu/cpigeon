@@ -100,7 +100,7 @@ public class MyFollowSubFragment extends BasePageTurnFragment<UserFollowPresente
 
     @Override
     protected String getEmptyDataTips() {
-        return "还没有关注" + (getFollowType().equals(FOLLOW_TYPE_RACE) ? "比赛" : getFollowType().equals(FOLLOW_TYPE_XIEHUI) ? "协会" : getFollowType().equals(FOLLOW_TYPE_GONGPENG) ? "公棚" : "") + "呢，快去找点吧";
+        return "还没有关注" + (getFollowType().equals(FOLLOW_TYPE_RACE) ? "比赛" : getFollowType().equals(FOLLOW_TYPE_XIEHUI) ? "协会" : getFollowType().equals(FOLLOW_TYPE_GONGPENG) ? "公棚" : "") + "呢，快去看看吧";
     }
 
     @Override

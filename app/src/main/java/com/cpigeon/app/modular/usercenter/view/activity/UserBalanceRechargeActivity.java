@@ -203,7 +203,7 @@ public class UserBalanceRechargeActivity extends BaseActivity<UserBalanceRecharg
                 startActivity(intent);
                 break;
             case R.id.btn_ok_income:
-                if (mWxApi.isWXAppInstalled())
+                if (currPayway == TYPE_PAY_WAY_ALIPAY || mWxApi.isWXAppInstalled())
                     mPresenter.recharge();
                 else {
                     showTips("未安装微信", TipType.ToastShort);

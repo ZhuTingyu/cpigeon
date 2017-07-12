@@ -52,16 +52,20 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".MainActivity"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.TransparentStatusBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".modular.usercenter.view.activity.RegisterActivity"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".modular.footsearch.view.activity.FootSearchResultActivity"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".modular.guide.view.SplashActivity"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -79,6 +83,7 @@
                     android:pathPrefix="/"
                     android:scheme="cpigeon" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".modular.home.view.activity.WebActivity"
@@ -129,6 +134,10 @@
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
+            android:name=".modular.settings.view.activity.SettingPushActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
             android:name=".modular.usercenter.view.activity.HelpActivity"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateHidden" />
@@ -171,6 +180,10 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".modular.matchlive.view.activity.RaceXunFangActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".modular.matchlive.view.activity.GeCheJianKongListActicity"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
@@ -221,13 +234,13 @@
         <activity
             android:name=".modular.usercenter.view.activity.FeedBackResultListActivity"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity
             android:name=".modular.usercenter.view.activity.FeedBackResultDetialActivity"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
     </application>
 
 </manifest>

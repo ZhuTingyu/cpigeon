@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.cpigeon.app.BuildConfig;
+import com.cpigeon.app.MyApp;
 import com.cpigeon.app.commonstandard.AppManager;
 import com.cpigeon.app.modular.usercenter.view.activity.LoginActivity;
 import com.cpigeon.app.service.databean.UseDevInfo;
@@ -69,7 +70,7 @@ public class MainActivityService extends Service {
                 if (20002 == apiResponse.getErrorCode()) {
                     Logger.d("当前账号在新设备上登录并使用");
                     Logger.d(apiResponse.getData());
-
+                    MyApp.clearJPushAlias();
                     UseDevInfo useDevInfo = ((ApiResponse<UseDevInfo>) apiResponse).getData();
                     if (onDeviceLoginCheckListener != null)
                         onDeviceLoginCheckListener.onOtherDeviceLogin(useDevInfo);
@@ -139,7 +140,7 @@ public class MainActivityService extends Service {
                     e.printStackTrace();
                 }
             }
-        }, BuildConfig.DEBUG ? 3000 : 0, BuildConfig.DEBUG ? 30000 : 90000);
+        }, BuildConfig.DEBUG ? 3000 : 0, BuildConfig.DEBUG ? 10000 : 15000);
     }
 
 
