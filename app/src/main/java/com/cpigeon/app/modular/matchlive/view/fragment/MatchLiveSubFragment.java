@@ -26,6 +26,7 @@ import com.cpigeon.app.modular.matchlive.view.adapter.MatchLiveExpandAdapter;
 import com.cpigeon.app.modular.matchlive.view.fragment.viewdao.IMatchSubView;
 import com.cpigeon.app.utils.Const;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.customview.CustomEmptyView;
 import com.cpigeon.app.utils.customview.SaActionSheetDialog;
 import com.orhanobut.logger.Logger;
 
@@ -40,16 +41,14 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MatchLiveSubFragment extends BaseFragment implements IMatchSubView, SwipeRefreshLayout.OnRefreshListener {
 
+    @BindView(R.id.recyclerview)
+    protected RecyclerView mRecyclerView;
 
-    @BindView(R.id.recyclerview_matchlive)
-    RecyclerView mRecyclerView;
     @BindView(R.id.swiperefreshlayout)
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    @BindView(R.id.viewstub_empty)
-    ViewStub viewstubEmpty;
+    protected SwipeRefreshLayout mSwipeRefreshLayout;
 
-    View mEmptyTip;
-    TextView mEmptyTipTextView;
+    @BindView(R.id.empty_layout)
+    CustomEmptyView mCustomEmptyView;
 
     private MatchLiveExpandAdapter matchLiveAdapter;
     private List<MatchInfo> matchInfos;
@@ -172,7 +171,7 @@ public class MatchLiveSubFragment extends BaseFragment implements IMatchSubView,
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (getUserVisibleHint() && mEmptyTip != null && mEmptyTip.getVisibility() == View.VISIBLE) {
+        if (getUserVisibleHint() && mCustomEmptyView != null && mCustomEmptyView.getVisibility() == View.VISIBLE) {
             onRefresh();
         }
     }
@@ -277,8 +276,7 @@ public class MatchLiveSubFragment extends BaseFragment implements IMatchSubView,
 
     @Override
     public void hideRefreshLoading() {
-        if (mEmptyTip != null)
-            mEmptyTip.setVisibility(View.GONE);
+        mCustomEmptyView.setVisibility(View.GONE);
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
@@ -290,11 +288,11 @@ public class MatchLiveSubFragment extends BaseFragment implements IMatchSubView,
     @Override
     public boolean showTips(String tip, TipType tipType) {
         if (tipType == TipType.View) {
-            if (mEmptyTip == null) mEmptyTip = viewstubEmpty.inflate();
-            mEmptyTip.setVisibility(View.VISIBLE);
-            if (mEmptyTipTextView == null)
-                mEmptyTipTextView = (TextView) mEmptyTip.findViewById(R.id.tv_empty_tips);
-            mEmptyTipTextView.setText(TextUtils.isEmpty(tip) ? "非常抱歉，发生了未知错误" : tip);
+            mSwipeRefreshLayout.setRefreshing(false);
+            mCustomEmptyView.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
+            mCustomEmptyView.setEmptyImage(R.drawable.ic_empty);
+            mCustomEmptyView.setEmptyText("tip");
             return true;
         }
         return super.showTips(tip, tipType);

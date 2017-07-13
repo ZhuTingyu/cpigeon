@@ -8,7 +8,9 @@ import java.util.Comparator;
 
 
 /**
+ *
  * Created by chenshuai on 2017/4/20.
+ *
  */
 
 public class MatchInfoTypeComparator implements Comparator<MatchInfo> {

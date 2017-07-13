@@ -270,5 +270,5 @@
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/list_header_race_detial_textview_tableheader_textsize" />
     </LinearLayout>
-    <include layout="@layout/layout_com_swiperefreshlayout_recyclerview"/>
+    <include layout="@layout/fragment_matchlive_sub"/>
 </LinearLayout>

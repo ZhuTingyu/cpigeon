@@ -1,5 +1,6 @@
 package com.cpigeon.app.modular.matchlive.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -12,9 +13,11 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.fragment.BasePageTurnFragment;
 import com.cpigeon.app.modular.matchlive.presenter.GeCheJianKongPersenter;
+import com.cpigeon.app.modular.matchlive.view.activity.MapLiveActivity;
 import com.cpigeon.app.modular.matchlive.view.adapter.GeCheJianKongExpandListAdapter;
 import com.cpigeon.app.modular.matchlive.view.fragment.viewdao.IGeCheJianKongListView;
 import com.cpigeon.app.utils.customview.SearchEditText;
+import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +33,6 @@ public class GeCheJianKongListFragment extends BasePageTurnFragment<GeCheJianKon
     public static final String TYPE_GONGPENG = "1";
     @BindView(R.id.search_edittext)
     SearchEditText searchEdittext;
-    Unbinder unbinder;
     private String _showType = TYPE_XIEHUI;
 
     String _searchKey = "";
@@ -130,43 +132,13 @@ public class GeCheJianKongListFragment extends BasePageTurnFragment<GeCheJianKon
                 } else {
                     adapter.expand(position);
                 }
-//                if (((GeCheJianKongExpandListAdapter.OrgItem) item).isExpanded()) {
-//                    if (lastExpandItemPosition == position) {
-//                        lastExpandItemPosition = -1;
-//                    }
-//                    adapter.collapse(position);
-//                } else {
-//                    if (lastExpandItemPosition >= 0) {
-//                        adapter.collapse(lastExpandItemPosition);
-//                        if (lastExpandItemPosition > position) {//展开上面的项
-//                            adapter.expand(position);
-//                            lastExpandItemPosition = position;
-//                        } else if (lastExpandItemPosition < position) {//展开下面的项
-//                            adapter.expand(position - 1);
-//                            lastExpandItemPosition = position - 1;
-//                        }
-//                    } else {
-//                        lastExpandItemPosition = position;
-//                        adapter.expand(lastExpandItemPosition);
-//                    }
-//                }
             } else if (item instanceof GeCheJianKongExpandListAdapter.RaceItem) {
-                showTips(((GeCheJianKongExpandListAdapter.RaceItem) item).getRace().getRaceName(), TipType.ToastShort);
+                Intent intent = new Intent(getActivity(), MapLiveActivity.class);
+                intent.putExtra("geCheJianKongRace",((GeCheJianKongExpandListAdapter.RaceItem) item).getRace());
+                Logger.e(((GeCheJianKongExpandListAdapter.RaceItem) item).getRace().getId()+"：iD");
+                startActivity(intent);
             }
         }
     };
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 }

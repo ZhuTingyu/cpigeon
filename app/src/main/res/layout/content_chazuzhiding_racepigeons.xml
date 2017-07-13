@@ -342,5 +342,5 @@
 
     </LinearLayout>
 
-    <include layout="@layout/layout_com_swiperefreshlayout_recyclerview" />
+    <include layout="@layout/fragment_matchlive_sub" />
 </LinearLayout>

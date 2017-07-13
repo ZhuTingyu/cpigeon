@@ -15,6 +15,7 @@ import com.cpigeon.app.modular.cpigeongroup.model.bean.MyFoucs;
 import com.cpigeon.app.modular.cpigeongroup.model.bean.ShieldMessage;
 import com.cpigeon.app.modular.footsearch.model.bean.FootQueryResult;
 import com.cpigeon.app.modular.matchlive.model.bean.Bulletin;
+import com.cpigeon.app.modular.matchlive.model.bean.GYTRaceLocation;
 import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongOrgInfo;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchPigeons;
@@ -22,6 +23,7 @@ import com.cpigeon.app.modular.matchlive.model.bean.MatchPigeonsGP;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchPigeonsXH;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchReportGP;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchReportXH;
+import com.cpigeon.app.modular.matchlive.model.bean.RaceImageOrVideo;
 import com.cpigeon.app.modular.order.model.bean.CpigeonOrderInfo;
 import com.cpigeon.app.modular.order.model.bean.CpigeonServicesInfo;
 import com.cpigeon.app.modular.usercenter.model.bean.CpigeonRechargeInfo;
@@ -42,6 +44,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.DbManager;
+import org.xutils.common.Callback;
 import org.xutils.common.util.KeyValue;
 import org.xutils.db.sqlite.WhereBuilder;
 import org.xutils.ex.DbException;
@@ -129,6 +132,8 @@ public class CallAPI {
             }
         });
     }
+
+
 
     /**
      * 获取更新信息
@@ -3775,6 +3780,63 @@ public class CallAPI {
 
     }
 
+
+    public static org.xutils.common.Callback.Cancelable getGYTRaceImgOrVideo(Context context,
+                                                                             final int rid,
+                                                                             final String ft,
+                                                                             final Callback<List<RaceImageOrVideo>> callback){
+        final int userid = CpigeonData.getInstance().getUserId(context);
+        RequestParams requestParams = new RequestParams(CPigeonApiUrl.getInstance().getServer() + CPigeonApiUrl.GETGYTRACEIMGORVIDEO);
+        pretreatmentParams(requestParams);
+        requestParams.addParameter("uid", userid);
+        requestParams.addParameter("rid",rid);
+        requestParams.addParameter("ft",ft);
+        requestParams.addHeader("u", CommonTool.getUserToken(context));
+        return x.http().get(requestParams, new org.xutils.common.Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String s) {
+                if (s != null) dealData(s);
+            }
+
+            private void dealData(String result) {
+                Logger.i(result);
+                try {
+                    JSONObject obj = new JSONObject(result);
+                    if (obj.getBoolean("status") && !obj.isNull("data")) {
+                        ApiResponse<List<RaceImageOrVideo>> apiResponse = JSON.parseObject(result, new TypeReference<ApiResponse<List<RaceImageOrVideo>>>() {
+                        });
+                        callback.onSuccess(apiResponse.getData());
+                    } else {
+                        callback.onError(Callback.ERROR_TYPE_API_RETURN, obj.getInt("errorCode"));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    callback.onError(Callback.ERROR_TYPE_PARSING_EXCEPTION, 0);
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable, boolean b) {
+                callback.onError(Callback.ERROR_TYPE_REQUST_EXCEPTION, throwable);
+            }
+
+            @Override
+            public void onCancelled(CancelledException e) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
+
+
+
+
+
     /**
      * 屏蔽某一条消息
      *
@@ -4523,10 +4585,60 @@ public class CallAPI {
         });
     }
 
+
+    public static org.xutils.common.Callback.Cancelable getGYTRaceLocation(String rid,
+                                                                           String lid,
+                                                                           Boolean hw,
+                                                                           final Callback<List<GYTRaceLocation>> callback)
+    {
+        RequestParams requestParams = new RequestParams(CPigeonApiUrl.getInstance().getServer() + CPigeonApiUrl.GETGTYRACELOCATION);
+        requestParams.addParameter("rid",rid);
+        requestParams.addParameter("lid",lid);
+        requestParams.addParameter("hw",hw);
+
+        return x.http().get(requestParams, new org.xutils.common.Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String s) {
+                if (s != null) dealData(s);
+            }
+
+            private void dealData(String result) {
+                Logger.i(result);
+                try {
+                    JSONObject obj = new JSONObject(result);
+                    if (obj.getBoolean("status") && !obj.isNull("data")) {
+                        ApiResponse<List<GYTRaceLocation>> apiResponse = JSON.parseObject(result, new TypeReference<ApiResponse<List<GYTRaceLocation>>>() {
+                        });
+                        callback.onSuccess(apiResponse.getData());
+                    } else {
+                        callback.onError(Callback.ERROR_TYPE_API_RETURN, obj.getInt("errorCode"));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    callback.onError(Callback.ERROR_TYPE_PARSING_EXCEPTION, 0);
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable, boolean b) {
+                callback.onError(Callback.ERROR_TYPE_REQUST_EXCEPTION, throwable);
+            }
+
+            @Override
+            public void onCancelled(CancelledException e) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
     /**
      * 获取鸽运通比赛列表
      *
-     * @param context
      * @param searchkey 搜索关键字【可搜索组织名称】
      * @param orgType   组织类型【1：公棚 2：协会】【默认全部】
      * @param pageIndex 页码【默认-1】【-1获取全部】

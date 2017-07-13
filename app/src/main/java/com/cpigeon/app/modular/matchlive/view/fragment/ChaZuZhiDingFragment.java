@@ -3,6 +3,7 @@ package com.cpigeon.app.modular.matchlive.view.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.cpigeon.app.modular.matchlive.view.activity.RaceChaZuZhiDingActivity;
 import com.cpigeon.app.modular.matchlive.view.activity.RaceReportActivity;
 import com.cpigeon.app.modular.matchlive.view.adapter.ChaZuAdapter;
 import com.cpigeon.app.modular.matchlive.view.fragment.viewdao.IChaZuReport;
+import com.cpigeon.app.utils.customview.CustomEmptyView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,13 +33,13 @@ import butterknife.BindView;
 
 public class ChaZuZhiDingFragment extends BaseMVPFragment<ChaZuReportPre> implements IChaZuReport {
     @BindView(R.id.recyclerview)
-    RecyclerView mRecyclerView;
-    @BindView(R.id.viewstub_empty)
-    ViewStub viewstubEmpty;
+    protected RecyclerView mRecyclerView;
+
+    @BindView(R.id.empty_layout)
+    CustomEmptyView mCustomEmptyView;
+
     private MatchInfo matchInfo;
-    private ChaZuAdapter mAdapter;
-    View mEmptyTip;
-    TextView mEmptyTipTextView;
+
 
     @Override
     public void onAttach(Context context) {
@@ -65,7 +67,7 @@ public class ChaZuZhiDingFragment extends BaseMVPFragment<ChaZuReportPre> implem
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.layout_com_recyclerview;
+        return R.layout.layout_recyclerview;
     }
 
     @Override
@@ -86,7 +88,7 @@ public class ChaZuZhiDingFragment extends BaseMVPFragment<ChaZuReportPre> implem
 
     @Override
     public void showChaZuBaoDaoView(List list) {
-        mAdapter = new ChaZuAdapter(list, 1);
+        ChaZuAdapter mAdapter = new ChaZuAdapter(list, 1);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -102,14 +104,13 @@ public class ChaZuZhiDingFragment extends BaseMVPFragment<ChaZuReportPre> implem
                 if (((RaceReportActivity) getActivity()).getBulletin() != null) {
                     b.putString("bulletin", ((RaceReportActivity) getActivity()).getBulletin().getContent());
                 }
-
                 intent.putExtras(b);
                 startActivity(intent);
 
             }
         });
+        hideEmptyView();
         mRecyclerView.setAdapter(mAdapter);
-        if (mEmptyTip != null) mEmptyTip.setVisibility(View.GONE);
     }
 
     @Override
@@ -127,14 +128,18 @@ public class ChaZuZhiDingFragment extends BaseMVPFragment<ChaZuReportPre> implem
     @Override
     public boolean showTips(String tip, TipType tipType) {
         if (tipType == TipType.View) {
-            if (mEmptyTip == null) mEmptyTip = viewstubEmpty.inflate();
-            if (mEmptyTipTextView == null)
-                mEmptyTipTextView = (TextView) mEmptyTip.findViewById(R.id.tv_empty_tips);
-            mEmptyTipTextView.setText(tip);
-            mEmptyTip.setVisibility(View.VISIBLE);
+            mCustomEmptyView.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
+            mCustomEmptyView.setEmptyImage(R.drawable.ic_empty);
+            mCustomEmptyView.setEmptyText(tip);
             return true;
         }
         return super.showTips(tip, tipType);
+    }
+
+    public void hideEmptyView() {
+        mCustomEmptyView.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
 
 }

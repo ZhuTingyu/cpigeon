@@ -1,11 +1,16 @@
 package com.cpigeon.app.modular.matchlive.model.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 /**
  * Created by chenshuai on 2017/7/11.
  * 鸽车监控比赛信息
  */
 
-public class GeCheJianKongRace {
+public class GeCheJianKongRace implements Serializable{
 
     /**
      * stateCode : 2
@@ -140,5 +145,6 @@ public class GeCheJianKongRace {
     public void setFlyingArea(String flyingArea) {
         this.flyingArea = flyingArea;
     }
+
 }
 

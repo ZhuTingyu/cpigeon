@@ -42,8 +42,8 @@ public class CPigeonApiUrl {
     private void initServers() {
         if (Servers == null) {
             if (BuildConfig.DEBUG)
-                Servers = new String[]{"http://118.123.244.89:818"};//调试版
-//                Servers = new String[]{"http://192.168.0.5:8888"};//调试版
+//                Servers = new String[]{"http://118.123.244.89:818"};//调试版
+                Servers = new String[]{"http://192.168.0.5:8888"};//调试版
 //                Servers = new String[]{SERVER};//调试版
             else
                 Servers = new String[]{"http://114.141.132.146:818", "http://221.236.20.76:818", "http://118.123.244.89:818"};//服务器
@@ -311,7 +311,8 @@ public class CPigeonApiUrl {
     public static final String GETUSERSHIELDCIRCLEMESSAGELIST = API_VERSION + "GetUserShieldCircleMessageList";
     //删除已发布的评论
     public static final String DELCIRCLECOMMENT = API_VERSION + "DelCircleComment";
-
+    //获取鸽运通定位信息
+    public static final String GETGTYRACELOCATION = API_VERSION + "GetGTYRaceLocation";
 
     /**
      * 添加点击量 --szx
@@ -357,6 +358,11 @@ public class CPigeonApiUrl {
      * App签到链接
      */
     public static final String APP_SIGN_URL = "/APP/UserSign";
+
+
+    public static final String GETGYTRACEIMGORVIDEO = API_VERSION + "GetGYTRaceImageOrVideo";
+
+
 
 
 }

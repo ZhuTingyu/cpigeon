@@ -140,11 +140,12 @@ public class RaceDaoImpl extends UserFollowDaoImpl implements IRaceDao {
                     selector = db.selector(MatchReportGP.class);
                     selector.orderBy("mc");
                 }
-            } else {
+            } else if ("xh".equals(matchInfo.getLx())){
                 //集鸽数据（上笼清单）和插组指定需要的数据
-                selector = db.selector("xh".equals(matchInfo.getLx()) ? MatchPigeonsXH.class : MatchPigeonsGP.class).orderBy("jgtime");
+                selector = db.selector(MatchPigeonsXH.class).orderBy("jgtime");
+            }else {
+                selector = db.selector(MatchPigeonsGP.class).orderBy("jgtime");
             }
-
             selector.where("ssid", "=", matchInfo.getSsid());
             selector.groupBy("foot");
             if (!"%%".equals(key))

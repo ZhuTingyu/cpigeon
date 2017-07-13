@@ -22,27 +22,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swiperefreshlayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorLayoutGray4"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_width="match_parent"
-            android:scrollbars="vertical"
-            android:layout_height="match_parent">
-
-        </android.support.v7.widget.RecyclerView>
-
-    </android.support.v4.widget.SwipeRefreshLayout>
-
-    <ViewStub
-        android:id="@+id/viewstub_empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout="@layout/layout_tip_emptydata" />
+    <include
+        layout="@layout/fragment_matchlive_sub"/>
 
 </android.support.design.widget.CoordinatorLayout>

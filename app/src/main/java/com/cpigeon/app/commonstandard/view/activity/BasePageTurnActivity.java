@@ -18,6 +18,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.utils.NetUtils;
+import com.cpigeon.app.utils.customview.CustomEmptyView;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
@@ -35,14 +36,15 @@ public abstract class BasePageTurnActivity<Pre extends BasePresenter, Adapter ex
         implements IPageTurn<DataBean>, IRefresh, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
     @BindView(R.id.toolbar)
     protected Toolbar toolbar;
+
     @BindView(R.id.recyclerview)
-    protected RecyclerView recyclerview;
+    protected RecyclerView mRecyclerView;
+
     @BindView(R.id.swiperefreshlayout)
-    protected SwipeRefreshLayout swiperefreshlayout;
-    @BindView(R.id.viewstub_empty)
-    ViewStub viewstubEmpty;
-    View mEmptyTip;
-    TextView mEmptyTipTextView;
+    protected SwipeRefreshLayout mSwipeRefreshLayout;
+
+    @BindView(R.id.empty_layout)
+    CustomEmptyView mCustomEmptyView;
 
     boolean canLoadMore = true, isRefreshing = false, isMoreDateLoading = false;
     int pageindex = 1, pagesize = 10;
@@ -69,44 +71,26 @@ public abstract class BasePageTurnActivity<Pre extends BasePresenter, Adapter ex
         toolbar.setTitle(getTitleName());
         setSupportActionBar(this.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        swiperefreshlayout.setOnRefreshListener(this);
-        swiperefreshlayout.setColorSchemeColors(Color.rgb(47, 223, 189));
-        swiperefreshlayout.setEnabled(false);
-        recyclerview.setLayoutManager(new LinearLayoutManager(this));
+
+        toolbar.setNavigationOnClickListener(v -> finish());
+
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
+        mSwipeRefreshLayout.setEnabled(false);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         pagesize = getDefaultPageSize();
-//        onRefresh();
         if (isNetworkConnected()) onRefresh();
         else {
-            swiperefreshlayout.setEnabled(true);
+            mSwipeRefreshLayout.setEnabled(true);
             showTips("网络连接已断开", TipType.View);
         }
     }
 
-
-//    @Override
-//    protected void onNetworkConnected(NetUtils.NetType type) {
-//        if (mAdapter == null || mAdapter.getData().size() == 0) {
-//            loadDataByPresenter();
-//        }
-//    }
-//
-//    @Override
-//    protected void onNetworkDisConnected() {
-//        hideRefreshLoading();
-//        showTips("网络连接断开,请打开网络连接", TipType.SnackbarLong);
-//    }
-
     @Override
     public void showRefreshLoading() {
         if (isNetworkConnected()) {
-            if (swiperefreshlayout == null || swiperefreshlayout.isRefreshing()) return;
-            swiperefreshlayout.setRefreshing(true);
+            if (mSwipeRefreshLayout == null || mSwipeRefreshLayout.isRefreshing()) return;
+            mSwipeRefreshLayout.setRefreshing(true);
         } else {
             //onNetworkDisConnected();
             showTips("网络连接已断开", TipType.View);
@@ -116,10 +100,10 @@ public abstract class BasePageTurnActivity<Pre extends BasePresenter, Adapter ex
     @Override
     public void hideRefreshLoading() {
         isRefreshing = false;
-        if (swiperefreshlayout != null) {
-            if (swiperefreshlayout.isRefreshing())
-                swiperefreshlayout.setRefreshing(false);
-            swiperefreshlayout.setEnabled(true);
+        if (mSwipeRefreshLayout != null) {
+            if (mSwipeRefreshLayout.isRefreshing())
+                mSwipeRefreshLayout.setRefreshing(false);
+            mSwipeRefreshLayout.setEnabled(true);
         }
     }
 
@@ -131,11 +115,11 @@ public abstract class BasePageTurnActivity<Pre extends BasePresenter, Adapter ex
     @Override
     public boolean showTips(String tip, TipType tipType) {
         if (tipType == TipType.View) {
-            if (mEmptyTip == null) mEmptyTip = viewstubEmpty.inflate();
-            if (mEmptyTipTextView == null)
-                mEmptyTipTextView = (TextView) mEmptyTip.findViewById(R.id.tv_empty_tips);
-            mEmptyTipTextView.setText(tip);
-            mEmptyTip.setVisibility(View.VISIBLE);
+            mSwipeRefreshLayout.setRefreshing(false);
+            mCustomEmptyView.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
+            mCustomEmptyView.setEmptyImage(R.drawable.ic_empty);
+            mCustomEmptyView.setEmptyText(tip);
             return true;
         }
         switch (tipType) {
@@ -181,9 +165,9 @@ public abstract class BasePageTurnActivity<Pre extends BasePresenter, Adapter ex
     @Override
     public void iniPageAndAdapter() {
         mAdapter = getNewAdapterWithNoData();
-        mAdapter.setOnLoadMoreListener(this, recyclerview);
+        mAdapter.setOnLoadMoreListener(this, mRecyclerView);
         mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
-        recyclerview.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);
         mAdapter.setEnableLoadMore(true);
         pageindex = 1;
     }
@@ -194,8 +178,8 @@ public abstract class BasePageTurnActivity<Pre extends BasePresenter, Adapter ex
         if (getPageIndex() == 1 && (dataBeen == null || dataBeen.size() == 0)) {
             showEmptyData();
         } else {
-            if (mEmptyTip != null)
-                mEmptyTip.setVisibility(View.GONE);
+            if (mCustomEmptyView != null)
+                mCustomEmptyView.setVisibility(View.GONE);
         }
         if (dataBeen != null)
             mAdapter.addData(dataBeen);
@@ -221,7 +205,7 @@ public abstract class BasePageTurnActivity<Pre extends BasePresenter, Adapter ex
         isMoreDateLoading = false;
         mAdapter.loadMoreComplete();//完成加载
         mAdapter.setEnableLoadMore(true);
-        if (mEmptyTip != null) mEmptyTip.setVisibility(View.GONE);
+        finishTask();
     }
 
     @Override
@@ -229,8 +213,16 @@ public abstract class BasePageTurnActivity<Pre extends BasePresenter, Adapter ex
         isMoreDateLoading = false;
         mAdapter.loadMoreFail();
         mAdapter.setEnableLoadMore(true);
-        if (mEmptyTip != null) mEmptyTip.setVisibility(View.GONE);
+        finishTask();
     }
+
+
+    protected void finishTask() {
+        mSwipeRefreshLayout.setRefreshing(false);
+        mCustomEmptyView.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+    }
+
 
     @Override
     public void onRefresh() {
@@ -243,7 +235,7 @@ public abstract class BasePageTurnActivity<Pre extends BasePresenter, Adapter ex
     @Override
     public void onLoadMoreRequested() {
         if (canLoadMore) {
-            swiperefreshlayout.setEnabled(false);
+            mSwipeRefreshLayout.setEnabled(false);
             isMoreDateLoading = true;
             loadDataByPresenter();
         } else {

@@ -15,7 +15,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <application
         android:name=".MyApp"
         android:allowBackup="true"
@@ -65,7 +64,6 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".modular.guide.view.SplashActivity"
-            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -166,6 +164,9 @@
             android:name=".modular.order.view.activity.OrderPayActivity"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name=".modular.matchlive.view.activity.MapLiveActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".modular.usercenter.view.activity.BalanceActivity"
             android:launchMode="singleTask"
@@ -215,6 +216,9 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="c7279e1d1182b0a47255cda941fdd9d7">
+        </meta-data>
 
         <receiver
             android:name=".broadcastreceiver.JPushBroadcastReceiver"

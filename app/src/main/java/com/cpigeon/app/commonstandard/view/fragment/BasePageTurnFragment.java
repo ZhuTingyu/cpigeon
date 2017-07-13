@@ -18,6 +18,7 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.IPageTurn;
 import com.cpigeon.app.commonstandard.view.activity.IRefresh;
+import com.cpigeon.app.utils.customview.CustomEmptyView;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
@@ -31,13 +32,13 @@ import butterknife.BindView;
 
 public abstract class BasePageTurnFragment<Pre extends BasePresenter, Adapter extends BaseQuickAdapter<DataBean, BaseViewHolder>, DataBean> extends BaseMVPFragment<Pre> implements IPageTurn<DataBean>, IRefresh, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
     @BindView(R.id.recyclerview)
-    protected RecyclerView recyclerview;
+    protected RecyclerView mRecyclerView;
+
     @BindView(R.id.swiperefreshlayout)
-    protected SwipeRefreshLayout swiperefreshlayout;
-    @BindView(R.id.viewstub_empty)
-    ViewStub viewstubEmpty;
-    View mEmptyTip;
-    TextView mEmptyTipTextView;
+    protected SwipeRefreshLayout mSwipeRefreshLayout;
+
+    @BindView(R.id.empty_layout)
+    CustomEmptyView mCustomEmptyView;
 
     boolean canLoadMore = true, isRefreshing = false, isMoreDateLoading = false;
     int pageindex = 1, pagesize = 10;
@@ -46,17 +47,17 @@ public abstract class BasePageTurnFragment<Pre extends BasePresenter, Adapter ex
 
     @Override
     protected void loadData() {
-        swiperefreshlayout.setOnRefreshListener(this);
-        swiperefreshlayout.setColorSchemeColors(Color.rgb(47, 223, 189));
-        swiperefreshlayout.setEnabled(false);
-        recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
+        mSwipeRefreshLayout.setEnabled(false);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         pagesize = getDefaultPageSize();
         iniPageAndAdapter();
     }
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.layout_com_swiperefreshlayout_recyclerview;
+        return R.layout.fragment_matchlive_sub;
     }
 
     @Override
@@ -66,7 +67,7 @@ public abstract class BasePageTurnFragment<Pre extends BasePresenter, Adapter ex
             showRefreshLoading();
             loadDataByPresenter();
         } else {
-            swiperefreshlayout.setEnabled(true);
+            mSwipeRefreshLayout.setEnabled(true);
             showTips("网络连接已断开", TipType.View);
         }
     }
@@ -91,7 +92,7 @@ public abstract class BasePageTurnFragment<Pre extends BasePresenter, Adapter ex
     @Override
     public void onLoadMoreRequested() {
         if (canLoadMore) {
-            swiperefreshlayout.setEnabled(false);
+            mSwipeRefreshLayout.setEnabled(false);
             isMoreDateLoading = true;
             loadDataByPresenter();
         } else {
@@ -104,7 +105,7 @@ public abstract class BasePageTurnFragment<Pre extends BasePresenter, Adapter ex
         isMoreDateLoading = false;
         mAdapter.loadMoreComplete();//完成加载
         mAdapter.setEnableLoadMore(true);
-        if (mEmptyTip != null) mEmptyTip.setVisibility(View.GONE);
+        finishTask();
     }
 
     @Override
@@ -112,17 +113,23 @@ public abstract class BasePageTurnFragment<Pre extends BasePresenter, Adapter ex
         isMoreDateLoading = false;
         mAdapter.loadMoreFail();
         mAdapter.setEnableLoadMore(true);
-        if (mEmptyTip != null) mEmptyTip.setVisibility(View.GONE);
+        finishTask();
+    }
+
+    protected void finishTask() {
+        mSwipeRefreshLayout.setRefreshing(false);
+        mCustomEmptyView.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public boolean showTips(String tip, TipType tipType) {
         if (tipType == TipType.View) {
-            if (mEmptyTip == null) mEmptyTip = viewstubEmpty.inflate();
-            if (mEmptyTipTextView == null)
-                mEmptyTipTextView = (TextView) mEmptyTip.findViewById(R.id.tv_empty_tips);
-            mEmptyTipTextView.setText(tip);
-            mEmptyTip.setVisibility(View.VISIBLE);
+            mSwipeRefreshLayout.setRefreshing(false);
+            mCustomEmptyView.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
+            mCustomEmptyView.setEmptyImage(R.drawable.ic_empty);
+            mCustomEmptyView.setEmptyText(tip);
             return true;
         }
         switch (tipType) {
@@ -156,17 +163,17 @@ public abstract class BasePageTurnFragment<Pre extends BasePresenter, Adapter ex
 
     @Override
     public void showRefreshLoading() {
-        if (swiperefreshlayout == null || swiperefreshlayout.isRefreshing()) return;
-        swiperefreshlayout.setRefreshing(true);
+        if (mSwipeRefreshLayout == null || mSwipeRefreshLayout.isRefreshing()) return;
+        mSwipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideRefreshLoading() {
         isRefreshing = false;
-        if (swiperefreshlayout != null) {
-            if (swiperefreshlayout.isRefreshing())
-                swiperefreshlayout.setRefreshing(false);
-            swiperefreshlayout.setEnabled(true);
+        if (mSwipeRefreshLayout != null) {
+            if (mSwipeRefreshLayout.isRefreshing())
+                mSwipeRefreshLayout.setRefreshing(false);
+            mSwipeRefreshLayout.setEnabled(true);
         }
     }
 
@@ -189,9 +196,9 @@ public abstract class BasePageTurnFragment<Pre extends BasePresenter, Adapter ex
     @Override
     public void iniPageAndAdapter() {
         mAdapter = getNewAdapterWithNoData();
-        mAdapter.setOnLoadMoreListener(this, recyclerview);
+        mAdapter.setOnLoadMoreListener(this, mRecyclerView);
         mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
-        recyclerview.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);
         mAdapter.setEnableLoadMore(true);
         pageindex = 1;
     }
@@ -229,8 +236,7 @@ public abstract class BasePageTurnFragment<Pre extends BasePresenter, Adapter ex
         if (getPageIndex() == 1 && (dataBeen == null || dataBeen.size() == 0)) {
             showEmptyData();
         } else {
-            if (mEmptyTip != null)
-                mEmptyTip.setVisibility(View.GONE);
+                mCustomEmptyView.setVisibility(View.GONE);
         }
         if (dataBeen != null)
             mAdapter.addData(dataBeen);
