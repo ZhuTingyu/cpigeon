@@ -55,8 +55,8 @@
             android:layout_height="wrap_content" />
         <ToggleButton
             android:id="@+id/displaybtn"
-            android:textOn="开启监控"
-            android:textOff="结束监控"
+            android:textOn="停止回放"
+            android:textOff="开始回放"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>

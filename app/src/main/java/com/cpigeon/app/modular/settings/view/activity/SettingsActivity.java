@@ -56,7 +56,7 @@ public class SettingsActivity extends BaseActivity {
     TextView tvClearCacheCount;
     @BindView(R.id.rl_clear_cache)
     RelativeLayout rlClearCache;
-//    @BindView(R.id.sb_push_notification)
+    //    @BindView(R.id.sb_push_notification)
 //    SwitchButton sbPushNotification;
     @BindView(R.id.rl_push_notification)
     RelativeLayout rlPushNotification;
@@ -116,13 +116,10 @@ public class SettingsActivity extends BaseActivity {
 
     protected void initData() {
         if (mEntryInstall)
-            AppManager.getAppManager().AppExit();
-//        sbPushNotification.setChecked(SharedPreferencesTool.Get(SettingsActivity.this, SETTING_KEY_PUSH_NOTIFICATION, true, SharedPreferencesTool.SP_FILE_APPSETTING));
-//        sbSearchOnline.setChecked(SharedPreferencesTool.Get(SettingsActivity.this, SETTING_KEY_SEARCH_ONLINE, true, SharedPreferencesTool.SP_FILE_APPSETTING));
+            AppManager.getAppManager().AppExit(mContext);
         tvCheckNewVersionVersionName.setText(CommonTool.getVersionName(this));
         double cacheCount = FileTool.getFileOrFilesSize(CpigeonConfig.CACHE_FOLDER, FileTool.SIZETYPE_B);
         tvClearCacheCount.setText(cacheCount < 1024 ? getString(R.string.no_cache) : FileTool.formatFileSize(cacheCount));
-        //logout.setVisibility(View.GONE);
         btnLogout.setText(checkLogin() ? "退出登录" : "登录");
     }
 

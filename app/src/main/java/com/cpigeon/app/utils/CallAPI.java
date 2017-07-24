@@ -4584,7 +4584,7 @@ public class CallAPI {
 
     public static org.xutils.common.Callback.Cancelable getGYTRaceLocation(String rid,
                                                                            String lid,
-                                                                           Boolean hw,
+                                                                           String hw,
                                                                            final Callback<List<GYTRaceLocation>> callback) {
         RequestParams requestParams = new RequestParams(CPigeonApiUrl.getInstance().getServer() + CPigeonApiUrl.GETGTYRACELOCATION);
         requestParams.addParameter("rid", rid);

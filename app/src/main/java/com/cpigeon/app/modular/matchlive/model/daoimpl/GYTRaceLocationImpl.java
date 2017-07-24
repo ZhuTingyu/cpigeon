@@ -14,7 +14,7 @@ import java.util.List;
 public class GYTRaceLocationImpl implements IGYTRaceLocation {
 
     @Override
-    public void loadRaceLocation(String rid, String lid, Boolean hw, final IBaseDao.OnCompleteListener<List<GYTRaceLocation>> listOnCompleteListener) {
+    public void loadRaceLocation(String rid, String lid, String hw, final IBaseDao.OnCompleteListener<List<GYTRaceLocation>> listOnCompleteListener) {
         CallAPI.getGYTRaceLocation(rid, lid, hw, new CallAPI.Callback<List<GYTRaceLocation>>() {
             @Override
             public void onSuccess(List<GYTRaceLocation> data) {

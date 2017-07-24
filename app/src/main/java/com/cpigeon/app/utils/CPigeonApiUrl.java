@@ -367,6 +367,11 @@ public class CPigeonApiUrl {
 
     public static final String GETGYTRACEIMGORVIDEO = API_VERSION + "GetGYTRaceImageOrVideo";
 
+    /**
+     * 获取监控定位数据报表
+     */
+    public static final String GETGYTLOCATIONINFOREPORTS = API_VERSION + "GetGYTLocationInfoReports";
+
 
 
 

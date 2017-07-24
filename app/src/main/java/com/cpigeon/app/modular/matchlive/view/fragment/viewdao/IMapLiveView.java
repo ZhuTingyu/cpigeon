@@ -13,7 +13,7 @@ public interface IMapLiveView extends IView {
     void showMapData(List<GYTRaceLocation> raceLocations);
     String getRid();
     String getLid();
-    Boolean hw();
+    String hw();
     void showSpeed();//获取车速
     void showWeather();//获取天气
     void showFlyarea();//获取司放地坐标

@@ -104,7 +104,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                AppManager.getAppManager().AppExit();
+                AppManager.getAppManager().AppExit(mContext);
             }
         }, 1000);
     }
@@ -121,14 +121,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                         sweetAlertDialog.dismiss();
-                        AppManager.getAppManager().AppExit();
+                        AppManager.getAppManager().AppExit(mContext);
                     }
                 }).setConfirmText("去开启").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                         PermissionTool.gotoAppPermissionSetting(LoginActivity.this);
                         sweetAlertDialog.dismiss();
-                        AppManager.getAppManager().AppExit();
+                        AppManager.getAppManager().AppExit(mContext);
                     }
                 });
         dialog.setCancelable(false);
@@ -213,7 +213,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     }
 
 
-
     @Override
     public String getLoginName() {
         return etUsername.getText().toString();
@@ -291,7 +290,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
             // 利用handler延迟发送更改状态信息
             mHandler.sendEmptyMessageDelayed(0, 2000);
         } else {
-            AppManager.getAppManager().AppExit();
+            AppManager.getAppManager().AppExit(mContext);
         }
 
 
