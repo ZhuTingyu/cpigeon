@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -35,14 +36,45 @@
         android:id="@+id/include"
         layout="@layout/content_xunfang_race" />
 
-    <com.nightonke.boommenu.BoomMenuButton
-        android:id="@+id/boom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
-        app:bmb_normalColor="@color/colorPrimary"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="bottom|right" />
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="right|bottom"
+        android:padding="@dimen/dp_10"
+        fab:menu_labels_colorNormal="#C6000000"
+        fab:menu_labels_colorPressed="#DC000000"
+        fab:menu_labels_colorRipple="#AA000000"
+        fab:menu_backgroundColor="#66000000"
+        fab:menu_colorNormal="@color/colorPrimary"
+        fab:menu_colorPressed="@color/colorPrimaryDark"
+        fab:menu_colorRipple="@color/colorPrimary"
+        fab:menu_fab_size="mini"
+        fab:menu_labels_ellipsize="end"
+        fab:menu_labels_position="left"
+        fab:menu_labels_showShadow="false"
+        fab:menu_labels_singleLine="true">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_item_org"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_label="关注"
+            fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_item_race"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_label="关注"
+            fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_item_gyt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_label="鸽车监控"
+            fab:fab_size="mini" />
+    </com.github.clans.fab.FloatingActionMenu>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -121,7 +121,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements ISe
             }
         });
         mHistroyAdapter = new HistroyAdapter(mContext);
-        listHistory.setMaxHeight(ScreenTool.getScreenHeight(mContext) / 4);
+        listHistory.setMaxHeight((int) (ScreenTool.getScreenHeight(mContext) * 0.7));
         listHistory.setAdapter(mHistroyAdapter);
         listHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

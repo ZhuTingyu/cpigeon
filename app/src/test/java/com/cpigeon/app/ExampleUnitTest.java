@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
-        long beginTime = System.currentTimeMillis() / 1000 - 60 * 60 * 24 * 3;
-        System.out.println(beginTime + "");
+        long timeMillis = System.currentTimeMillis();
+        System.out.println(timeMillis + "");
     }
 }

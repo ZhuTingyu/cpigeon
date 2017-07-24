@@ -1,8 +1,12 @@
 package com.cpigeon.app.modular.matchlive.model.daoimpl;
 
+import android.support.annotation.NonNull;
+
 import com.cpigeon.app.MyApp;
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.modular.matchlive.model.bean.Bulletin;
+import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongOrgInfo;
+import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongRace;
 import com.cpigeon.app.modular.matchlive.model.dao.IRaceReport;
 import com.cpigeon.app.modular.usercenter.model.daoimpl.UserFollowDaoImpl;
 import com.cpigeon.app.utils.CallAPI;
@@ -72,6 +76,21 @@ public class IRaceReportImpl extends UserFollowDaoImpl implements IRaceReport {
             @Override
             public void onError(int errorType, Object data) {
 
+            }
+        });
+    }
+
+    @Override
+    public void getDefaultGYTRaceInfo(String ssid, String raceName, String raceType, @NonNull OnCompleteListener<GeCheJianKongRace> onCompleteListener) {
+        CallAPI.getDefaultGYTRaceInfo(ssid, raceName, raceType, new CallAPI.Callback<GeCheJianKongRace>() {
+            @Override
+            public void onSuccess(GeCheJianKongRace data) {
+                onCompleteListener.onSuccess(data);
+            }
+
+            @Override
+            public void onError(int errorType, Object data) {
+                onCompleteListener.onFail("获取失败");
             }
         });
     }

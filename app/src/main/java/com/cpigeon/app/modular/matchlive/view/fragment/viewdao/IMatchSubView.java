@@ -11,8 +11,9 @@ import java.util.List;
  */
 
 public interface IMatchSubView  extends IView,IRefresh{
-    void showGPData(List<MatchInfo> matchInfoList, int type);
-    void showXHData(List<MatchInfo> matchInfoList,int type);
+//    void showGPData(List<MatchInfo> matchInfoList);
+//    void showXHData(List<MatchInfo> matchInfoList);
+    void showData(List<MatchInfo> matchInfoList);
     void setLoadType(int type);
 
     boolean hasDataList();

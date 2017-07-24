@@ -4,6 +4,9 @@ import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.IView;
 import com.cpigeon.app.modular.matchlive.model.bean.Bulletin;
+import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongOrgInfo;
+import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongRace;
+import com.cpigeon.app.modular.matchlive.model.dao.IGeCheJianKongDao;
 import com.cpigeon.app.modular.matchlive.model.dao.IRaceReport;
 import com.cpigeon.app.modular.matchlive.model.daoimpl.IRaceReportImpl;
 import com.cpigeon.app.modular.matchlive.view.activity.viewdao.IRaceReportView;
@@ -16,6 +19,9 @@ import java.util.List;
  */
 
 public class RaceReportPre extends BasePresenter<IRaceReportView, IRaceReport> {
+
+    IGeCheJianKongDao iGeCheJianKongDao = new IRaceReportImpl();
+
     public RaceReportPre(IRaceReportView mView) {
         super(mView);
     }
@@ -36,6 +42,7 @@ public class RaceReportPre extends BasePresenter<IRaceReportView, IRaceReport> {
                                 }
                             }, 200);
                         }
+
                         @Override
                         public void onFail(String msg) {
                             postDelayed(new CheckAttachRunnable() {
@@ -43,7 +50,7 @@ public class RaceReportPre extends BasePresenter<IRaceReportView, IRaceReport> {
                                 protected void runAttached() {
                                     mView.showBulletin(null);
                                 }
-                            },200);
+                            }, 200);
                         }
                     });
                 }
@@ -55,7 +62,7 @@ public class RaceReportPre extends BasePresenter<IRaceReportView, IRaceReport> {
                         protected void runAttached() {
                             mView.showBulletin(null);
                         }
-                    },200);
+                    }, 200);
                 }
             });
         }
@@ -178,6 +185,30 @@ public class RaceReportPre extends BasePresenter<IRaceReportView, IRaceReport> {
                         mView.showTips("取消关注失败", IView.TipType.View);
                     }
                 }, 300);
+            }
+        });
+    }
+
+    public void getDefaultGCJKInfo() {
+        iGeCheJianKongDao.getDefaultGYTRaceInfo(mView.getMatchInfo().getSsid(), mView.getMatchInfo().computerBSMC(), "xh".equals(mView.getLx()) ? "2" : "1", new IBaseDao.OnCompleteListener<GeCheJianKongRace>() {
+            @Override
+            public void onSuccess(GeCheJianKongRace data) {
+                postDelayed(new CheckAttachRunnable() {
+                    @Override
+                    public void runAttached() {
+                        mView.showDefaultGCJKInfo(data);
+                    }
+                }, 100);
+            }
+
+            @Override
+            public void onFail(String msg) {
+                postDelayed(new CheckAttachRunnable() {
+                    @Override
+                    public void runAttached() {
+                        mView.showDefaultGCJKInfo(null);
+                    }
+                }, 100);
             }
         });
     }

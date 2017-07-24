@@ -4,6 +4,8 @@ import com.cpigeon.app.commonstandard.view.IRefreshBoomMenu;
 import com.cpigeon.app.commonstandard.view.activity.IView;
 import com.cpigeon.app.modular.matchlive.model.bean.Bulletin;
 import com.cpigeon.app.modular.matchlive.model.bean.Collection;
+import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongOrgInfo;
+import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongRace;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
 
 /**
@@ -19,4 +21,6 @@ public interface IRaceReportView extends IView, IRefreshBoomMenu {
     String getLx();
 
     void showBulletin(Bulletin bulletin);
+
+    void showDefaultGCJKInfo(GeCheJianKongRace geCheJianKongRace);
 }

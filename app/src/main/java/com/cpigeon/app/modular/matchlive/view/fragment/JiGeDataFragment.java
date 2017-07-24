@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.chad.library.adapter.base.listener.OnItemLongClickListener;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.fragment.BasePageTurnFragment;
+import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongRace;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchPigeonsGP;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchPigeonsXH;
@@ -284,6 +285,11 @@ public class JiGeDataFragment extends BasePageTurnFragment<JiGePre, JiGeDataAdap
     public MatchInfo getMatchInfo() {
         initMatchinfo();
         return matchInfo;
+    }
+
+    @Override
+    public void showDefaultGCJKInfo(GeCheJianKongRace geCheJianKongRace) {
+
     }
 
     @Override

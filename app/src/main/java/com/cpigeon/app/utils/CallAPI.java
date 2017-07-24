@@ -17,6 +17,7 @@ import com.cpigeon.app.modular.footsearch.model.bean.FootQueryResult;
 import com.cpigeon.app.modular.matchlive.model.bean.Bulletin;
 import com.cpigeon.app.modular.matchlive.model.bean.GYTRaceLocation;
 import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongOrgInfo;
+import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongRace;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchPigeons;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchPigeonsGP;
@@ -132,7 +133,6 @@ public class CallAPI {
             }
         });
     }
-
 
 
     /**
@@ -3784,13 +3784,13 @@ public class CallAPI {
     public static org.xutils.common.Callback.Cancelable getGYTRaceImgOrVideo(Context context,
                                                                              final int rid,
                                                                              final String ft,
-                                                                             final Callback<List<RaceImageOrVideo>> callback){
+                                                                             final Callback<List<RaceImageOrVideo>> callback) {
         final int userid = CpigeonData.getInstance().getUserId(context);
         RequestParams requestParams = new RequestParams(CPigeonApiUrl.getInstance().getServer() + CPigeonApiUrl.GETGYTRACEIMGORVIDEO);
         pretreatmentParams(requestParams);
         requestParams.addParameter("uid", userid);
-        requestParams.addParameter("rid",rid);
-        requestParams.addParameter("ft",ft);
+        requestParams.addParameter("rid", rid);
+        requestParams.addParameter("ft", ft);
         requestParams.addHeader("u", CommonTool.getUserToken(context));
         return x.http().get(requestParams, new org.xutils.common.Callback.CommonCallback<String>() {
             @Override
@@ -3831,10 +3831,6 @@ public class CallAPI {
             }
         });
     }
-
-
-
-
 
 
     /**
@@ -4589,12 +4585,11 @@ public class CallAPI {
     public static org.xutils.common.Callback.Cancelable getGYTRaceLocation(String rid,
                                                                            String lid,
                                                                            Boolean hw,
-                                                                           final Callback<List<GYTRaceLocation>> callback)
-    {
+                                                                           final Callback<List<GYTRaceLocation>> callback) {
         RequestParams requestParams = new RequestParams(CPigeonApiUrl.getInstance().getServer() + CPigeonApiUrl.GETGTYRACELOCATION);
-        requestParams.addParameter("rid",rid);
-        requestParams.addParameter("lid",lid);
-        requestParams.addParameter("hw",hw);
+        requestParams.addParameter("rid", rid);
+        requestParams.addParameter("lid", lid);
+        requestParams.addParameter("hw", hw);
 
         return x.http().get(requestParams, new org.xutils.common.Callback.CommonCallback<String>() {
             @Override
@@ -4633,6 +4628,66 @@ public class CallAPI {
             public void onFinished() {
 
             }
+        });
+    }
+
+    /**
+     *
+     * @param ssid 赛事ID 加密后的
+     * @param raceName 赛事名称
+     * @param raceType 比赛类型 1：公棚；2：协会
+     * @param callback
+     * @return
+     */
+    public static org.xutils.common.Callback.Cancelable getDefaultGYTRaceInfo(String ssid,
+                                                                              String raceName,
+                                                                              String raceType,
+                                                                              @NonNull final Callback<GeCheJianKongRace> callback) {
+        RequestParams requestParams = new RequestParams(CPigeonApiUrl.getInstance().getServer() + CPigeonApiUrl.GetDefaultGYTRaceInfo);
+        pretreatmentParams(requestParams);
+        requestParams.addParameter("bi", ssid);
+        requestParams.addParameter("rn", raceName);
+        requestParams.addParameter("t", raceType);
+
+        return x.http().get(requestParams, new org.xutils.common.Callback.CommonCallback<String>() {
+
+            @Override
+            public void onSuccess(String result) {
+                if (result != null) dealData(result);
+            }
+
+            private void dealData(String result) {
+                Logger.i(result);
+                try {
+                    JSONObject obj = new JSONObject(result);
+                    if (obj.getBoolean("status") && !obj.isNull("data")) {
+                        ApiResponse<GeCheJianKongRace> apiResponse = JSON.parseObject(result, new TypeReference<ApiResponse<GeCheJianKongRace>>() {
+                        });
+                        callback.onSuccess(apiResponse.getData());
+                    } else {
+                        callback.onError(Callback.ERROR_TYPE_API_RETURN, obj.getInt("errorCode"));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    callback.onError(Callback.ERROR_TYPE_PARSING_EXCEPTION, 0);
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                callback.onError(Callback.ERROR_TYPE_REQUST_EXCEPTION, ex);
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
         });
     }
 

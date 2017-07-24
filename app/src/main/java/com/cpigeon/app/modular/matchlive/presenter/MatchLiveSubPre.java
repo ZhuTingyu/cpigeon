@@ -23,10 +23,8 @@ public class MatchLiveSubPre extends BasePresenter<IMatchSubView, IMatchInfo> {
         super(mView);
     }
 
-    public void loadXHData(final int type) {
+    public void loadXHData() {
         mView.showRefreshLoading();
-        // 0 加载协会数据，显示
-        // 1 加载协会数据，不显示
         mDao.loadXHDatas(new IBaseDao.OnCompleteListener<List<MatchInfo>>() {
             @Override
             public void onSuccess(final List<MatchInfo> data) {
@@ -34,10 +32,9 @@ public class MatchLiveSubPre extends BasePresenter<IMatchSubView, IMatchInfo> {
                     @Override
                     protected void runAttached() {
                         mView.hideRefreshLoading();
-                        mView.showXHData(data, type);
+                        mView.showData(data);
                     }
                 });
-
             }
 
             @Override
@@ -56,14 +53,10 @@ public class MatchLiveSubPre extends BasePresenter<IMatchSubView, IMatchInfo> {
                 });
             }
         });
-
-
     }
 
-    public void loadGPData(final int type) {
+    public void loadGPData() {
         mView.showRefreshLoading();
-        // 0 加载公棚数据，显示
-        // 1 加载公棚数据，不显示
         mDao.loadGPDatas(new IBaseDao.OnCompleteListener<List<MatchInfo>>() {
             @Override
             public void onSuccess(final List<MatchInfo> data) {
@@ -71,7 +64,7 @@ public class MatchLiveSubPre extends BasePresenter<IMatchSubView, IMatchInfo> {
                     @Override
                     protected void runAttached() {
                         mView.hideRefreshLoading();
-                        mView.showGPData(data, type);
+                        mView.showData(data);
                     }
                 });
             }
@@ -92,8 +85,6 @@ public class MatchLiveSubPre extends BasePresenter<IMatchSubView, IMatchInfo> {
                 });
             }
         });
-
-
     }
 
     @Override

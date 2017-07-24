@@ -182,24 +182,32 @@ public class MatchLiveSubFragment extends BaseFragment implements IMatchSubView,
     }
 
 
-    @Override
-    public void showGPData(List<MatchInfo> matchInfoList, int type) {
-        this.matchInfos = matchInfoList;
-//        if (type == 1) {
-//            matchLiveAdapter.setNewData(MatchLiveExpandAdapter.get(matchInfos));
-//        }
+//    @Override
+//    public void showGPData(List<MatchInfo> matchInfoList) {
+//        this.matchInfos = matchInfoList;
+////        if (type == 1) {
+////            matchLiveAdapter.setNewData(MatchLiveExpandAdapter.get(matchInfos));
+////        }
+//
+//        matchLiveAdapter.setNewData(MatchLiveExpandAdapter.get(matchInfoList));
+//        if (onRefreshListener != null)
+//            onRefreshListener.onRefreshFinished(OnRefreshListener.DATA_Type_GP, matchInfoList);
+//    }
+//
+//    @Override
+//    public void showXHData(List<MatchInfo> matchInfoList) {
+//        this.matchInfos = matchInfoList;
+//        matchLiveAdapter.setNewData(MatchLiveExpandAdapter.get(matchInfoList));
+//        if (onRefreshListener != null)
+//            onRefreshListener.onRefreshFinished(OnRefreshListener.DATA_Type_XH, matchInfoList);
+//    }
 
+    @Override
+    public void showData(List<MatchInfo> matchInfoList) {
+        this.matchInfos = matchInfoList;
         matchLiveAdapter.setNewData(MatchLiveExpandAdapter.get(matchInfoList));
         if (onRefreshListener != null)
-            onRefreshListener.onRefreshFinished(OnRefreshListener.DATA_Type_GP, matchInfoList);
-    }
-
-    @Override
-    public void showXHData(List<MatchInfo> matchInfoList, int type) {
-        this.matchInfos = matchInfoList;
-        matchLiveAdapter.setNewData(MatchLiveExpandAdapter.get(matchInfoList));
-        if (onRefreshListener != null)
-            onRefreshListener.onRefreshFinished(OnRefreshListener.DATA_Type_XH, matchInfoList);
+            onRefreshListener.onRefreshFinished(currMatchType.equals(Const.MATCHLIVE_TYPE_GP) ? OnRefreshListener.DATA_Type_GP : OnRefreshListener.DATA_Type_XH, matchInfoList);
     }
 
     @Override
@@ -209,7 +217,7 @@ public class MatchLiveSubFragment extends BaseFragment implements IMatchSubView,
 
     @Override
     public boolean hasDataList() {
-        return matchLiveAdapter == null ? false : matchLiveAdapter.getData() != null && matchLiveAdapter.getData().size() > 0;
+        return matchLiveAdapter != null && matchLiveAdapter.getData() != null && matchLiveAdapter.getData().size() > 0;
     }
 
     public void setMatchType(String matchType) {
@@ -249,23 +257,19 @@ public class MatchLiveSubFragment extends BaseFragment implements IMatchSubView,
 
     @Override
     public void onRefresh() {
-        lastExpandItemPosition = -1;
         if (onRefreshListener != null)
             onRefreshListener.onStartRefresh(MatchLiveSubFragment.this);
-        matchLiveAdapter.setEnableLoadMore(false);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                lastExpandItemPosition = -1;
-                if (Const.MATCHLIVE_TYPE_GP.equals(currMatchType)) {
-                    pre.loadGPData(0);
-                } else if (Const.MATCHLIVE_TYPE_XH.equals(currMatchType)) {
-                    pre.loadXHData(0);
-                }
-                matchLiveAdapter.setEnableLoadMore(true);
-            }
-        }, delayMillis);
+        if (lastExpandItemPosition >= 0) {
+            matchLiveAdapter.collapse(lastExpandItemPosition);
+            lastExpandItemPosition = -1;
+        }
+        mRecyclerView.setVisibility(View.VISIBLE);
+        if (Const.MATCHLIVE_TYPE_GP.equals(currMatchType)) {
+            pre.loadGPData();
+        } else if (Const.MATCHLIVE_TYPE_XH.equals(currMatchType)) {
+            pre.loadXHData();
+        }
+        matchLiveAdapter.setEnableLoadMore(true);
     }
 
 
@@ -292,7 +296,7 @@ public class MatchLiveSubFragment extends BaseFragment implements IMatchSubView,
             mCustomEmptyView.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
             mCustomEmptyView.setEmptyImage(R.drawable.ic_empty);
-            mCustomEmptyView.setEmptyText("tip");
+            mCustomEmptyView.setEmptyText(tip);
             return true;
         }
         return super.showTips(tip, tipType);

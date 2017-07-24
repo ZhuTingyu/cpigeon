@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.fragment.BasePageTurnFragment;
+import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongRace;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchReportGP;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchReportXH;
@@ -137,6 +138,11 @@ public class ReportDataFragment extends BasePageTurnFragment<RacePre, RaceReport
     public MatchInfo getMatchInfo() {
         initMatchinfo();
         return matchInfo;
+    }
+
+    @Override
+    public void showDefaultGCJKInfo(GeCheJianKongRace geCheJianKongRace) {
+
     }
 
     @Override

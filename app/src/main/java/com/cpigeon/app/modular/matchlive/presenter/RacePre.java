@@ -3,7 +3,10 @@ package com.cpigeon.app.modular.matchlive.presenter;
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.IView;
+import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongRace;
+import com.cpigeon.app.modular.matchlive.model.dao.IGeCheJianKongDao;
 import com.cpigeon.app.modular.matchlive.model.dao.IRaceDao;
+import com.cpigeon.app.modular.matchlive.model.daoimpl.IRaceReportImpl;
 import com.cpigeon.app.modular.matchlive.model.daoimpl.RaceDaoImpl;
 import com.cpigeon.app.modular.matchlive.view.adapter.RaceReportAdapter;
 import com.cpigeon.app.modular.matchlive.view.adapter.RaceXunFangAdapter;
@@ -17,6 +20,8 @@ import java.util.List;
  */
 
 public class RacePre extends BasePresenter<IReportData, IRaceDao> {
+    IGeCheJianKongDao iGeCheJianKongDao = new IRaceReportImpl();
+
     public RacePre(IReportData mView) {
         super(mView);
     }
@@ -190,6 +195,30 @@ public class RacePre extends BasePresenter<IReportData, IRaceDao> {
                         mView.showTips("取消关注失败", IView.TipType.View);
                     }
                 }, 300);
+            }
+        });
+    }
+
+    public void getDefaultGCJKInfo() {
+        iGeCheJianKongDao.getDefaultGYTRaceInfo(mView.getMatchInfo().getSsid(), mView.getMatchInfo().computerBSMC(), "xh".equals(mView.getMatchInfo().getLx()) ? "2" : "1", new IBaseDao.OnCompleteListener<GeCheJianKongRace>() {
+            @Override
+            public void onSuccess(GeCheJianKongRace data) {
+                postDelayed(new CheckAttachRunnable() {
+                    @Override
+                    public void runAttached() {
+                        mView.showDefaultGCJKInfo(data);
+                    }
+                }, 100);
+            }
+
+            @Override
+            public void onFail(String msg) {
+                postDelayed(new CheckAttachRunnable() {
+                    @Override
+                    public void runAttached() {
+                        mView.showDefaultGCJKInfo(null);
+                    }
+                }, 100);
             }
         });
     }

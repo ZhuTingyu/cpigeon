@@ -5,6 +5,7 @@ import com.cpigeon.app.commonstandard.view.IRefreshBoomMenu;
 import com.cpigeon.app.commonstandard.view.activity.IPageTurn;
 import com.cpigeon.app.commonstandard.view.activity.IRefresh;
 import com.cpigeon.app.commonstandard.view.activity.IView;
+import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongRace;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
 
 import java.util.List;
@@ -29,4 +30,6 @@ public interface IReportData extends IView, IPageTurn<MultiItemEntity>, IRefresh
     String sKey();
 
     MatchInfo getMatchInfo();
+
+    void showDefaultGCJKInfo(GeCheJianKongRace geCheJianKongRace);
 }

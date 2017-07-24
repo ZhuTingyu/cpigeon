@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.antfortune.freeline'
 android {
     compileOptions.encoding = "UTF-8"
     updateVersionConfig()
@@ -146,7 +147,8 @@ dependencies {
     //可展开收起的textView
     compile 'cn.carbs.android:ExpandableTextView:1.0.3'
     //boommenu
-    compile 'com.nightonke:boommenu:2.1.0'
+    //compile 'com.nightonke:boommenu:2.1.0'
+    compile 'com.github.clans:fab:1.6.4'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.3.2'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'

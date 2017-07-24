@@ -2,7 +2,7 @@ package com.cpigeon.app.modular.matchlive.view.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -23,6 +23,7 @@ import com.cpigeon.app.commonstandard.AppManager;
 import com.cpigeon.app.commonstandard.view.activity.BasePageTurnActivity;
 import com.cpigeon.app.modular.guide.view.SplashActivity;
 import com.cpigeon.app.modular.matchlive.model.bean.Bulletin;
+import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongRace;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
 import com.cpigeon.app.modular.matchlive.presenter.RacePre;
 import com.cpigeon.app.modular.matchlive.view.adapter.RaceXunFangAdapter;
@@ -35,14 +36,8 @@ import com.cpigeon.app.utils.EncryptionTool;
 import com.cpigeon.app.utils.customview.MarqueeTextView;
 import com.cpigeon.app.utils.customview.SaActionSheetDialog;
 import com.cpigeon.app.utils.customview.SearchEditText;
-import com.nightonke.boommenu.BoomButtons.BoomButton;
-import com.nightonke.boommenu.BoomButtons.ButtonPlaceEnum;
-import com.nightonke.boommenu.BoomButtons.TextInsideCircleButton;
-import com.nightonke.boommenu.BoomMenuButton;
-import com.nightonke.boommenu.ButtonEnum;
-import com.nightonke.boommenu.OnBoomListenerAdapter;
-import com.nightonke.boommenu.Piece.PiecePlaceEnum;
-import com.nightonke.boommenu.Util;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.orhanobut.logger.Logger;
 
 import org.xutils.DbManager;
@@ -54,6 +49,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 家飞测试和训放
@@ -80,14 +76,21 @@ public class RaceXunFangActivity extends BasePageTurnActivity<RacePre, RaceXunFa
     LinearLayout layoutListTableHeader;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.boom)
-    BoomMenuButton boomMenuButton;
+    @BindView(R.id.menu_item_org)
+    FloatingActionButton menuItemOrg;
+    @BindView(R.id.menu_item_race)
+    FloatingActionButton menuItemRace;
+    @BindView(R.id.menu)
+    FloatingActionMenu menu;
+    @BindView(R.id.menu_item_gyt)
+    FloatingActionButton menuItemGyt;
 
     private MatchInfo matchInfo;//赛事信息
     private Bundle bundle;
     private Intent intent;
     private String sKey = "";//当前搜索关键字
     private int lastExpandItemPosition = -1;//最后一个索引
+    private GeCheJianKongRace defaultgeCheJianKongRace;
 
     public Bulletin getBulletin() {
         return bulletin;
@@ -104,7 +107,7 @@ public class RaceXunFangActivity extends BasePageTurnActivity<RacePre, RaceXunFa
 
     @Override
     public void refreshBoomMnue() {
-        this.initBoomMnue();
+        this.refreshMenu();
     }
 
     @Override
@@ -128,13 +131,33 @@ public class RaceXunFangActivity extends BasePageTurnActivity<RacePre, RaceXunFa
     }
 
     private void initBoomMnue() {
+        menu.setClosedOnTouchOutside(true);
+        if (Build.VERSION.SDK_INT < 21) {
+            menuItemGyt.setImageResource(R.mipmap.ic_truck_white);
+        } else {
+            menuItemGyt.setImageResource(R.drawable.ic_svg_truck_white);
+        }
+        menuItemGyt.setColorNormalResId(R.color.colorButton_primary_normal);
+        menuItemGyt.setColorPressedResId(R.color.colorButton_primary_focus);
+        menuItemGyt.setColorDisabledResId(R.color.colorButton_Default_disable);
+
+        menuItemOrg.setColorNormalResId(R.color.colorButton_orange_normal);
+        menuItemOrg.setColorPressedResId(R.color.colorButton_orange_focus);
+        menuItemOrg.setColorDisabledResId(R.color.colorButton_Default_disable);
+
+        menuItemRace.setColorNormalResId(R.color.colorButton_Default_normal);
+        menuItemRace.setColorNormalResId(R.color.colorButton_Default_focus);
+        menuItemRace.setColorDisabledResId(R.color.colorButton_Default_disable);
+
+        mPresenter.getDefaultGCJKInfo();
+        refreshMenu();
+    }
+
+    /**
+     * 刷新菜单显示内容
+     */
+    private void refreshMenu() {
         boolean _isJg = "jg".equals(matchInfo.getDt());
-        boomMenuButton.setButtonEnum(ButtonEnum.TextInsideCircle);
-        boomMenuButton.setPiecePlaceEnum(_isJg ? PiecePlaceEnum.DOT_1 : PiecePlaceEnum.DOT_2_2);
-        boomMenuButton.setButtonPlaceEnum(ButtonPlaceEnum.Vertical);
-        boomMenuButton.clearBuilders();
-        userFollows.clear();
-        int _itemCount = 0;
         //加载数据
         DbManager db = x.getDb(CpigeonConfig.getDataDb());
         UserFollow userFollow = null;
@@ -147,14 +170,13 @@ public class RaceXunFangActivity extends BasePageTurnActivity<RacePre, RaceXunFa
         } catch (DbException e) {
             e.printStackTrace();
         }
-        boomMenuButton.addBuilder(new TextInsideCircleButton.Builder()
-                .normalText((userFollow != null ? "取消关注" : "关注") + (matchInfo.getLx().equals("xh") ? "协会" : "公棚"))
-                .textSize(15)
-                .imagePadding(new Rect(Util.dp2px(4), Util.dp2px(4), Util.dp2px(4), Util.dp2px(16)))
-                .normalColorRes(R.color.colorButton_orange_normal)
-                .pieceColorRes(R.color.colorButton_orange_normal)
-                .normalImageRes(userFollow != null ? R.drawable.ic_svg_favorite_white_24dp : R.drawable.ic_svg_favorite_border_white_24dp));
-        userFollows.add(userFollow);
+        menuItemOrg.setLabelText((userFollow != null ? "取消关注" : "关注") + (matchInfo.getLx().equals("xh") ? "协会" : "公棚"));
+        if (Build.VERSION.SDK_INT < 21) {
+            menuItemOrg.setImageResource(userFollow != null ? R.mipmap.ic_favorite_white : R.mipmap.ic_favorite_white_border);
+        } else {
+            menuItemOrg.setImageResource(userFollow != null ? R.drawable.ic_svg_favorite_white_24dp : R.drawable.ic_svg_favorite_border_white_24dp);
+        }
+        menuItemOrg.setTag(userFollow);
 
         if (!_isJg) {
             try {
@@ -167,41 +189,16 @@ public class RaceXunFangActivity extends BasePageTurnActivity<RacePre, RaceXunFa
             } catch (DbException e) {
                 e.printStackTrace();
             }
-            boomMenuButton.addBuilder(new TextInsideCircleButton.Builder()
-                    .normalText(userFollow != null ? "取消关注比赛" : "关注比赛")
-                    .textSize(15)
-                    .imagePadding(new Rect(Util.dp2px(4), Util.dp2px(4), Util.dp2px(4), Util.dp2px(16)))
-                    .normalColorRes(R.color.colorButton_Default_normal)
-                    .pieceColorRes(R.color.colorButton_Default_normal)
-                    .normalImageRes(userFollow != null ? R.drawable.ic_svg_favorite_white_24dp : R.drawable.ic_svg_favorite_border_white_24dp));
-            userFollows.add(userFollow);
-        }
-
-//        boomMenuButton.addBuilder(new TextInsideCircleButton.Builder()
-//                .normalText("鸽车监控")
-//                .textSize(16)
-//                .normalColorRes(R.color.colorButton_orange_normal)
-//                .pieceColorRes(R.color.colorButton_orange_normal)
-//                .normalImageRes(R.drawable.ic_svg_truck));
-
-        boomMenuButton.setOnBoomListener(new OnBoomListenerAdapter() {
-            @Override
-            public void onClicked(int i, BoomButton boomButton) {
-                Logger.d(i + " " + boomButton.getTextView().getText());
-                UserFollow tag = i < userFollows.size() ? userFollows.get(i) : null;
-                if (tag != null) {
-                    mPresenter.removeFollow(tag);
-                    return;
-                }
-
-                if (i == 0) {
-                    mPresenter.addRaceOrgFollow();
-                } else if (i == 1) {
-                    mPresenter.addRaceFollow();
-                }
+            menuItemRace.setLabelText(userFollow != null ? "取消关注比赛" : "关注比赛");
+            if (Build.VERSION.SDK_INT < 21) {
+                menuItemRace.setImageResource(userFollow != null ? R.mipmap.ic_favorite_white : R.mipmap.ic_favorite_white_border);
+            } else {
+                menuItemRace.setImageResource(userFollow != null ? R.drawable.ic_svg_favorite_white_24dp : R.drawable.ic_svg_favorite_border_white_24dp);
             }
-        });
-
+            menuItemRace.setTag(userFollow);
+        } else {
+            menuItemRace.setVisibility(View.GONE);
+        }
     }
 
     private void initInfo() {
@@ -394,6 +391,13 @@ public class RaceXunFangActivity extends BasePageTurnActivity<RacePre, RaceXunFa
     }
 
     @Override
+    public void showDefaultGCJKInfo(GeCheJianKongRace geCheJianKongRace) {
+        menuItemGyt.setLabelText(geCheJianKongRace != null ? "鸽车监控" : ("此" + (getMatchInfo().getLx().equals("xh") ? "协会" : "公棚") + "未开启鸽车监控"));
+        menuItemGyt.setEnabled(geCheJianKongRace != null);
+        this.defaultgeCheJianKongRace = geCheJianKongRace;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: //android.R.id.home是Android内置home按钮的id
@@ -429,5 +433,35 @@ public class RaceXunFangActivity extends BasePageTurnActivity<RacePre, RaceXunFa
             startActivity(mIntent);
         }
         super.onDestroy();
+    }
+
+    @OnClick({R.id.menu_item_org, R.id.menu_item_race, R.id.menu_item_gyt})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.menu_item_org:
+                UserFollow tag = (UserFollow) view.getTag();
+                if (tag != null) {
+                    mPresenter.removeFollow(tag);
+                    return;
+                }
+                mPresenter.addRaceOrgFollow();
+                break;
+            case R.id.menu_item_race:
+                UserFollow tag1 = (UserFollow) view.getTag();
+                if (tag1 != null) {
+                    mPresenter.removeFollow(tag1);
+                    return;
+                }
+                mPresenter.addRaceFollow();
+                break;
+            case R.id.menu_item_gyt:
+                if (this.defaultgeCheJianKongRace != null) {
+                    Intent intent = new Intent(this, MapLiveActivity.class);
+                    intent.putExtra("geCheJianKongRace", defaultgeCheJianKongRace);
+                    Logger.e(defaultgeCheJianKongRace.getId() + "：iD");
+                    startActivity(intent);
+                }
+                break;
+        }
     }
 }
