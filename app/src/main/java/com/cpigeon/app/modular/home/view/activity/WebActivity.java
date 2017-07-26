@@ -103,7 +103,7 @@ public class WebActivity extends BaseActivity {
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         setSupportActionBar(this.toolbar);
         setToolbarTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

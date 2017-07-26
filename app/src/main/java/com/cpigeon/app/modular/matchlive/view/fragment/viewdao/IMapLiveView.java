@@ -14,11 +14,4 @@ public interface IMapLiveView extends IView {
     String getRid();
     String getLid();
     String hw();
-    void showSpeed();//获取车速
-    void showWeather();//获取天气
-    void showFlyarea();//获取司放地坐标
-    void showFlyareaWeather();//获取司放地天气
-    void showAreaDistance();//获取空距
-    void showNowLocation();//获取当前坐标
-    void showNowWeather();//获取当前天气
 }

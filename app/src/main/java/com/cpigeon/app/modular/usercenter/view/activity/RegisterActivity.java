@@ -73,7 +73,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         type = getIntent().getIntExtra(INTENT_KEY_START_TYPE, START_TYPE_REGIST);
         if (type == START_TYPE_FINDPASSWORD) {
             toolbar.setTitle(R.string.reset_password);

@@ -88,6 +88,11 @@
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:name=".modular.matchlive.view.activity.WeatherActivity"/>
+
+        <activity
             android:name=".modular.usercenter.view.activity.AboutActivity"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateHidden" />

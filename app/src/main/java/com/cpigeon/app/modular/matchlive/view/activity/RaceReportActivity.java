@@ -110,7 +110,7 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         intent = this.getIntent();
         bundle = intent.getExtras();
         matchInfo = (MatchInfo) bundle.getSerializable("matchinfo");

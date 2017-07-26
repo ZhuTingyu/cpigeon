@@ -19,6 +19,15 @@ public class GYTRaceLocation {
     private int lid;
     private double wd;
     private double jd;
+    private double lc;
+
+    public double getLc() {
+        return lc;
+    }
+
+    public void setLc(double lc) {
+        this.lc = lc;
+    }
 
     public Long getSj() {
         return sj;

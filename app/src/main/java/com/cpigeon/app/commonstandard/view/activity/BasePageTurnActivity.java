@@ -2,6 +2,7 @@ package com.cpigeon.app.commonstandard.view.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -67,7 +68,7 @@ public abstract class BasePageTurnActivity<Pre extends BasePresenter, Adapter ex
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         toolbar.setTitle(getTitleName());
         setSupportActionBar(this.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

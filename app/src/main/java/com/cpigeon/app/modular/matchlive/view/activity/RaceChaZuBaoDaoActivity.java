@@ -114,10 +114,10 @@ public class RaceChaZuBaoDaoActivity extends BasePageTurnActivity<ChaZuBaoDaoDet
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         initData();
 
-        super.initView();
+        super.initView(savedInstanceState);
 
         initDetails();
 

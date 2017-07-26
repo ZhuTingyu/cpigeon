@@ -68,7 +68,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements ISp
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         StatusBarTool.hideStatusBar(this);
         tvAppVersion.setText(String.format("V %s", CommonTool.getVersionName(SplashActivity.this)));
         tvCopyright.setText(String.format("中鸽科技版权所有©Copyright %d", new Date(System.currentTimeMillis()).getYear() + 1900));

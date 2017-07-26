@@ -93,7 +93,7 @@ public class FootSearchResultActivity extends BaseActivity {
         return null;
     }
 
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
 
         Logger.e("当前Activity的Context" + this);
         Logger.e("当前Activity的ApplicationContext" + getApplicationContext());

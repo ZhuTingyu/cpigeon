@@ -187,7 +187,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         clearLoginInfo();
         AppManager.getAppManager().killAllToLoginActivity(LoginActivity.class);
         etUsername.addTextChangedListener(new TextWatcher() {

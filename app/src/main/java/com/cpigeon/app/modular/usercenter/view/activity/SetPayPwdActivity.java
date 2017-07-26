@@ -1,5 +1,6 @@
 package com.cpigeon.app.modular.usercenter.view.activity;
 
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -79,7 +80,7 @@ public class SetPayPwdActivity extends BaseActivity<SetPayPwdPresenter> implemen
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         toolbar.setTitle("设置支付密码");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

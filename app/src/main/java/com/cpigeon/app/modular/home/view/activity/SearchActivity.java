@@ -86,7 +86,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements ISe
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         search_edittext = searchBar.getTitleBarSearchEditText();
         search_edittext.addTextChangedListener(new TextWatcher() {
             @Override

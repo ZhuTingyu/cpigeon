@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -300,7 +301,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         MainActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         MainActivityPermissionsDispatcher.sysytemAlertWindowWithCheck(this);
         homeFragment = new HomeFragment();
         matchLiveFragment = new MatchLiveFragment();

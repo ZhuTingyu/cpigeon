@@ -65,8 +65,8 @@ public class OrderActivity extends BasePageTurnActivity<OrderPre, OrderAdapter, 
     };
 
     @Override
-    public void initView() {
-        super.initView();
+    public void initView(Bundle savedInstanceState) {
+        super.initView(savedInstanceState);
         CpigeonData.getInstance().addOnWxPayListener(onWxPayListener);
     }
 

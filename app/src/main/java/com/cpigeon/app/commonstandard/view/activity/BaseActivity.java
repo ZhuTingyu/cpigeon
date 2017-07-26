@@ -63,7 +63,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         setContentView(getLayoutId());
         mUnbinder = ButterKnife.bind(this);
         mPresenter = this.initPresenter();
-        initView();
+        initView(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
 
     }
@@ -74,7 +74,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     public abstract T initPresenter();
 
-    public abstract void initView();
+    public abstract void initView(Bundle savedInstanceState);
 
 
 

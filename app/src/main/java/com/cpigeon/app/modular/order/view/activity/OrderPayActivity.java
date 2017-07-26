@@ -109,7 +109,7 @@ public class OrderPayActivity extends BaseActivity<OrderPayPresenter> implements
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         toolbar.setTitle("订单支付");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

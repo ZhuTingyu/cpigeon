@@ -1,5 +1,6 @@
 package com.cpigeon.app.modular.usercenter.view.activity;
 
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -97,7 +98,7 @@ public class SetUserPwdActivity extends BaseActivity<SetUserPwdPresenter> implem
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         toolbar.setTitle("修改密码");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
