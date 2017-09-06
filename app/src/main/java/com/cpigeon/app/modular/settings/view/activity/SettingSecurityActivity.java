@@ -1,5 +1,6 @@
 package com.cpigeon.app.modular.settings.view.activity;
 
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -38,7 +39,7 @@ public class SettingSecurityActivity extends BaseActivity {
 
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         toolbar.setTitle("安全设置");
         setSupportActionBar(this.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

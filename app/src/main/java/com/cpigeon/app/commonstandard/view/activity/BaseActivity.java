@@ -48,7 +48,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements IView{
     public Context mContext;
     private Unbinder mUnbinder;
-    private WeakReference<Activity> weakReference;
+    private WeakReference<AppCompatActivity> weakReference;
     private SweetAlertDialog dialogPrompt;
     protected T mPresenter;
     /**
@@ -63,7 +63,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         setContentView(getLayoutId());
         mUnbinder = ButterKnife.bind(this);
         mPresenter = this.initPresenter();
-        initView();
+        initView(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
 
     }
@@ -74,7 +74,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     public abstract T initPresenter();
 
-    public abstract void initView();
+    public abstract void initView(Bundle savedInstanceState);
 
 
 
@@ -98,7 +98,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
      * 设置layout前配置
      */
     private void doBeforeSetcontentView() {
-        weakReference = new WeakReference<Activity>(this);
+        weakReference = new WeakReference<AppCompatActivity>(this);
         // 把actvity放到application栈中管理
         AppManager.getAppManager().addActivity(weakReference);
         // 无标题

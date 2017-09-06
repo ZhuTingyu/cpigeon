@@ -39,7 +39,7 @@ public class FeedBackResultDetialActivity extends BaseActivity {
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         Intent intent = getIntent();
         toolbar.setTitle("回复详情");
         feedBackResult = (FeedBackResult) intent.getSerializableExtra(INTENT_KEY_FEEDBACKRESULT);

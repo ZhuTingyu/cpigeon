@@ -2,6 +2,7 @@ package com.cpigeon.app.modular.usercenter.view.activity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -98,7 +99,7 @@ public class UserBalanceRechargeActivity extends BaseActivity<UserBalanceRecharg
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         toolbar.setTitle("账户充值");
         setSupportActionBar(this.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

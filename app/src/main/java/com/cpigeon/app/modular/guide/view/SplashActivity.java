@@ -54,7 +54,6 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements ISp
 
     CountDownTimer countDownTimer;
     boolean isEntry = false;
-    private WeakReference<Activity> weakReference;
     //最短显示时间
     private static final long SHOW_TIME_MIN = 3000;
 
@@ -69,11 +68,10 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements ISp
     }
 
     @Override
-    public void initView() {
-        weakReference = new WeakReference<Activity>(this);
+    public void initView(Bundle savedInstanceState) {
         StatusBarTool.hideStatusBar(this);
-        tvAppVersion.setText("V " + CommonTool.getVersionName(SplashActivity.this));
-        tvCopyright.setText("中鸽科技版权所有©Copyright " + (new Date(System.currentTimeMillis()).getYear() + 1900));
+        tvAppVersion.setText(String.format("V %s", CommonTool.getVersionName(SplashActivity.this)));
+        tvCopyright.setText(String.format("中鸽科技版权所有©Copyright %d", new Date(System.currentTimeMillis()).getYear() + 1900));
         mPresenter.welcome();
     }
 
@@ -89,12 +87,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements ISp
             btnAdSpik.setText("正在进入");
             btnAdSpik.setEnabled(false);
         }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                entryApp();
-            }
-        }, 500);
+        new Handler().postDelayed(this::entryApp, 500);
     }
 
 
@@ -143,11 +136,5 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements ISp
     public void showAd(String url) {
         Picasso.with(this).load(url).into(ivAdImage);
         rlAd.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        AppManager.getAppManager().removeActivity(weakReference);
     }
 }

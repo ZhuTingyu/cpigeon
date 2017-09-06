@@ -133,10 +133,10 @@ public class RaceChaZuZhiDingActivity extends BasePageTurnActivity<ChaZuBaoDaoDe
 
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         initData();
 
-        super.initView();
+        super.initView(savedInstanceState);
 
         initDetails();
 

@@ -122,12 +122,12 @@ public class RaceXunFangActivity extends BasePageTurnActivity<RacePre, RaceXunFa
 
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         initData();
         initToolbar();
         initInfo();
         initBoomMnue();
-        super.initView();
+        super.initView(savedInstanceState);
     }
 
     private void initBoomMnue() {

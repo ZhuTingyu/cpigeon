@@ -61,7 +61,7 @@ public class FeedBackActivity extends BaseActivity<FeedBackPresenter> implements
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         toolbar.setTitle("意见反馈");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -12,6 +12,6 @@ import java.util.List;
 public interface IGYTRaceLocation extends IBaseDao {
     void loadRaceLocation(String rid,
                           String lid,
-                          Boolean hw,
+                          String hw,
                           OnCompleteListener<List<GYTRaceLocation>> listOnCompleteListener);
 }

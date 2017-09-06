@@ -2,6 +2,7 @@ package com.cpigeon.app.modular.guide.view;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +59,7 @@ public class WelcomeActivity extends BaseActivity {
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         StatusBarTool.hideStatusBar(this);
         mContentFragmentAdapter = new ContentFragmentAdapter(getSupportFragmentManager());
 

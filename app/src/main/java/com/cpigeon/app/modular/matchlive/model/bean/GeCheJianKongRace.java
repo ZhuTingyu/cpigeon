@@ -36,10 +36,10 @@ public class GeCheJianKongRace implements Serializable{
     private String state;
     private int muid;
     private String flyingTime;
-    private int longitude;
+    private double longitude;
     private String mTime;
     private String raceImage;
-    private int latitude;
+    private double latitude;
     private String flyingArea;
 
     public int getStateCode() {
@@ -106,11 +106,11 @@ public class GeCheJianKongRace implements Serializable{
         this.flyingTime = flyingTime;
     }
 
-    public int getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(int longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
@@ -130,11 +130,11 @@ public class GeCheJianKongRace implements Serializable{
         this.raceImage = raceImage;
     }
 
-    public int getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(int latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 

@@ -53,7 +53,7 @@ public class EditActivity extends BaseActivity {
 
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         intent = getIntent();
         toolbar.setTitle(intent.getStringExtra(INTENT_KEY_NEW_TITLE));
         mTips.setVisibility(intent.getBooleanExtra(INTENT_KEY_SHOW_TIPS, false) ? View.VISIBLE : View.GONE);

@@ -1,6 +1,7 @@
 package com.cpigeon.app.modular.order.view.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -51,7 +52,7 @@ public class OpenServiceActivity extends BaseActivity<OpenServicePresenter> impl
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         mServiceName = getIntent().getStringExtra(INTENT_DATA_KEY_SERVICENAME);
         if (TextUtils.isEmpty(mServiceName))
             throw new NullPointerException("service name is empty");

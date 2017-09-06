@@ -77,29 +77,10 @@ public class MyApp extends Application {
      */
     private void initBugly() {
 
-//        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(this);
-//        strategy.setCrashHandleCallback(new CrashReport.CrashHandleCallback() {
-//            public Map<String, String> onCrashHandleStart(int crashType, String errorType,
-//                                                          String errorMessage, String errorStack) {
-//                LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-//                map.put("Key", "Value");
-//                return map;
-//            }
-//
-//            @Override
-//            public byte[] onCrashHandleStart2GetExtraDatas(int crashType, String errorType,
-//                                                           String errorMessage, String errorStack) {
-//                try {
-//                    return "Extra data.".getBytes("UTF-8");
-//                } catch (Exception e) {
-//                    return null;
-//                }
-//            }
-//
-//        });
         CrashReport.setIsDevelopmentDevice(this, BuildConfig.DEBUG);
-//        CrashReport.initCrashReport(getApplicationContext(), "f7c8c8f49a", BuildConfig.DEBUG, strategy);
+
         CrashReport.initCrashReport(getApplicationContext(), "f7c8c8f49a", BuildConfig.DEBUG);
+
         //设置用户ID
         CrashReport.setUserId("" + CpigeonData.getInstance().getUserId(this));
         try {

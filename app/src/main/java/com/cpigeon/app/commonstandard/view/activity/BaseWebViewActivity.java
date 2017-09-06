@@ -58,7 +58,7 @@ public abstract class BaseWebViewActivity extends BaseActivity {
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         mHeaderMap = new HashMap<>();
         mHeaderMap.put("u", CommonTool.getUserToken(mContext));
         setSupportActionBar(this.toolbar);

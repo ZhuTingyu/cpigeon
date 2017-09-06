@@ -1,5 +1,7 @@
 package com.cpigeon.app.utils;
 
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -131,4 +133,74 @@ public class DateTool {
         }
         return "刚刚";
     }
+
+    /**
+     * 已用时间戳
+     *
+     * @param totalSeconds
+     * @return
+     */
+    public static String getTimeFormatText(long totalSeconds) {
+
+        long diff = totalSeconds * 1000;
+        long r = 0;
+        if (diff > year) {
+            r = (diff / year);
+            return r + "年前";
+        }
+        if (diff > month) {
+            r = (diff / month);
+            return r + "个月前";
+        }
+        if (diff > day) {
+            r = (diff / day);
+            return r + "天前";
+        }
+        if (diff > hour) {
+            r = (diff / hour);
+            return r + "个小时前";
+        }
+        if (diff > minute) {
+            r = (diff / minute);
+            return r + "分钟前";
+        }
+        return "刚刚";
+    }
+
+    public static String getTimeFormat(long totalSeconds) {
+        StringBuilder sbTime = new StringBuilder();
+        if (totalSeconds > 3600 * 24) {
+            sbTime.append(totalSeconds / (3600 * 24) + "天");
+            totalSeconds%=(3600*24);
+        }
+        if(totalSeconds>3600){
+            sbTime.append(totalSeconds / 3600  + "小时");
+            totalSeconds%=3600;
+        }
+        if(totalSeconds>60){
+            sbTime.append(totalSeconds / 60  + "分");
+            totalSeconds%=60;
+        }
+        if (totalSeconds>0)
+        {
+            sbTime.append(totalSeconds+"秒");
+        }
+        return sbTime.toString();
+    }
+
+    public static String doubleformat(double d, int cout) {
+        NumberFormat nf = NumberFormat.getNumberInstance();
+
+
+        // 保留两位小数
+        nf.setMaximumFractionDigits(cout);
+
+
+        // 如果不需要四舍五入，可以使用RoundingMode.DOWN
+        nf.setRoundingMode(RoundingMode.UP);
+
+
+        return nf.format(d);
+    }
+
 }

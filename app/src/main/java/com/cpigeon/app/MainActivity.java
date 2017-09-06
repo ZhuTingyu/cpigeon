@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -197,7 +198,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
                                     startActivity(intent);
 
                                     sweetAlertDialog.dismiss();
-                                    AppManager.getAppManager().AppExit();
+                                    AppManager.getAppManager().AppExit(mContext);
                                 }
                             })
                             .setCancelText("退出程序")
@@ -205,7 +206,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
                                     sweetAlertDialog.dismiss();
-                                    AppManager.getAppManager().AppExit();
+                                    AppManager.getAppManager().AppExit(mContext);
                                 }
                             });
                     dialog.setCancelable(false);
@@ -267,7 +268,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                AppManager.getAppManager().AppExit();
+                AppManager.getAppManager().AppExit(mContext);
             }
         }, 1000);
 
@@ -279,23 +280,16 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_NETWORK_STATE})
     void systemAlertWindowOnNeverAskAgain() {
-//        showTips("权限不再提示", TipType.ToastShort);
         SweetAlertDialog dialog = new SweetAlertDialog(this)
                 .setCancelText("退出程序")
                 .setTitleText("权限未开启")
-                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        sweetAlertDialog.dismiss();
-                        AppManager.getAppManager().AppExit();
-                    }
-                }).setConfirmText("去开启").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        PermissionTool.gotoAppPermissionSetting(MainActivity.this);
-                        sweetAlertDialog.dismiss();
-                        AppManager.getAppManager().AppExit();
-                    }
+                .setCancelClickListener(sweetAlertDialog -> {
+                    sweetAlertDialog.dismiss();
+                    AppManager.getAppManager().AppExit(mContext);
+                }).setConfirmText("去开启").setConfirmClickListener(sweetAlertDialog -> {
+                    PermissionTool.gotoAppPermissionSetting(MainActivity.this);
+                    sweetAlertDialog.dismiss();
+                    AppManager.getAppManager().AppExit(mContext);
                 });
         dialog.setCancelable(false);
         dialog.show();
@@ -307,7 +301,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         MainActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         MainActivityPermissionsDispatcher.sysytemAlertWindowWithCheck(this);
         homeFragment = new HomeFragment();
         matchLiveFragment = new MatchLiveFragment();
@@ -449,7 +443,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     protected void onResume() {
         super.onResume();
         if (mHasUpdata) {
-            AppManager.getAppManager().AppExit();
+            AppManager.getAppManager().AppExit(mContext);
         }
         StatusBarTool.setWindowStatusBarColor(this, getResources().getColor(lastTabIndex == 3 ? R.color.user_center_header_top : R.color.colorPrimary));
         MyApp.setJPushAlias();
@@ -522,8 +516,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
 
     @Override
     protected void onDestroy() {
-        // TODO: 2017/7/12 在此处无法将数据写入到SharedPreferences中
-        // SharedPreferencesTool.Save(MyApp.getInstance(), APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(MyApp.getInstance()), 0, SharedPreferencesTool.SP_FILE_APPSTATE);
         super.onDestroy();
         unbindService(conn);
     }
@@ -541,7 +533,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
                 // 利用handler延迟发送更改状态信息
                 mHandler.sendEmptyMessageDelayed(0, 2000);
             } else {
-                AppManager.getAppManager().AppExit();
+                AppManager.getAppManager().AppExit(mContext);
             }
         }
     }

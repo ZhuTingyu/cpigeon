@@ -45,7 +45,7 @@ public class MapLiveActivity extends BaseActivity {
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         geCheJianKongRace = (GeCheJianKongRace) bundle.getSerializable("geCheJianKongRace");

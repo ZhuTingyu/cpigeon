@@ -2,6 +2,7 @@ package com.cpigeon.app.modular.settings.view.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
+import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -107,7 +108,7 @@ public class SettingPushActivity extends BaseActivity {
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         toolbar.setTitle(getResources().getString(R.string.Push_Notifications));
         setSupportActionBar(this.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -71,7 +71,7 @@ public class ScoreActivity extends BaseActivity {
 
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
 //        toolbar.setTitle("我的鸽币");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

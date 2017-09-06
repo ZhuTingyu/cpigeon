@@ -1,5 +1,6 @@
 package com.cpigeon.app.modular.usercenter.view.activity;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -41,13 +42,13 @@ public class UserBalanceListActivity extends BasePageTurnActivity<UserBalanceLis
     };
 
     @Override
-    public void initView() {
+    public void initView(Bundle savedInstanceState) {
         if (mWxApi == null) {
             mWxApi = WXAPIFactory.createWXAPI(UserBalanceListActivity.this, WXPayEntryActivity.APP_ID, true);
             boolean result = mWxApi.registerApp(WXPayEntryActivity.APP_ID);
             com.orhanobut.logger.Logger.d("微信支付API注册结果" + result);
         }
-        super.initView();
+        super.initView(savedInstanceState);
     }
 
     @Override
