@@ -466,27 +466,27 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
 
     public void onHomeItemClick(View v) {
         switch (v.getId()) {
-            case R.id.layout_gcjk:
-                startActivity(GeCheJianKongListActicity.class);
-                break;
-            case R.id.layout_bszb:
-                if (onMatchTypeChangeListener != null)
-                    onMatchTypeChangeListener.onChanged(matchLiveFragment.getCurrMatchType(), Const.MATCHLIVE_TYPE_XH);
-                setCurrIndex(1);
-                break;
-//            case R.id.layout_gpzb:
-//                if (onMatchTypeChangeListener != null)
-//                    onMatchTypeChangeListener.onChanged(matchLiveFragment.getCurrMatchType(), Const.MATCHLIVE_TYPE_GP);
-//
-//                setCurrIndex(1);
-//                mBottomNavigationBar.selectTab(1);
+//            case R.id.layout_gcjk:
+//                startActivity(GeCheJianKongListActicity.class);
 //                break;
-//            case R.id.layout_xhzb:
+//            case R.id.layout_bszb:
 //                if (onMatchTypeChangeListener != null)
 //                    onMatchTypeChangeListener.onChanged(matchLiveFragment.getCurrMatchType(), Const.MATCHLIVE_TYPE_XH);
 //                setCurrIndex(1);
-//                mBottomNavigationBar.selectTab(1);
 //                break;
+            case R.id.layout_gpzb:
+                if (onMatchTypeChangeListener != null)
+                    onMatchTypeChangeListener.onChanged(matchLiveFragment.getCurrMatchType(), Const.MATCHLIVE_TYPE_GP);
+
+                setCurrIndex(1);
+                mBottomNavigationBar.selectTab(1);
+                break;
+            case R.id.layout_xhzb:
+                if (onMatchTypeChangeListener != null)
+                    onMatchTypeChangeListener.onChanged(matchLiveFragment.getCurrMatchType(), Const.MATCHLIVE_TYPE_XH);
+                setCurrIndex(1);
+                mBottomNavigationBar.selectTab(1);
+                break;
             case R.id.layout_zhcx:
                 onTabReselected(2);
                 setCurrIndex(2);

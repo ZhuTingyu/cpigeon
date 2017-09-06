@@ -69,12 +69,12 @@
             fab:fab_label="关注"
             fab:fab_size="mini" />
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/menu_item_gyt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_label="鸽车监控"
-            fab:fab_size="mini" />
+        <!--<com.github.clans.fab.FloatingActionButton-->
+            <!--android:id="@+id/menu_item_gyt"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--fab:fab_label="鸽车监控"-->
+            <!--fab:fab_size="mini" />-->
     </com.github.clans.fab.FloatingActionMenu>
 
 </android.support.design.widget.CoordinatorLayout>

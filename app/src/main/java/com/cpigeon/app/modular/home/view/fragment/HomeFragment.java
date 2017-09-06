@@ -58,6 +58,10 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements IHom
     LinearLayout layoutZhcx;
     @BindView(R.id.layout_wdsc)
     LinearLayout layoutWdsc;
+    @BindView(R.id.layout_gpzb)
+    LinearLayout layoutGpzb;
+    @BindView(R.id.layout_xhzb)
+    LinearLayout layoutXhzb;
     @BindView(R.id.iv_actionbar_logo)
     ImageView ivActionbarLogo;
     @BindView(R.id.imageView3)
@@ -70,10 +74,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements IHom
     TextView tvRaceinfoXhCount;
     @BindView(R.id.recyclerview_home_xh)
     RecyclerView recyclerviewHomeXh;
-    @BindView(R.id.layout_gcjk)
-    LinearLayout layoutGcjk;
-    @BindView(R.id.layout_bszb)
-    LinearLayout layoutBszb;
+
     Unbinder unbinder;
     private HomeAdapter mAdapter;
 
@@ -93,7 +94,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements IHom
     }
 
 
-    @OnClick({R.id.layout_gcjk, R.id.layout_bszb, R.id.layout_zhcx, R.id.layout_wdsc
+    @OnClick({R.id.layout_gpzb, R.id.layout_xhzb, R.id.layout_zhcx, R.id.layout_wdsc
             , R.id.tv_raceinfo_gp_count, R.id.recyclerview_home_gp, R.id.tv_raceinfo_xh_count, R.id.recyclerview_home_xh})
     public void onClick(View view) {
         ((MainActivity) getActivity()).onHomeItemClick(view);
