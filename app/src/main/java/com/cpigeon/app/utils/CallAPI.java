@@ -5,6 +5,7 @@ import android.database.DatabaseUtils;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
@@ -36,6 +37,7 @@ import com.cpigeon.app.modular.usercenter.model.bean.UserScore;
 import com.cpigeon.app.service.databean.UseDevInfo;
 import com.cpigeon.app.utils.cache.CacheManager;
 import com.cpigeon.app.utils.databean.ApiResponse;
+import com.cpigeon.app.utils.databean.UpdateInfo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
@@ -141,17 +143,19 @@ public class CallAPI {
      * @param callback
      * @return
      */
-    public static org.xutils.common.Callback.Cancelable getUpdateInfo(@NonNull final Callback<List<UpdateManager.UpdateInfo>> callback) {
+    public static org.xutils.common.Callback.Cancelable getUpdateInfo(@NonNull final Callback<List<UpdateInfo>> callback) {
         RequestParams params = new RequestParams(CPigeonApiUrl.getInstance().getServer() + CPigeonApiUrl.UPDATE_CHECK_URL);
         pretreatmentParams(params);
         params.setCacheMaxAge(CpigeonConfig.CACHE_UPDATE_INFO_TIME);
+        params.addParameter("id","com.cpigeon.app");
         return x.http().get(params, new org.xutils.common.Callback.CommonCallback<String>() {
 
             @Override
             public void onSuccess(String result) {
                 Logger.i(result);
+                Log.e("appUpdate",result);
                 try {
-                    List<UpdateManager.UpdateInfo> updateInfos = JSON.parseObject(result, new TypeReference<List<UpdateManager.UpdateInfo>>() {
+                    List<UpdateInfo> updateInfos = JSON.parseObject(result, new TypeReference<List<UpdateInfo>>() {
                     });
                     callback.onSuccess(updateInfos);
                 } catch (Exception e) {

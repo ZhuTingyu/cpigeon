@@ -27,6 +27,7 @@ import com.cpigeon.app.utils.NetUtils;
 import com.cpigeon.app.utils.SharedPreferencesTool;
 import com.cpigeon.app.utils.UpdateManager;
 import com.cpigeon.app.utils.cache.CacheManager;
+import com.cpigeon.app.utils.databean.UpdateInfo;
 import com.kyleduo.switchbutton.SwitchButton;
 
 import org.xutils.DbManager;
@@ -233,7 +234,7 @@ public class SettingsActivity extends BaseActivity {
                 }
 
                 @Override
-                public boolean onGetUpdateInfoEnd(List<UpdateManager.UpdateInfo> updateInfos) {
+                public boolean onGetUpdateInfoEnd(List<UpdateInfo> updateInfos) {
                     showTips(null, TipType.LoadingHide);
                     return false;
                 }
@@ -244,7 +245,7 @@ public class SettingsActivity extends BaseActivity {
                 }
 
                 @Override
-                public void onHasUpdate(UpdateManager.UpdateInfo updateInfo) {
+                public void onHasUpdate(UpdateInfo updateInfo) {
 
                 }
 
