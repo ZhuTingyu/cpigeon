@@ -43,10 +43,10 @@ public class CPigeonApiUrl {
         if (Servers == null) {
 //            if (BuildConfig.DEBUG)
 ////                Servers = new String[]{"http://118.123.244.89:818"};//调试版
-            Servers = new String[]{"http://192.168.0.5:8888"};//调试版
+            //Servers = new String[]{"http://192.168.0.5:8888"};//调试版
 ////                Servers = new String[]{SERVER};//调试版
 //            else
-            // Servers = new String[]{"http://114.141.132.146:818", "http://221.236.20.76:818", "http://118.123.244.89:818"};//服务器
+             Servers = new String[]{"http://114.141.132.146:818", "http://221.236.20.76:818", "http://118.123.244.89:818"};//服务器
         }
 
     }
