@@ -49,13 +49,13 @@
                         android:id="@+id/imageView3"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@mipmap/ic_live_gp_round" />
+                        android:src="@drawable/ic_home_cart_monitor" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="公棚直播"
+                        android:text="鸽车监控"
                         android:textSize="@dimen/small_text_size" />
                 </LinearLayout>
 
@@ -78,7 +78,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/defaltmargin"
-                        android:text="协会直播"
+                        android:text="比赛直播"
                         android:textSize="@dimen/small_text_size" />
                 </LinearLayout>
 
