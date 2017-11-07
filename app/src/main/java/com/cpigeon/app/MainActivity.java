@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.cpigeon.app.cartmonitor.ui.CompetitionListActivity;
 import com.cpigeon.app.commonstandard.AppManager;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
@@ -469,11 +470,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
 //                setCurrIndex(1);
 //                break;
             case R.id.layout_gpzb:
-                if (onMatchTypeChangeListener != null)
-                    onMatchTypeChangeListener.onChanged(matchLiveFragment.getCurrMatchType(), Const.MATCHLIVE_TYPE_GP);
-
-                setCurrIndex(1);
-                mBottomNavigationBar.selectTab(1);
+                startActivity(GeCheJianKongListActicity.class);
                 break;
             case R.id.layout_xhzb:
                 if (onMatchTypeChangeListener != null)

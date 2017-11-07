@@ -12,6 +12,8 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:layout_scrollFlags="scroll|enterAlways|snap"
         android:id="@+id/toolbar"
+        android:fitsSystemWindows="true"
+        android:clipToPadding="true"
         app:titleTextColor="@android:color/white">
     </android.support.v7.widget.Toolbar>
 

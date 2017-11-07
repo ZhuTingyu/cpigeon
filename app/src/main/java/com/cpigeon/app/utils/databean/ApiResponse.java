@@ -15,10 +15,14 @@ public class ApiResponse<T> implements Serializable {
      * data : null
      */
 
-    private boolean status;
-    private int errorCode;
-    private String msg;
-    private T data;
+    public boolean status;
+    public int errorCode;
+    public String msg;
+    public T data;
+
+    public boolean isOk(){
+        return errorCode == 0;
+    }
 
     public boolean isStatus() {
         return status;
