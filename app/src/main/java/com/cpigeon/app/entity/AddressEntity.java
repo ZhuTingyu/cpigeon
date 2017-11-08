@@ -5,5 +5,7 @@ package com.cpigeon.app.entity;
  */
 
 public class AddressEntity {
-
+    public String province;
+    public String city;
+    public String adcCode;
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
@@ -16,9 +17,19 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.Polyline;
 import com.amap.api.maps.model.PolylineOptions;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeQuery;
+import com.amap.api.services.geocoder.RegeocodeResult;
+import com.amap.api.services.weather.LocalWeatherForecastResult;
+import com.amap.api.services.weather.LocalWeatherLiveResult;
+import com.amap.api.services.weather.WeatherSearch;
+import com.amap.api.services.weather.WeatherSearchQuery;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
+import com.cpigeon.app.entity.AddressEntity;
 import com.cpigeon.app.modular.matchlive.view.adapter.AfterWeatherListAdapter;
 import com.cpigeon.app.utils.CommonTool;
 import com.orhanobut.logger.Logger;
@@ -32,7 +43,7 @@ import butterknife.BindView;
  * Created by Administrator on 2017/7/25.
  */
 
-public class WeatherActivity extends BaseActivity {
+public class WeatherActivity extends BaseActivity implements GeocodeSearch.OnGeocodeSearchListener, WeatherSearch.OnWeatherSearchListener {
     Polyline polyline;
     @BindView(R.id.map)
     MapView mMapView;
@@ -43,6 +54,12 @@ public class WeatherActivity extends BaseActivity {
     List<LatLng> afterPoints;
     AfterWeatherListAdapter adapter;
     Toolbar toolbar;
+    List<AddressEntity> addressList;
+    GeocodeSearch geocoderSearch;
+
+    WeatherSearchQuery mquery;
+    WeatherSearch mweathersearch;
+
 
     @Override
     public int getLayoutId() {
@@ -68,6 +85,35 @@ public class WeatherActivity extends BaseActivity {
         getAfterPoint();
         initMap();
         initListView();
+
+        geocoderSearch = new GeocodeSearch(this);
+        geocoderSearch.setOnGeocodeSearchListener(this);
+
+        searchAbdCode();
+    }
+
+    private void searchWeather(String city) {
+        mquery = new WeatherSearchQuery("北京", WeatherSearchQuery.WEATHER_TYPE_LIVE);
+        mweathersearch = new WeatherSearch(this);
+        mweathersearch.setOnWeatherSearchListener(this);
+        mweathersearch.setQuery(mquery);
+        mweathersearch.searchWeatherAsyn(); //异步搜索
+    }
+
+    private void searchAbdCode() {
+
+        addressList = new ArrayList<>();
+
+        for (int i = 0, len = afterPoints.size(); i < len; i++) {
+            LatLng latLng = afterPoints.get(i);
+            RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(latLng.latitude, latLng.longitude), 200, GeocodeSearch.AMAP);
+
+            geocoderSearch.getFromLocationAsyn(query);
+        }
+    }
+
+    private void searchWeather(){
+
     }
 
     private void initListView() {
@@ -75,7 +121,7 @@ public class WeatherActivity extends BaseActivity {
         recyclerviewWeather.setLayoutManager(new LinearLayoutManager(this));
         addItemDecorationLine(recyclerviewWeather);
         ArrayList list = new ArrayList();
-        for(int i = 0; i < 5; i++){
+        for (int i = 0; i < 5; i++) {
             list.add(new Object());
         }
         adapter.setNewData(list);
@@ -90,11 +136,11 @@ public class WeatherActivity extends BaseActivity {
                 addAll(afterPoints).width(10).color(Color.argb(255, 1, 1, 1)));
 
         ArrayList<MarkerOptions> markers = new ArrayList<>();
-        for(int i = 0, len = afterPoints.size(); i < len; i++){
+        for (int i = 0, len = afterPoints.size(); i < len; i++) {
             markers.add(new MarkerOptions().position(afterPoints.get(i)).title("北京").snippet("DefaultMarker"));
         }
 
-        aMap.addMarkers(markers,true);
+        aMap.addMarkers(markers, true);
 
     }
 
@@ -155,4 +201,27 @@ public class WeatherActivity extends BaseActivity {
         mMapView.onSaveInstanceState(outState);
     }
 
+    @Override
+    public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
+        AddressEntity entity = new AddressEntity();
+        entity.province = regeocodeResult.getRegeocodeAddress().getProvince();
+        entity.city = regeocodeResult.getRegeocodeAddress().getCity();
+        entity.adcCode = regeocodeResult.getRegeocodeAddress().getAdCode();
+        addressList.add(entity);
+    }
+
+    @Override
+    public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+
+    }
+
+    @Override
+    public void onWeatherLiveSearched(LocalWeatherLiveResult localWeatherLiveResult, int i) {
+
+    }
+
+    @Override
+    public void onWeatherForecastSearched(LocalWeatherForecastResult localWeatherForecastResult, int i) {
+
+    }
 }
