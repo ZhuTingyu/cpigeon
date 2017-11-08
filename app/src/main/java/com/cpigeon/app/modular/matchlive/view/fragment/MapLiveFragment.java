@@ -98,7 +98,6 @@ public class MapLiveFragment extends BaseMVPFragment{
 
     public void showMapData() {
         if (gytRaceLocations != null && gytRaceLocations.size() > 0) {
-            gytRaceLocations = gytRaceLocations;
             GYTRaceLocation lastLocation = gytRaceLocations.get(gytRaceLocations.size() - 1);
             GYTRaceLocation topLocation = gytRaceLocations.get(0);
             double lastLatitude;
@@ -130,15 +129,23 @@ public class MapLiveFragment extends BaseMVPFragment{
 
             tvMapDistance.setText("总里程:" + DateTool.doubleformat(lastLocation.getLc() * 0.001, 2) + " Km");
             tvMapTime.setText("已监控:" + DateTool.getTimeFormat(usingtime));
-            tvMapStatus.setText(geCheJianKongRace.getState());
             tvMapSpeed.setText(String.format("平均车速:%s Km/H", DateTool.doubleformat((lastLocation.getLc() / usingtime) * 3.6, 2)));
             tvMapWeather.setText("司放地天气:" + lastLocation.getTq().getMc() + " " + lastLocation.getTq().getWd() + "°"
                     + " " + lastLocation.getTq().getFx() + "风 ");
+            tvMapStatus.setText(geCheJianKongRace.getState());
+            addPolylineInPlayGround();
+            if(geCheJianKongRace.getState().equals("监控中")){
+                //mDisplaybtn.setVisibility(View.GONE);
 
+            }else {
+                //move();
+            }
         } else {
             Toast.makeText(getActivity(), "暂无数据或数据太短", Toast.LENGTH_SHORT).show();
             mDisplaybtn.setChecked(false);
         }
+
+        move();
     }
 
     private List<LatLng> readLatLngs() {
@@ -172,7 +179,6 @@ public class MapLiveFragment extends BaseMVPFragment{
         }
         isPrepared = false;
         showMapData();
-        move();
         mDisplaybtn.setOnClickListener(v -> {
             if (mDisplaybtn.isChecked()) {
                 //expandinfo();
@@ -229,7 +235,7 @@ public class MapLiveFragment extends BaseMVPFragment{
 
     private void addPolylineInPlayGround() {
         List<LatLng> list = readLatLngs();
-        List<Integer> colorList = new ArrayList<Integer>();
+        /*List<Integer> colorList = new ArrayList<Integer>();
         List<BitmapDescriptor> bitmapDescriptors = new ArrayList<BitmapDescriptor>();
 
         int[] colors = new int[]{Color.argb(255, 0, 255, 0), Color.argb(255, 255, 255, 0), Color.argb(255, 255, 0, 0)};
@@ -246,7 +252,7 @@ public class MapLiveFragment extends BaseMVPFragment{
             colorList.add(colors[random.nextInt(3)]);
             bitmapDescriptors.add(textureList.get(0));
 
-        }
+        }*/
 
         aMap.addPolyline(new PolylineOptions().setCustomTexture(BitmapDescriptorFactory.fromResource(R.drawable.custtexture)) //setCustomTextureList(bitmapDescriptors)
                 .addAll(list)
@@ -255,7 +261,6 @@ public class MapLiveFragment extends BaseMVPFragment{
     }
 
     public void move() {
-        addPolylineInPlayGround();
         // 获取轨迹坐标点
         List<LatLng> points = readLatLngs();
         LatLngBounds.Builder b = LatLngBounds.builder();
@@ -278,7 +283,7 @@ public class MapLiveFragment extends BaseMVPFragment{
                 smoothMarker.getMarker().hideInfoWindow();
             } else {
                 LatLng position = smoothMarker.getPosition();
-                aMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+                aMap.animateCamera(CameraUpdateFactory.changeLatLng(position));
             }
         }));
         LatLng drivePoint = points.get(0);

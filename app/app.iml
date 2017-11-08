@@ -147,6 +147,7 @@
     <orderEntry type="library" exported="" name="io.realm:realm-annotations:3.1.0@jar" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-v4-25.3.0" level="project" />
     <orderEntry type="library" exported="" name="com.roughike:bottom-bar-2.3.1" level="project" />
+    <orderEntry type="library" exported="" name="com.yqritc:recyclerview-flexibledivider-1.4.0" level="project" />
     <orderEntry type="library" exported="" name="com.github.hotchemi:permissionsdispatcher-2.3.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="com.google.code.findbugs:jsr305:2.0.1@jar" level="project" />
     <orderEntry type="library" exported="" name="fm.jiecao:jiecaovideoplayer-5.5.2" level="project" />
