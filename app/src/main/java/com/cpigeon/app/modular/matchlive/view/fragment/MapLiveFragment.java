@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Pair;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,7 +36,6 @@ import com.cpigeon.app.modular.matchlive.view.fragment.viewdao.IMapLiveView;
 import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.DateTool;
 import com.cpigeon.app.utils.PointsUtil;
-import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.ViewExpandAnimation;
 import com.orhanobut.logger.Logger;
 
@@ -43,13 +44,15 @@ import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * 直播界面
  * Created by Administrator on 2017/7/12.
  */
 
-public class MapLiveFragment extends BaseMVPFragment<GYTRaceLocationPre> implements IMapLiveView{
+public class MapLiveFragment extends BaseMVPFragment{
 
     @BindView(R.id.displaybtn)
     ToggleButton mDisplaybtn;
@@ -75,24 +78,29 @@ public class MapLiveFragment extends BaseMVPFragment<GYTRaceLocationPre> impleme
     ConstraintLayout mConstraintLayout;
     @BindView(R.id.fab_weather)
     FloatingActionButton floatingActionButton;
+    @BindView(R.id.tv_map_time)
+    TextView tvMapTime;
+    Unbinder unbinder;
     private AMap aMap;
     private GeCheJianKongRace geCheJianKongRace;
     private Bundle state;
     private List<GYTRaceLocation> gytRaceLocations = new ArrayList<>();
     private SmoothMoveMarker smoothMarker;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (geCheJianKongRace == null)
             this.geCheJianKongRace = ((MapLiveActivity) getActivity()).getGeCheJianKongRace();
+
+        gytRaceLocations = getArguments().getParcelableArrayList("data");
     }
 
-    @Override
-    public void showMapData(List<GYTRaceLocation> raceLocations) {
-        if (raceLocations != null && raceLocations.size() > 0) {
-            gytRaceLocations = raceLocations;
-            GYTRaceLocation lastLocation = raceLocations.get(raceLocations.size() - 1);
-            GYTRaceLocation topLocation = raceLocations.get(0);
+    public void showMapData() {
+        if (gytRaceLocations != null && gytRaceLocations.size() > 0) {
+            gytRaceLocations = gytRaceLocations;
+            GYTRaceLocation lastLocation = gytRaceLocations.get(gytRaceLocations.size() - 1);
+            GYTRaceLocation topLocation = gytRaceLocations.get(0);
             double lastLatitude;
             double lastLongtitude;
             if (geCheJianKongRace.getLatitude() != 0 && geCheJianKongRace.getLongitude() != 0) {
@@ -113,20 +121,20 @@ public class MapLiveFragment extends BaseMVPFragment<GYTRaceLocationPre> impleme
             }
 
 
-            tvMapNowweather.setText("起始天气:" + topLocation.getTq().getMc());
-            tvMapNowlocation.setText("起始坐标:" + CommonTool.GPS2AjLocation(topLocation.getJd()) + "/" +
-                    CommonTool.GPS2AjLocation(topLocation.getWd()));
-            long usingtime = (lastLocation.getSj() -
-                    topLocation.getSj()
+            tvMapNowweather.setText("当前天气:" + lastLocation.getTq().getMc());
+            tvMapNowlocation.setText("当前坐标:" + CommonTool.GPS2AjLocation(lastLocation.getJd()) + "/" +
+                    CommonTool.GPS2AjLocation(lastLocation.getWd()));
+            long usingtime = (
+                    (System.currentTimeMillis() / 1000) - topLocation.getSj()
             );
 
             tvMapDistance.setText("总里程:" + DateTool.doubleformat(lastLocation.getLc() * 0.001, 2) + " Km");
-            tvMapStatus.setText("总共耗时:" + DateTool.getTimeFormat(usingtime));
-            tvMapSpeed.setText(String.format("平均车速:%s KM/H", DateTool.doubleformat((lastLocation.getLc() / usingtime) * 3.6, 2)));
-            tvMapWeather.setText("司放地天气:" + lastLocation.getTq().getMc() + "/" + lastLocation.getTq().getWd() + "°"
-                    + "/" + lastLocation.getTq().getFx() + "/" + lastLocation.getTq().getFl() + "级");
+            tvMapTime.setText("已监控:" + DateTool.getTimeFormat(usingtime));
+            tvMapStatus.setText(geCheJianKongRace.getState());
+            tvMapSpeed.setText(String.format("平均车速:%s Km/H", DateTool.doubleformat((lastLocation.getLc() / usingtime) * 3.6, 2)));
+            tvMapWeather.setText("司放地天气:" + lastLocation.getTq().getMc() + " " + lastLocation.getTq().getWd() + "°"
+                    + " " + lastLocation.getTq().getFx() + "风 ");
 
-            move();
         } else {
             Toast.makeText(getActivity(), "暂无数据或数据太短", Toast.LENGTH_SHORT).show();
             mDisplaybtn.setChecked(false);
@@ -141,25 +149,10 @@ public class MapLiveFragment extends BaseMVPFragment<GYTRaceLocationPre> impleme
         return points;
     }
 
-    @Override
-    public String getRid() {
-        Logger.e(geCheJianKongRace.getId() + "");
-        return String.valueOf(geCheJianKongRace.getId());
-    }
-
-    @Override
-    public String getLid() {
-        return null;
-    }
-
-    @Override
-    public String hw() {
-        return "y";
-    }
 
     @Override
     protected GYTRaceLocationPre initPresenter() {
-        return new GYTRaceLocationPre(this);
+        return null;
     }
 
     @Override
@@ -172,40 +165,41 @@ public class MapLiveFragment extends BaseMVPFragment<GYTRaceLocationPre> impleme
         if (!isPrepared || !isVisible) {
             return;
         }
-        mConstraintLayout.setVisibility(View.GONE);
+        //mConstraintLayout.setVisibility(View.GONE);
         mMapView.onCreate(state);
         if (aMap == null) {
             aMap = mMapView.getMap();
         }
         isPrepared = false;
-        mPresenter.loadGYTRaceLocation();
+        showMapData();
+        move();
         mDisplaybtn.setOnClickListener(v -> {
             if (mDisplaybtn.isChecked()) {
-                expandinfo();
+                //expandinfo();
                 smoothMarker.startSmoothMove();
 
             } else {
                 smoothMarker.stopMove();
-                expandinfo();
+                //expandinfo();
             }
         });
-        floatingActionButton.setOnClickListener(v -> {
+        /*floatingActionButton.setOnClickListener(v -> {
             if (geCheJianKongRace.getLatitude() != 0 && geCheJianKongRace.getLongitude() != 0) {
-                startWeather(gytRaceLocations.get(0).getWd(),gytRaceLocations.get(0).getJd(),CommonTool.Aj2GPSLocation(geCheJianKongRace.getLatitude()),
+                startWeather(gytRaceLocations.get(0).getWd(), gytRaceLocations.get(0).getJd(), CommonTool.Aj2GPSLocation(geCheJianKongRace.getLatitude()),
                         CommonTool.Aj2GPSLocation(geCheJianKongRace.getLongitude()));
             } else {
-                startWeather(gytRaceLocations.get(0).getWd(),gytRaceLocations.get(0).getJd(),gytRaceLocations.get(gytRaceLocations.size() - 1).getWd(),
+                startWeather(gytRaceLocations.get(0).getWd(), gytRaceLocations.get(0).getJd(), gytRaceLocations.get(gytRaceLocations.size() - 1).getWd(),
                         gytRaceLocations.get(gytRaceLocations.size() - 1).getJd());
             }
-        });
+        });*/
     }
 
-    private void startWeather(double v1,double v2,double v3,double v4) {
+    /*private void startWeather(double v1, double v2, double v3, double v4) {
         Intent intent = new Intent(getActivity(), WeatherActivity.class);
-        intent.putExtra("v1",v1);
-        intent.putExtra("v2",v2);
-        intent.putExtra("v3",v3);
-        intent.putExtra("v4",v4);
+        intent.putExtra("v1", v1);
+        intent.putExtra("v2", v2);
+        intent.putExtra("v3", v3);
+        intent.putExtra("v4", v4);
         startActivity(intent);
     }
 
@@ -218,7 +212,7 @@ public class MapLiveFragment extends BaseMVPFragment<GYTRaceLocationPre> impleme
         }
         ViewExpandAnimation expandAnimation = new ViewExpandAnimation(mConstraintLayout);
         mConstraintLayout.startAnimation(expandAnimation);
-    }
+    }*/
 
     @Override
     public void finishCreateView(Bundle state) {
@@ -265,7 +259,7 @@ public class MapLiveFragment extends BaseMVPFragment<GYTRaceLocationPre> impleme
         // 获取轨迹坐标点
         List<LatLng> points = readLatLngs();
         LatLngBounds.Builder b = LatLngBounds.builder();
-        for (int i = 0 ; i < points.size(); i++) {
+        for (int i = 0; i < points.size(); i++) {
             b.include(points.get(i));
         }
         LatLngBounds bounds = b.build();
@@ -276,13 +270,13 @@ public class MapLiveFragment extends BaseMVPFragment<GYTRaceLocationPre> impleme
         smoothMarker.setDescriptor(BitmapDescriptorFactory.fromResource(R.mipmap.car));
         smoothMarker.setMoveListener(v -> getActivity().runOnUiThread(() -> {
             if (infoWindowLayout != null && title != null && smoothMarker.getMarker().isInfoWindowShown()) {
-                title.setText("距离司放地还有： " + DateTool.doubleformat(v*0.001,2)+ "Km"+"\n"+
-                "车速："+DateTool.doubleformat(gytRaceLocations.get(smoothMarker.getIndex()).getSd(),2)+"Km/H");
+                title.setText("距离司放地还有： " + DateTool.doubleformat(v * 0.001, 2) + "Km" + "\n" +
+                        "车速：" + DateTool.doubleformat(gytRaceLocations.get(smoothMarker.getIndex()).getSd(), 2) + "Km/H");
 
             }
-            if(v == 0){
+            if (v == 0) {
                 smoothMarker.getMarker().hideInfoWindow();
-            }else {
+            } else {
                 LatLng position = smoothMarker.getPosition();
                 aMap.moveCamera(CameraUpdateFactory.newLatLng(position));
             }

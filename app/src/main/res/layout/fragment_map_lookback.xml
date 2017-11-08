@@ -13,6 +13,7 @@
     </com.amap.api.maps.TextureMapView>
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintlayout_details"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -27,36 +28,64 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="8dp">
-            <TextView
-                android:id="@+id/tv_map_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_map_status"
+                    tools:text="asdfasdf"
+                    android:textSize="16dp"
+                    android:textColor="@color/color_orange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_map_time"
+                    tools:text="asdfasdf"
+                    android:textSize="16dp"
+                    android:textColor="@color/light_red"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </RelativeLayout>
+
             <TextView
                 android:id="@+id/tv_map_location"
+                tools:text="asdfasdf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_map_weather"
+                tools:text="asdfasdf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_map_nowlocation"
+                tools:text="asdfasdf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_map_nowweather"
+                tools:text="asdfasdf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_map_nowareadistance"
+                tools:text="asdfasdf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_map_distance"
+                tools:text="asdfasdf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_map_speed"
+                tools:text="asdfasdf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -73,6 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
+            android:visibility="gone"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="8dp" />

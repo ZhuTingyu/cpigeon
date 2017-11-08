@@ -1,10 +1,13 @@
 package com.cpigeon.app.modular.matchlive.model.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Administrator on 2017/7/12.
  */
 
-public class GYTRaceLocation {
+public class GYTRaceLocation implements Parcelable {
     /**
      * sj : 1497579973
      * tq : {"sj":1497578400,"fl":"5","fx":" 西 南 ","mc":" 多 云","wd":22}
@@ -77,7 +80,7 @@ public class GYTRaceLocation {
         this.jd = jd;
     }
 
-    public static class TqBean {
+    public static class TqBean implements Parcelable {
         /**
          * sj : 1497578400
          * fl : 5
@@ -131,5 +134,83 @@ public class GYTRaceLocation {
         public void setWd(int wd) {
             this.wd = wd;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(this.sj);
+            dest.writeString(this.fl);
+            dest.writeString(this.fx);
+            dest.writeString(this.mc);
+            dest.writeInt(this.wd);
+        }
+
+        public TqBean() {
+        }
+
+        protected TqBean(Parcel in) {
+            this.sj = in.readInt();
+            this.fl = in.readString();
+            this.fx = in.readString();
+            this.mc = in.readString();
+            this.wd = in.readInt();
+        }
+
+        public static final Creator<TqBean> CREATOR = new Creator<TqBean>() {
+            @Override
+            public TqBean createFromParcel(Parcel source) {
+                return new TqBean(source);
+            }
+
+            @Override
+            public TqBean[] newArray(int size) {
+                return new TqBean[size];
+            }
+        };
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.sj);
+        dest.writeParcelable(this.tq, flags);
+        dest.writeInt(this.sd);
+        dest.writeInt(this.lid);
+        dest.writeDouble(this.wd);
+        dest.writeDouble(this.jd);
+        dest.writeDouble(this.lc);
+    }
+
+    public GYTRaceLocation() {
+    }
+
+    protected GYTRaceLocation(Parcel in) {
+        this.sj = (Long) in.readValue(Long.class.getClassLoader());
+        this.tq = in.readParcelable(TqBean.class.getClassLoader());
+        this.sd = in.readInt();
+        this.lid = in.readInt();
+        this.wd = in.readDouble();
+        this.jd = in.readDouble();
+        this.lc = in.readDouble();
+    }
+
+    public static final Parcelable.Creator<GYTRaceLocation> CREATOR = new Parcelable.Creator<GYTRaceLocation>() {
+        @Override
+        public GYTRaceLocation createFromParcel(Parcel source) {
+            return new GYTRaceLocation(source);
+        }
+
+        @Override
+        public GYTRaceLocation[] newArray(int size) {
+            return new GYTRaceLocation[size];
+        }
+    };
 }
