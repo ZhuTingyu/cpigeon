@@ -85,4 +85,7 @@
     <string name="no_cache">暂无缓存</string>
     <string name="immediate_experience">立即体验</string>
     <string name="title_activity_feed_back_result_list">FeedBackResultListActivity</string>
+
+    <string name="text_temperature">%1$s°C</string>
+    <string name="text_wind_direction">%1$s风</string>
 </resources>

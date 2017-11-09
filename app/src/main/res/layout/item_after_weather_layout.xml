@@ -14,8 +14,59 @@
         android:textColor="@color/light_black"
         tools:text="sichuan"/>
 
+    <RelativeLayout
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_below="@id/address">
 
-    <LinearLayout
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/ic_earth"
+            />
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:textSize="16dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorBlue"
+            android:layout_toRightOf="@id/icon"
+            tools:text="晴"/>
+
+        <TextView
+            android:id="@+id/text3"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:textSize="16dp"
+            android:layout_alignParentEnd="true"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorBlue"
+            tools:text="南风"/>
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:textSize="16dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorBlue"
+            android:layout_toLeftOf="@id/text3"
+            tools:text="11°C"/>
+
+
+
+
+    </RelativeLayout>
+
+
+    <!--<LinearLayout
         android:id="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,9 +112,10 @@
             android:layout_marginLeft="16dp"
             android:textColor="@color/colorBlue"
             android:textSize="16dp"
+            android:visibility="gone"
             tools:text="风力5级"/>
 
 
-    </LinearLayout>
+    </LinearLayout>-->
 
 </RelativeLayout>

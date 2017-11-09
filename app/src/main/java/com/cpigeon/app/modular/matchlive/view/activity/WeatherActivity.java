@@ -6,32 +6,20 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import com.amap.api.maps.AMap;
-import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.model.LatLngBounds;
-import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.Polyline;
 import com.amap.api.maps.model.PolylineOptions;
-import com.amap.api.services.core.LatLonPoint;
-import com.amap.api.services.geocoder.GeocodeResult;
-import com.amap.api.services.geocoder.GeocodeSearch;
-import com.amap.api.services.geocoder.RegeocodeQuery;
-import com.amap.api.services.geocoder.RegeocodeResult;
-import com.amap.api.services.weather.LocalWeatherForecastResult;
-import com.amap.api.services.weather.LocalWeatherLiveResult;
-import com.amap.api.services.weather.WeatherSearch;
-import com.amap.api.services.weather.WeatherSearchQuery;
+import com.amap.api.services.geocoder.RegeocodeAddress;
+import com.amap.api.services.weather.LocalWeatherLive;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
-import com.cpigeon.app.entity.AddressEntity;
 import com.cpigeon.app.modular.matchlive.view.adapter.AfterWeatherListAdapter;
-import com.cpigeon.app.utils.CommonTool;
+import com.cpigeon.app.utils.WeatherManager;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -43,7 +31,7 @@ import butterknife.BindView;
  * Created by Administrator on 2017/7/25.
  */
 
-public class WeatherActivity extends BaseActivity implements GeocodeSearch.OnGeocodeSearchListener, WeatherSearch.OnWeatherSearchListener {
+public class WeatherActivity extends BaseActivity {
     Polyline polyline;
     @BindView(R.id.map)
     MapView mMapView;
@@ -54,11 +42,10 @@ public class WeatherActivity extends BaseActivity implements GeocodeSearch.OnGeo
     List<LatLng> afterPoints;
     AfterWeatherListAdapter adapter;
     Toolbar toolbar;
-    List<AddressEntity> addressList;
-    GeocodeSearch geocoderSearch;
+    List<RegeocodeAddress> addressList;
+    List<LocalWeatherLive> weatherList;
 
-    WeatherSearchQuery mquery;
-    WeatherSearch mweathersearch;
+    WeatherManager manager;
 
 
     @Override
@@ -82,51 +69,65 @@ public class WeatherActivity extends BaseActivity implements GeocodeSearch.OnGeo
         toolbar.setTitle("沿途天气");
         toolbar.setNavigationOnClickListener(v -> finish());
 
+
         getAfterPoint();
         initMap();
         initListView();
 
-        geocoderSearch = new GeocodeSearch(this);
-        geocoderSearch.setOnGeocodeSearchListener(this);
-
-        searchAbdCode();
-    }
-
-    private void searchWeather(String city) {
-        mquery = new WeatherSearchQuery("北京", WeatherSearchQuery.WEATHER_TYPE_LIVE);
-        mweathersearch = new WeatherSearch(this);
-        mweathersearch.setOnWeatherSearchListener(this);
-        mweathersearch.setQuery(mquery);
-        mweathersearch.searchWeatherAsyn(); //异步搜索
-    }
-
-    private void searchAbdCode() {
+        manager = new WeatherManager(this);
 
         addressList = new ArrayList<>();
+        weatherList = new ArrayList<>();
+
+        manager.setseacherCityCallBack().subscribe(r -> {
+            if (r.isOk()) {
+                addressList.add(r.data);
+                if (addressList.size() == afterPoints.size()) {
+                    requestWeatherByCityName();
+                }
+            }
+        });
+
+        manager.setrequsetWeatherCallBack().subscribe(r -> {
+            if(r.isOk()){
+                weatherList.add(r.data);
+                if(weatherList.size() == addressList.size()){
+                    bindListData();
+                }
+            }else {
+                showTips("获取天气失败",TipType.DialogError);
+            }
+        });
+
+        searchCityByPoint();
+    }
+
+
+    private void searchCityByPoint() {
 
         for (int i = 0, len = afterPoints.size(); i < len; i++) {
             LatLng latLng = afterPoints.get(i);
-            RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(latLng.latitude, latLng.longitude), 200, GeocodeSearch.AMAP);
-
-            geocoderSearch.getFromLocationAsyn(query);
+            manager.seacherCityByLatLng(latLng);
         }
     }
 
-    private void searchWeather(){
-
+    private void requestWeatherByCityName() {
+        for(int i = 0, len = addressList.size();i < len; i++){
+            manager.requsetWeatherByCityName(addressList.get(i).getCity());
+        }
     }
+
 
     private void initListView() {
         recyclerviewWeather = (RecyclerView) findViewById(R.id.recyclerview_weather);
         recyclerviewWeather.setLayoutManager(new LinearLayoutManager(this));
         addItemDecorationLine(recyclerviewWeather);
-        ArrayList list = new ArrayList();
-        for (int i = 0; i < 5; i++) {
-            list.add(new Object());
-        }
-        adapter.setNewData(list);
         recyclerviewWeather.setAdapter(adapter);
 
+    }
+
+    private void bindListData() {
+        adapter.setNewData(weatherList);
     }
 
 
@@ -201,27 +202,4 @@ public class WeatherActivity extends BaseActivity implements GeocodeSearch.OnGeo
         mMapView.onSaveInstanceState(outState);
     }
 
-    @Override
-    public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
-        AddressEntity entity = new AddressEntity();
-        entity.province = regeocodeResult.getRegeocodeAddress().getProvince();
-        entity.city = regeocodeResult.getRegeocodeAddress().getCity();
-        entity.adcCode = regeocodeResult.getRegeocodeAddress().getAdCode();
-        addressList.add(entity);
-    }
-
-    @Override
-    public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
-
-    }
-
-    @Override
-    public void onWeatherLiveSearched(LocalWeatherLiveResult localWeatherLiveResult, int i) {
-
-    }
-
-    @Override
-    public void onWeatherForecastSearched(LocalWeatherForecastResult localWeatherForecastResult, int i) {
-
-    }
 }
