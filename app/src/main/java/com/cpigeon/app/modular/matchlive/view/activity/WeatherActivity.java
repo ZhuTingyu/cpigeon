@@ -6,20 +6,27 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.Polyline;
 import com.amap.api.maps.model.PolylineOptions;
 import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.amap.api.services.weather.LocalWeatherLive;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.modular.matchlive.view.adapter.AfterWeatherListAdapter;
 import com.cpigeon.app.utils.WeatherManager;
+import com.cpigeon.app.utils.http.GsonUtil;
+import com.cpigeon.app.view.WeatherInfoView;
+import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -31,7 +38,7 @@ import butterknife.BindView;
  * Created by Administrator on 2017/7/25.
  */
 
-public class WeatherActivity extends BaseActivity {
+public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdapter {
     Polyline polyline;
     @BindView(R.id.map)
     MapView mMapView;
@@ -71,7 +78,6 @@ public class WeatherActivity extends BaseActivity {
 
 
         getAfterPoint();
-        initMap();
         initListView();
 
         manager = new WeatherManager(this);
@@ -93,6 +99,7 @@ public class WeatherActivity extends BaseActivity {
                 weatherList.add(r.data);
                 if(weatherList.size() == addressList.size()){
                     bindListData();
+                    initMap();
                 }
             }else {
                 showTips("获取天气失败",TipType.DialogError);
@@ -138,10 +145,12 @@ public class WeatherActivity extends BaseActivity {
 
         ArrayList<MarkerOptions> markers = new ArrayList<>();
         for (int i = 0, len = afterPoints.size(); i < len; i++) {
-            markers.add(new MarkerOptions().position(afterPoints.get(i)).title("北京").snippet("DefaultMarker"));
+            markers.add(new MarkerOptions().position(afterPoints.get(i)).snippet(GsonUtil.toJson(weatherList.get(i))));
         }
 
         aMap.addMarkers(markers, true);
+
+        aMap.setInfoWindowAdapter(this);
 
     }
 
@@ -202,4 +211,28 @@ public class WeatherActivity extends BaseActivity {
         mMapView.onSaveInstanceState(outState);
     }
 
+    View infoWindow = null;
+
+    @Override
+    public View getInfoWindow(Marker marker) {
+        if(infoWindow == null) {
+            infoWindow = View.inflate(this,R.layout.item_weather_info_window_layout,null);
+        }
+        render(marker, infoWindow);
+        return infoWindow;
+    }
+
+    private void render(Marker marker, View infoWindow) {
+        LocalWeatherLive weatherLive = GsonUtil.fromJson(marker.getSnippet(),new TypeToken<LocalWeatherLive>(){}.getType());
+        BaseViewHolder holder = new BaseViewHolder(infoWindow);
+        holder.setText(R.id.temp, mContext.getString(R.string.text_temperature,weatherLive.getTemperature()));
+        holder.setText(R.id.address, weatherLive.getProvince() + weatherLive.getCity());
+        holder.setText(R.id.text1, weatherLive.getWeather());
+        holder.setText(R.id.text2, mContext.getString(R.string.text_wind_direction,weatherLive.getWindDirection()));
+    }
+
+    @Override
+    public View getInfoContents(Marker marker) {
+        return null;
+    }
 }

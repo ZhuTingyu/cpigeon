@@ -52,7 +52,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2017/7/12.
  */
 
-public class MapLiveFragment extends BaseMVPFragment{
+public class MapLiveFragment extends BaseMVPFragment {
 
     @BindView(R.id.displaybtn)
     ToggleButton mDisplaybtn;
@@ -123,21 +123,27 @@ public class MapLiveFragment extends BaseMVPFragment{
             tvMapNowweather.setText("当前天气:" + lastLocation.getTq().getMc());
             tvMapNowlocation.setText("当前坐标:" + CommonTool.GPS2AjLocation(lastLocation.getJd()) + "/" +
                     CommonTool.GPS2AjLocation(lastLocation.getWd()));
-            long usingtime = (
-                    (System.currentTimeMillis() / 1000) - topLocation.getSj()
-            );
+
+            long usingtime;
+            if (!geCheJianKongRace.getMEndTime().isEmpty()) {
+                usingtime = lastLocation.getSj() - topLocation.getSj();
+                tvMapTime.setText("共监控:" + DateTool.getTimeFormat(usingtime));
+            }else {
+                usingtime = (System.currentTimeMillis() / 1000) - topLocation.getSj();
+                tvMapTime.setText("已监控:" + DateTool.getTimeFormat(usingtime));
+            }
 
             tvMapDistance.setText("总里程:" + DateTool.doubleformat(lastLocation.getLc() * 0.001, 2) + " Km");
-            tvMapTime.setText("已监控:" + DateTool.getTimeFormat(usingtime));
+
             tvMapSpeed.setText(String.format("平均车速:%s Km/H", DateTool.doubleformat((lastLocation.getLc() / usingtime) * 3.6, 2)));
             tvMapWeather.setText("司放地天气:" + lastLocation.getTq().getMc() + " " + lastLocation.getTq().getWd() + "°"
                     + " " + lastLocation.getTq().getFx() + "风 ");
             tvMapStatus.setText(geCheJianKongRace.getState());
             addPolylineInPlayGround();
-            if(geCheJianKongRace.getState().equals("监控中")){
+            if (geCheJianKongRace.getState().equals("监控中")) {
                 //mDisplaybtn.setVisibility(View.GONE);
 
-            }else {
+            } else {
                 //move();
             }
         } else {

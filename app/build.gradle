@@ -110,7 +110,7 @@ dependencies {
     //视图注解
     compile 'com.jakewharton:butterknife:8.5.1'
     //视频播放
-    compile 'fm.jiecao:jiecaovideoplayer:5.5.2'
+    compile 'cn.jzvd:jiaozivideoplayer:6.1.2'
     //图片加载
     compile 'com.squareup.picasso:picasso:2.5.2'
     //底部TabBar
@@ -161,6 +161,8 @@ dependencies {
     compile 'com.amap.api:search:latest.integration'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
+    compile 'com.shuyu:GSYVideoPlayer:2.1.1'
+
 }
 
 int getCustomVersionCode() {
