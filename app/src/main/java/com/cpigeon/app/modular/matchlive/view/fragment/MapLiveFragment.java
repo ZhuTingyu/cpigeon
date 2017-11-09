@@ -87,6 +87,8 @@ public class MapLiveFragment extends BaseMVPFragment {
     private List<GYTRaceLocation> gytRaceLocations = new ArrayList<>();
     private SmoothMoveMarker smoothMarker;
 
+    List<LatLng> points;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -182,14 +184,15 @@ public class MapLiveFragment extends BaseMVPFragment {
         mMapView.onCreate(state);
         if (aMap == null) {
             aMap = mMapView.getMap();
+            initMap();
         }
         isPrepared = false;
         showMapData();
         mDisplaybtn.setOnClickListener(v -> {
             if (mDisplaybtn.isChecked()) {
                 //expandinfo();
+                move();
                 smoothMarker.startSmoothMove();
-
             } else {
                 smoothMarker.stopMove();
                 //expandinfo();
@@ -204,6 +207,34 @@ public class MapLiveFragment extends BaseMVPFragment {
                         gytRaceLocations.get(gytRaceLocations.size() - 1).getJd());
             }
         });*/
+    }
+
+    private void initMap() {
+        // 获取轨迹坐标点
+        points = readLatLngs();
+        LatLngBounds.Builder b = LatLngBounds.builder();
+        for (int i = 0; i < points.size(); i++) {
+            b.include(points.get(i));
+        }
+        LatLngBounds bounds = b.build();
+        aMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+        aMap.setInfoWindowAdapter(infoWindowAdapter);
+        smoothMarker = new SmoothMoveMarker(aMap);
+        // 设置滑动的图标
+        smoothMarker.setDescriptor(BitmapDescriptorFactory.fromResource(R.mipmap.car));
+        smoothMarker.setMoveListener(v -> getActivity().runOnUiThread(() -> {
+            if (infoWindowLayout != null && title != null && smoothMarker.getMarker().isInfoWindowShown()) {
+                title.setText("距离司放地还有： " + DateTool.doubleformat(v * 0.001, 2) + "Km" + "\n" +
+                        "车速：" + DateTool.doubleformat(gytRaceLocations.get(smoothMarker.getIndex()).getSd(), 2) + "Km/H");
+
+            }
+            if (v == 0) {
+                smoothMarker.getMarker().hideInfoWindow();
+            } else {
+                LatLng position = smoothMarker.getPosition();
+                aMap.animateCamera(CameraUpdateFactory.changeLatLng(position));
+            }
+        }));
     }
 
     /*private void startWeather(double v1, double v2, double v3, double v4) {
@@ -267,31 +298,7 @@ public class MapLiveFragment extends BaseMVPFragment {
     }
 
     public void move() {
-        // 获取轨迹坐标点
-        List<LatLng> points = readLatLngs();
-        LatLngBounds.Builder b = LatLngBounds.builder();
-        for (int i = 0; i < points.size(); i++) {
-            b.include(points.get(i));
-        }
-        LatLngBounds bounds = b.build();
-        aMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
-        aMap.setInfoWindowAdapter(infoWindowAdapter);
-        smoothMarker = new SmoothMoveMarker(aMap);
-        // 设置滑动的图标
-        smoothMarker.setDescriptor(BitmapDescriptorFactory.fromResource(R.mipmap.car));
-        smoothMarker.setMoveListener(v -> getActivity().runOnUiThread(() -> {
-            if (infoWindowLayout != null && title != null && smoothMarker.getMarker().isInfoWindowShown()) {
-                title.setText("距离司放地还有： " + DateTool.doubleformat(v * 0.001, 2) + "Km" + "\n" +
-                        "车速：" + DateTool.doubleformat(gytRaceLocations.get(smoothMarker.getIndex()).getSd(), 2) + "Km/H");
 
-            }
-            if (v == 0) {
-                smoothMarker.getMarker().hideInfoWindow();
-            } else {
-                LatLng position = smoothMarker.getPosition();
-                aMap.animateCamera(CameraUpdateFactory.changeLatLng(position));
-            }
-        }));
         LatLng drivePoint = points.get(0);
         Pair<Integer, LatLng> pair = PointsUtil.calShortestDistancePoint(points, drivePoint);
         points.set(pair.first, drivePoint);
