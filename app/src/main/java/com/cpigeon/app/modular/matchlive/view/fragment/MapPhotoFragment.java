@@ -121,11 +121,11 @@ public class MapPhotoFragment extends BaseFragment {
                     }
                     mAdapter.setNewData(data);
 
+                    finishTask();
 
                 } else {
                     initEmptyView("数据为空");
                 }
-                finishTask();
             }
 
             @Override
@@ -160,7 +160,7 @@ public class MapPhotoFragment extends BaseFragment {
         mSwipeRefreshLayout.setRefreshing(false);
         mCustomEmptyView.setVisibility(View.VISIBLE);
         mRecyclerView.setVisibility(View.GONE);
-        mCustomEmptyView.setEmptyImage(R.mipmap.ic_about_logo);
+        mCustomEmptyView.setEmptyImage(R.drawable.ic_empty);
         mCustomEmptyView.setEmptyText(tips);
     }
 

@@ -1,12 +1,10 @@
 package com.cpigeon.app.modular.matchlive.view.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.amap.api.maps.AMap;
@@ -25,12 +23,13 @@ import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.modular.matchlive.view.adapter.AfterWeatherListAdapter;
 import com.cpigeon.app.utils.WeatherManager;
 import com.cpigeon.app.utils.http.GsonUtil;
-import com.cpigeon.app.view.WeatherInfoView;
 import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 
@@ -54,6 +53,8 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
 
     WeatherManager manager;
 
+    Map<String, Integer> icMap;
+
 
     @Override
     public int getLayoutId() {
@@ -76,7 +77,7 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
         toolbar.setTitle("沿途天气");
         toolbar.setNavigationOnClickListener(v -> finish());
 
-
+        initIcMap();
         getAfterPoint();
         initListView();
 
@@ -107,6 +108,25 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
         });
 
         searchCityByPoint();
+    }
+
+    private void initIcMap() {
+        icMap = new HashMap<>();
+        icMap.put("雷阵雨并伴有冰雹",R.drawable.ic_weather_white_hail);
+        icMap.put("大雪",R.drawable.ic_weather_white_heavy_snow);
+        icMap.put("大雨",R.drawable.ic_weather_white_heavy_rain);
+        icMap.put("多云",R.drawable.ic_weather_white_cloudy);
+        icMap.put("雷阵雨",R.drawable.ic_weather_white_thunder_shower);
+        icMap.put("霾",R.drawable.ic_weather_white_smog);
+        icMap.put("晴",R.drawable.ic_weather_white_sunny);
+        icMap.put("雾",R.drawable.ic_weather_white_fog);
+        icMap.put("小雪",R.drawable.ic_weather_white_light_snow);
+        icMap.put("小雨",R.drawable.ic_weather_white_light_rain);
+        icMap.put("阴",R.drawable.ic_weather_white_yin);
+        icMap.put("雨夹雪",R.drawable.ic_weather_white_sleet);
+        icMap.put("阵雪",R.drawable.ic_weather_white_heavy_snow);
+        icMap.put("阵雨",R.drawable.ic_weather_white_heavy_rain);
+        icMap.put("中雨",R.drawable.ic_weather_white_moderate_rain);
     }
 
 
@@ -229,6 +249,12 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
         holder.setText(R.id.address, weatherLive.getProvince() + weatherLive.getCity());
         holder.setText(R.id.text1, weatherLive.getWeather());
         holder.setText(R.id.text2, mContext.getString(R.string.text_wind_direction,weatherLive.getWindDirection()));
+        int integer = icMap.get(weatherLive.getWeather());
+        if(integer == 0){
+            holder.setImageResource(R.id.icon,icMap.get("阴"));
+        }else {
+            holder.setImageResource(R.id.icon,icMap.get(weatherLive.getWeather()));
+        }
     }
 
     @Override

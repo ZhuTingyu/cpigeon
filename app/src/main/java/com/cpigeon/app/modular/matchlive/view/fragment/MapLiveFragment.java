@@ -92,6 +92,9 @@ public class MapLiveFragment extends BaseMVPFragment {
 
     MapMarkerManager mapMarkerManager;
 
+    double distanceOfEndPoint = -1;
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -198,8 +201,11 @@ public class MapLiveFragment extends BaseMVPFragment {
             mDisplaybtn.setOnClickListener(v -> {
                 if (mDisplaybtn.isChecked()) {
                     //expandinfo();
-                    move();
-                    smoothMarker.startSmoothMove();
+                    if(distanceOfEndPoint == 0){
+                        move();
+                    }else {
+                        smoothMarker.startSmoothMove();
+                    }
                 } else {
                     smoothMarker.stopMove();
                     //expandinfo();
@@ -236,6 +242,10 @@ public class MapLiveFragment extends BaseMVPFragment {
             mapMarkerManager.addMap();
         }else {
             //监控结束
+            mapMarkerManager.addCustomMarker(points.get(0).latitude,points.get(0).longitude,R.mipmap.ic_move_start);
+            mapMarkerManager.addCustomMarker(points.get(points.size()-1).latitude,points.get(points.size()-1).longitude,R.mipmap.ic_move_end);
+            mapMarkerManager.addMap();
+
             LatLngBounds bounds = b.build();
             aMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
             aMap.setInfoWindowAdapter(infoWindowAdapter);
@@ -248,8 +258,13 @@ public class MapLiveFragment extends BaseMVPFragment {
                             "车速：" + DateTool.doubleformat(gytRaceLocations.get(smoothMarker.getIndex()).getSd(), 2) + "Km/H");
 
                 }
+                distanceOfEndPoint = v;
                 if (v == 0) {
                     smoothMarker.getMarker().hideInfoWindow();
+                    move();
+                    smoothMarker.stopMove();
+                    distanceOfEndPoint = -1;
+                    mDisplaybtn.setChecked(false);
                 } else {
                     LatLng position = smoothMarker.getPosition();
                     aMap.animateCamera(CameraUpdateFactory.changeLatLng(position));

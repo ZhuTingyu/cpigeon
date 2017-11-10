@@ -13,8 +13,7 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/icon"
-            tools:src="@mipmap/ic_weather"
-            app:srcCompat="@mipmap/ic_weather"
+            tools:src="@drawable/ic_weather_white_cloudy"
             android:layout_centerHorizontal="true"
             android:layout_width="32dp"
             android:layout_height="32dp"/>
