@@ -27,6 +27,7 @@ import com.amap.api.maps.model.PolylineOptions;
 import com.amap.api.maps.utils.overlay.SmoothMoveMarker;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
+import com.cpigeon.app.modular.matchlive.MapMarkerManager;
 import com.cpigeon.app.modular.matchlive.model.bean.GYTRaceLocation;
 import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongRace;
 import com.cpigeon.app.modular.matchlive.presenter.GYTRaceLocationPre;
@@ -89,6 +90,8 @@ public class MapLiveFragment extends BaseMVPFragment {
 
     List<LatLng> points;
 
+    MapMarkerManager mapMarkerManager;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -96,6 +99,7 @@ public class MapLiveFragment extends BaseMVPFragment {
             this.geCheJianKongRace = ((MapLiveActivity) getActivity()).getGeCheJianKongRace();
 
         gytRaceLocations = getArguments().getParcelableArrayList("data");
+
     }
 
     public void showMapData() {
@@ -153,7 +157,6 @@ public class MapLiveFragment extends BaseMVPFragment {
             mDisplaybtn.setChecked(false);
         }
 
-        move();
     }
 
     private List<LatLng> readLatLngs() {
@@ -184,20 +187,29 @@ public class MapLiveFragment extends BaseMVPFragment {
         mMapView.onCreate(state);
         if (aMap == null) {
             aMap = mMapView.getMap();
+            mapMarkerManager = new MapMarkerManager(aMap, getContext());
             initMap();
         }
         isPrepared = false;
         showMapData();
-        mDisplaybtn.setOnClickListener(v -> {
-            if (mDisplaybtn.isChecked()) {
-                //expandinfo();
-                move();
-                smoothMarker.startSmoothMove();
-            } else {
-                smoothMarker.stopMove();
-                //expandinfo();
-            }
-        });
+
+        if(!geCheJianKongRace.getMEndTime().isEmpty()){
+            //检测结束
+            mDisplaybtn.setOnClickListener(v -> {
+                if (mDisplaybtn.isChecked()) {
+                    //expandinfo();
+                    move();
+                    smoothMarker.startSmoothMove();
+                } else {
+                    smoothMarker.stopMove();
+                    //expandinfo();
+                }
+            });
+        }else {
+            mDisplaybtn.setVisibility(View.GONE);
+        }
+
+
         /*floatingActionButton.setOnClickListener(v -> {
             if (geCheJianKongRace.getLatitude() != 0 && geCheJianKongRace.getLongitude() != 0) {
                 startWeather(gytRaceLocations.get(0).getWd(), gytRaceLocations.get(0).getJd(), CommonTool.Aj2GPSLocation(geCheJianKongRace.getLatitude()),
@@ -216,25 +228,37 @@ public class MapLiveFragment extends BaseMVPFragment {
         for (int i = 0; i < points.size(); i++) {
             b.include(points.get(i));
         }
-        LatLngBounds bounds = b.build();
-        aMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
-        aMap.setInfoWindowAdapter(infoWindowAdapter);
-        smoothMarker = new SmoothMoveMarker(aMap);
-        // 设置滑动的图标
-        smoothMarker.setDescriptor(BitmapDescriptorFactory.fromResource(R.mipmap.car));
-        smoothMarker.setMoveListener(v -> getActivity().runOnUiThread(() -> {
-            if (infoWindowLayout != null && title != null && smoothMarker.getMarker().isInfoWindowShown()) {
-                title.setText("距离司放地还有： " + DateTool.doubleformat(v * 0.001, 2) + "Km" + "\n" +
-                        "车速：" + DateTool.doubleformat(gytRaceLocations.get(smoothMarker.getIndex()).getSd(), 2) + "Km/H");
 
-            }
-            if (v == 0) {
-                smoothMarker.getMarker().hideInfoWindow();
-            } else {
-                LatLng position = smoothMarker.getPosition();
-                aMap.animateCamera(CameraUpdateFactory.changeLatLng(position));
-            }
-        }));
+        if(geCheJianKongRace.getMEndTime().isEmpty()){
+            //监控中
+            mapMarkerManager.addCustomMarker(points.get(0).latitude,points.get(0).longitude,R.mipmap.ic_move_start);
+            mapMarkerManager.addCustomMarker(points.get(points.size()-1).latitude,points.get(points.size()-1).longitude,R.mipmap.car);
+            mapMarkerManager.addMap();
+        }else {
+            //监控结束
+            LatLngBounds bounds = b.build();
+            aMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+            aMap.setInfoWindowAdapter(infoWindowAdapter);
+            smoothMarker = new SmoothMoveMarker(aMap);
+            // 设置滑动的图标
+            smoothMarker.setDescriptor(BitmapDescriptorFactory.fromResource(R.mipmap.car));
+            smoothMarker.setMoveListener(v -> getActivity().runOnUiThread(() -> {
+                if (infoWindowLayout != null && title != null && smoothMarker.getMarker().isInfoWindowShown()) {
+                    title.setText("距离司放地还有： " + DateTool.doubleformat(v * 0.001, 2) + "Km" + "\n" +
+                            "车速：" + DateTool.doubleformat(gytRaceLocations.get(smoothMarker.getIndex()).getSd(), 2) + "Km/H");
+
+                }
+                if (v == 0) {
+                    smoothMarker.getMarker().hideInfoWindow();
+                } else {
+                    LatLng position = smoothMarker.getPosition();
+                    aMap.animateCamera(CameraUpdateFactory.changeLatLng(position));
+                }
+            }));
+            move();
+        }
+
+
     }
 
     /*private void startWeather(double v1, double v2, double v3, double v4) {

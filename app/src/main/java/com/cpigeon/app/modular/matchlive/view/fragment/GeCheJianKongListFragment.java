@@ -133,10 +133,15 @@ public class GeCheJianKongListFragment extends BasePageTurnFragment<GeCheJianKon
                     adapter.expand(position);
                 }
             } else if (item instanceof GeCheJianKongExpandListAdapter.RaceItem) {
-                Intent intent = new Intent(getActivity(), MapLiveActivity.class);
-                intent.putExtra("geCheJianKongRace",((GeCheJianKongExpandListAdapter.RaceItem) item).getRace());
-                Logger.e(((GeCheJianKongExpandListAdapter.RaceItem) item).getRace().getId()+"：iD");
-                startActivity(intent);
+                GeCheJianKongExpandListAdapter.RaceItem raceItem = (GeCheJianKongExpandListAdapter.RaceItem) item;
+                if(raceItem.getRace().getStateCode() == 0){
+
+                }else {
+                    Intent intent = new Intent(getActivity(), MapLiveActivity.class);
+                    intent.putExtra("geCheJianKongRace",((GeCheJianKongExpandListAdapter.RaceItem) item).getRace());
+                    Logger.e(((GeCheJianKongExpandListAdapter.RaceItem) item).getRace().getId()+"：iD");
+                    startActivity(intent);
+                }
             }
         }
     };

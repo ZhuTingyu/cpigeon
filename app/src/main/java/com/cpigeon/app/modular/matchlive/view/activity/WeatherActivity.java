@@ -141,7 +141,7 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
     private void initMap() {
 
         aMap.addPolyline(new PolylineOptions().
-                addAll(afterPoints).width(10).color(Color.argb(255, 1, 1, 1)));
+                addAll(afterPoints).width(10).color(R.color.colorBlue));
 
         ArrayList<MarkerOptions> markers = new ArrayList<>();
         for (int i = 0, len = afterPoints.size(); i < len; i++) {
