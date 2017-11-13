@@ -24,9 +24,14 @@ public class CarVideoAdapter extends BaseQuickAdapter<RaceImageOrVideo,BaseViewH
 
     @Override
     protected void convert(BaseViewHolder helper, RaceImageOrVideo item) {
-        ((JZVideoPlayerStandard)helper.getView(R.id.videoplayer))
-                .setUp(item.getUrl(), JZVideoPlayerStandard.SCREEN_STATE_OFF, item.getTag());
+        JZVideoPlayerStandard videoPlayer =  helper.getView(R.id.videoplayer);
+        if(helper.getAdapterPosition() == 1){
+            videoPlayer.setUp("http://jzvd.nathen.cn/c6e3dc12a1154626b3476d9bf3bd7266/6b56c5f0dc31428083757a45764763b0-5287d2089db37e62345123a1be272f8b.mp4", JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, item.getTag());
+        }else {
+            videoPlayer.setUp(item.getUrl(), JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, item.getTag());
+        }
         Picasso.with(mContext).load(item.getThumburl())
                 .into(((JZVideoPlayerStandard)helper.getView(R.id.videoplayer)).thumbImageView);
+
     }
 }

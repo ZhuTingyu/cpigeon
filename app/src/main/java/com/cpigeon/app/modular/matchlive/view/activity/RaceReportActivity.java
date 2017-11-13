@@ -74,8 +74,8 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
     FloatingActionButton menuItemOrg;
     @BindView(R.id.menu)
     FloatingActionMenu menu;
-//    @BindView(R.id.menu_item_gyt)
-//    FloatingActionButton menuItemGyt;
+    @BindView(R.id.menu_item_gyt)
+    FloatingActionButton menuItemGyt;
 
     ///////////////////////////////////////////////////////////////////////////
     // 视图
@@ -163,14 +163,14 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
 
     private void initBoomMnue() {
         menu.setClosedOnTouchOutside(true);
-//        if (Build.VERSION.SDK_INT < 21) {
-//            menuItemGyt.setImageResource(R.mipmap.ic_truck_white);
-//        } else {
-//            menuItemGyt.setImageResource(R.drawable.ic_svg_truck_white);
-//        }
-//        menuItemGyt.setColorNormalResId(R.color.colorButton_primary_normal);
-//        menuItemGyt.setColorPressedResId(R.color.colorButton_primary_focus);
-//        menuItemGyt.setColorDisabledResId(R.color.colorButton_Default_disable);
+        if (Build.VERSION.SDK_INT < 21) {
+            menuItemGyt.setImageResource(R.mipmap.ic_truck_white);
+        } else {
+            menuItemGyt.setImageResource(R.drawable.ic_svg_truck_white);
+        }
+        menuItemGyt.setColorNormalResId(R.color.colorButton_primary_normal);
+        menuItemGyt.setColorPressedResId(R.color.colorButton_primary_focus);
+        menuItemGyt.setColorDisabledResId(R.color.colorButton_Default_disable);
 
         menuItemOrg.setColorNormalResId(R.color.colorButton_orange_normal);
         menuItemOrg.setColorPressedResId(R.color.colorButton_orange_focus);
@@ -180,7 +180,7 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
         menuItemRace.setColorNormalResId(R.color.colorButton_Default_focus);
         menuItemRace.setColorDisabledResId(R.color.colorButton_Default_disable);
 
-        //mPresenter.getDefaultGCJKInfo();
+        mPresenter.getDefaultGCJKInfo();
         refreshMenu();
     }
 
@@ -267,8 +267,8 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
 
     @Override
     public void showDefaultGCJKInfo(GeCheJianKongRace geCheJianKongRace) {
-//        menuItemGyt.setLabelText(geCheJianKongRace != null ? "鸽车监控" : ("此" + (getMatchInfo().getLx().equals("xh") ? "协会" : "公棚") + "未开启鸽车监控"));
-//        menuItemGyt.setEnabled(geCheJianKongRace != null);
+        menuItemGyt.setLabelText(geCheJianKongRace != null ? "鸽车监控" : ("此" + (getMatchInfo().getLx().equals("xh") ? "协会" : "公棚") + "未开启鸽车监控"));
+        menuItemGyt.setEnabled(geCheJianKongRace != null);
         this.defaultgeCheJianKongRace = geCheJianKongRace;
     }
 
@@ -329,7 +329,7 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
         super.onDestroy();
     }
 
-    @OnClick({R.id.layout_gg, R.id.menu_item_org, R.id.menu_item_race})
+    @OnClick({R.id.layout_gg, R.id.menu_item_org, R.id.menu_item_race, R.id.menu_item_gyt})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.layout_gg:
@@ -362,14 +362,18 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
                 mPresenter.addRaceFollow();
                 menu.close(true);
                 break;
-//            case R.id.menu_item_gyt:
-//                if (this.defaultgeCheJianKongRace != null) {
-//                    Intent intent = new Intent(this, MapLiveActivity.class);
-//                    intent.putExtra("geCheJianKongRace", defaultgeCheJianKongRace);
-//                    Logger.e(defaultgeCheJianKongRace.getId() + "：iD");
-//                    startActivity(intent);
-//                }
-//                break;
+            case R.id.menu_item_gyt:
+
+                if (this.defaultgeCheJianKongRace != null) {
+                    Intent intent = new Intent(this, MapLiveActivity.class);
+                    intent.putExtra("geCheJianKongRace", defaultgeCheJianKongRace);
+                    Logger.e(defaultgeCheJianKongRace.getId() + "：iD");
+                    startActivity(intent);
+                } else {
+                    showTips("暂时没有该赛事信息", TipType.DialogError);
+                }
+
+                break;
         }
 
     }

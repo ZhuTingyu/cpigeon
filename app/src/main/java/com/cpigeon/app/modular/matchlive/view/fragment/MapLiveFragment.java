@@ -191,29 +191,34 @@ public class MapLiveFragment extends BaseMVPFragment {
         if (aMap == null) {
             aMap = mMapView.getMap();
             mapMarkerManager = new MapMarkerManager(aMap, getContext());
-            initMap();
+            if(gytRaceLocations.size() !=  0){
+                initMap();
+                showMapData();
+                if(!geCheJianKongRace.getMEndTime().isEmpty()){
+                    //检测结束
+                    mDisplaybtn.setOnClickListener(v -> {
+                        if (mDisplaybtn.isChecked()) {
+                            //expandinfo();
+                            if(distanceOfEndPoint == 0){
+                                move();
+                            }else {
+                                smoothMarker.startSmoothMove();
+                            }
+                        } else {
+                            smoothMarker.stopMove();
+                            //expandinfo();
+                        }
+                    });
+                }else {
+                    mDisplaybtn.setVisibility(View.GONE);
+                }
+            }else {
+                showTips("暂时没有数据",TipType.DialogError);
+            }
         }
         isPrepared = false;
-        showMapData();
 
-        if(!geCheJianKongRace.getMEndTime().isEmpty()){
-            //检测结束
-            mDisplaybtn.setOnClickListener(v -> {
-                if (mDisplaybtn.isChecked()) {
-                    //expandinfo();
-                    if(distanceOfEndPoint == 0){
-                        move();
-                    }else {
-                        smoothMarker.startSmoothMove();
-                    }
-                } else {
-                    smoothMarker.stopMove();
-                    //expandinfo();
-                }
-            });
-        }else {
-            mDisplaybtn.setVisibility(View.GONE);
-        }
+
 
 
         /*floatingActionButton.setOnClickListener(v -> {

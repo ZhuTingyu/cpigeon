@@ -171,6 +171,7 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".modular.matchlive.view.activity.MapLiveActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".modular.usercenter.view.activity.BalanceActivity"

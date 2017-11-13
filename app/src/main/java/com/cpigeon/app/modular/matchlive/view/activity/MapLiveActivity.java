@@ -29,6 +29,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.jzvd.JZVideoPlayer;
 
 /**
  * Created by Administrator on 2017/7/12.
@@ -79,6 +80,38 @@ public class MapLiveActivity extends BaseActivity<GYTRaceLocationPre> implements
 
 
         mPresenter.loadGYTRaceLocation();
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                JZVideoPlayer.releaseAllVideos();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JZVideoPlayer.releaseAllVideos();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (JZVideoPlayer.backPress()) {
+            return;
+        }
+        super.onBackPressed();
     }
 
     private void initFragments() {

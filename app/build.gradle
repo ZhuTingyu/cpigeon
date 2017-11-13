@@ -5,8 +5,8 @@ apply plugin: 'me.tatarka.retrolambda'
 android {
     compileOptions.encoding = "UTF-8"
     updateVersionConfig()
-    compileSdkVersion 25
-    buildToolsVersion '25.0.0'
+    compileSdkVersion 26
+    buildToolsVersion '25.0.3'
     signingConfigs {
         //签名设置
         release {
@@ -20,7 +20,7 @@ android {
         multiDexEnabled true
         applicationId "com.cpigeon.app"
         minSdkVersion 17
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode getCustomVersionCode()
         versionName getCustomVersionName()
         signingConfig signingConfigs.release //默认签名配置
@@ -102,7 +102,7 @@ dependencies {
     })
     compile files('libs/commons-codec-1.10.jar')
     compile files('libs/libammsdk.jar')
-    compile 'com.android.support:appcompat-v7:25.3.0'
+    compile 'com.android.support:appcompat-v7:26.1.0'
     //Gson
     compile 'com.google.code.gson:gson:2.8.0'
     //权限管理
@@ -119,11 +119,11 @@ dependencies {
     //dex分包兼容5.0
     compile 'com.android.support:multidex:1.0.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'com.android.support:design:25.3.0'
-    compile 'com.android.support:support-v4:25.3.0'
-    compile 'com.android.support:cardview-v7:25.3.0'
-    compile 'com.android.support:recyclerview-v7:25.3.0'
-    compile 'com.android.support:gridlayout-v7:25.3.0'
+    compile 'com.android.support:design:26.1.0'
+    compile 'com.android.support:support-v4:26.1.0'
+    compile 'com.android.support:cardview-v7:26.1.0'
+    compile 'com.android.support:recyclerview-v7:26.1.0'
+    compile 'com.android.support:gridlayout-v7:26.1.0'
     compile 'com.youth.banner:banner:1.4.9'
     compile 'org.xutils:xutils:3.5.0'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.8'
@@ -161,8 +161,6 @@ dependencies {
     compile 'com.amap.api:search:latest.integration'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
-    compile 'com.shuyu:GSYVideoPlayer:2.1.1'
-
 }
 
 int getCustomVersionCode() {

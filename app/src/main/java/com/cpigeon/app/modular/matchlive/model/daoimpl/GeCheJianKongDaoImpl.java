@@ -2,10 +2,8 @@ package com.cpigeon.app.modular.matchlive.model.daoimpl;
 
 import android.support.annotation.NonNull;
 
-import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongOrgInfo;
 import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongRace;
 import com.cpigeon.app.modular.matchlive.model.dao.IGeCheJianKongDao;
-import com.cpigeon.app.modular.matchlive.model.dao.IGeCheJianKongOrgInfoDao;
 import com.cpigeon.app.utils.CallAPI;
 
 import java.util.List;
