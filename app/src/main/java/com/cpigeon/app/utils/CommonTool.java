@@ -152,6 +152,14 @@ public class CommonTool {
         return doubleformat(du + (double) fen / 100 + temp / 10000,6);
     }
 
+    public static String GPSformatOfEveryMinute(double gpsLocationValue) {
+        int du = (int) gpsLocationValue;
+        double temp = (gpsLocationValue - du) * 60;//需要转换的部分（分）
+        int fen = (int) temp;
+        temp = (temp - fen) * 60;//秒
+        return doubleformat(du,2) + "°" + doubleformat(fen,2) + "'" + doubleformat(temp, 2)+ "\"";
+    }
+
     /**
      * 安装应用
      *

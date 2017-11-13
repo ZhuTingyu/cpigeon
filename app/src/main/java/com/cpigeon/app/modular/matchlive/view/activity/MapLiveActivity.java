@@ -107,7 +107,6 @@ public class MapLiveActivity extends BaseActivity<GYTRaceLocationPre> implements
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         if (JZVideoPlayer.backPress()) {
             return;
         }

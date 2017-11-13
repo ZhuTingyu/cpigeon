@@ -139,7 +139,7 @@ public class MapVideoFragment extends BaseFragment{
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.bindToRecyclerView(mRecyclerView);
 
 
     }

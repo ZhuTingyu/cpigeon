@@ -4,7 +4,14 @@
     android:layout_height="wrap_content">
     <cn.jzvd.JZVideoPlayerStandard
         android:id="@+id/videoplayer"
+        android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="200dp"/>
+
+    <!--<com.afollestad.easyvideoplayer.EasyVideoPlayer
+        android:id="@+id/player"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />-->
 
 </LinearLayout>

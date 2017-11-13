@@ -117,7 +117,7 @@ public class MapLiveFragment extends BaseMVPFragment {
                 tvMapNowareadistance.setText("空距:" + DateTool.doubleformat(CommonTool.getDistance(topLocation.getWd(), topLocation.getJd(),
                         CommonTool.Aj2GPSLocation(lastLatitude),
                         CommonTool.Aj2GPSLocation(lastLongtitude)) * 0.001, 2) + " Km");
-                tvMapLocation.setText("司放地坐标:" + lastLongtitude + "/" + lastLatitude);
+                tvMapLocation.setText("司放地坐标:" + CommonTool.GPSformatOfEveryMinute(lastLongtitude) + "/" + CommonTool.GPSformatOfEveryMinute(lastLatitude));
             } else {
                 lastLatitude = lastLocation.getWd();
                 lastLongtitude = lastLocation.getJd();
@@ -125,13 +125,13 @@ public class MapLiveFragment extends BaseMVPFragment {
                 tvMapNowareadistance.setText("空距:" + DateTool.doubleformat(CommonTool.getDistance(topLocation.getWd(), topLocation.getJd(),
                         lastLatitude,
                         lastLongtitude) * 0.001, 2) + "Km");
-                tvMapLocation.setText("司放地坐标:" + CommonTool.GPS2AjLocation(lastLongtitude) + "/" + CommonTool.GPS2AjLocation(lastLatitude));
+                tvMapLocation.setText("司放地坐标:" + CommonTool.GPSformatOfEveryMinute(lastLongtitude) + "/" + CommonTool.GPSformatOfEveryMinute(lastLatitude));
             }
 
 
             tvMapNowweather.setText("当前天气:" + lastLocation.getTq().getMc());
-            tvMapNowlocation.setText("当前坐标:" + CommonTool.GPS2AjLocation(lastLocation.getJd()) + "/" +
-                    CommonTool.GPS2AjLocation(lastLocation.getWd()));
+            tvMapNowlocation.setText("当前坐标:" + CommonTool.GPSformatOfEveryMinute(lastLocation.getJd()) + "/" +
+                    CommonTool.GPSformatOfEveryMinute(lastLocation.getWd()));
 
             long usingtime;
             if (!geCheJianKongRace.getMEndTime().isEmpty()) {

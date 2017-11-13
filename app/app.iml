@@ -136,6 +136,7 @@
     <orderEntry type="library" exported="" name="com.google.code.gson:gson:2.8.0@jar" level="project" />
     <orderEntry type="library" exported="" name="com.flyco.roundview:FlycoRoundView_Lib-1.1.2" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-media-compat-26.1.0" level="project" />
+    <orderEntry type="library" exported="" name="com.afollestad:easyvideoplayer-0.3.0" level="project" />
     <orderEntry type="library" exported="" name="com.ashokvarma.android:bottom-navigation-bar-1.4.1" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:recyclerview-v7-26.1.0" level="project" />
     <orderEntry type="library" exported="" name="com.orhanobut:logger-1.15" level="project" />
@@ -191,6 +192,7 @@
     <orderEntry type="library" exported="" name="com.kyleduo.switchbutton:library-1.4.5" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-core-utils-26.1.0" level="project" />
     <orderEntry type="library" exported="" name="org.xutils:xutils-3.5.0" level="project" />
+    <orderEntry type="library" exported="" name="me.zhanghai.android.materialprogressbar:library-1.1.7" level="project" />
     <orderEntry type="library" exported="" name="com.github.CymChad:BaseRecyclerViewAdapterHelper-2.9.8" level="project" />
     <orderEntry type="library" exported="" name="com.tencent.bugly:nativecrashreport-3.3.1" level="project" />
     <orderEntry type="library" exported="" name="__local_jars__:D.\work\CpigeonAppPlus\app\libs\libammsdk.jar:unspecified@jar" level="project" />
