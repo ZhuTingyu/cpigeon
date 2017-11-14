@@ -35,14 +35,9 @@ public class WeatherManager {
 
     }
 
-    public WeatherManager seacherCityByLatLng(LatLng latLng){
+    public Observable<ApiResponse<RegeocodeAddress>> seacherCityByLatLng(LatLng latLng){
         RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(latLng.latitude, latLng.longitude), 200, GeocodeSearch.AMAP);
         geocoderSearch.getFromLocationAsyn(query);
-        return this;
-    }
-
-    public Observable<ApiResponse<RegeocodeAddress>> setseacherCityCallBack(){
-
         return Observable.<ApiResponse<RegeocodeAddress>>create(observableEmitter -> {
             geocoderSearch.setOnGeocodeSearchListener(new GeocodeSearch.OnGeocodeSearchListener() {
                 @Override
@@ -59,18 +54,12 @@ public class WeatherManager {
                 }
             });
         });
-
     }
 
-    public WeatherManager requsetWeatherByCityName(String cityName){
+    public Observable<ApiResponse<LocalWeatherLive>> requsetWeatherByCityName(String cityName){
         WeatherSearchQuery mquery = new WeatherSearchQuery(cityName, WeatherSearchQuery.WEATHER_TYPE_LIVE);
         mweathersearch.setQuery(mquery);
         mweathersearch.searchWeatherAsyn();
-        return this;
-    }
-
-    public Observable<ApiResponse<LocalWeatherLive>> setrequsetWeatherCallBack(){
-
         return Observable.<ApiResponse<LocalWeatherLive>>create(observableEmitter -> {
             mweathersearch.setOnWeatherSearchListener(new WeatherSearch.OnWeatherSearchListener() {
                 @Override
@@ -98,7 +87,6 @@ public class WeatherManager {
             });
 
         });
-
     }
 
 }

@@ -199,19 +199,18 @@ public class MapLiveFragment extends BaseMVPFragment {
                     //检测结束
                     mDisplaybtn.setOnClickListener(v -> {
                         if (mDisplaybtn.isChecked()) {
-                            //expandinfo();
                             if(distanceOfEndPoint == 0){
-                                move();
+                                initCartPoint();
                                 smoothMarker.startSmoothMove();
                             }else {
                                 smoothMarker.startSmoothMove();
                             }
                         } else {
                             smoothMarker.stopMove();
-                            //expandinfo();
                         }
                     });
                 }else {
+                    //检测中
                     mDisplaybtn.setVisibility(View.GONE);
                 }
             }else {
@@ -280,7 +279,7 @@ public class MapLiveFragment extends BaseMVPFragment {
                     aMap.animateCamera(CameraUpdateFactory.changeLatLng(position));
                 }
             }));
-            move();
+            initCartPoint();
         }
 
 
@@ -319,26 +318,11 @@ public class MapLiveFragment extends BaseMVPFragment {
         return R.layout.fragment_map_lookback;
     }
 
+    /**
+     * 添加轨迹
+     */
     private void addPolylineInPlayGround() {
         List<LatLng> list = readLatLngs();
-        /*List<Integer> colorList = new ArrayList<Integer>();
-        List<BitmapDescriptor> bitmapDescriptors = new ArrayList<BitmapDescriptor>();
-
-        int[] colors = new int[]{Color.argb(255, 0, 255, 0), Color.argb(255, 255, 255, 0), Color.argb(255, 255, 0, 0)};
-        List<BitmapDescriptor> textureList = new ArrayList<BitmapDescriptor>();
-        textureList.add(BitmapDescriptorFactory.fromResource(R.drawable.custtexture));
-
-        List<Integer> texIndexList = new ArrayList<Integer>();
-        texIndexList.add(0);//对应上面的第0个纹理
-        texIndexList.add(1);
-        texIndexList.add(2);
-
-        Random random = new Random();
-        for (int i = 0; i < list.size(); i++) {
-            colorList.add(colors[random.nextInt(3)]);
-            bitmapDescriptors.add(textureList.get(0));
-
-        }*/
 
         aMap.addPolyline(new PolylineOptions().setCustomTexture(BitmapDescriptorFactory.fromResource(R.drawable.custtexture)) //setCustomTextureList(bitmapDescriptors)
                 .addAll(list)
@@ -346,7 +330,10 @@ public class MapLiveFragment extends BaseMVPFragment {
                 .width(18));
     }
 
-    public void move() {
+    /**
+     * 在起点初始化车图标
+     */
+    public void initCartPoint() {
 
         LatLng drivePoint = points.get(0);
         Pair<Integer, LatLng> pair = PointsUtil.calShortestDistancePoint(points, drivePoint);

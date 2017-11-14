@@ -21,6 +21,7 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.modular.matchlive.view.adapter.AfterWeatherListAdapter;
+import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.WeatherManager;
 import com.cpigeon.app.utils.http.GsonUtil;
 import com.google.gson.reflect.TypeToken;
@@ -32,6 +33,8 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2017/7/25.
@@ -48,8 +51,8 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
     List<LatLng> afterPoints;
     AfterWeatherListAdapter adapter;
     Toolbar toolbar;
-    List<RegeocodeAddress> addressList;
-    List<LocalWeatherLive> weatherList;
+    RegeocodeAddress[] addressList;
+    LocalWeatherLive[] weatherList;
 
     WeatherManager manager;
 
@@ -83,29 +86,8 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
 
         manager = new WeatherManager(this);
 
-        addressList = new ArrayList<>();
-        weatherList = new ArrayList<>();
-
-        manager.setseacherCityCallBack().subscribe(r -> {
-            if (r.isOk()) {
-                addressList.add(r.data);
-                if (addressList.size() == afterPoints.size()) {
-                    requestWeatherByCityName();
-                }
-            }
-        });
-
-        manager.setrequsetWeatherCallBack().subscribe(r -> {
-            if(r.isOk()){
-                weatherList.add(r.data);
-                if(weatherList.size() == addressList.size()){
-                    bindListData();
-                    initMap();
-                }
-            }else {
-                showTips("获取天气失败",TipType.DialogError);
-            }
-        });
+        addressList = new RegeocodeAddress[afterPoints.size()];
+        weatherList = new LocalWeatherLive[afterPoints.size()];
 
         searchCityByPoint();
     }
@@ -134,13 +116,34 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
 
         for (int i = 0, len = afterPoints.size(); i < len; i++) {
             LatLng latLng = afterPoints.get(i);
-            manager.seacherCityByLatLng(latLng);
+            int finalI = i;
+            manager.seacherCityByLatLng(latLng).subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe(r -> {
+                if (r.isOk()) {
+                    addressList[finalI] = r.data;
+                    if (Lists.isFull(addressList)) {
+                        requestWeatherByCityName();
+                    }
+                }
+            });
         }
     }
 
     private void requestWeatherByCityName() {
-        for(int i = 0, len = addressList.size();i < len; i++){
-            manager.requsetWeatherByCityName(addressList.get(i).getCity());
+        for(int i = 0, len = addressList.length;i < len; i++){
+            int finalI = i;
+            manager.requsetWeatherByCityName(addressList[i].getCity()).subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe(r -> {
+                if(r.isOk()){
+                    weatherList[finalI] = r.data;
+                    if(Lists.newArrayList(weatherList).size() == afterPoints.size()){
+                        bindListData();
+                        initMap();
+                    }
+                }else {
+                    showTips("获取天气失败",TipType.DialogError);
+                }
+            });
         }
     }
 
@@ -154,7 +157,7 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
     }
 
     private void bindListData() {
-        adapter.setNewData(weatherList);
+        adapter.setNewData(Lists.newArrayList(weatherList));
     }
 
 
@@ -165,7 +168,7 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
 
         ArrayList<MarkerOptions> markers = new ArrayList<>();
         for (int i = 0, len = afterPoints.size(); i < len; i++) {
-            markers.add(new MarkerOptions().position(afterPoints.get(i)).snippet(GsonUtil.toJson(weatherList.get(i))));
+            markers.add(new MarkerOptions().position(afterPoints.get(i)).snippet(GsonUtil.toJson(weatherList[i])));
         }
 
         aMap.addMarkers(markers, true);
@@ -183,22 +186,17 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
         double stopLa = intent.getDoubleExtra("v3", 0);
         double stopLo = intent.getDoubleExtra("v4", 0);
 
-        LatLng firstPoint = new LatLng(startLa, startLo);
-        LatLng endPoint = new LatLng(stopLa, stopLo);
-
 
         double x = (stopLo - startLo) * 0.2;
         double y = (stopLa - startLa) * 0.2;
         Logger.e("斜度:" + x);
 
-        afterPoints.add(firstPoint);
         for (int i = 0; i <= 5; i++) {
             double x1 = startLa + (y * i);//第一个点La
             double x2 = startLo + (x * i);//第一个点Long
             LatLng latLng = new LatLng(x1, x2);
             afterPoints.add(latLng);
         }
-        afterPoints.add(endPoint);
 
     }
 
