@@ -38,6 +38,7 @@ import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.DateTool;
 import com.cpigeon.app.utils.PointsUtil;
 import com.cpigeon.app.utils.ViewExpandAnimation;
+import com.cpigeon.app.utils.http.LogUtil;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -201,6 +202,7 @@ public class MapLiveFragment extends BaseMVPFragment {
                             //expandinfo();
                             if(distanceOfEndPoint == 0){
                                 move();
+                                smoothMarker.startSmoothMove();
                             }else {
                                 smoothMarker.startSmoothMove();
                             }
@@ -243,7 +245,9 @@ public class MapLiveFragment extends BaseMVPFragment {
         if(geCheJianKongRace.getMEndTime().isEmpty()){
             //监控中
             mapMarkerManager.addCustomMarker(points.get(0).latitude,points.get(0).longitude,R.mipmap.ic_move_start);
-            mapMarkerManager.addCustomMarker(points.get(points.size()-1).latitude,points.get(points.size()-1).longitude,R.mipmap.car);
+            mapMarkerManager.addCustomMarker(points.get(points.size()-1).latitude
+                    ,points.get(points.size()-1).longitude
+                    ,R.mipmap.car).rotateAngle(MapMarkerManager.getAngle(points,false));
             mapMarkerManager.addMap();
         }else {
             //监控结束
@@ -264,11 +268,12 @@ public class MapLiveFragment extends BaseMVPFragment {
 
                 }
                 distanceOfEndPoint = v;
+                LogUtil.print("distance: " + v);
                 if (v == 0) {
-                    smoothMarker.getMarker().hideInfoWindow();
+                    /*smoothMarker.getMarker().hideInfoWindow();
                     move();
-                    smoothMarker.stopMove();
-                    distanceOfEndPoint = -1;
+                    smoothMarker.stopMove();*/
+                    //distanceOfEndPoint = -1;
                     mDisplaybtn.setChecked(false);
                 } else {
                     LatLng position = smoothMarker.getPosition();
@@ -351,6 +356,7 @@ public class MapLiveFragment extends BaseMVPFragment {
         // 设置滑动的轨迹左边点
         smoothMarker.setPoints(subList);
         smoothMarker.setTotalDuration(40);
+        smoothMarker.setRotate(-MapMarkerManager.getAngle(points,true));
 
     }
 

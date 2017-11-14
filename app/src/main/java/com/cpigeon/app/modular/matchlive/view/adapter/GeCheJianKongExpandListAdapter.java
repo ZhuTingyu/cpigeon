@@ -28,6 +28,10 @@ public class GeCheJianKongExpandListAdapter extends BaseMultiItemQuickAdapter<Mu
     private int _greenColor = Color.parseColor("#2c9c00");
     private int _blueColor = Color.parseColor("#2f96ff");
 
+    private static final int STATE_NOT_MONITOR = 0;
+    private static final int STATE_MONITORING = 1;
+    private static final int STATE_END_OF_MONITOR = 2;
+
     public GeCheJianKongExpandListAdapter(List<MultiItemEntity> data) {
         super(data);
         addItemType(TYPE_ORG, R.layout.listitem_gechejiankong_title);
@@ -41,8 +45,8 @@ public class GeCheJianKongExpandListAdapter extends BaseMultiItemQuickAdapter<Mu
                 //((OrgItem)multiItemEntity).orgInfo
                 baseViewHolder.setText(R.id.tv_item_orgname, ((OrgItem) multiItemEntity).orgInfo.getOrgName());
                 boolean isNoRace = ((OrgItem) multiItemEntity).orgInfo.getRaces() == null || ((OrgItem) multiItemEntity).orgInfo.getRaces().size() == 0;
-                baseViewHolder.setText(R.id.tv_item_state, isNoRace ? "无监控" : "监控中");
-                baseViewHolder.setTextColor(R.id.tv_item_state, isNoRace ? _redColor : _greenColor);
+                baseViewHolder.setText(R.id.tv_item_state, isNoRace ? "无监控" : isHaveMonitoring(multiItemEntity) ? "监控中" : "监控结束");
+                baseViewHolder.setTextColor(R.id.tv_item_state, isNoRace ? _redColor : isHaveMonitoring(multiItemEntity) ? _greenColor : _blueColor);
                 AppCompatImageView downImg = baseViewHolder.getView(R.id.aciv_item_expand);
                 downImg.setVisibility(isNoRace ? View.INVISIBLE : View.VISIBLE);
                 downImg.setRotation(((OrgItem) multiItemEntity).isExpanded() ? 180 : 0);
@@ -115,4 +119,15 @@ public class GeCheJianKongExpandListAdapter extends BaseMultiItemQuickAdapter<Mu
             return TYPE_RACE;
         }
     }
+
+    private boolean isHaveMonitoring(MultiItemEntity itemEntity) {
+        List<GeCheJianKongRace> data = ((OrgItem) itemEntity).getOrgInfo().getRaces();
+        for (GeCheJianKongRace g : data) {
+            if (g.getStateCode() == STATE_MONITORING){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
