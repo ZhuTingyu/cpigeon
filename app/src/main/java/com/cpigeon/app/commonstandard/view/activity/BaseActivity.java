@@ -13,8 +13,11 @@ import android.os.IBinder;
 import android.os.PersistableBundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -48,11 +51,20 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  */
 
 public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements IView{
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
     public Context mContext;
     private Unbinder mUnbinder;
     private WeakReference<AppCompatActivity> weakReference;
     private SweetAlertDialog dialogPrompt;
     protected T mPresenter;
+
+
+    Toolbar toolbar;
+    AppBarLayout appBarLayout;
     /**
      * 加载中--对话框
      */
@@ -64,9 +76,19 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         doBeforeSetcontentView();
         setContentView(getLayoutId());
         mUnbinder = ButterKnife.bind(this);
+        toolbar = findViewById(R.id.toolbar);
+        initToolbar();
         mPresenter = this.initPresenter();
         initView(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
+
+    }
+
+    public void initToolbar() {
+        appBarLayout = findViewById(R.id.appbar);
+        if (null != toolbar) {
+            toolbar.setNavigationOnClickListener(e -> onBackPressed());
+        }
 
     }
 
@@ -317,5 +339,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     protected void hideLoading(){
         showTips("", TipType.LoadingHide);
+    }
+
+    public Activity getActivity() {
+        return this;
     }
 }

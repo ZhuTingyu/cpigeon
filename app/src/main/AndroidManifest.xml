@@ -210,6 +210,8 @@
             android:theme="@style/AppTheme.TransparentStatusBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
+        <activity android:name=".base.FragmentParentActivity"/>
+
 
         <!-- <provider -->
         <!-- android:name="android.support.v4.content.FileProvider" -->
