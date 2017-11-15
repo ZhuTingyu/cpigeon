@@ -2,6 +2,7 @@ package com.cpigeon.app.modular.matchlive.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -64,6 +65,7 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
     int i = 0;
 
 
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_weather;
@@ -87,7 +89,7 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
 
         initIcMap();
         getAfterPoint();
-        initListView();
+        initView();
 
         manager = new WeatherManager(this);
 
@@ -96,6 +98,8 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
 
         addressList = Lists.newArrayList();
         weatherList = Lists.newArrayList();
+
+        showLoading();
 
         searchCityByPoint();
     }
@@ -143,6 +147,7 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
                     if(weatherList.size() == afterPoints.size()){
                         bindListData();
                         initMap();
+                        hideLoading();
                     }else {
                         searchCityByPoint();
                     }
@@ -172,8 +177,8 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
     }*/
 
 
-    private void initListView() {
-        recyclerviewWeather = (RecyclerView) findViewById(R.id.recyclerview_weather);
+    private void initView() {
+        recyclerviewWeather = findViewById(R.id.recyclerview_weather);
         recyclerviewWeather.setLayoutManager(new LinearLayoutManager(this));
         addItemDecorationLine(recyclerviewWeather);
         recyclerviewWeather.setAdapter(adapter);

@@ -310,4 +310,12 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                 .colorResId(R.color.line_color).size(1)
                 .showLastDivider().build());
     }
+
+    protected void showLoading(){
+        showTips("正在拼命加载", TipType.LoadingShow);
+    }
+
+    protected void hideLoading(){
+        showTips("", TipType.LoadingHide);
+    }
 }
