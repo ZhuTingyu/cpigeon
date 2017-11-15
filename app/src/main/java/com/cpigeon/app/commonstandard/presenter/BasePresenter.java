@@ -2,16 +2,29 @@ package com.cpigeon.app.commonstandard.presenter;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 
+import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.commonstandard.view.activity.IView;
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
+import com.cpigeon.app.commonstandard.view.fragment.BaseFragment;
 import com.cpigeon.app.utils.CallAPI;
 import com.cpigeon.app.utils.WeakHandler;
+import com.cpigeon.app.utils.http.HttpErrorException;
+import com.cpigeon.app.utils.http.RestErrorInfo;
 
+import org.reactivestreams.Subscription;
 import org.xutils.common.Callback;
 
 import java.lang.ref.WeakReference;
 import java.util.WeakHashMap;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.BehaviorSubject;
 
 /**
  * Created by Administrator on 2017/4/6.
@@ -26,6 +39,9 @@ public abstract class BasePresenter<TView extends IView, TDao extends IBaseDao> 
     private WeakHandler mHandler;
 
     private WeakHashMap<String, Callback.Cancelable> mCancelableWeakHashMap;
+
+    protected final CompositeDisposable composite = new CompositeDisposable();
+    protected final BehaviorSubject<RestErrorInfo> error = BehaviorSubject.create();
 
     public BasePresenter(TView mView) {
         onAttach();
@@ -163,4 +179,25 @@ public abstract class BasePresenter<TView extends IView, TDao extends IBaseDao> 
         protected void runDetached() {
         }
     }
+
+    public <T> void submitRequestThrowError(Observable<T> observable, final Consumer<? super T> onNext) {
+            composite.add(observable.subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe(onNext, throwable -> error.onNext(getError(throwable))));
+    }
+
+    public RestErrorInfo getError(Throwable throwable) {
+        if (throwable instanceof HttpErrorException) {
+            return new RestErrorInfo(((HttpErrorException) throwable).getResponseJson());
+        }
+        if (throwable != null) return new RestErrorInfo(throwable.getMessage());
+        return new RestErrorInfo("");
+    }
+
+    public <T> void submitRequest(Observable<T> observable, final Consumer<? super T> onNext, final Consumer<Throwable> onError) {
+
+            composite.add(observable.subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe(onNext, onError));
+
+    }
+
 }

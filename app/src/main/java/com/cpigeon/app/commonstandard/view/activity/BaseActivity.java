@@ -327,11 +327,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         CpigeonData.getInstance().initialization();
     }
 
-    protected void addItemDecorationLine(RecyclerView recyclerView){
-        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(recyclerView.getContext())
-                .colorResId(R.color.line_color).size(1)
-                .showLastDivider().build());
-    }
+
 
     protected void showLoading(){
         showTips("正在拼命加载", TipType.LoadingShow);
@@ -343,5 +339,11 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     public Activity getActivity() {
         return this;
+    }
+
+    protected void addItemDecorationLine(RecyclerView recyclerView){
+        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(recyclerView.getContext())
+                .colorResId(R.color.line_color).size(1)
+                .showLastDivider().build());
     }
 }

@@ -15,7 +15,7 @@ public class CPigeonApiUrl {
     private int mServerIndex = -1;
 
     //    Api 版本
-    private static final String API_VERSION = "/CPAPI/V1/";
+    public static final String API_VERSION = "/CPAPI/V1/";
 //    public static final String API_VERSION = "/API/";
     /**
      * 服务器主机

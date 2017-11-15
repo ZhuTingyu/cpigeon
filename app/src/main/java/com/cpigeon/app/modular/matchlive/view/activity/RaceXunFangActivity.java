@@ -214,7 +214,7 @@ public class RaceXunFangActivity extends BasePageTurnActivity<RacePre, RaceXunFa
         });
     }
 
-    private void initToolbar() {
+    public void initToolbar() {
         raceDetailsMarqueetv.setText(matchInfo.getMc());
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -8,8 +8,10 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.activity.IView;
 import com.cpigeon.app.utils.EncryptionTool;
 import com.cpigeon.app.utils.SharedPreferencesTool;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -82,6 +85,20 @@ public abstract class BaseFragment extends Fragment implements IView {
         super.onViewCreated(view, savedInstanceState);
         bind = ButterKnife.bind(this, view);
         finishCreateView(savedInstanceState);
+        toolbar = view.findViewById(R.id.toolbar);
+        if (toolbar==null){
+            toolbar = getActivity().findViewById(R.id.toolbar);
+        }
+    }
+
+    public void setTitle(@StringRes int resId) {
+        if (null != toolbar)
+            toolbar.setTitle(resId);
+    }
+
+    public void setTitle(String resId) {
+        if (null != toolbar)
+            toolbar.setTitle(resId);
     }
 
     public abstract void finishCreateView(Bundle state);
@@ -225,6 +242,12 @@ public abstract class BaseFragment extends Fragment implements IView {
 
     public FragmentActivity getSupportActivity() {
         return super.getActivity();
+    }
+
+    protected void addItemDecorationLine(RecyclerView recyclerView){
+        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(recyclerView.getContext())
+                .colorResId(R.color.line_color).size(1)
+                .showLastDivider().build());
     }
 
 }

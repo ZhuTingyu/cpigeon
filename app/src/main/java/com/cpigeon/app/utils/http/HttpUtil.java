@@ -1,6 +1,7 @@
 package com.cpigeon.app.utils.http;
 
 
+import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.databean.ApiResponse;
 import com.google.gson.reflect.TypeToken;
 
@@ -40,8 +41,14 @@ public class HttpUtil<T> {
         return this;
     }
 
-    public HttpUtil url(String url){
-        requestParams.setUri(url);
+    public HttpUtil url(String url, boolean isHaveVersion){
+        String stringUrl;
+        if(isHaveVersion){
+            stringUrl = CPigeonApiUrl.getInstance().getServer() + CPigeonApiUrl.API_VERSION + url;
+        }else {
+            stringUrl = CPigeonApiUrl.getInstance().getServer() + url;
+        }
+        requestParams.setUri(stringUrl);
         return this;
     }
 
