@@ -27,6 +27,7 @@ import com.cpigeon.app.utils.NetUtils;
 import com.cpigeon.app.utils.SharedPreferencesTool;
 import com.cpigeon.app.utils.UpdateManager;
 import com.cpigeon.app.utils.cache.CacheManager;
+import com.cpigeon.app.utils.cache.DataCleanManager;
 import com.cpigeon.app.utils.databean.UpdateInfo;
 import com.kyleduo.switchbutton.SwitchButton;
 
@@ -193,9 +194,9 @@ public class SettingsActivity extends BaseActivity {
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                         sweetAlertDialog.dismiss();
                         showTips("清理中...", TipType.LoadingShow);
+                        CacheManager.init(mContext);
                         FileTool.DeleteFolder(CpigeonConfig.CACHE_FOLDER, false);
                         CacheManager.delete();
-                        CacheManager.init(mContext);
                         try {
                             DbManager db = x.getDb(CpigeonConfig.getDataDb());
                             db.delete(MatchInfo.class, WhereBuilder.b()
@@ -205,6 +206,7 @@ public class SettingsActivity extends BaseActivity {
                         } catch (DbException e) {
                             e.printStackTrace();
                         }
+                        DataCleanManager.cleanApplicationData(mContext, (String[]) null);
                         showTips(null, TipType.LoadingHide);
                         showTips("清理完成", TipType.DialogSuccess);
                         initData();

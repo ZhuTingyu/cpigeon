@@ -126,20 +126,6 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
 
     private void searchCityByPoint() {
 
-        /*for (int i = 0, len = afterPoints.size(); i < len; i++) {
-            LatLng latLng = afterPoints.get(i);
-            int finalI = i;
-            manager.seacherCityByLatLng(latLng).subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread()).subscribe(r -> {
-                if (r.isOk()) {
-                    addressList[finalI] = r.data;
-                    if (Lists.isFull(addressList)) {
-                        requestWeatherByCityName();
-                    }
-                }
-            });
-        }*/
-
         manager.searchCityByLatLng(afterPoints.get(i),r -> {
             manager.requestWeatherByCityName(r.data.getCity(),response -> {
                 if(response.isOk()){
@@ -157,24 +143,6 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
         });
 
     }
-
-    /*private void requestWeatherByCityName() {
-        for(int i = 0, len = addressList.length;i < len; i++){
-            int finalI = i;
-            manager.requestWeatherByCityName(addressList[i].getCity()).subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread()).subscribe(r -> {
-                if(r.isOk()){
-                    weatherList[finalI] = r.data;
-                    if(Lists.newArrayList(weatherList).size() == afterPoints.size()){
-                        bindListData();
-                        initMap();
-                    }
-                }else {
-                    showTips("获取天气失败",TipType.DialogError);
-                }
-            });
-        }
-    }*/
 
 
     private void initView() {
