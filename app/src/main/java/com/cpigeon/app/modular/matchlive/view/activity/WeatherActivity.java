@@ -51,12 +51,17 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
     List<LatLng> afterPoints;
     AfterWeatherListAdapter adapter;
     Toolbar toolbar;
-    RegeocodeAddress[] addressList;
-    LocalWeatherLive[] weatherList;
+    /*RegeocodeAddress[] addressList;
+    LocalWeatherLive[] weatherList;*/
+
+    ArrayList<RegeocodeAddress> addressList;
+    ArrayList<LocalWeatherLive> weatherList;
 
     WeatherManager manager;
 
     Map<String, Integer> icMap;
+
+    int i = 0;
 
 
     @Override
@@ -86,8 +91,11 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
 
         manager = new WeatherManager(this);
 
-        addressList = new RegeocodeAddress[afterPoints.size()];
-        weatherList = new LocalWeatherLive[afterPoints.size()];
+        /*addressList = new RegeocodeAddress[afterPoints.size()];
+        weatherList = new LocalWeatherLive[afterPoints.size()];*/
+
+        addressList = Lists.newArrayList();
+        weatherList = Lists.newArrayList();
 
         searchCityByPoint();
     }
@@ -114,7 +122,7 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
 
     private void searchCityByPoint() {
 
-        for (int i = 0, len = afterPoints.size(); i < len; i++) {
+        /*for (int i = 0, len = afterPoints.size(); i < len; i++) {
             LatLng latLng = afterPoints.get(i);
             int finalI = i;
             manager.seacherCityByLatLng(latLng).subscribeOn(Schedulers.newThread())
@@ -126,13 +134,29 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
                     }
                 }
             });
-        }
+        }*/
+
+        manager.searchCityByLatLng(afterPoints.get(i),r -> {
+            manager.requestWeatherByCityName(r.data.getCity(),response -> {
+                if(response.isOk()){
+                    weatherList.add(response.data);
+                    if(weatherList.size() == afterPoints.size()){
+                        bindListData();
+                        initMap();
+                    }else {
+                        searchCityByPoint();
+                    }
+                }
+            });
+            i++;
+        });
+
     }
 
-    private void requestWeatherByCityName() {
+    /*private void requestWeatherByCityName() {
         for(int i = 0, len = addressList.length;i < len; i++){
             int finalI = i;
-            manager.requsetWeatherByCityName(addressList[i].getCity()).subscribeOn(Schedulers.newThread())
+            manager.requestWeatherByCityName(addressList[i].getCity()).subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread()).subscribe(r -> {
                 if(r.isOk()){
                     weatherList[finalI] = r.data;
@@ -145,7 +169,7 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
                 }
             });
         }
-    }
+    }*/
 
 
     private void initListView() {
@@ -157,7 +181,7 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
     }
 
     private void bindListData() {
-        adapter.setNewData(Lists.newArrayList(weatherList));
+        adapter.setNewData(weatherList);
     }
 
 
@@ -168,7 +192,7 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
 
         ArrayList<MarkerOptions> markers = new ArrayList<>();
         for (int i = 0, len = afterPoints.size(); i < len; i++) {
-            markers.add(new MarkerOptions().position(afterPoints.get(i)).snippet(GsonUtil.toJson(weatherList[i])));
+            markers.add(new MarkerOptions().position(afterPoints.get(i)).snippet(GsonUtil.toJson(weatherList.get(i))));
         }
 
         aMap.addMarkers(markers, true);
