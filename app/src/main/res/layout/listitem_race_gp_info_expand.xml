@@ -40,7 +40,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:text="所属地区:"
-        android:visibility="gone" />
+        android:visibility="visible" />
     <TextView
         android:id="@+id/tv_dianzihuanhao"
         android:layout_width="match_parent"

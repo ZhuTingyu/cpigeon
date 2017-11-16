@@ -77,14 +77,14 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         setContentView(getLayoutId());
         mUnbinder = ButterKnife.bind(this);
         toolbar = findViewById(R.id.toolbar);
-        initToolbar();
+        setToolbar();
         mPresenter = this.initPresenter();
         initView(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
 
     }
 
-    public void initToolbar() {
+    public void setToolbar() {
         appBarLayout = findViewById(R.id.appbar);
         if (null != toolbar) {
             toolbar.setNavigationOnClickListener(e -> onBackPressed());
