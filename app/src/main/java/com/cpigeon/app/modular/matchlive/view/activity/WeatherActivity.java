@@ -168,10 +168,11 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
             markers.add(new MarkerOptions().position(afterPoints.get(i)).snippet(GsonUtil.toJson(weatherList.get(i))));
         }
 
-        aMap.addMarkers(markers, true);
+        List<Marker> markerList = aMap.addMarkers(markers, true);
 
         aMap.setInfoWindowAdapter(this);
 
+        markerList.get(0).showInfoWindow();
     }
 
     private void getAfterPoint() {
