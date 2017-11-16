@@ -200,4 +200,9 @@ public abstract class BasePresenter<TView extends IView, TDao extends IBaseDao> 
 
     }
 
+
+    public void onDestroy(){
+        composite.clear();
+    }
+
 }

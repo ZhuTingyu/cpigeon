@@ -155,6 +155,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected void onDestroy() {
         super.onDestroy();
         if (mPresenter != null && !mPresenter.isDetached()) {
+            mPresenter.onDestroy();
             mPresenter.detach();
         }
 

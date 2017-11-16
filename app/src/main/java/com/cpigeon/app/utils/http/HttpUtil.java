@@ -36,6 +36,7 @@ public class HttpUtil<T> {
         return httpUtil;
     }
 
+
     public HttpUtil addParameter(String name ,Object value){
         requestParams.addParameter(name, value);
         return this;

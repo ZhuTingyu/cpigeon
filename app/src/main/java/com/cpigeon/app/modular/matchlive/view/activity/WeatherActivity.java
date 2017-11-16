@@ -10,6 +10,8 @@ import android.view.View;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.UiSettings;
+import com.amap.api.maps.model.AMapGestureListener;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
@@ -21,6 +23,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
+import com.cpigeon.app.modular.matchlive.MapMarkerManager;
 import com.cpigeon.app.modular.matchlive.view.adapter.AfterWeatherListAdapter;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.WeatherManager;
@@ -64,6 +67,8 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
 
     int i = 0;
 
+    MapMarkerManager markerManager;
+
 
 
     @Override
@@ -81,17 +86,20 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
         mMapView.onCreate(savedInstanceState);
         if (aMap == null) {
             aMap = mMapView.getMap();
+            aMap.getUiSettings().setRotateGesturesEnabled(false);
+            markerManager = new MapMarkerManager(aMap, mContext);
         }
         adapter = new AfterWeatherListAdapter();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("沿途天气");
         toolbar.setNavigationOnClickListener(v -> finish());
 
+        manager = new WeatherManager(this);
+
         initIcMap();
         getAfterPoint();
         initView();
 
-        manager = new WeatherManager(this);
 
         /*addressList = new RegeocodeAddress[afterPoints.size()];
         weatherList = new LocalWeatherLive[afterPoints.size()];*/
@@ -163,12 +171,17 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
         aMap.addPolyline(new PolylineOptions().
                 addAll(afterPoints).width(10).color(R.color.colorBlue));
 
-        ArrayList<MarkerOptions> markers = new ArrayList<>();
-        for (int i = 0, len = afterPoints.size(); i < len; i++) {
-            markers.add(new MarkerOptions().position(afterPoints.get(i)).snippet(GsonUtil.toJson(weatherList.get(i))));
+
+
+        markerManager.addCustomMarker(afterPoints.get(0),GsonUtil.toJson(weatherList.get(0)),R.mipmap.ic_move_start);
+        markerManager.addCustomMarker(afterPoints.get(afterPoints.size() - 1)
+                ,GsonUtil.toJson(weatherList.get(afterPoints.size() - 1)),R.mipmap.ic_move_end);
+
+        for (int i = 1, len = afterPoints.size() - 1; i < len; i++) {
+            markerManager.addMarker(afterPoints.get(i),null,GsonUtil.toJson(weatherList.get(i)));
         }
 
-        List<Marker> markerList = aMap.addMarkers(markers, true);
+        List<Marker> markerList = markerManager.addMap();
 
         aMap.setInfoWindowAdapter(this);
 

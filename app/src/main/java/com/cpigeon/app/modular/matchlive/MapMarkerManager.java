@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.http.GsonUtil;
@@ -34,10 +35,24 @@ public class MapMarkerManager {
     public MarkerOptions addMarker(double lat, double lng, @Nullable String title, @Nullable String snippet) {
         LatLng latLng = new LatLng(lat, lng);
         MarkerOptions marker = new MarkerOptions().position(latLng);
-        if (!title.isEmpty()) {
+        marker.setFlat(false);
+        if (title != null && !title.isEmpty()) {
             marker.title(title);
         }
-        if (!snippet.isEmpty()) {
+        if (title != null && !title.isEmpty()) {
+            marker.snippet(snippet);
+        }
+        markerList.add(marker);
+        return marker;
+    }
+
+    public MarkerOptions addMarker(LatLng latLng, @Nullable String title, @Nullable String snippet) {
+        MarkerOptions marker = new MarkerOptions().position(latLng);
+        marker.setFlat(false);
+        if (title != null && !title.isEmpty()) {
+            marker.title(title);
+        }
+        if (snippet != null && !snippet.isEmpty()) {
             marker.snippet(snippet);
         }
         markerList.add(marker);
@@ -48,9 +63,21 @@ public class MapMarkerManager {
         LatLng latLng = new LatLng(lat, lng);
         MarkerOptions marker = new MarkerOptions().position(latLng);
         marker.draggable(true);//设置Marker可拖动
-        marker.setFlat(true);//设置marker平贴地图效果
+        marker.setFlat(false);//设置marker平贴地图效果
         marker.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
                 .decodeResource(context.getResources(), ResId)));
+        markerList.add(marker);
+        return marker;
+    }
+
+    public MarkerOptions addCustomMarker(LatLng latLng, String snippet, @DrawableRes int ResId) {
+        MarkerOptions marker = new MarkerOptions().position(latLng);
+        marker.draggable(true);//设置Marker可拖动
+        marker.setFlat(false);//设置marker平贴地图效果
+        marker.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
+                .decodeResource(context.getResources(), ResId)));
+        marker.snippet(snippet);
+
         markerList.add(marker);
         return marker;
     }
@@ -118,8 +145,8 @@ public class MapMarkerManager {
     }
 
 
-    public void addMap() {
-        aMap.addMarkers(markerList, true);
+    public List<Marker> addMap() {
+        return aMap.addMarkers(markerList, true);
     }
 
 
