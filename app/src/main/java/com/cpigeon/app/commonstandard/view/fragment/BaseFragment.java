@@ -84,11 +84,14 @@ public abstract class BaseFragment extends Fragment implements IView {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bind = ButterKnife.bind(this, view);
-        finishCreateView(savedInstanceState);
         toolbar = view.findViewById(R.id.toolbar);
         if (toolbar==null){
             toolbar = getActivity().findViewById(R.id.toolbar);
+            if(toolbar != null){
+                toolbar.setNavigationOnClickListener(v -> getActivity().finish());
+            }
         }
+        finishCreateView(savedInstanceState);
     }
 
     public void setTitle(@StringRes int resId) {

@@ -1,6 +1,7 @@
 package com.cpigeon.app.commonstandard.view.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -47,4 +48,16 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
                 .colorResId(R.color.line_color).size(1)
                 .showLastDivider().build());
     }
+
+    protected <T extends View> T findViewById(@IdRes int resId) {
+        T t = null;
+        if (getView() != null)
+            t = getView().findViewById(resId);
+        if (t == null) {
+            throw new IllegalArgumentException("view 0x" + Integer.toHexString(resId)
+                    + " doesn't exist");
+        }
+        return t;
+    }
+
 }

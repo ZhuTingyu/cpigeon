@@ -16,13 +16,13 @@ import android.widget.TextView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
+import com.cpigeon.app.message.ui.PigeonMessageHomeActivity;
 import com.cpigeon.app.modular.home.view.activity.WebActivity;
 import com.cpigeon.app.modular.order.view.activity.OrderActivity;
 import com.cpigeon.app.modular.settings.view.activity.SettingsActivity;
 import com.cpigeon.app.modular.usercenter.model.bean.UserInfo;
 import com.cpigeon.app.modular.usercenter.view.activity.AboutActivity;
 import com.cpigeon.app.modular.usercenter.view.activity.BalanceActivity;
-import com.cpigeon.app.modular.usercenter.view.activity.FeedBackActivity;
 import com.cpigeon.app.modular.usercenter.view.activity.HelpActivity;
 import com.cpigeon.app.modular.usercenter.view.activity.MessageActivity;
 import com.cpigeon.app.modular.usercenter.view.activity.MyFollowActivity;
@@ -30,13 +30,12 @@ import com.cpigeon.app.modular.usercenter.view.activity.ScoreActivity;
 import com.cpigeon.app.modular.usercenter.view.activity.UserInfoActivity;
 import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.SharedPreferencesTool;
-import com.cpigeon.app.utils.WeakHandler;
 import com.cpigeon.app.utils.customview.MarqueeTextView;
 import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Picasso;
 
-import java.lang.ref.WeakReference;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -67,8 +66,8 @@ public class UserCenterFragment extends BaseMVPFragment {
     LinearLayout llUserCenterMsg;
     @BindView(R.id.marqueeTextView)
     MarqueeTextView marqueeTextView;
-    @BindView(R.id.ll_user_center_feedback)
-    LinearLayout llUserCenterFeedback;
+    @BindView(R.id.ll_user_center_message)
+    LinearLayout llUserCenterMessage;
     @BindView(R.id.ll_user_center_focus)
     LinearLayout llUserCenterFocus;
     @BindView(R.id.ll_user_center_order)
@@ -123,7 +122,7 @@ public class UserCenterFragment extends BaseMVPFragment {
         loadData();
     }
 
-    @OnClick({R.id.fragment_user_center_details, R.id.cv_sign, R.id.ll_user_center_msg, R.id.ll_user_center_feedback, R.id.ll_user_center_focus, R.id.ll_user_center_order, R.id.ll_user_money, R.id.ll_user_jifen, R.id.ll_user_center_setting, R.id.ll_user_center_aboutus, R.id.ll_user_center_help})
+    @OnClick({R.id.fragment_user_center_details, R.id.cv_sign, R.id.ll_user_center_msg, R.id.ll_user_center_focus, R.id.ll_user_center_order, R.id.ll_user_money, R.id.ll_user_jifen, R.id.ll_user_center_setting, R.id.ll_user_center_aboutus, R.id.ll_user_center_help,R.id.ll_user_center_message})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fragment_user_center_details:
@@ -147,8 +146,8 @@ public class UserCenterFragment extends BaseMVPFragment {
             case R.id.ll_user_center_msg:
                 startActivity(new Intent(getActivity(), MessageActivity.class));
                 break;
-            case R.id.ll_user_center_feedback:
-                startActivity(new Intent(getActivity(), FeedBackActivity.class));
+            case R.id.ll_user_center_message:
+                IntentBuilder.Builder(getActivity(), PigeonMessageHomeActivity.class).startActivity();
                 break;
             case R.id.ll_user_center_focus:
                 startActivity(new Intent(getActivity(), MyFollowActivity.class));

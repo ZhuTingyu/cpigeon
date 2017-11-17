@@ -123,5 +123,7 @@
     <color name="colorGuide">#58C1F0</color>
     <color name="text_selected">#888</color>
 
+    <color name="side_bar_text">#4A4A4A</color>
+
 
 </resources>

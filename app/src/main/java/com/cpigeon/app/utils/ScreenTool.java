@@ -8,6 +8,8 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.cpigeon.app.MyApp;
+
 /**
  * Created by Antony on 2016/10/19.
  */
@@ -142,8 +144,8 @@ public class ScreenTool {
      * @param dipValue
      * @return
      */
-    public static int dip2px(Context context, float dipValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
+    public static int dip2px(float dipValue) {
+        final float scale = MyApp.getInstance().getResources().getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);
     }
 
@@ -153,8 +155,8 @@ public class ScreenTool {
      * @param pxValue
      * @return
      */
-    public static int px2sp(Context context, float pxValue) {
-        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+    public static int px2sp(float pxValue) {
+        final float fontScale = MyApp.getInstance().getResources().getDisplayMetrics().scaledDensity;
         return (int) (pxValue / fontScale + 0.5f);
     }
 

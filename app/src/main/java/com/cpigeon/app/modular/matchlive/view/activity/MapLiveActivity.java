@@ -60,9 +60,7 @@ public class MapLiveActivity extends BaseActivity<GYTRaceLocationPre> implements
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         geCheJianKongRace = (GeCheJianKongRace) bundle.getSerializable("geCheJianKongRace");
-        //setSupportActionBar(toolbar);
         toolbar.setTitle(geCheJianKongRace.getRaceName());
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.getMenu().clear();
         toolbar.getMenu().add("沿途天气")
                 .setOnMenuItemClickListener(item -> {

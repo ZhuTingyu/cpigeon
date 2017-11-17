@@ -152,6 +152,38 @@
             android:background="@color/colorLayoutGray4" />
 
         <LinearLayout
+            android:id="@+id/ll_user_center_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+
+            <com.cpigeon.app.utils.customview.bgabadge.BGABadgeAppCompatImageView
+                style="@style/UserCenterItemIcon"
+                app:badge_gravity="rightTop"
+                app:srcCompat="@mipmap/ic_cpigeon_message" />
+
+
+            <com.cpigeon.app.utils.customview.MarqueeTextView
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:text="鸽信通"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sp_18" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorLayoutGray4" />
+
+        <LinearLayout
             android:id="@+id/ll_user_center_focus"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -168,44 +200,12 @@
 
 
             <com.cpigeon.app.utils.customview.MarqueeTextView
-                android:layout_width="wrap_content"
-
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp"
-                android:text="我的关注"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/sp_18" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/colorLayoutGray4" />
-
-        <LinearLayout
-            android:id="@+id/ll_user_center_feedback"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-
-            <com.cpigeon.app.utils.customview.bgabadge.BGABadgeAppCompatImageView
-                style="@style/UserCenterItemIcon"
-                app:badge_gravity="rightTop"
-                app:srcCompat="@drawable/ic_svg_pen" />
-
-
-            <com.cpigeon.app.utils.customview.MarqueeTextView
                 android:id="@+id/marqueeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
-                android:text="意见反馈"
+                android:text="我的关注"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/sp_18" />
         </LinearLayout>

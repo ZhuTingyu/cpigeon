@@ -36,6 +36,8 @@ import static com.cpigeon.app.modular.settings.view.activity.SettingPushActivity
  */
 
 public class MyApp extends Application {
+
+
     private static MyApp instance;
     private static String TAG = "cpigeon";
 

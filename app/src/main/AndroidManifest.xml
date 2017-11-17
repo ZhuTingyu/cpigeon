@@ -212,6 +212,12 @@
 
         <activity android:name=".base.FragmentParentActivity"/>
 
+        <activity
+            android:name=".message.ui.PigeonMessageHomeActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.TransparentStatusBar"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+
 
         <!-- <provider -->
         <!-- android:name="android.support.v4.content.FileProvider" -->
@@ -262,5 +268,7 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
     </application>
+
+
 
 </manifest>

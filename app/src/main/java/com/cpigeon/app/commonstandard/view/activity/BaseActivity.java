@@ -87,7 +87,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     public void setToolbar() {
         appBarLayout = findViewById(R.id.appbar);
         if (null != toolbar) {
-            toolbar.setNavigationOnClickListener(e -> onBackPressed());
+            toolbar.setNavigationOnClickListener(v -> finish());
         }
 
     }
