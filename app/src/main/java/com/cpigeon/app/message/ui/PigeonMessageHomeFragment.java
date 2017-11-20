@@ -48,7 +48,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment{
             }else if(1 == position){
 
             }else if(2 == position){
-
+                IntentBuilder.Builder().startParentActivity(getActivity(), CommonMessageFragment.class);
             }else if(3 == position){
 
             }else if(4 == position){

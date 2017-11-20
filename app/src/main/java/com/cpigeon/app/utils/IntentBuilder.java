@@ -23,6 +23,7 @@ public class IntentBuilder {
 
     public static final String KEY_TYPE = "KEY_TYPE";
     public static final String KEY_DATA = "KEY_DATA";
+    public static final String KEY_BOOLEAN = "KEY_BOOLEAN";
 
 
     private Intent intent;

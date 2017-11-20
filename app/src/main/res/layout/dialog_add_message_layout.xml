@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background_round_white_5"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/title"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="哈哈啊哈"
+        android:layout_centerHorizontal="true"
+        android:textSize="16dp"/>
+
+    <EditText
+        android:id="@+id/content"
+        android:layout_below="@id/title"
+        android:maxLines="5"
+        android:gravity="left"
+        tools:text="sdfadfljka;ldskjfl;akdjffadf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/btn_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="取消"
+        android:paddingLeft="32dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="32dp"
+        android:paddingBottom="8dp"
+        android:layout_below="@id/content"
+        android:background="@drawable/button_gary_bg"
+        android:textSize="16dp"/>
+
+
+    <TextView
+        android:id="@+id/btn_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="确定"
+        android:paddingLeft="32dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="32dp"
+        android:paddingBottom="8dp"
+        android:layout_below="@id/content"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/button_primary_bg"
+        android:textColor="@color/white"
+        android:textSize="16dp"/>
+
+
+
+</RelativeLayout>

@@ -192,13 +192,16 @@ public abstract class BaseFragment extends Fragment implements IView {
             case ViewSuccess:
             case ViewError:
                 return false;
+            case HINT:
+
+                return false;
             case LoadingShow:
                 if (mLoadingSweetAlertDialog != null && mLoadingSweetAlertDialog.isShowing())
                     mLoadingSweetAlertDialog.dismiss();
                 mLoadingSweetAlertDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
                 mLoadingSweetAlertDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
                 mLoadingSweetAlertDialog.setTitleText(tip);
-                mLoadingSweetAlertDialog.setCancelable(true);
+                mLoadingSweetAlertDialog.setCancelable(false);
                 mLoadingSweetAlertDialog.show();
                 return true;
             case LoadingHide:

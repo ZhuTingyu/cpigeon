@@ -21,7 +21,8 @@ public interface IView {
         ToastLong,
         ToastShort,
         SnackbarShort,
-        SnackbarLong
+        SnackbarLong,
+        HINT
     }
 
     /**
