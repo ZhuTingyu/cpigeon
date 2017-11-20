@@ -307,4 +307,8 @@ public abstract class BaseFragment extends Fragment implements IView {
         showTips("", TipType.LoadingHide);
     }
 
+    protected void finish(){
+        getActivity().finish();
+    }
+
 }

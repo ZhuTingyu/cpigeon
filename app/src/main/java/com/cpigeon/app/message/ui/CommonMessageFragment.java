@@ -1,6 +1,7 @@
 package com.cpigeon.app.message.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatImageView;
@@ -37,12 +38,15 @@ public class CommonMessageFragment extends BaseMVPFragment {
     boolean isSendMessage;
 
     RelativeLayout bottomRelativeLayout;
+    LinearLayout bottomLinearLayout;
 
     CommonMessageAdapter adapter;
     RecyclerView recyclerView;
 
     AppCompatImageView bottomIcon;
     TextView bottomText;
+
+    TextView bottomText2;
 
     @Override
     protected BasePresenter initPresenter() {
@@ -64,10 +68,24 @@ public class CommonMessageFragment extends BaseMVPFragment {
         isSendMessage = getActivity().getIntent().getBooleanExtra(IntentBuilder.KEY_BOOLEAN,false);
         setTitle("短语库");
         initView();
+        setToolbarChooseMenu();
         if(!isSendMessage){
-            setToolbarChooseMenu();
             setBottomViewAdd();
+        }else {
+            initSelectMessage();
         }
+    }
+
+    private void initSelectMessage() {
+        bottomLinearLayout.setVisibility(View.GONE);
+        bottomText2.setVisibility(View.VISIBLE);
+        bottomText2.setText("确定");
+        bottomText2.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.putExtra(IntentBuilder.KEY_DATA, "sdfasdfasdfasdfas");
+            getActivity().setIntent(intent);
+            finish();
+        });
     }
 
     private void setToolbarChooseMenu(){
@@ -76,10 +94,16 @@ public class CommonMessageFragment extends BaseMVPFragment {
                 .setOnMenuItemClickListener(item -> {
                     setToolbarCancelMenu();
                     adapter.SetImgChooseVisible(true);
-                    setBottomViewDelete();
-                    adapter.setOnItemClickListener((adapter1, view, position) -> {
-                        adapter.setSingleItem(adapter.getItem(position),position);
-                    });
+                    if(!isSendMessage){
+                        setBottomViewDelete();
+                        adapter.setOnItemClickListener((adapter1, view, position) -> {
+                            adapter.setMultiSelectItem(adapter.getItem(position),position);
+                        });
+                    }else {
+                        adapter.setOnItemClickListener((adapter1, view, position) -> {
+                            adapter.setSingleItem(adapter.getItem(position), position);
+                        });
+                    }
                     return false;
                 })
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -91,8 +115,12 @@ public class CommonMessageFragment extends BaseMVPFragment {
         toolbar.getMenu().add("取消")
                 .setOnMenuItemClickListener(item -> {
                     setToolbarChooseMenu();
+                    if(!isSendMessage){
+                        setBottomViewAdd();
+                    }else {
+
+                    }
                     adapter.SetImgChooseVisible(false);
-                    setBottomViewAdd();
                     adapter.setOnItemClickListener((adapter1, view, position) -> showMessageContent(adapter1,position));
                     return false;
                 })
@@ -111,9 +139,11 @@ public class CommonMessageFragment extends BaseMVPFragment {
         adapter.setOnItemClickListener((adapter1, view, position) -> showMessageContent(adapter1,position));
 
         bottomRelativeLayout = findViewById(R.id.rl1);
+        bottomLinearLayout = findViewById(R.id.ll1);
 
         bottomIcon = findViewById(R.id.icon);
         bottomText = findViewById(R.id.title);
+        bottomText2 = findViewById(R.id.text_btn);
 
         bindData();
 
