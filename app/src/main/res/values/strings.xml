@@ -88,4 +88,18 @@
 
     <string name="text_temperature">%1$s°C</string>
     <string name="text_wind_direction">%1$s风</string>
+
+    <string name="message_not_open_pigeon_message">您当前尚未开通鸽信通服务！开通成功立即赠送10000条短信</string>
+    <string name="message_pigeon_message_count_not_enough">你的短信不足一千条，请即时充值</string>
+
+    <string name="string_sign_info">当前签名为：【%1$s】！如需修改签名请移步至</string>
+
+    <string name="string_text_send_message">发送短信</string>
+    <string name="string_text_phone_book">电话薄</string>
+    <string name="string_text_common_message">短语库</string>
+    <string name="string_text_send_history">发送记录</string>
+    <string name="string_text_modify_sign">修改签名</string>
+    <string name="string_text_ic_user_helper">使用帮助</string>
+    <string name="string_text_ic_person_message">个人信息</string>
+    <string name="string_text_user_greement">用户协议</string>
 </resources>

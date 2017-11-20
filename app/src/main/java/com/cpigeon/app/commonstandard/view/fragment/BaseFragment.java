@@ -6,7 +6,9 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
@@ -22,6 +24,7 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.activity.IView;
 import com.cpigeon.app.utils.EncryptionTool;
 import com.cpigeon.app.utils.SharedPreferencesTool;
+import com.cpigeon.app.utils.ToastUtils;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.HashMap;
@@ -30,6 +33,10 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by Administrator on 2017/4/6.
@@ -53,6 +60,8 @@ public abstract class BaseFragment extends Fragment implements IView {
     protected SweetAlertDialog mLoadingSweetAlertDialog;
 
     protected Toolbar toolbar;
+
+    protected final CompositeDisposable composite = new CompositeDisposable();
 
     @Nullable
     @Override
@@ -240,7 +249,29 @@ public abstract class BaseFragment extends Fragment implements IView {
     public void onDestroyView() {
         super.onDestroyView();
         bind.unbind();
+        composite.clear();
+    }
 
+    protected <T extends View> T findViewById(@NonNull View view, @IdRes int resId) {
+        T t = null;
+        if (view != null)
+            t = (T) view.findViewById(resId);
+        if (t == null) {
+            throw new IllegalArgumentException("view 0x" + Integer.toHexString(resId)
+                    + " doesn't exist");
+        }
+        return t;
+    }
+
+    protected <T extends View> T findViewById(@IdRes int resId) {
+        T t = null;
+        if (getView() != null)
+            t = getView().findViewById(resId);
+        if (t == null) {
+            throw new IllegalArgumentException("view 0x" + Integer.toHexString(resId)
+                    + " doesn't exist");
+        }
+        return t;
     }
 
     public FragmentActivity getSupportActivity() {
@@ -251,6 +282,26 @@ public abstract class BaseFragment extends Fragment implements IView {
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(recyclerView.getContext())
                 .colorResId(R.color.line_color).size(1)
                 .showLastDivider().build());
+    }
+
+    protected <T> void bindUi(Observable<T> observable, Consumer<? super T> onNext) {
+        composite.add(observable.observeOn(AndroidSchedulers.mainThread())
+                .subscribe(onNext, throwable -> {
+                            ToastUtils.showLong(getActivity(), throwable.getMessage());
+                        }
+                ));
+    }
+
+    protected void showLoading(){
+        showTips("正在拼命加载", TipType.LoadingShow);
+    }
+
+    protected void showLoading(String message){
+        showTips(message, TipType.LoadingShow);
+    }
+
+    protected void hideLoading(){
+        showTips("", TipType.LoadingHide);
     }
 
 }

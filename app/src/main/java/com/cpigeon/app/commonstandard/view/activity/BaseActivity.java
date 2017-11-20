@@ -63,7 +63,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected T mPresenter;
 
 
-    Toolbar toolbar;
+    protected Toolbar toolbar;
     AppBarLayout appBarLayout;
     /**
      * 加载中--对话框

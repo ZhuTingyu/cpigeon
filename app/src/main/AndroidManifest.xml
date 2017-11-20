@@ -210,12 +210,13 @@
             android:theme="@style/AppTheme.TransparentStatusBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
-        <activity android:name=".base.FragmentParentActivity"/>
+        <activity android:name=".base.FragmentParentActivity"
+            android:theme="@style/ToolbarTheme"/>
 
         <activity
-            android:name=".message.ui.PigeonMessageHomeActivity"
+            android:name=".message.ui.PigeonMessageHomeFragment"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme.TransparentStatusBar"
+            android:theme="@style/ToolbarTheme"
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
 

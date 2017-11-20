@@ -51,8 +51,8 @@ public class PigeonMessageHomeAdapter extends BaseQuickAdapter<String, BaseViewH
 
     @Override
     protected void convert(BaseViewHolder holder, String item) {
-        holder.setText(R.id.title,"测试");
-        holder.setIconView(R.id.icon,R.mipmap.ic_phone_book);
+        holder.setText(R.id.title,item);
+        holder.setIconView(R.id.icon,icList.get(holder.getAdapterPosition()));
     }
 
 }

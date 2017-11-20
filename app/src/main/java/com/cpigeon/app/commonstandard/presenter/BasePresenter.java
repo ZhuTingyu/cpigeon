@@ -83,13 +83,17 @@ public abstract class BasePresenter<TView extends IView, TDao extends IBaseDao> 
 //        {
 //            mDao = null;
 //        }
-        if (mCancelableWeakHashMap != null)
+        if (mCancelableWeakHashMap != null){
             for (String key : mCancelableWeakHashMap.keySet()) {
                 Callback.Cancelable cancelable = mCancelableWeakHashMap.get(key);
                 if (cancelable != null && !cancelable.isCancelled()) {
                     cancelable.cancel();
                 }
             }
+        }
+
+        composite.clear();
+
         onDetached();
     }
 

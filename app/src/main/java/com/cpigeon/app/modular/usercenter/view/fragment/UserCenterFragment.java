@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
-import com.cpigeon.app.message.ui.PigeonMessageHomeActivity;
+import com.cpigeon.app.message.ui.PigeonMessageHomeFragment;
 import com.cpigeon.app.modular.home.view.activity.WebActivity;
 import com.cpigeon.app.modular.order.view.activity.OrderActivity;
 import com.cpigeon.app.modular.settings.view.activity.SettingsActivity;
@@ -147,7 +147,8 @@ public class UserCenterFragment extends BaseMVPFragment {
                 startActivity(new Intent(getActivity(), MessageActivity.class));
                 break;
             case R.id.ll_user_center_message:
-                IntentBuilder.Builder(getActivity(), PigeonMessageHomeActivity.class).startActivity();
+                //IntentBuilder.Builder(getActivity(), PigeonMessageHomeFragment.class).startActivity();
+                IntentBuilder.Builder().startParentActivity(getActivity(),PigeonMessageHomeFragment.class);
                 break;
             case R.id.ll_user_center_focus:
                 startActivity(new Intent(getActivity(), MyFollowActivity.class));

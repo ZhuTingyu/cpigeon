@@ -49,15 +49,6 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
                 .showLastDivider().build());
     }
 
-    protected <T extends View> T findViewById(@IdRes int resId) {
-        T t = null;
-        if (getView() != null)
-            t = getView().findViewById(resId);
-        if (t == null) {
-            throw new IllegalArgumentException("view 0x" + Integer.toHexString(resId)
-                    + " doesn't exist");
-        }
-        return t;
-    }
+
 
 }

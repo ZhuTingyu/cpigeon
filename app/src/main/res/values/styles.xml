@@ -11,6 +11,19 @@
     </style>
 
 
+    <style name="ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="toolbarStyle">@style/Toolbar</item>
+        <item name="navigationIcon">@drawable/ic_back</item>
+        <item name="android:windowIsTranslucent">true</item>
+
+    </style>
+
     <style name="WelcomeHeadingAppearance" parent="@android:style/TextAppearance.Large">
         <item name="android:textSize">@dimen/welcome_heading</item>
         <item name="android:textColor">@android:color/white</item>

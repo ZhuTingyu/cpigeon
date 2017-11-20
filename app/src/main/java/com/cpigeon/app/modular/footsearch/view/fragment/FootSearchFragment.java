@@ -99,6 +99,8 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> implement
     private void initToolbar() {
         toolbar.setTitle("足环查询");
         toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.setNavigationIcon(null);
+        toolbar.setNavigationOnClickListener(null);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         setHasOptionsMenu(true);
     }
