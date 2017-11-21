@@ -70,7 +70,7 @@ public class BaseMultiSelectAdapter<K extends MultiSelectEntity, B extends BaseV
         notifyDataSetChanged();
     }
 
-    public void SetImgChooseVisible(boolean isVisible){
+    public void setImgChooseVisible(boolean isVisible){
         for (K item : mData) {
             item.isChooseVisible = isVisible;
         }

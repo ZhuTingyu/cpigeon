@@ -1,4 +1,4 @@
-package com.cpigeon.app.message.ui;
+package com.cpigeon.app.message.ui.common;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -65,13 +65,13 @@ public class CommonMessageFragment extends BaseMVPFragment {
 
     @Override
     public void finishCreateView(Bundle state) {
-        isSendMessage = getActivity().getIntent().getBooleanExtra(IntentBuilder.KEY_BOOLEAN,false);
+        isSendMessage = getActivity().getIntent().getBooleanExtra(IntentBuilder.KEY_BOOLEAN, false);
         setTitle("短语库");
         initView();
         setToolbarChooseMenu();
-        if(!isSendMessage){
+        if (!isSendMessage) {
             setBottomViewAdd();
-        }else {
+        } else {
             initSelectMessage();
         }
     }
@@ -83,24 +83,24 @@ public class CommonMessageFragment extends BaseMVPFragment {
         bottomText2.setOnClickListener(v -> {
             Intent intent = new Intent();
             intent.putExtra(IntentBuilder.KEY_DATA, "sdfasdfasdfasdfas");
-            getActivity().setIntent(intent);
+            getActivity().setResult(0, intent);
             finish();
         });
     }
 
-    private void setToolbarChooseMenu(){
+    private void setToolbarChooseMenu() {
         toolbar.getMenu().clear();
         toolbar.getMenu().add("选择")
                 .setOnMenuItemClickListener(item -> {
                     setToolbarCancelMenu();
-                    adapter.SetImgChooseVisible(true);
+                    adapter.setImgChooseVisible(true);
                     if(!isSendMessage){
                         setBottomViewDelete();
-                        adapter.setOnItemClickListener((adapter1, view, position) -> {
+                        adapter.setOnCheckboxClickListener(position -> {
                             adapter.setMultiSelectItem(adapter.getItem(position),position);
                         });
                     }else {
-                        adapter.setOnItemClickListener((adapter1, view, position) -> {
+                        adapter.setOnCheckboxClickListener(position -> {
                             adapter.setSingleItem(adapter.getItem(position), position);
                         });
                     }
@@ -110,18 +110,13 @@ public class CommonMessageFragment extends BaseMVPFragment {
 
     }
 
-    private void setToolbarCancelMenu(){
+    private void setToolbarCancelMenu() {
         toolbar.getMenu().clear();
         toolbar.getMenu().add("取消")
                 .setOnMenuItemClickListener(item -> {
                     setToolbarChooseMenu();
-                    if(!isSendMessage){
-                        setBottomViewAdd();
-                    }else {
-
-                    }
-                    adapter.SetImgChooseVisible(false);
-                    adapter.setOnItemClickListener((adapter1, view, position) -> showMessageContent(adapter1,position));
+                    setBottomViewAdd();
+                    adapter.setImgChooseVisible(false);
                     return false;
                 })
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -132,11 +127,11 @@ public class CommonMessageFragment extends BaseMVPFragment {
         adapter = new CommonMessageAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
-        if(isSendMessage){
-            adapter.SetImgChooseVisible(true);
+        if (isSendMessage) {
+            adapter.setImgChooseVisible(true);
         }
+        addItemDecorationLine(recyclerView);
 
-        adapter.setOnItemClickListener((adapter1, view, position) -> showMessageContent(adapter1,position));
 
         bottomRelativeLayout = findViewById(R.id.rl1);
         bottomLinearLayout = findViewById(R.id.ll1);
@@ -149,10 +144,7 @@ public class CommonMessageFragment extends BaseMVPFragment {
 
     }
 
-    private void showMessageContent(BaseQuickAdapter adapter, int position){
-        DialogUtils.createDialog(getContext(),"详细内容"
-                ,"fadfadfadfa", "确定");
-    }
+
 
     private void bindData() {
         ArrayList<MultiSelectEntity> data = Lists.newArrayList();
@@ -162,7 +154,7 @@ public class CommonMessageFragment extends BaseMVPFragment {
         adapter.setNewData(data);
     }
 
-    private void setBottomViewAdd(){
+    private void setBottomViewAdd() {
         bottomIcon.setBackgroundResource(R.drawable.ic_message_add);
         bottomText.setText("添加短语");
         bottomRelativeLayout.setOnClickListener(v -> {
@@ -170,7 +162,7 @@ public class CommonMessageFragment extends BaseMVPFragment {
         });
     }
 
-    private void setBottomViewDelete(){
+    private void setBottomViewDelete() {
         bottomIcon.setBackgroundResource(R.drawable.ic_message_delete);
         bottomText.setText("删除短语");
         bottomRelativeLayout.setOnClickListener(v -> {
@@ -179,9 +171,9 @@ public class CommonMessageFragment extends BaseMVPFragment {
 
     }
 
-    private void showAddMessageDialog(){
+    private void showAddMessageDialog() {
         AlertDialog dialogPrompt = new AlertDialog.Builder(getContext()).create();
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_message_layout,null);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_message_layout, null);
 
         TextView title = findViewById(view, R.id.title);
         EditText content = findViewById(view, R.id.content);

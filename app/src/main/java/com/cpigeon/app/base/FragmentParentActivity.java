@@ -1,5 +1,6 @@
 package com.cpigeon.app.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -43,5 +44,11 @@ public class FragmentParentActivity extends BaseActivity {
         ft.replace(R.id.frame_holder, fragment, cls);
         ft.commitAllowingStateLoss();
 
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(baseFragment!=null)
+            baseFragment.onActivityResult(requestCode,resultCode,data);
     }
 }

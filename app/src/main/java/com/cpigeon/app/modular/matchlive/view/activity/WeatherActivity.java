@@ -145,6 +145,8 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
                     }else {
                         searchCityByPoint();
                     }
+                }else {
+                    hideLoading();
                 }
             });
             i++;

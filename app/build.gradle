@@ -163,6 +163,7 @@ dependencies {
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     compile 'com.afollestad:easyvideoplayer:0.3.0'
     compile 'com.github.jiang111:IndexRecyclerView:v1.1'
+    compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
 }
 
 int getCustomVersionCode() {

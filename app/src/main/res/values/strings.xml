@@ -102,4 +102,7 @@
     <string name="string_text_ic_user_helper">使用帮助</string>
     <string name="string_text_ic_person_message">个人信息</string>
     <string name="string_text_user_greement">用户协议</string>
+
+
+    <string name="string_text_contacts_number">此分组有%1$s人</string>
 </resources>

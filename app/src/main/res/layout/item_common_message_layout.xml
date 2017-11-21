@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="48dp"
     xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.v7.widget.AppCompatImageView
@@ -15,16 +16,38 @@
         android:layout_width="24dp"
         android:layout_height="24dp"/>
 
-    <TextView
-        android:id="@+id/content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+
+
+    <com.mcxtzhang.swipemenulib.SwipeMenuLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        app:ios="false"
         android:layout_toLeftOf="@+id/checkbox"
-        android:ellipsize="end"
-        android:singleLine="true"
-        tools:text="12312333333333333333333333333333333333333333333333333333333333333333333333"
-        android:textSize="16dp"/>
+        android:clickable="true">
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:gravity="center_vertical"
+            android:ellipsize="end"
+            android:singleLine="true"
+            tools:text="12312333333333333333333333333333333333333333333333333333333333333333333333"
+            android:textSize="16dp"/>
+
+        <Button
+            android:id="@+id/btnEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/light_red"
+            android:textSize="16dp"
+            android:text="编辑"
+            android:textColor="@android:color/white"/>
+
+
+    </com.mcxtzhang.swipemenulib.SwipeMenuLayout>
 
 
 
