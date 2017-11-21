@@ -1,6 +1,5 @@
 package com.cpigeon.app.message.ui.common;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -15,19 +14,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.MultiSelectEntity;
 import com.cpigeon.app.message.adapter.CommonMessageAdapter;
-import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 
 import java.util.ArrayList;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by Zhu TingYu on 2017/11/20.
@@ -131,6 +127,7 @@ public class CommonMessageFragment extends BaseMVPFragment {
             adapter.setImgChooseVisible(true);
         }
         addItemDecorationLine(recyclerView);
+
 
 
         bottomRelativeLayout = findViewById(R.id.rl1);

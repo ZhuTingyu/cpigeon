@@ -92,7 +92,7 @@
     <string name="message_not_open_pigeon_message">您当前尚未开通鸽信通服务！开通成功立即赠送10000条短信</string>
     <string name="message_pigeon_message_count_not_enough">你的短信不足一千条，请即时充值</string>
 
-    <string name="string_sign_info">当前签名为：【%1$s】！如需修改签名请移步至</string>
+    <string name="string_sign_info">当前签名为：【%1$s】</string>
 
     <string name="string_text_send_message">发送短信</string>
     <string name="string_text_phone_book">电话薄</string>
@@ -105,4 +105,5 @@
 
 
     <string name="string_text_contacts_number">此分组有%1$s人</string>
+    <string name="string_text_select_contacts_number">已经选择%1$s个联系人</string>
 </resources>

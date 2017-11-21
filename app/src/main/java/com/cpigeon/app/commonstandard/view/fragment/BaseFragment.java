@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -63,6 +64,8 @@ public abstract class BaseFragment extends Fragment implements IView {
 
     protected final CompositeDisposable composite = new CompositeDisposable();
 
+    protected SwipeRefreshLayout refreshLayout;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -99,6 +102,11 @@ public abstract class BaseFragment extends Fragment implements IView {
             if(toolbar != null){
                 toolbar.setNavigationOnClickListener(v -> getActivity().finish());
             }
+        }
+        refreshLayout = view.findViewById(R.id.swipeLayout);
+        if(refreshLayout != null){
+            refreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
+            refreshLayout.setEnabled(false);
         }
         finishCreateView(savedInstanceState);
     }
@@ -309,6 +317,19 @@ public abstract class BaseFragment extends Fragment implements IView {
 
     protected void finish(){
         getActivity().finish();
+    }
+
+    protected void setRefreshListener(SwipeRefreshLayout.OnRefreshListener listener){
+        if(refreshLayout != null){
+            refreshLayout.setEnabled(true);
+            refreshLayout.setOnRefreshListener(listener);
+        }
+    }
+
+    protected void setRefreshListener(boolean isRefresh){
+        if(refreshLayout != null){
+            refreshLayout.setRefreshing(isRefresh);
+        }
     }
 
 }

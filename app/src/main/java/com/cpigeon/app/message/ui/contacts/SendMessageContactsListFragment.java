@@ -20,6 +20,7 @@ public class SendMessageContactsListFragment extends BaseContactsListFragment {
         setTitle("选择群组");
 
         bottomLinearLayout.setVisibility(View.GONE);
+        btn.setVisibility(View.VISIBLE);
         btn.setText("确定");
         btn.setOnClickListener(v -> {
             Intent intent = new Intent();

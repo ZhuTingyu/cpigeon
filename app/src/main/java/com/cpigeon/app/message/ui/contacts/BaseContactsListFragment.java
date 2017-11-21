@@ -1,6 +1,7 @@
 package com.cpigeon.app.message.ui.contacts;
 
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -26,6 +27,9 @@ public class BaseContactsListFragment extends BaseMVPFragment {
     protected TextView btn;
     protected RecyclerView recyclerView;
     protected ContactsListAdapter adapter;
+    protected AppCompatImageView icon;
+    protected TextView title;
+
 
     @Override
     protected BasePresenter initPresenter() {
@@ -51,15 +55,16 @@ public class BaseContactsListFragment extends BaseMVPFragment {
 
         bottomLinearLayout = findViewById(R.id.ll1);
         btn = findViewById(R.id.text_btn);
+        title = findViewById(R.id.title);
+        icon = findViewById(R.id.icon);
 
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         addItemDecorationLine(recyclerView);
         adapter = new ContactsListAdapter();
         recyclerView.setAdapter(adapter);
-
         bindData();
-        btn.setVisibility(View.VISIBLE);
+        adapter.setImgChooseVisible(true);
     }
 
     private void bindData() {

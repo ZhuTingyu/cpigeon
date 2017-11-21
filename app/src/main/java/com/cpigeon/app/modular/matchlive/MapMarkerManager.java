@@ -62,7 +62,7 @@ public class MapMarkerManager {
     public MarkerOptions addCustomMarker(double lat, double lng, @DrawableRes int ResId) {
         LatLng latLng = new LatLng(lat, lng);
         MarkerOptions marker = new MarkerOptions().position(latLng);
-        marker.draggable(true);//设置Marker可拖动
+        marker.draggable(false);//设置Marker可拖动
         marker.setFlat(false);//设置marker平贴地图效果
         marker.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
                 .decodeResource(context.getResources(), ResId)));
@@ -72,7 +72,7 @@ public class MapMarkerManager {
 
     public MarkerOptions addCustomMarker(LatLng latLng, String snippet, @DrawableRes int ResId) {
         MarkerOptions marker = new MarkerOptions().position(latLng);
-        marker.draggable(true);//设置Marker可拖动
+        marker.draggable(false);//设置Marker可拖动
         marker.setFlat(false);//设置marker平贴地图效果
         marker.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
                 .decodeResource(context.getResources(), ResId)));

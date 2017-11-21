@@ -3,6 +3,7 @@ package com.cpigeon.app.message.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -21,8 +22,8 @@ import com.cpigeon.app.utils.StringValid;
 
 public class SendMessageFragment extends BaseMVPFragment {
 
-    public static final int COMMON_MESSAGE_CODE = 0x123;
-    public static final int CONTACTS_LIST_CODE = 0x123;
+    public static final int CODE_COMMON_MESSAGE = 0x123;
+    public static final int CODE_CONTACTS_LIST = 0x234;
 
     TextView tvPhoneNumbers;
     AppCompatImageView icContactsAdd;
@@ -31,6 +32,7 @@ public class SendMessageFragment extends BaseMVPFragment {
     TextView btnLeft;
     TextView btnRight;
     TextView btnModifySign;
+    TextView contactsNumber;
 
 
     @Override
@@ -57,6 +59,7 @@ public class SendMessageFragment extends BaseMVPFragment {
         btnLeft = (TextView) findViewById(R.id.btn_left);
         btnRight = (TextView) findViewById(R.id.btn_right);
         btnModifySign = (TextView) findViewById(R.id.btn_modify_sign);
+        contactsNumber = findViewById(R.id.number);
 
         bindUi(RxUtils.click(tvPhoneNumbers), o -> {
 
@@ -64,13 +67,13 @@ public class SendMessageFragment extends BaseMVPFragment {
 
         bindUi(RxUtils.click(icContactsAdd), o -> {
             IntentBuilder.Builder().
-                    startParentActivity(getActivity(), SendMessageContactsListFragment.class, CONTACTS_LIST_CODE);
+                    startParentActivity(getActivity(), SendMessageContactsListFragment.class, CODE_CONTACTS_LIST);
         });
 
         bindUi(RxUtils.click(icRight), o -> {
             IntentBuilder.Builder()
                     .putExtra(IntentBuilder.KEY_BOOLEAN, true)
-                    .startParentActivity(getActivity(), CommonMessageFragment.class, COMMON_MESSAGE_CODE);
+                    .startParentActivity(getActivity(), CommonMessageFragment.class, CODE_COMMON_MESSAGE);
         });
 
         bindUi(RxUtils.click(btnLeft), o -> {
@@ -95,9 +98,13 @@ public class SendMessageFragment extends BaseMVPFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (COMMON_MESSAGE_CODE == requestCode) {
+        if (CODE_COMMON_MESSAGE == requestCode) {
             if (data != null && StringValid.isStringValid(data.getStringExtra(IntentBuilder.KEY_DATA))) {
                 edContent.setText(data.getStringExtra(IntentBuilder.KEY_DATA));
+            }
+        }else if (CODE_CONTACTS_LIST == requestCode){
+            if(data != null){
+                contactsNumber.setVisibility(View.VISIBLE);
             }
         }
     }
