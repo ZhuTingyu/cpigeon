@@ -10,6 +10,7 @@ import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.message.adapter.PigeonMessageHomeAdapter;
 import com.cpigeon.app.message.ui.common.CommonMessageFragment;
 import com.cpigeon.app.message.ui.contacts.TelephoneBookFragment;
+import com.cpigeon.app.message.ui.history.MessageHistoryFragment;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 
@@ -52,7 +53,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment{
             }else if(2 == position){
                 IntentBuilder.Builder().startParentActivity(getActivity(), CommonMessageFragment.class);
             }else if(3 == position){
-
+                IntentBuilder.Builder().startParentActivity(getActivity(), MessageHistoryFragment.class);
             }else if(4 == position){
 
             }else if(5 == position){

@@ -31,6 +31,7 @@ import java.util.ArrayList;
 
 public class CommonMessageFragment extends BaseMVPFragment {
 
+
     boolean isSendMessage;
 
     RelativeLayout bottomRelativeLayout;
@@ -90,12 +91,12 @@ public class CommonMessageFragment extends BaseMVPFragment {
                 .setOnMenuItemClickListener(item -> {
                     setToolbarCancelMenu();
                     adapter.setImgChooseVisible(true);
-                    if(!isSendMessage){
+                    if (!isSendMessage) {
                         setBottomViewDelete();
                         adapter.setOnCheckboxClickListener(position -> {
-                            adapter.setMultiSelectItem(adapter.getItem(position),position);
+                            adapter.setMultiSelectItem(adapter.getItem(position), position);
                         });
-                    }else {
+                    } else {
                         adapter.setOnCheckboxClickListener(position -> {
                             adapter.setSingleItem(adapter.getItem(position), position);
                         });
@@ -129,7 +130,6 @@ public class CommonMessageFragment extends BaseMVPFragment {
         addItemDecorationLine(recyclerView);
 
 
-
         bottomRelativeLayout = findViewById(R.id.rl1);
         bottomLinearLayout = findViewById(R.id.ll1);
 
@@ -140,7 +140,6 @@ public class CommonMessageFragment extends BaseMVPFragment {
         bindData();
 
     }
-
 
 
     private void bindData() {
@@ -178,14 +177,15 @@ public class CommonMessageFragment extends BaseMVPFragment {
         TextView btnLeft = findViewById(view, R.id.btn_left);
         TextView btnRight = findViewById(view, R.id.btn_right);
 
+
         title.setText("新建短语");
+        btnRight.setOnClickListener(v -> {
+
+        });
+
 
         btnLeft.setOnClickListener(v -> {
             dialogPrompt.dismiss();
-        });
-
-        btnRight.setOnClickListener(v -> {
-
         });
 
         dialogPrompt.setView(view);

@@ -1,6 +1,10 @@
 package com.cpigeon.app.message.adapter;
 
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -41,6 +45,10 @@ public class CommonMessageAdapter extends BaseMultiSelectAdapter<MultiSelectEnti
             listener.OnClick(holder.getAdapterPosition());
         });
 
+        holder.findViewById(R.id.btnEdit).setOnClickListener(v -> {
+            showAddMessageDialog(mContext,"sdfadfadadf");
+        });
+
     }
 
     public interface OnCheckboxClickListener{
@@ -49,6 +57,32 @@ public class CommonMessageAdapter extends BaseMultiSelectAdapter<MultiSelectEnti
 
     public void setOnCheckboxClickListener(OnCheckboxClickListener listener){
         this.listener = listener;
+    }
+
+    private void showAddMessageDialog(Context context, String contentString) {
+        AlertDialog dialogPrompt = new AlertDialog.Builder(context).create();
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_add_message_layout, null);
+
+        TextView title = view.findViewById(R.id.title);
+        EditText content = view.findViewById(R.id.content);
+
+        TextView btnLeft = view.findViewById(R.id.btn_left);
+        TextView btnRight = view.findViewById(R.id.btn_right);
+
+        content.setText(contentString);
+        title.setText("编辑短语");
+        btnRight.setOnClickListener(v -> {
+
+        });
+
+
+        btnLeft.setOnClickListener(v -> {
+            dialogPrompt.dismiss();
+        });
+
+        dialogPrompt.setView(view);
+        dialogPrompt.show();
+
     }
 
 }

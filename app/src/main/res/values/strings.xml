@@ -106,4 +106,12 @@
 
     <string name="string_text_contacts_number">此分组有%1$s人</string>
     <string name="string_text_select_contacts_number">已经选择%1$s个联系人</string>
+
+    <string name="string_text_message_history_cpigeon_hint">中鸽网提示：由于信息发送的数据量大，只能查询一年内发送的短信，请您选择月份，系统按照您选择的月份显示结果</string>
+
+    <string name="string_text_date_for_message_history">%1$s月短信发送记录</string>
+    <string name="string_text_date_for_message_number">发送条数：%1$s条</string>
+
+    <string name="string_text_message_addressee_number">收件人数：%1$s</string>
+
 </resources>
