@@ -1,5 +1,6 @@
 package com.cpigeon.app.message.ui.contacts;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -8,24 +9,38 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
+import com.cpigeon.app.entity.MultiSelectEntity;
+import com.cpigeon.app.utils.IntentBuilder;
+import com.cpigeon.app.utils.Lists;
+
+import java.util.ArrayList;
 
 /**
  * Created by Zhu TingYu on 2017/11/21.
  */
 
-public class SelectCantactsFragment extends BaseContactsListFragment {
+public class SelectContactsFragment extends BaseContactsListFragment {
+
+    public static final int TYPE_CONTACTS_ADD = 1;
+
+    private int type;
 
     @Override
     public void finishCreateView(Bundle state) {
         super.finishCreateView(state);
-
+        type = getActivity().getIntent().getIntExtra(IntentBuilder.KEY_TYPE, 0);
         setTitle("选择群组");
 
         bottomLinearLayout.setVisibility(View.GONE);
         btn.setVisibility(View.VISIBLE);
         btn.setText("确定");
         btn.setOnClickListener(v -> {
-
+            if(type == TYPE_CONTACTS_ADD){
+                Intent intent = new Intent();
+                intent.putExtra(IntentBuilder.KEY_DATA,"12312312");
+                getActivity().setResult(0, intent);
+                finish();
+            }
         });
 
         adapter.setOnItemClickListener((adapter1, view, position) -> {
@@ -34,6 +49,16 @@ public class SelectCantactsFragment extends BaseContactsListFragment {
 
         adapter.addFooterView(initFoodView());
 
+    }
+
+    @Override
+    protected void bindData() {
+        ArrayList<MultiSelectEntity> data = Lists.newArrayList();
+        for (int i = 0; i < 5; i++) {
+            data.add(new MultiSelectEntity());
+        }
+        adapter.setNewData(data);
+        adapter.setImgChooseVisible(true);
     }
 
     public View initFoodView() {

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.cpigeon.app.utils.customview.SearchEditText
+        android:id="@+id/widget_title_bar_search"
+        style="@style/searchedittextstyle"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/search_edittext_height"
+        android:layout_marginLeft="@dimen/search_edittext_home_margin_h"
+        android:layout_marginRight="@dimen/search_edittext_home_margin_h"
+        android:dropDownHeight="12dp"
+        android:hint="搜索"
+        android:paddingRight="@dimen/dp_10"
+        android:textColor="@color/light_black2"
+        android:textColorHint="@color/search_edit_gray"
+        app:drawableDel="@mipmap/ic_delete"
+        app:search_gravity="left"/>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeLayout"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/widget_title_bar_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</RelativeLayout>

@@ -5,8 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.cpigeon.app.R;
+import com.cpigeon.app.entity.MultiSelectEntity;
 import com.cpigeon.app.message.ui.contacts.BaseContactsListFragment;
 import com.cpigeon.app.utils.IntentBuilder;
+import com.cpigeon.app.utils.Lists;
+
+import java.util.ArrayList;
 
 /**
  * Created by Zhu TingYu on 2017/11/21.
@@ -35,5 +39,15 @@ public class SendMessageContactsListFragment extends BaseContactsListFragment {
             adapter.setMultiSelectItem(adapter.getItem(position), position);
         });
 
+    }
+
+    @Override
+    protected void bindData() {
+        ArrayList<MultiSelectEntity> data = Lists.newArrayList();
+        for (int i = 0; i < 5; i++) {
+            data.add(new MultiSelectEntity());
+        }
+        adapter.setNewData(data);
+        adapter.setImgChooseVisible(true);
     }
 }

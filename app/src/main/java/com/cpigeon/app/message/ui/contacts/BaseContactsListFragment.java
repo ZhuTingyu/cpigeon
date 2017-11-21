@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * Created by Zhu TingYu on 2017/11/21.
  */
 
-public class BaseContactsListFragment extends BaseMVPFragment {
+public abstract class BaseContactsListFragment extends BaseMVPFragment {
 
     LinearLayout bottomLinearLayout;
     protected TextView btn;
@@ -64,16 +64,9 @@ public class BaseContactsListFragment extends BaseMVPFragment {
         adapter = new ContactsListAdapter();
         recyclerView.setAdapter(adapter);
         bindData();
-        adapter.setImgChooseVisible(true);
     }
 
-    private void bindData() {
-        ArrayList<MultiSelectEntity> data = Lists.newArrayList();
-        for (int i = 0; i < 5; i++) {
-            data.add(new MultiSelectEntity());
-        }
-        adapter.setNewData(data);
-    }
+    protected abstract void bindData();
 
 
 }
