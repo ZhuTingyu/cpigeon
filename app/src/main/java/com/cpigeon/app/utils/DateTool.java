@@ -18,6 +18,13 @@ public class DateTool {
     //JDK中的日期时间格式（年-月-日 时:分:秒）
     private final static String FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
 
+    //只要年份
+    public final static String FORMAT_YYYY = "yyyy";
+
+    //年月
+
+    public final static String FORMAT_YYYY_MM = "yyyy-MM";
+
     //字符串转换为日期
     public static Date strToDate(String strDate) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(FORMAT_DATE);
@@ -28,6 +35,11 @@ public class DateTool {
             System.out.println(e.getMessage());
         }
         return date;
+    }
+
+    public static String format(long date, String formatStr) {
+        SimpleDateFormat format = new SimpleDateFormat(formatStr);
+        return format.format(new Date(date));
     }
 
     //字符串转换为日期时间
@@ -55,6 +67,8 @@ public class DateTool {
         String strDateTime = dateTimeFormat.format(date);
         return strDateTime;
     }
+
+
 
     /**
      * 获取今天凌晨00:00的时间戳(毫秒)
