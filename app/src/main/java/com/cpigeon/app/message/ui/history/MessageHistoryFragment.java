@@ -52,13 +52,16 @@ public class MessageHistoryFragment extends BaseMVPFragment{
     private void initView() {
 
         dateString = DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_YYYY_MM);
-
+        setTitle("发送历史记录");
         initHeadView();
 
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MessageHistoryAdapter();
         adapter.bindToRecyclerView(recyclerView);
+        adapter.setOnItemClickListener((adapter1, view, position) -> {
+
+        });
         bindData();
     }
 
@@ -94,14 +97,14 @@ public class MessageHistoryFragment extends BaseMVPFragment{
         OptionPicker picker = new OptionPicker(getSupportActivity(), getDates());
         picker.setCanceledOnTouchOutside(false);
         picker.setDividerRatio(WheelView.DividerConfig.FILL);
-        picker.setShadowColor(Color.RED, 40);
         picker.setSelectedIndex(1);
         picker.setCycleDisable(true);
-        picker.setTextSize(11);
+        picker.setTextSize(16);
         picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
             @Override
             public void onOptionPicked(int index, String item) {
-
+                date.setText(item);
+                searchDate.setText(getMonth(item));
             }
         });
         picker.show();
@@ -111,8 +114,8 @@ public class MessageHistoryFragment extends BaseMVPFragment{
     public List<String> getDates(){
         List<String> dateList = Lists.newArrayList();
         String year = DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_YYYY);
-        for (int i = 0; i < 12; i++) {
-            dateList.add(year + i);
+        for (int i = 1; i <= 12; i++) {
+            dateList.add(year + "-" + i);
         }
         return dateList;
     }

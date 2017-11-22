@@ -112,6 +112,6 @@
     <string name="string_text_date_for_message_history">%1$s月短信发送记录</string>
     <string name="string_text_date_for_message_number">发送条数：%1$s条</string>
 
-    <string name="string_text_message_addressee_number">收件人数：%1$s</string>
+    <string name="string_text_message_addressee_number">收信人数：%1$s</string>
 
 </resources>

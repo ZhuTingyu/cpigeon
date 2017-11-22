@@ -164,7 +164,10 @@ dependencies {
     compile 'com.afollestad:easyvideoplayer:0.3.0'
     compile 'com.github.jiang111:IndexRecyclerView:v1.1'
     compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
-    compile 'com.github.gzu-liyujiang.AndroidPicker:WheelPicker:1.5.5'
+    //compile 'com.github.gzu-liyujiang.AndroidPicker:WheelPicker:1.5.5'
+    compile('com.github.gzu-liyujiang.AndroidPicker:WheelPicker:1.5.5') {
+        exclude group: 'com.android.support'
+    }
 }
 
 int getCustomVersionCode() {
