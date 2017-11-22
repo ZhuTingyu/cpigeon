@@ -1,50 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <include
         android:id="@+id/toolbar_top"
-        layout="@layout/layout_toolbar"/>
+        layout="@layout/layout_toolbar" />
 
-    <RelativeLayout
-        android:id="@+id/rl1"
+
+    <TextView
+        android:id="@+id/text_btn"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center"
         android:layout_alignParentBottom="true"
         android:background="@color/message_button"
-        android:layout_width="match_parent"
-        android:layout_height="56dp">
-
-        <TextView
-            android:id="@+id/text_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
-            android:visibility="visible"
-            android:layout_centerInParent="true"
-            android:textSize="16dp"
-            tools:text="确定" />
-    </RelativeLayout>
+        android:textColor="@color/colorPrimary"
+        android:textSize="16dp"
+        android:text="确定" />
 
     <android.support.v7.widget.AppCompatCheckBox
         android:id="@+id/checkbox"
-        android:text="我已阅读并同意《中鸽网使用协议》"
-        android:layout_above="@id/rl1"
-        android:layout_marginStart="8dp"
-        android:textColor="@color/gray"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
+        android:layout_height="wrap_content"
+        android:layout_above="@id/text_btn"
+        android:layout_marginStart="8dp"
+        android:text="我已阅读并同意《中鸽网使用协议》"
+        android:textColor="@color/gray" />
 
 
     <WebView
         android:id="@+id/web_view"
-        android:layout_below="@+id/toolbar_top"
-        android:layout_above="@id/checkbox"
-        android:layout_margin="8dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
+        android:layout_height="wrap_content"
+        android:layout_above="@id/checkbox"
+        android:layout_below="@+id/toolbar_top"
+        android:layout_margin="8dp" />
 
 
 </RelativeLayout>

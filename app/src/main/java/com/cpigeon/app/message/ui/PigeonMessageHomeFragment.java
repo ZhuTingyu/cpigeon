@@ -61,10 +61,9 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment{
                 IntentBuilder.Builder().startParentActivity(getActivity(), ModifySignFragment.class);
             }else if(5 == position){
                 //使用帮助
-                IntentBuilder.Builder()
+                IntentBuilder.Builder(getSupportActivity(),BaseWebViewActivity.class)
                         .putExtra(IntentBuilder.KEY_TITLE, "使用帮助")
-                        .putExtra(IntentBuilder.KEY_DATA,
-                                CPigeonApiUrl.getInstance().getServer() + getString(R.string.api_user_help))
+                        .putExtra(IntentBuilder.KEY_DATA, CPigeonApiUrl.getInstance().getServer() + getString(R.string.api_user_help))
                         .startActivity();
             }else if(6 == position){
                 IntentBuilder.Builder()

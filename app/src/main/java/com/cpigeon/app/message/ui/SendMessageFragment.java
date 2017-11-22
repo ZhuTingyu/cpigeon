@@ -12,6 +12,7 @@ import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.message.ui.common.CommonMessageFragment;
 import com.cpigeon.app.message.ui.contacts.SendMessageContactsListFragment;
+import com.cpigeon.app.message.ui.modifysign.ModifySignFragment;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.StringValid;
@@ -85,7 +86,7 @@ public class SendMessageFragment extends BaseMVPFragment {
         });
 
         bindUi(RxUtils.click(btnModifySign), o -> {
-
+            IntentBuilder.Builder().startParentActivity(getActivity(), ModifySignFragment.class);
         });
 
     }

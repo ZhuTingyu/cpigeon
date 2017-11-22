@@ -27,7 +27,7 @@ public class UserAgreementActivity extends BaseWebViewActivity {
             if(checkBox.isChecked()){
                 finish();
             }else {
-                showTips("请点击同意", TipType.HINT);
+                showTips("请点击同意", TipType.DialogError);
             }
         });
     }

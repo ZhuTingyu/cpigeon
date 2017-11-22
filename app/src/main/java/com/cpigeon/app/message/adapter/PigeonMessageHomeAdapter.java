@@ -53,6 +53,9 @@ public class PigeonMessageHomeAdapter extends BaseQuickAdapter<String, BaseViewH
     protected void convert(BaseViewHolder holder, String item) {
         holder.setText(R.id.title,item);
         holder.setIconView(R.id.icon,icList.get(holder.getAdapterPosition()));
+
+        AppCompatImageView imageView = holder.findViewById(R.id.icon);
+
     }
 
 }
