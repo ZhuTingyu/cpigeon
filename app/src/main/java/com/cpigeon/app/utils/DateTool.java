@@ -16,7 +16,7 @@ public class DateTool {
     private final static String FORMAT_DATE = "yyyy-MM-dd";
 
     //JDK中的日期时间格式（年-月-日 时:分:秒）
-    private final static String FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
+    public final static String FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
 
     //只要年份
     public final static String FORMAT_YYYY = "yyyy";

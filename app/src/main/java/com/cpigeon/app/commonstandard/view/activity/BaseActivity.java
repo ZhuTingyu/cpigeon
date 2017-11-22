@@ -64,7 +64,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
 
     protected Toolbar toolbar;
-    AppBarLayout appBarLayout;
+    //AppBarLayout appBarLayout;
     /**
      * 加载中--对话框
      */
@@ -85,7 +85,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     }
 
     public void setToolbar() {
-        appBarLayout = findViewById(R.id.appbar);
+        //appBarLayout = findViewById(R.id.appbar);
         if (null != toolbar) {
             toolbar.setNavigationOnClickListener(v -> finish());
         }

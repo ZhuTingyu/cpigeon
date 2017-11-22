@@ -63,7 +63,9 @@ public class TelephoneBookFragment extends BaseContactsListFragment {
     private View initHeadView(){
         View view = LayoutInflater.from(getContext()).inflate(R.layout.item_telephone_book_fagment_head_layout, recyclerView,false);
         findViewById(view, R.id.rl1).setOnClickListener(v -> {
-            IntentBuilder.Builder().startParentActivity(getActivity(), SelectContactsFragment.class);
+            IntentBuilder.Builder()
+                    .putExtra(IntentBuilder.KEY_TYPE, SelectContactsFragment.TYPE_PHONE_SELECT)
+                    .startParentActivity(getActivity(), SelectContactsFragment.class);
         });
 
         findViewById(view, R.id.rl2).setOnClickListener(v -> {

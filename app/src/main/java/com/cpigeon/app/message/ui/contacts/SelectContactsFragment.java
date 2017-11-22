@@ -12,6 +12,7 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.entity.MultiSelectEntity;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.view.indexrecyclerview.SelectPhoneActivity;
 
 import java.util.ArrayList;
 
@@ -22,6 +23,9 @@ import java.util.ArrayList;
 public class SelectContactsFragment extends BaseContactsListFragment {
 
     public static final int TYPE_CONTACTS_ADD = 1;
+
+    public static final int TYPE_PHONE_SELECT = 2;
+
 
     private int type;
 
@@ -40,6 +44,9 @@ public class SelectContactsFragment extends BaseContactsListFragment {
                 intent.putExtra(IntentBuilder.KEY_DATA,"12312312");
                 getActivity().setResult(0, intent);
                 finish();
+            }else if(type == TYPE_PHONE_SELECT) {
+                IntentBuilder.Builder(getSupportActivity(), SelectPhoneActivity.class)
+                        .startActivity();
             }
         });
 

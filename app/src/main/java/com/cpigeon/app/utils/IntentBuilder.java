@@ -24,6 +24,7 @@ public class IntentBuilder {
     public static final String KEY_TYPE = "KEY_TYPE";
     public static final String KEY_DATA = "KEY_DATA";
     public static final String KEY_BOOLEAN = "KEY_BOOLEAN";
+    public static final String KEY_TITLE = "KEY_TITLE";
 
 
     private Intent intent;
@@ -290,8 +291,14 @@ public class IntentBuilder {
     }
 
 
+
     public void startActivity(Activity activity) {
         activity.startActivity(intent);
+        activity.overridePendingTransition(animOpen, animExit);
+    }
+
+    public void startActivity(Activity activity, int requestCode) {
+        activity.startActivityForResult(intent, requestCode);
         activity.overridePendingTransition(animOpen, animExit);
     }
 

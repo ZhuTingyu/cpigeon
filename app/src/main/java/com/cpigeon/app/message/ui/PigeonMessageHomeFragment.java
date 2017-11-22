@@ -11,6 +11,9 @@ import com.cpigeon.app.message.adapter.PigeonMessageHomeAdapter;
 import com.cpigeon.app.message.ui.common.CommonMessageFragment;
 import com.cpigeon.app.message.ui.contacts.TelephoneBookFragment;
 import com.cpigeon.app.message.ui.history.MessageHistoryFragment;
+import com.cpigeon.app.message.ui.modifysign.ModifySignFragment;
+import com.cpigeon.app.message.ui.person.PersonInfoFragment;
+import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 
@@ -55,13 +58,24 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment{
             }else if(3 == position){
                 IntentBuilder.Builder().startParentActivity(getActivity(), MessageHistoryFragment.class);
             }else if(4 == position){
-
+                IntentBuilder.Builder().startParentActivity(getActivity(), ModifySignFragment.class);
             }else if(5 == position){
-
+                //使用帮助
+                IntentBuilder.Builder()
+                        .putExtra(IntentBuilder.KEY_TITLE, "使用帮助")
+                        .putExtra(IntentBuilder.KEY_DATA,
+                                CPigeonApiUrl.getInstance().getServer() + getString(R.string.api_user_help))
+                        .startActivity();
             }else if(6 == position){
-
+                IntentBuilder.Builder()
+                        .putExtra(IntentBuilder.KEY_TYPE, PersonInfoFragment.TYPE_LOOK)
+                        .startParentActivity(getActivity(), PersonInfoFragment.class);
             }else if(7 == position){
-
+                //用户协议
+                IntentBuilder.Builder(getSupportActivity(), UserAgreementActivity.class)
+                        .putExtra(IntentBuilder.KEY_TITLE, "用户协议")
+                        .putExtra(IntentBuilder.KEY_DATA, CPigeonApiUrl.getInstance().getServer()
+                                + getString(R.string.api_user_agreement)).startActivity();
             }
         });
 

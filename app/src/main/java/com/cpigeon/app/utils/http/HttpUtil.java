@@ -27,8 +27,8 @@ public class HttpUtil<T> {
     int type;
 
 
-    public static HttpUtil builder(){
-        HttpUtil httpUtil =  new HttpUtil();
+    public static HttpUtil builder() {
+        HttpUtil httpUtil = new HttpUtil();
         requestParams = new RequestParams();
         requestParams.setConnectTimeout(8000);
         requestParams.setMaxRetryCount(0);
@@ -37,41 +37,37 @@ public class HttpUtil<T> {
     }
 
 
-    public HttpUtil addParameter(String name ,Object value){
+    public HttpUtil addParameter(String name, Object value) {
         requestParams.addParameter(name, value);
         return this;
     }
 
-    public HttpUtil url(String url, boolean isHaveVersion){
+    public HttpUtil url(String url, String head) {
         String stringUrl;
-        if(isHaveVersion){
-            stringUrl = CPigeonApiUrl.getInstance().getServer() + CPigeonApiUrl.API_VERSION + url;
-        }else {
-            stringUrl = CPigeonApiUrl.getInstance().getServer() + url;
-        }
+        stringUrl = CPigeonApiUrl.getInstance().getServer() + head + url;
         requestParams.setUri(stringUrl);
         return this;
     }
 
-    public HttpUtil addHeader(String name, String value){
+    public HttpUtil addHeader(String name, String value) {
         requestParams.addHeader(name, value);
         return this;
     }
 
-    public HttpUtil setType(int type){
+    public HttpUtil setType(int type) {
         this.type = type;
         return this;
     }
 
-    public Observable<ApiResponse<T>> request(){
+    public Observable<ApiResponse<T>> request() {
 
         return Observable.create(subscribe -> {
 
             LogUtil.print(requestParams.getBodyParams());
 
-            if(type == TYPE_GET){
+            if (type == TYPE_GET) {
                 manager.get(requestParams, setCallback(subscribe));
-            }else {
+            } else {
                 manager.post(requestParams, setCallback(subscribe));
             }
         });
@@ -82,8 +78,10 @@ public class HttpUtil<T> {
         return new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String s) {
-                subscribe.onNext(GsonUtil.fromJson(s, new TypeToken<ApiResponse<T>>(){}.getType()));
-                LogUtil.print(GsonUtil.fromJson(s, new TypeToken<ApiResponse<T>>(){}.getType()));
+                subscribe.onNext(GsonUtil.fromJson(s, new TypeToken<ApiResponse<T>>() {
+                }.getType()));
+                LogUtil.print(GsonUtil.fromJson(s, new TypeToken<ApiResponse<T>>() {
+                }.getType()));
             }
 
             @Override

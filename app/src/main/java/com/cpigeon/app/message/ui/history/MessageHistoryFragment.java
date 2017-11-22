@@ -12,6 +12,7 @@ import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.message.adapter.MessageHistoryAdapter;
 import com.cpigeon.app.utils.DateTool;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.StringUtil;
 
@@ -57,10 +58,12 @@ public class MessageHistoryFragment extends BaseMVPFragment{
 
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        addItemDecorationLine(recyclerView);
         adapter = new MessageHistoryAdapter();
         adapter.bindToRecyclerView(recyclerView);
         adapter.setOnItemClickListener((adapter1, view, position) -> {
-
+            IntentBuilder.Builder()
+                    .startParentActivity(getActivity(), MessageDetailsFragment.class);
         });
         bindData();
     }
@@ -104,7 +107,8 @@ public class MessageHistoryFragment extends BaseMVPFragment{
             @Override
             public void onOptionPicked(int index, String item) {
                 date.setText(item);
-                searchDate.setText(getMonth(item));
+                searchDate.setText(getString(R.string.string_text_date_for_message_history
+                        ,getMonth(item)));
             }
         });
         picker.show();
@@ -121,6 +125,6 @@ public class MessageHistoryFragment extends BaseMVPFragment{
     }
 
     private String getMonth(String date){
-        return StringUtil.getCutString(date, 5,7);
+        return StringUtil.getCutString(date, 5,date.length());
     }
 }

@@ -219,6 +219,24 @@
             android:theme="@style/ToolbarTheme"
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
+        <activity
+            android:name=".message.ui.BaseWebViewActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/ToolbarTheme"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+
+        <activity
+            android:name=".view.indexrecyclerview.SelectPhoneActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/ToolbarTheme"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+
+        <activity
+            android:name=".message.ui.UserAgreementActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/ToolbarTheme"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+
 
         <!-- <provider -->
         <!-- android:name="android.support.v4.content.FileProvider" -->
