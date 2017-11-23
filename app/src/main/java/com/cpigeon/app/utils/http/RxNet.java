@@ -36,6 +36,7 @@ public class RxNet {
                 ApiResponse<String> apiResponse = new ApiResponse<>();
                 apiResponse.errorCode = -1;
                 apiResponse.msg = "网络不给力，请稍后重试";
+                apiResponse.status = false;
                 subscribe.onNext(GsonUtil.toJson(apiResponse));
             }
 

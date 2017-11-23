@@ -23,7 +23,7 @@ public class ApiResponse<T> implements Serializable {
     public T data;
 
     public boolean isOk(){
-        return errorCode == 0;
+        return errorCode != -1 ;
     }
 
     public boolean isStatus() {
@@ -56,6 +56,10 @@ public class ApiResponse<T> implements Serializable {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    public boolean isNotDate(){
+        return !status;
     }
 
     public String toJsonString() {

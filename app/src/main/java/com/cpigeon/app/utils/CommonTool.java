@@ -16,6 +16,10 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.cpigeon.app.MyApp;
+import com.cpigeon.app.R;
+import com.cpigeon.app.utils.customview.CustomEmptyView;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
@@ -321,5 +325,12 @@ public class CommonTool {
         } catch (Exception ex) {
         }
         return "02:00:00:00:00:00";
+    }
+
+    public static void setEmptyView(BaseQuickAdapter adapter, String message){
+        CustomEmptyView emptyView = new CustomEmptyView(MyApp.getInstance().getBaseContext());
+        emptyView.setEmptyImage(R.drawable.ic_empty);
+        emptyView.setEmptyText(message);
+        adapter.setEmptyView(emptyView);
     }
 }

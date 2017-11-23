@@ -13,6 +13,7 @@ import com.cpigeon.app.base.BaseMultiSelectAdapter;
 import com.cpigeon.app.base.BaseViewHolder;
 import com.cpigeon.app.entity.CommonEntity;
 import com.cpigeon.app.entity.MultiSelectEntity;
+import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.Lists;
 
@@ -86,4 +87,11 @@ public class CommonMessageAdapter extends BaseMultiSelectAdapter<CommonEntity, B
 
     }
 
+    @Override
+    public void setNewData(List<CommonEntity> data) {
+        super.setNewData(data);
+        if(data.isEmpty()){
+            CommonTool.setEmptyView(this,"常用语为空");
+        }
+    }
 }
