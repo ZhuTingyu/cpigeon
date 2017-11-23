@@ -2,19 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+    <include layout="@layout/layout_toolbar"/>
 
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+    <com.cpigeon.app.utils.customview.SearchEditText
+        android:id="@+id/widget_title_bar_search"
+        style="@style/searchedittextstyle"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/search_edittext_height"
+        android:layout_marginLeft="@dimen/search_edittext_home_margin_h"
+        android:layout_marginRight="@dimen/search_edittext_home_margin_h"
+        android:dropDownHeight="12dp"
+        android:hint="搜索"
+        android:paddingRight="@dimen/dp_10"
+        android:textColor="@color/light_black2"
+        android:textColorHint="@color/search_edit_gray"
+        app:drawableDel="@mipmap/ic_delete"
+        app:search_gravity="left"/>
 
-        <com.cpigeon.app.view.indexrecyclerview.widget.TouchableRecyclerView
-            android:id="@+id/contact_member"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center"
-            android:layout_marginRight="15dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp">
 
         <TextView
             android:id="@+id/contact_dialog"
@@ -27,21 +40,23 @@
             android:textSize="30.0dip"
             android:visibility="invisible" />
 
-        <!--<com.jiang.android.indexrecyclerview.widget.SideBar
-            android:id="@+id/contact_sidebar"
-            android:layout_width="15dp"
-            android:layout_height="fill_parent"
-            android:layout_gravity="right|center"
-            android:layout_marginRight="3dp" />-->
-
         <com.cpigeon.app.view.indexrecyclerview.widget.ZSideBar
             android:id="@+id/contact_zsidebar"
             android:layout_width="24dp"
             android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
             android:layout_gravity="end"
             android:visibility="visible"
             />
-    </FrameLayout>
+
+        <com.cpigeon.app.view.indexrecyclerview.widget.TouchableRecyclerView
+            android:id="@+id/contact_member"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="24dp" />
+    </RelativeLayout>
 
 
 </LinearLayout>

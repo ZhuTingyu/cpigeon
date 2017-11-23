@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cpigeon.app.R;
+import com.cpigeon.app.commonstandard.presenter.BasePresenter;
+import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.view.indexrecyclerview.adapter.CommonString;
 import com.cpigeon.app.view.indexrecyclerview.adapter.ContactAdapter;
 import com.cpigeon.app.view.indexrecyclerview.model.ContactModel;
@@ -34,7 +36,7 @@ import java.util.List;
 /**
  * RecyclerView实现联系人列表
  */
-public class SelectPhoneActivity extends AppCompatActivity {
+public class SelectPhoneActivity extends BaseActivity {
 
     private ZSideBar mZSideBar;
     private TextView mUserDialog;
@@ -50,22 +52,18 @@ public class SelectPhoneActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_phone_layout);
-        getPermission();
-        initView();
-
+    public int getLayoutId() {
+        return R.layout.activity_select_phone_layout;
     }
 
-
-
-    private void getPermission() {
-        mPermission = CommonString.PermissionCode.TEACHER;
+    @Override
+    public BasePresenter initPresenter() {
+        return null;
     }
 
-
-    private void initView() {
+    @Override
+    public void initView(Bundle savedInstanceState) {
+        toolbar.setTitle("选择手机联系人");
         characterParser = CharacterParser.getInstance();
         pinyinComparator = new PinyinComparator();
         mZSideBar = (ZSideBar) findViewById(R.id.contact_zsidebar);
@@ -75,9 +73,9 @@ public class SelectPhoneActivity extends AppCompatActivity {
 
 //        fillData();
         getNetData(0);
-
-
     }
+
+
 
 
     public void getNetData(final int type) {
@@ -102,7 +100,7 @@ public class SelectPhoneActivity extends AppCompatActivity {
         seperateLists(mModel);
 
         if (mAdapter == null) {
-            mAdapter = new ContactAdapter(this, mAllLists, mPermission, mModel.getCreater().getId());
+            mAdapter = new ContactAdapter(this, mAllLists);
             int orientation = LinearLayoutManager.VERTICAL;
             final LinearLayoutManager layoutManager = new LinearLayoutManager(this, orientation, false);
             mRecyclerView.setLayoutManager(layoutManager);
@@ -126,30 +124,7 @@ public class SelectPhoneActivity extends AppCompatActivity {
     }
 
     private void seperateLists(ContactModel mModel) {
-        //群主
-        ContactModel.CreaterEntity creatorEntity = mModel.getCreater();
-        ContactModel.MembersEntity tempMember = new ContactModel.MembersEntity();
-        tempMember.setUsername(creatorEntity.getUsername());
-        tempMember.setId(creatorEntity.getId());
-        tempMember.setProfession(creatorEntity.getProfession());
-        tempMember.setSortLetters("$");
 
-        mAllLists.add(tempMember);
-
-
-        //管理员
-
-        if (mModel.getAdmins() != null && mModel.getAdmins().size() > 0) {
-            for (ContactModel.AdminsEntity e : mModel.getAdmins()) {
-                ContactModel.MembersEntity eMember = new ContactModel.MembersEntity();
-                eMember.setSortLetters("%");
-                eMember.setProfession(e.getProfession());
-                eMember.setUsername(e.getUsername());
-                eMember.setId(e.getId());
-                mAllLists.add(eMember);
-            }
-        }
-        //members;
         if (mModel.getMembers() != null && mModel.getMembers().size() > 0) {
             for (int i = 0; i < mModel.getMembers().size(); i++) {
                 ContactModel.MembersEntity entity = new ContactModel.MembersEntity();
@@ -177,7 +152,6 @@ public class SelectPhoneActivity extends AppCompatActivity {
     public void deleteUser(final int position) {
         mAdapter.remove(mAdapter.getItem(position));
         showToast("删除成功");
-
     }
 
     public void showToast(String value) {
