@@ -40,14 +40,6 @@
             android:textSize="30.0dip"
             android:visibility="invisible" />
 
-        <com.cpigeon.app.view.indexrecyclerview.widget.ZSideBar
-            android:id="@+id/contact_zsidebar"
-            android:layout_width="24dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="end"
-            android:visibility="visible"
-            />
 
         <com.cpigeon.app.view.indexrecyclerview.widget.TouchableRecyclerView
             android:id="@+id/contact_member"
@@ -56,6 +48,16 @@
             android:layout_gravity="center"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="24dp" />
+
+
+        <com.cpigeon.app.view.indexrecyclerview.widget.ZSideBar
+            android:id="@+id/contact_zsidebar"
+            android:layout_width="24dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="end"
+            android:visibility="visible"
+            />
     </RelativeLayout>
 
 

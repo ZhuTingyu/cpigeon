@@ -120,6 +120,7 @@ public class SelectPhoneActivity extends BaseActivity {
         } else {
             mAdapter.notifyDataSetChanged();
         }
+        mAdapter.setImgChooseVisible(true);
         mZSideBar.setupWithRecycler(mRecyclerView);
     }
 

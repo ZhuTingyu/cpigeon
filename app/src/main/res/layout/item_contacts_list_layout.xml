@@ -32,8 +32,4 @@
         tools:text="@string/string_text_contacts_number"
         android:layout_below="@id/title"/>
 
-    <android.support.v7.widget.AppCompatImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp" />
-
 </RelativeLayout>

@@ -29,6 +29,7 @@
 package com.cpigeon.app.view.indexrecyclerview.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ import android.widget.TextView;
 
 
 import com.cpigeon.app.R;
+import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.view.indexrecyclerview.SelectPhoneActivity;
 import com.cpigeon.app.view.indexrecyclerview.model.ContactModel;
 import com.cpigeon.app.view.indexrecyclerview.widget.IndexAdapter;
@@ -57,6 +59,9 @@ public class ContactAdapter extends BaseAdapter<ContactModel.MembersEntity,Conta
     /**
      * 当前处于打开状态的item
      */
+
+    protected List<Integer> selectedPositions;
+    protected AppCompatImageView imgChoose;
 
     private List<ContactModel.MembersEntity> mLists;
 
@@ -85,8 +90,17 @@ public class ContactAdapter extends BaseAdapter<ContactModel.MembersEntity,Conta
 
     @Override
     public void onBindViewHolder(ContactAdapter.ContactViewHolder holder, final int position) {
+
+        ContactModel.MembersEntity entity = getItem(position);
+
         TextView textView = holder.mName;
-        textView.setText(getItem(position).getUsername());
+        textView.setText(entity.getUsername());
+
+        holder.mNumber.setText("1231231123");
+
+        holder.imgChoose.setVisibility(entity.isChooseVisible ? View.VISIBLE : View.GONE);
+
+        holder.imgChoose.setBackgroundResource(entity.isChoose ? R.drawable.ic_choosed : R.drawable.ic_no_choose);
 
     }
 
@@ -120,6 +134,38 @@ public class ContactAdapter extends BaseAdapter<ContactModel.MembersEntity,Conta
 
     }
 
+    protected void setChoose(ContactModel.MembersEntity entity, boolean isChoose) {
+        entity.isChoose = isChoose;
+    }
+
+    private void setAllChoose(List<ContactModel.MembersEntity> productEntities, boolean isChoose){
+        for(ContactModel.MembersEntity productEntity : productEntities){
+            setChoose(productEntity, isChoose);
+        }
+    }
+
+    public List<Integer> getSelectedPotion(){
+        selectedPositions = Lists.newArrayList();
+        for(int i = 0; i < mLists.size(); i++){
+            if(mLists.get(i).isChoose){
+                selectedPositions.add(i);
+            }
+        }
+        return selectedPositions;
+    }
+
+    public void setImgChooseVisible(boolean isVisible){
+        for (ContactModel.MembersEntity item : mLists) {
+            item.isChooseVisible = isVisible;
+        }
+        notifyDataSetChanged();
+    }
+
+    public void setMultiSelectItem(ContactModel.MembersEntity item, int position){
+        setChoose(item, !item.isChoose);
+        notifyItemChanged(position);
+    }
+
 
     public int getPositionForSection(char section) {
         for (int i = 0; i < getItemCount(); i++) {
@@ -136,10 +182,14 @@ public class ContactAdapter extends BaseAdapter<ContactModel.MembersEntity,Conta
     public class ContactViewHolder extends RecyclerView.ViewHolder {
 
         public TextView mName;
+        public TextView mNumber;
+        public AppCompatImageView imgChoose;
 
         public ContactViewHolder(View itemView) {
             super(itemView);
             mName = (TextView) itemView.findViewById(R.id.title);
+            mNumber = (TextView) itemView.findViewById(R.id.number);
+            imgChoose = itemView.findViewById(R.id.checkbox);
         }
 
 

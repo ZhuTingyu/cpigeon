@@ -60,6 +60,10 @@ public class ContactModel {
 
         private String profession;
 
+        public boolean isChooseVisible;
+
+        public boolean isChoose;
+
         public String getSortLetters() {
             return sortLetters;
         }
