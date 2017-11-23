@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -20,13 +21,14 @@ import java.util.List;
  * Created by Zhu TingYu on 2017/11/17.
  */
 
-public class PigeonMessageHomeAdapter extends BaseQuickAdapter<String, BaseViewHolder>{
+public class PigeonMessageHomeAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
     private int size;
+    private int imgSize;
     private List<Integer> icList;
 
 
-    public PigeonMessageHomeAdapter(Context context, List<String> list){
+    public PigeonMessageHomeAdapter(Context context, List<String> list) {
 
         super(R.layout.item_pigeon_message_home_layout, list);
 
@@ -40,8 +42,8 @@ public class PigeonMessageHomeAdapter extends BaseQuickAdapter<String, BaseViewH
                 R.mipmap.ic_user_greement);
 
 
-
-        size = ScreenTool.getScreenWidth(context) / 2 -  ScreenTool.dip2px(24);
+        size = (ScreenTool.getScreenHeight(context) - ScreenTool.dip2px(80)) / 4;
+        imgSize = (ScreenTool.getScreenWidth(context) - ScreenTool.dip2px(32)) / 4;
     }
 
     @Override
@@ -51,10 +53,18 @@ public class PigeonMessageHomeAdapter extends BaseQuickAdapter<String, BaseViewH
 
     @Override
     protected void convert(BaseViewHolder holder, String item) {
-        holder.setText(R.id.title,item);
-        holder.setIconView(R.id.icon,icList.get(holder.getAdapterPosition()));
+        holder.setText(R.id.title, item);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
+
+        holder.itemView.setLayoutParams(params);
 
         AppCompatImageView imageView = holder.findViewById(R.id.icon);
+        LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(imgSize, imgSize);
+        imageView.setLayoutParams(params1);
+
+
+        holder.setIconView(R.id.icon, icList.get(holder.getAdapterPosition()));
 
     }
 

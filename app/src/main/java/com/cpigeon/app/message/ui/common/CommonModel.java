@@ -14,9 +14,9 @@ import io.reactivex.Observable;
  * Created by Zhu TingYu on 2017/11/23.
  */
 
-public class CommonModel {
+class CommonModel {
 
-    public static Observable<ApiResponse<List<CommonEntity>>> getCommons(int userId){
+    static Observable<ApiResponse<List<CommonEntity>>> getCommons(int userId){
         return GXYHttpUtil.<ApiResponse<List<CommonEntity>>>build()
                 .setToJsonType(new TypeToken<ApiResponse<List<CommonEntity>>>(){}.getType())
                 .url(R.string.api_common_massage_list)

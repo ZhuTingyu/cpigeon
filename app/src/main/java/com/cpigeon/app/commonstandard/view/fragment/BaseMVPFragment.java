@@ -36,6 +36,7 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mPresenter = this.initPresenter();
+        bindError();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 

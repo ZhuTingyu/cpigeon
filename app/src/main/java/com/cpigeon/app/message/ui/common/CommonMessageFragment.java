@@ -19,6 +19,7 @@ import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.MultiSelectEntity;
 import com.cpigeon.app.message.adapter.CommonMessageAdapter;
+import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 
@@ -62,8 +63,9 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
 
     @Override
     public void finishCreateView(Bundle state) {
-
         bindError();
+
+        mPresenter.userId = CpigeonData.getInstance().getUserId(getContext());
 
         isSendMessage = getActivity().getIntent().getBooleanExtra(IntentBuilder.KEY_BOOLEAN, false);
         setTitle("短语库");
@@ -146,7 +148,9 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
 
 
     private void bindData() {
+        showLoading();
         mPresenter.getCommonList(commonEntities -> {
+            hideLoading();
             adapter.setNewData(commonEntities);
         });
     }

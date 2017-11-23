@@ -1,4 +1,4 @@
-package com.cpigeon.app.message.ui;
+package com.cpigeon.app.message.ui.home;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -8,6 +8,8 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.message.adapter.PigeonMessageHomeAdapter;
+import com.cpigeon.app.message.ui.BaseWebViewActivity;
+import com.cpigeon.app.message.ui.UserAgreementActivity;
 import com.cpigeon.app.message.ui.common.CommonMessageFragment;
 import com.cpigeon.app.message.ui.contacts.TelephoneBookFragment;
 import com.cpigeon.app.message.ui.history.MessageHistoryFragment;
@@ -15,6 +17,7 @@ import com.cpigeon.app.message.ui.modifysign.ModifySignFragment;
 import com.cpigeon.app.message.ui.person.PersonInfoFragment;
 import com.cpigeon.app.message.ui.sendmessage.SendMessageFragment;
 import com.cpigeon.app.utils.CPigeonApiUrl;
+import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 
@@ -24,7 +27,7 @@ import java.util.List;
  * Created by Zhu TingYu on 2017/11/17.
  */
 
-public class PigeonMessageHomeFragment extends BaseMVPFragment{
+public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre>{
 
     RecyclerView recyclerView;
 
@@ -33,8 +36,8 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment{
     private List<String> titleList;
 
     @Override
-    public BasePresenter initPresenter() {
-        return null;
+    public PigeonHomePre initPresenter() {
+        return new PigeonHomePre(this);
     }
 
     @Override
@@ -44,7 +47,6 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment{
 
 
     private void initView() {
-        toolbar.setTitle("鸽运通");
         recyclerView = (RecyclerView) findViewById(R.id.list);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
         adapter = new PigeonMessageHomeAdapter(getActivity(), titleList);
@@ -85,7 +87,23 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment{
     public void finishCreateView(Bundle state) {
         titleList = Lists.newArrayList("发送短信","电话薄","短语库","发送记录"
                 ,"修改签名","使用帮助","个人信息","用户协议");
-        initView();
+
+
+        toolbar.setTitle("鸽运通");
+
+        mPresenter.userId = CpigeonData.getInstance().getUserId(getContext());
+
+        mPresenter.getUserInfo(r -> {
+            if(r.status){
+                initView();
+                if(r.data.syts < 1000){
+                    showTips(getString(R.string.message_pigeon_message_count_not_enough),TipType.Dialog);
+                }
+            }else {
+                showTips(getString(R.string.message_not_open_pigeon_message),TipType.Dialog);
+            }
+        });
+
     }
 
     @Override

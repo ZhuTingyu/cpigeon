@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
-import com.cpigeon.app.message.ui.PigeonMessageHomeFragment;
+import com.cpigeon.app.message.ui.home.PigeonMessageHomeFragment;
 import com.cpigeon.app.modular.home.view.activity.WebActivity;
 import com.cpigeon.app.modular.order.view.activity.OrderActivity;
 import com.cpigeon.app.modular.settings.view.activity.SettingsActivity;

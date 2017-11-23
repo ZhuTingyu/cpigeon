@@ -20,7 +20,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class CommonMessageQPre extends BasePresenter{
 
-    int userId = 123;
+    public int userId;
 
     public CommonMessageQPre(IView mView) {
         super(mView);

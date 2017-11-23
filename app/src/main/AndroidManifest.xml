@@ -214,7 +214,7 @@
             android:theme="@style/ToolbarTheme"/>
 
         <activity
-            android:name=".message.ui.PigeonMessageHomeFragment"
+            android:name=".message.ui.home.PigeonMessageHomeFragment"
             android:launchMode="singleTask"
             android:theme="@style/ToolbarTheme"
             android:windowSoftInputMode="adjustPan|stateHidden" />

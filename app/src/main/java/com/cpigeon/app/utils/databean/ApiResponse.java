@@ -1,5 +1,7 @@
 package com.cpigeon.app.utils.databean;
 
+import com.cpigeon.app.utils.http.GsonUtil;
+
 import java.io.Serializable;
 
 /**
@@ -54,5 +56,9 @@ public class ApiResponse<T> implements Serializable {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    public String toJsonString() {
+        return GsonUtil.toJson(this);
     }
 }

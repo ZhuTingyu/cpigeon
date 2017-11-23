@@ -73,7 +73,8 @@ import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
-public class MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
+public class
+MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
 
     public final static String APP_STATE_KEY_VIEWPAGER_SELECT_INDEX = "MainActivity.SelectItemIndex.";
     private static boolean isExit = false;

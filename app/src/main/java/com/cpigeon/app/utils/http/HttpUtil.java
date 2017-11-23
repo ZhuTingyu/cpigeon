@@ -2,18 +2,22 @@ package com.cpigeon.app.utils.http;
 
 
 import android.support.annotation.StringRes;
+import android.util.Log;
 
 import com.cpigeon.app.MyApp;
 import com.cpigeon.app.utils.CPigeonApiUrl;
+import com.cpigeon.app.utils.CallAPI;
 import com.cpigeon.app.utils.databean.ApiResponse;
 import com.google.gson.reflect.TypeToken;
 
 import org.xutils.HttpManager;
 import org.xutils.common.Callback;
+import org.xutils.common.util.KeyValue;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.lang.reflect.Type;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -70,13 +74,16 @@ public class HttpUtil<T> {
     }
 
     public Observable<T> request() {
-        LogUtil.print(requestParams.getBodyParams());
+        printf();
+        CallAPI.addApiSign(requestParams);
+        LogUtil.print(requestParams.getUri());
         Observable<T> observable = RxNet.newRequest(this)
                 .map(s -> GsonUtil.fromJson(s, toJsonType));
 
         observable = observable.map(e -> {
             if (e instanceof ApiResponse) {
                 ApiResponse responseJson = (ApiResponse) e;
+                LogUtil.print(responseJson.toJsonString());
             }
             return e;
         });
@@ -91,5 +98,17 @@ public class HttpUtil<T> {
     public HttpUtil<T> setToJsonType(Type toJsonType) {
         this.toJsonType = toJsonType;
         return this;
+    }
+
+    private void printf(){
+        List<KeyValue> keyValues = requestParams.getQueryStringParams();
+        StringBuffer params = new StringBuffer();
+        params.append("{" + "\n");
+        for (KeyValue vale : keyValues) {
+            params.append("      " + vale.key + ": " + vale.value + "\n");
+        }
+        params.append("}");
+        params.toString();
+        Log.e("params",params.toString());
     }
 }
