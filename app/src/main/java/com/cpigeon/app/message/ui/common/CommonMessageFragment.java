@@ -29,7 +29,7 @@ import java.util.ArrayList;
  * Created by Zhu TingYu on 2017/11/20.
  */
 
-public class CommonMessageFragment extends BaseMVPFragment {
+public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
 
 
     boolean isSendMessage;
@@ -46,8 +46,8 @@ public class CommonMessageFragment extends BaseMVPFragment {
     TextView bottomText2;
 
     @Override
-    protected BasePresenter initPresenter() {
-        return null;
+    protected CommonMessageQPre initPresenter() {
+        return new CommonMessageQPre(this);
     }
 
     @Override
@@ -62,6 +62,9 @@ public class CommonMessageFragment extends BaseMVPFragment {
 
     @Override
     public void finishCreateView(Bundle state) {
+
+        bindError();
+
         isSendMessage = getActivity().getIntent().getBooleanExtra(IntentBuilder.KEY_BOOLEAN, false);
         setTitle("短语库");
         initView();
@@ -71,6 +74,8 @@ public class CommonMessageFragment extends BaseMVPFragment {
         } else {
             initSelectMessage();
         }
+
+        bindData();
     }
 
     private void initSelectMessage() {
@@ -137,17 +142,13 @@ public class CommonMessageFragment extends BaseMVPFragment {
         bottomText = findViewById(R.id.title);
         bottomText2 = findViewById(R.id.text_btn);
 
-        bindData();
-
     }
 
 
     private void bindData() {
-        ArrayList<MultiSelectEntity> data = Lists.newArrayList();
-        for (int i = 0; i < 5; i++) {
-            data.add(new MultiSelectEntity());
-        }
-        adapter.setNewData(data);
+        mPresenter.getCommonList(commonEntities -> {
+            adapter.setNewData(commonEntities);
+        });
     }
 
     private void setBottomViewAdd() {

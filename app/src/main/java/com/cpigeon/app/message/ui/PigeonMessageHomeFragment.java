@@ -13,6 +13,7 @@ import com.cpigeon.app.message.ui.contacts.TelephoneBookFragment;
 import com.cpigeon.app.message.ui.history.MessageHistoryFragment;
 import com.cpigeon.app.message.ui.modifysign.ModifySignFragment;
 import com.cpigeon.app.message.ui.person.PersonInfoFragment;
+import com.cpigeon.app.message.ui.sendmessage.SendMessageFragment;
 import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;

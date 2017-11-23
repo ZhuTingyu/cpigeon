@@ -17,6 +17,7 @@ import org.reactivestreams.Subscription;
 import org.xutils.common.Callback;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 import java.util.WeakHashMap;
 
 import io.reactivex.Observable;
@@ -41,7 +42,7 @@ public abstract class BasePresenter<TView extends IView, TDao extends IBaseDao> 
     private WeakHashMap<String, Callback.Cancelable> mCancelableWeakHashMap;
 
     protected final CompositeDisposable composite = new CompositeDisposable();
-    protected final BehaviorSubject<RestErrorInfo> error = BehaviorSubject.create();
+    protected final BehaviorSubject<RestErrorInfo> error = BehaviorSubject.<RestErrorInfo>create();
 
     public BasePresenter(TView mView) {
         onAttach();
@@ -209,4 +210,11 @@ public abstract class BasePresenter<TView extends IView, TDao extends IBaseDao> 
         composite.clear();
     }
 
+    public BehaviorSubject<RestErrorInfo> getError() {
+        return error;
+    }
+
+    public void clearError() {
+        this.error.onNext(null);
+    }
 }

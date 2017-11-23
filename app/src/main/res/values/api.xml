@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="api_head_url">/CPAPI/V1/</string>
+
     <string name="api_user_agreement">/APP/Protocol?type=gxt</string>
     <string name="api_user_help">/APP/Help?type=gxt</string>
+    <string name="api_common_massage_list">GXT_DXMBLB</string>
+
+
 </resources>

@@ -4,13 +4,23 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
+import com.cpigeon.app.utils.ToastUtils;
+import com.cpigeon.app.utils.http.RestErrorInfo;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.BehaviorSubject;
 
 /**
  * Created by chenshuai on 2017/4/15.
@@ -20,6 +30,8 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
 
     protected Pre mPresenter;
 
+    protected final CompositeDisposable composite = new CompositeDisposable();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -28,6 +40,40 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
     }
 
     protected abstract Pre initPresenter();
+
+    protected void bindError(){
+        if(mPresenter != null){
+            bindData(mPresenter.getError(), o -> {
+                RestErrorInfo error = (RestErrorInfo) o;
+                if (error!=null) {
+                    if (mPresenter != null) {
+                        mPresenter.clearError();
+                    }
+                    error(error.code,error.message);
+                }
+            });
+
+            /**/
+        }
+
+    }
+
+    private void error(String message) {
+        hideLoading();
+        if(!TextUtils.isEmpty(message)) {
+            showTips(message, TipType.DialogError);
+        }
+    }
+
+    public void error(int code, String error) {
+        if (code == 2400||code==2401) {
+            hideLoading();
+            finish();
+            return;
+        }
+        error(error);
+    }
+
 
     /**
      * 是否可以释放Presenter与View 的绑定
@@ -49,6 +95,13 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
                 .showLastDivider().build());
     }
 
-
+    public <T> void bindData(Observable<T> observable, Consumer<? super T> onNext) {
+        composite.add(observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(onNext,
+                        throwable -> {
+                                ToastUtils.showLong(getActivity(), throwable.getMessage());
+                        }
+                ));
+    }
 
 }

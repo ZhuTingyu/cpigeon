@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseMultiSelectAdapter;
 import com.cpigeon.app.base.BaseViewHolder;
+import com.cpigeon.app.entity.CommonEntity;
 import com.cpigeon.app.entity.MultiSelectEntity;
 import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.Lists;
@@ -21,7 +22,7 @@ import java.util.List;
  * Created by Zhu TingYu on 2017/11/20.
  */
 
-public class CommonMessageAdapter extends BaseMultiSelectAdapter<MultiSelectEntity, BaseViewHolder> {
+public class CommonMessageAdapter extends BaseMultiSelectAdapter<CommonEntity, BaseViewHolder> {
 
     private OnCheckboxClickListener listener;
 
@@ -30,15 +31,15 @@ public class CommonMessageAdapter extends BaseMultiSelectAdapter<MultiSelectEnti
     }
 
     @Override
-    protected void convert(BaseViewHolder holder, MultiSelectEntity item) {
+    protected void convert(BaseViewHolder holder, CommonEntity item) {
         super.convert(holder,item);
 
         TextView content = holder.findViewById(R.id.content);
 
-        content.setText("2312312312312312321312212123321332131332321");
+        content.setText(item.dxnr);
         content.setOnClickListener(v -> {
             DialogUtils.createDialog(mContext, "详细内容"
-                    , "fadfadfadfa", "确定");
+                    , item.dxnr, "确定");
         });
 
         holder.findViewById(R.id.checkbox).setOnClickListener(v -> {
@@ -46,7 +47,7 @@ public class CommonMessageAdapter extends BaseMultiSelectAdapter<MultiSelectEnti
         });
 
         holder.findViewById(R.id.btnEdit).setOnClickListener(v -> {
-            showAddMessageDialog(mContext,"sdfadfadadf");
+            showAddMessageDialog(mContext,item.dxnr);
         });
 
     }

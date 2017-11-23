@@ -1,4 +1,4 @@
-package com.cpigeon.app.message.ui;
+package com.cpigeon.app.message.ui.sendmessage;
 
 import android.content.Intent;
 import android.os.Bundle;
