@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
+import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.entity.MultiSelectEntity;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
@@ -64,7 +65,7 @@ public class SelectContactsFragment extends BaseContactsListFragment {
         for (int i = 0; i < 5; i++) {
             data.add(new MultiSelectEntity());
         }
-        adapter.setNewData(data);
+        //adapter.setNewData(data);
         adapter.setImgChooseVisible(true);
     }
 
@@ -99,5 +100,10 @@ public class SelectContactsFragment extends BaseContactsListFragment {
 
         dialogPrompt.setView(view);
         dialogPrompt.show();
+    }
+
+    @Override
+    protected BasePresenter initPresenter() {
+        return null;
     }
 }

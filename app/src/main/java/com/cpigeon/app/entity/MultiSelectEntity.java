@@ -15,6 +15,18 @@ public class MultiSelectEntity implements Parcelable {
     public MultiSelectEntity() {
     }
 
+    public static final Creator<MultiSelectEntity> CREATOR = new Creator<MultiSelectEntity>() {
+        @Override
+        public MultiSelectEntity createFromParcel(Parcel in) {
+            return new MultiSelectEntity(in);
+        }
+
+        @Override
+        public MultiSelectEntity[] newArray(int size) {
+            return new MultiSelectEntity[size];
+        }
+    };
+
     @Override
     public int describeContents() {
         return 0;

@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * Created by Zhu TingYu on 2017/11/21.
  */
 
-public abstract class BaseContactsListFragment extends BaseMVPFragment {
+public abstract class BaseContactsListFragment<Pre extends BasePresenter> extends BaseMVPFragment<Pre> {
 
     LinearLayout bottomLinearLayout;
     protected TextView btn;
@@ -31,10 +31,6 @@ public abstract class BaseContactsListFragment extends BaseMVPFragment {
     protected TextView title;
 
 
-    @Override
-    protected BasePresenter initPresenter() {
-        return null;
-    }
 
     @Override
     protected boolean isCanDettach() {

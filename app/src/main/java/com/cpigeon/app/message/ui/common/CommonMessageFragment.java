@@ -176,7 +176,11 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
         bottomRelativeLayout.setOnClickListener(v -> {
             mPresenter.setSelectIds(adapter);
             mPresenter.deleteMessage(apiResponse -> {
-                adapter.deleteChoose();
+                if(apiResponse.status){
+                    adapter.deleteChoose();
+                }else {
+                    error(apiResponse.msg);
+                }
             });
         });
 

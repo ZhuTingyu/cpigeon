@@ -13,6 +13,9 @@
     <string name="api_common_massage_modify">GXT_XGDXMB</string>
     <string name="api_common_massage_delete">GXT_SCDXMB</string>
 
+    <string name="api_contact_group">GXT_HMFZ</string>
+    <string name="api_contact_group_add">GXT_TJFZ</string>
+
 
 
 </resources>

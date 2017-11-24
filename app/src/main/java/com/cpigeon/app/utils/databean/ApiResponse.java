@@ -62,6 +62,10 @@ public class ApiResponse<T> implements Serializable {
         return !status;
     }
 
+    public boolean isHaveDate(){
+        return isOk() && status;
+    }
+
     public String toJsonString() {
         return GsonUtil.toJson(this);
     }

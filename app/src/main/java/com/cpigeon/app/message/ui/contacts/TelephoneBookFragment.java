@@ -9,8 +9,12 @@ import android.widget.TextView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.entity.MultiSelectEntity;
+import com.cpigeon.app.message.ui.contacts.presenter.TelephoneBookPre;
+import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.RxUtils;
+import com.cpigeon.app.utils.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -18,15 +22,17 @@ import java.util.ArrayList;
  * Created by Zhu TingYu on 2017/11/21.
  */
 
-public class TelephoneBookFragment extends BaseContactsListFragment {
+public class TelephoneBookFragment extends BaseContactsListFragment<TelephoneBookPre> {
 
-
+    @Override
+    protected TelephoneBookPre initPresenter() {
+        return new TelephoneBookPre(this);
+    }
 
     @Override
     public void finishCreateView(Bundle state) {
         super.finishCreateView(state);
         setTitle("电话薄");
-
 
         icon.setBackgroundResource(R.mipmap.ic_contacts_add);
         title.setText("添加联系人");
@@ -51,12 +57,10 @@ public class TelephoneBookFragment extends BaseContactsListFragment {
 
     @Override
     protected void bindData() {
-        ArrayList<MultiSelectEntity> data = Lists.newArrayList();
-        for (int i = 0; i < 5; i++) {
-            data.add(new MultiSelectEntity());
-        }
-        adapter.setNewData(data);
-        adapter.setImgChooseVisible(false);
+        mPresenter.getContactsGroups(data -> {
+            adapter.setNewData(data);
+            adapter.setImgChooseVisible(false);
+        });
 
     }
 
@@ -86,12 +90,28 @@ public class TelephoneBookFragment extends BaseContactsListFragment {
 
         title.setText("新建群组");
 
+        bindUi(RxUtils.textChanges(content), mPresenter.setGroupName());
+
         btnLeft.setOnClickListener(v -> {
             dialogPrompt.dismiss();
         });
 
         btnRight.setOnClickListener(v -> {
 
+            if(mPresenter.groupName.length() < 3){
+                ToastUtil.showLongToast(getContext(),"分组名称长度不能小于3位");
+                return;
+            }
+
+            mPresenter.addContactsGroups(r ->{
+                dialogPrompt.dismiss();
+                if(r.status){
+                    bindData();
+                    showTips("添加成功", TipType.Dialog);
+                }else {
+                    error(r.msg);
+                }
+            });
         });
 
         dialogPrompt.setView(view);

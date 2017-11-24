@@ -46,9 +46,11 @@ public class Lists {
 
     public static String appendStringByList(List<String> list){
         StringBuffer sb  = new StringBuffer();
-        for (String string : list) {
-            sb.append(string);
-            sb.append(",");
+        for (int i = 0, len = list.size(); i < len; i++) {
+            sb.append(list.get(i));
+            if(i != list.size() - 1){
+                sb.append(",");
+            }
         }
         return sb.toString();
     }
