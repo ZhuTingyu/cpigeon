@@ -6,7 +6,13 @@
     <string name="api_user_agreement">/APP/Protocol?type=gxt</string>
     <string name="api_user_help">/APP/Help?type=gxt</string>
     <string name="api_user_info">GetGXT_UserInfo</string>
+
+
     <string name="api_common_massage_list">GXT_DXMBLB</string>
+    <string name="api_common_massage_add">GXT_TJDXMB</string>
+    <string name="api_common_massage_modify">GXT_XGDXMB</string>
+    <string name="api_common_massage_delete">GXT_SCDXMB</string>
+
 
 
 </resources>

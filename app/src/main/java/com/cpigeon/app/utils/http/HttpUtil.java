@@ -13,6 +13,7 @@ import com.google.gson.reflect.TypeToken;
 import org.xutils.HttpManager;
 import org.xutils.common.Callback;
 import org.xutils.common.util.KeyValue;
+import org.xutils.http.HttpMethod;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
@@ -31,8 +32,8 @@ public class HttpUtil<T> {
     public static final int TYPE_GET = 0;
     public static final int TYPE_POST = 1;
 
-    public static RequestParams requestParams;
-    public static HttpManager manager;
+    static RequestParams requestParams;
+    static HttpManager manager;
     public int type;
     private Type toJsonType;
 
@@ -48,11 +49,34 @@ public class HttpUtil<T> {
         return httpUtil;
     }
 
-
+    /**
+     * post 添加url 里面的参数
+     * get  添加body里面的参数
+     * @param name
+     * @param value
+     * @return
+     */
     public HttpUtil<T> addParameter(String name, Object value) {
         requestParams.addParameter(name, value);
         return this;
     }
+
+    public HttpUtil<T> addBody(String name, String value) {
+        requestParams.addBodyParameter(name, value);
+        return this;
+    }
+
+    /**
+     * 添加url 里面的参数
+     * @param name
+     * @param value
+     * @return
+     */
+    public HttpUtil<T> addQueryString(String name, String value) {
+        requestParams.addQueryStringParameter(name, value);
+        return this;
+    }
+
 
     public HttpUtil<T> url(@StringRes int url) {
         String stringUrl;
@@ -68,7 +92,17 @@ public class HttpUtil<T> {
         return this;
     }
 
+    /**
+     * 设置请求方式
+     * @param type
+     * @return
+     */
     public HttpUtil<T> setType(int type) {
+        if(type == TYPE_POST){
+            requestParams.setMethod(HttpMethod.POST);
+        }else {
+            requestParams.setMethod(HttpMethod.GET);
+        }
         this.type = type;
         return this;
     }
@@ -100,15 +134,19 @@ public class HttpUtil<T> {
         return this;
     }
 
-    private void printf(){
+    private void printf() {
         List<KeyValue> keyValues = requestParams.getQueryStringParams();
+        List<KeyValue> body = requestParams.getBodyParams();
         StringBuffer params = new StringBuffer();
         params.append("{" + "\n");
         for (KeyValue vale : keyValues) {
-            params.append("      " + vale.key + ": " + vale.value + "\n");
+            params.append("  url    " + vale.key + ": " + vale.value + "\n");
+        }
+        for (KeyValue vale : body) {
+            params.append("  body   " + vale.key + ": " + vale.value + "\n");
         }
         params.append("}");
         params.toString();
-        Log.e("params",params.toString());
+        Log.e("params", params.toString());
     }
 }

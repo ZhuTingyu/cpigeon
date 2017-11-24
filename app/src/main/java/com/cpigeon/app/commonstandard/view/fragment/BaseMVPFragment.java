@@ -59,7 +59,7 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
 
     }
 
-    private void error(String message) {
+    protected void error(String message) {
         hideLoading();
         if(!TextUtils.isEmpty(message)) {
             showTips(message, TipType.DialogError);

@@ -2,8 +2,10 @@ package com.cpigeon.app.commonstandard.presenter;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 
+import com.cpigeon.app.MyApp;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.commonstandard.view.activity.IView;
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
@@ -196,6 +198,17 @@ public abstract class BasePresenter<TView extends IView, TDao extends IBaseDao> 
         }
         if (throwable != null) return new RestErrorInfo(throwable.getMessage());
         return new RestErrorInfo("");
+    }
+
+    public RestErrorInfo getErrorString(@StringRes int r) {
+        if (mView != null) {
+            return new RestErrorInfo(MyApp.getInstance().getBaseContext().getString(r));
+        }
+        return new RestErrorInfo("");
+    }
+
+    public RestErrorInfo getErrorString(String r) {
+        return new RestErrorInfo(r);
     }
 
     public <T> void submitRequest(Observable<T> observable, final Consumer<? super T> onNext, final Consumer<Throwable> onError) {

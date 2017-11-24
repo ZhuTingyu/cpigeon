@@ -4,6 +4,7 @@ import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.IView;
 import com.cpigeon.app.entity.CommonEntity;
+import com.cpigeon.app.message.adapter.CommonMessageAdapter;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.databean.ApiResponse;
 import com.cpigeon.app.utils.http.HttpErrorException;
@@ -20,6 +21,11 @@ import io.reactivex.functions.Consumer;
 public class CommonMessageQPre extends BasePresenter{
 
     public int userId;
+
+    public String messageContent;
+
+    public String messageId;
+
 
     public CommonMessageQPre(IView mView) {
         super(mView);
@@ -41,4 +47,42 @@ public class CommonMessageQPre extends BasePresenter{
             }else throw new HttpErrorException(r);
         }),consumer);
     }
+
+    public void addCommonMessage(Consumer<ApiResponse> consumer){
+        submitRequestThrowError(CommonModel.addCommonMessage(userId, messageContent).map(r ->{
+            return r;
+        }),consumer);
+    }
+
+    public void modifyMessage(Consumer<ApiResponse> consumer){
+        submitRequestThrowError(CommonModel.modifyCommonMessage(userId, messageId, messageContent).map(r -> {
+            return r;
+        }),consumer);
+    }
+
+    public void deleteMessage(Consumer<ApiResponse> consumer){
+        submitRequestThrowError(CommonModel.deleteCommonMessage(userId, messageId).map(r -> {
+            return r;
+        }),consumer);
+    }
+
+    public Consumer<String> setMessageContent(){
+        return s -> {
+            messageContent = s;
+        };
+    }
+
+    public void setMessageContent(String messageContent) {
+        this.messageContent = messageContent;
+    }
+
+    public void setSelectIds(CommonMessageAdapter adapter){
+        List<String> id = Lists.newArrayList();
+        List<Integer> positions  = adapter.getSelectedPotion();
+        for (Integer position : positions) {
+            id.add(adapter.getItem(position).id);
+        }
+        messageId = Lists.appendStringByList(id);
+    }
+
 }

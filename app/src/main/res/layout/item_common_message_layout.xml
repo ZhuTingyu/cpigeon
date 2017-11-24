@@ -19,6 +19,7 @@
 
 
     <com.mcxtzhang.swipemenulib.SwipeMenuLayout
+        android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
@@ -28,13 +29,12 @@
 
         <TextView
             android:id="@+id/content"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
             android:gravity="center_vertical"
-            android:ellipsize="end"
             android:singleLine="true"
-            tools:text="12312333333333333333333333333333333333333333333333333333333333333333333333"
+            tools:text="123123333333"
             android:textSize="16dp"/>
 
         <Button

@@ -31,4 +31,23 @@ public class ToastUtil {
         toast.show();
     }
 
+    public static void showShortToast(Context context, String hint) {
+        if (toast == null) {
+            toast = Toast.makeText(context.getApplicationContext(), hint, Toast.LENGTH_SHORT);
+        } else {
+            toast.setText(hint);
+        }
+        toast.show();
+    }
+
+    public static void showLongToast(Context context, String hint) {
+        if (toast == null) {
+            toast = Toast.makeText(context.getApplicationContext(), hint, Toast.LENGTH_LONG);
+        } else {
+            toast.setText(hint);
+        }
+        toast.show();
+    }
+
+
 }

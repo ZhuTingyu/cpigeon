@@ -8,8 +8,11 @@ import android.os.Parcelable;
  */
 
 public class CommonEntity extends MultiSelectEntity implements Parcelable {
-    public int id;
+    public String id;
     public String dxnr; //短语内容
+
+    public CommonEntity() {
+    }
 
     @Override
     public int describeContents() {
@@ -18,19 +21,18 @@ public class CommonEntity extends MultiSelectEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.id);
         dest.writeString(this.dxnr);
     }
 
-    public CommonEntity() {
-    }
-
     protected CommonEntity(Parcel in) {
-        this.id = in.readInt();
+        super(in);
+        this.id = in.readString();
         this.dxnr = in.readString();
     }
 
-    public static final Parcelable.Creator<CommonEntity> CREATOR = new Parcelable.Creator<CommonEntity>() {
+    public static final Creator<CommonEntity> CREATOR = new Creator<CommonEntity>() {
         @Override
         public CommonEntity createFromParcel(Parcel source) {
             return new CommonEntity(source);

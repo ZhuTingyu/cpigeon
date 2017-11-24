@@ -5,6 +5,7 @@ import com.cpigeon.app.utils.databean.ApiResponse;
 import com.google.gson.reflect.TypeToken;
 
 import org.xutils.common.Callback;
+import org.xutils.http.HttpMethod;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;

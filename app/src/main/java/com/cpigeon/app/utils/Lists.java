@@ -44,4 +44,13 @@ public class Lists {
         return true;
     }
 
+    public static String appendStringByList(List<String> list){
+        StringBuffer sb  = new StringBuffer();
+        for (String string : list) {
+            sb.append(string);
+            sb.append(",");
+        }
+        return sb.toString();
+    }
+
 }

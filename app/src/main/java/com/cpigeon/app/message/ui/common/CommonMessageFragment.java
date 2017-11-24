@@ -1,5 +1,6 @@
 package com.cpigeon.app.message.ui.common;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -22,6 +23,7 @@ import com.cpigeon.app.message.adapter.CommonMessageAdapter;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.RxUtils;
 
 import java.util.ArrayList;
 
@@ -77,6 +79,8 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
             initSelectMessage();
         }
 
+        showLoading();
+
         bindData();
     }
 
@@ -129,8 +133,12 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
     private void initView() {
         recyclerView = findViewById(R.id.list);
         adapter = new CommonMessageAdapter();
+        adapter.setOnEditClickListener(position -> {
+            mPresenter.messageId = adapter.getItem(position).id;
+            showEditMessageDialog(getContext(), adapter.getItem(position).dxnr, position);
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
+        adapter.bindToRecyclerView(recyclerView);
         if (isSendMessage) {
             adapter.setImgChooseVisible(true);
         }
@@ -148,7 +156,6 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
 
 
     private void bindData() {
-        showLoading();
         mPresenter.getCommonList(commonEntities -> {
             hideLoading();
             adapter.setNewData(commonEntities);
@@ -167,7 +174,10 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
         bottomIcon.setBackgroundResource(R.drawable.ic_message_delete);
         bottomText.setText("删除短语");
         bottomRelativeLayout.setOnClickListener(v -> {
-            adapter.deleteChoose();
+            mPresenter.setSelectIds(adapter);
+            mPresenter.deleteMessage(apiResponse -> {
+                adapter.deleteChoose();
+            });
         });
 
     }
@@ -185,7 +195,55 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
 
         title.setText("新建短语");
         btnRight.setOnClickListener(v -> {
+            mPresenter.addCommonMessage(r -> {
+                dialogPrompt.dismiss();
+                if(r.status){
+                    showTips("已经成功添加信息", TipType.Dialog);
+                    bindData();
+                }else {
+                    error(r.msg);
+                }
+            });
+        });
 
+
+        btnLeft.setOnClickListener(v -> {
+            dialogPrompt.dismiss();
+        });
+
+        bindUi(RxUtils.textChanges(content),mPresenter.setMessageContent());
+
+        dialogPrompt.setView(view);
+        dialogPrompt.show();
+
+    }
+
+    private void showEditMessageDialog(Context context, String contentString, int position) {
+        AlertDialog dialogPrompt = new AlertDialog.Builder(context).create();
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_add_message_layout, null);
+
+        TextView title = view.findViewById(R.id.title);
+        EditText content = view.findViewById(R.id.content);
+
+        TextView btnLeft = view.findViewById(R.id.btn_left);
+        TextView btnRight = view.findViewById(R.id.btn_right);
+
+        content.setText(contentString);
+        title.setText("编辑短语");
+
+        btnRight.setOnClickListener(v -> {
+            mPresenter.setMessageContent(content.getText().toString());
+            mPresenter.modifyMessage(apiResponse -> {
+                dialogPrompt.dismiss();
+                if(apiResponse.status){
+                    showTips(apiResponse.msg, TipType.Dialog);
+                    adapter.getItem(position).dxnr = content.getText().toString();
+                    adapter.closeSwipe(position);
+                    adapter.notifyItemChanged(position);
+                }else {
+                    error(apiResponse.msg);
+                }
+            });
         });
 
 
