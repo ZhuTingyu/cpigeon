@@ -9,12 +9,17 @@ import android.widget.TextView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.entity.MultiSelectEntity;
+import com.cpigeon.app.even.ContactsEvent;
 import com.cpigeon.app.message.ui.contacts.presenter.TelephoneBookPre;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -32,6 +37,7 @@ public class TelephoneBookFragment extends BaseContactsListFragment<TelephoneBoo
     @Override
     public void finishCreateView(Bundle state) {
         super.finishCreateView(state);
+        EventBus.getDefault().register(this);
         setTitle("电话薄");
 
         icon.setBackgroundResource(R.mipmap.ic_contacts_add);
@@ -107,7 +113,7 @@ public class TelephoneBookFragment extends BaseContactsListFragment<TelephoneBoo
                 dialogPrompt.dismiss();
                 if(r.status){
                     bindData();
-                    showTips("添加成功", TipType.Dialog);
+                    showTips(r.msg, TipType.Dialog);
                 }else {
                     error(r.msg);
                 }
@@ -116,5 +122,16 @@ public class TelephoneBookFragment extends BaseContactsListFragment<TelephoneBoo
 
         dialogPrompt.setView(view);
         dialogPrompt.show();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(ContactsEvent event){
+        bindData();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 }

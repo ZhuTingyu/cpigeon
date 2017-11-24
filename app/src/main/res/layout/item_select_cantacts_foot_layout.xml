@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@id/rl1"
     android:layout_width="match_parent"
     android:layout_height="56dp">
@@ -14,5 +14,5 @@
         android:text="新建联系人"
         android:textColor="@color/black"
         android:textSize="16dp" />
-</RelativeLayout>
+</LinearLayout>
 

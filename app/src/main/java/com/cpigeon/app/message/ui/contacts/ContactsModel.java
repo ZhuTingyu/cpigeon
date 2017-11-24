@@ -38,4 +38,21 @@ public class ContactsModel {
                 .request();
     }
 
+    public static Observable<ApiResponse> ContactsAdd(int userId, String groupId,
+                                                      String phoneNumber, String name, String remarks) {
+        return GXYHttpUtil.<ApiResponse>build()
+                .setToJsonType(new TypeToken<ApiResponse>() {
+                }.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_contact_add)
+                .addQueryString("u", String.valueOf(userId))
+                .addBody("fzid", groupId)
+                .addBody("sjhm", phoneNumber)
+                .addBody("xingming", name)
+                .addBody("beizhu",remarks)
+                .request();
+    }
+
+
+
 }

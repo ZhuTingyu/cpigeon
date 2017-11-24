@@ -11,13 +11,20 @@ import android.widget.TextView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
+import com.cpigeon.app.entity.ContactsGroupEntity;
+import com.cpigeon.app.even.ContactsEvent;
+import com.cpigeon.app.message.ui.contacts.presenter.ContactsInfoPre;
 import com.cpigeon.app.utils.IntentBuilder;
+import com.cpigeon.app.utils.RxUtils;
+import com.cpigeon.app.utils.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Zhu TingYu on 2017/11/21.
  */
 
-public class ContactsInfoFragment extends BaseMVPFragment {
+public class ContactsInfoFragment extends BaseMVPFragment<ContactsInfoPre> {
 
     public static final int CODE_SELECTE = 0x123;
 
@@ -31,8 +38,6 @@ public class ContactsInfoFragment extends BaseMVPFragment {
 
     TextView textView4;
 
-    AppCompatImageView icon;
-
     RelativeLayout relativeLayout;
 
     TextView btn;
@@ -45,8 +50,8 @@ public class ContactsInfoFragment extends BaseMVPFragment {
     }
 
     @Override
-    protected BasePresenter initPresenter() {
-        return null;
+    protected ContactsInfoPre initPresenter() {
+        return new ContactsInfoPre(this.getActivity());
     }
 
     @Override
@@ -68,22 +73,32 @@ public class ContactsInfoFragment extends BaseMVPFragment {
 
         textView4 = findViewById(R.id.text4);
 
-        icon = findViewById(R.id.ic_right);
-
         relativeLayout = findViewById(R.id.rl1);
         btn = findViewById(R.id.text_btn);
 
 
         if(TYPE_EDIT == type){
             setTitle("添加联系人");
+            bindUi(RxUtils.textChanges(editText1), mPresenter.setName());
+            bindUi(RxUtils.textChanges(editText2), mPresenter.setPhoneNumer());
+            bindUi(RxUtils.textChanges(editText3), mPresenter.setRemarks());
+
             editText4.setOnClickListener(v -> {
                 IntentBuilder.Builder()
                         .putExtra(IntentBuilder.KEY_TYPE, SelectContactsFragment.TYPE_CONTACTS_ADD)
                         .startParentActivity(getActivity(), SelectContactsFragment.class, CODE_SELECTE);
             });
 
-            btn.setOnClickListener(v -> {
 
+            btn.setOnClickListener(v -> {
+                mPresenter.addContacts(r -> {
+                    if(r.status){
+                        ToastUtil.showLongToast(getContext(), r.msg);
+                        EventBus.getDefault().post(new ContactsEvent());
+                    }else {
+                        error(r.msg);
+                    }
+                });
             });
 
         }else {
@@ -92,7 +107,7 @@ public class ContactsInfoFragment extends BaseMVPFragment {
             editText1.setFocusable(false);
             editText2.setFocusable(false);
             editText3.setFocusable(false);
-            icon.setVisibility(View.GONE);
+            editText4.setCompoundDrawables(null,null,null,null);
 
             editText1.setText("123123");
             editText2.setText("123123");
@@ -111,7 +126,9 @@ public class ContactsInfoFragment extends BaseMVPFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(CODE_SELECTE == requestCode){
             if(data != null && data.hasExtra(IntentBuilder.KEY_DATA)){
-                editText4.setText(data.getStringExtra(IntentBuilder.KEY_DATA));
+                ContactsGroupEntity groupEntity = data.getParcelableExtra(IntentBuilder.KEY_DATA);
+                editText4.setText(groupEntity.fzmc);
+                mPresenter.groupId = groupEntity.fzid;
             }
         }
     }

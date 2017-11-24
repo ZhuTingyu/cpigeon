@@ -10,9 +10,13 @@ import android.widget.TextView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
+import com.cpigeon.app.entity.ContactsGroupEntity;
 import com.cpigeon.app.entity.MultiSelectEntity;
+import com.cpigeon.app.message.ui.contacts.presenter.TelephoneBookPre;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.RxUtils;
+import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.view.indexrecyclerview.SelectPhoneActivity;
 
 import java.util.ArrayList;
@@ -21,7 +25,7 @@ import java.util.ArrayList;
  * Created by Zhu TingYu on 2017/11/21.
  */
 
-public class SelectContactsFragment extends BaseContactsListFragment {
+public class SelectContactsFragment extends BaseContactsListFragment<TelephoneBookPre> {
 
     public static final int TYPE_CONTACTS_ADD = 1;
 
@@ -42,7 +46,8 @@ public class SelectContactsFragment extends BaseContactsListFragment {
         btn.setOnClickListener(v -> {
             if(type == TYPE_CONTACTS_ADD){
                 Intent intent = new Intent();
-                intent.putExtra(IntentBuilder.KEY_DATA,"12312312");
+                intent.putExtra(IntentBuilder.KEY_DATA
+                        ,adapter.getItem(adapter.getSelectedPotion().get(0)));
                 getActivity().setResult(0, intent);
                 finish();
             }else if(type == TYPE_PHONE_SELECT) {
@@ -55,18 +60,21 @@ public class SelectContactsFragment extends BaseContactsListFragment {
             adapter.setSingleItem(adapter.getItem(position), position);
         });
 
-        adapter.addFooterView(initFoodView());
 
     }
 
     @Override
     protected void bindData() {
-        ArrayList<MultiSelectEntity> data = Lists.newArrayList();
+        /*ArrayList<ContactsGroupEntity> data = Lists.newArrayList();
         for (int i = 0; i < 5; i++) {
-            data.add(new MultiSelectEntity());
+            data.add(new ContactsGroupEntity());
         }
-        //adapter.setNewData(data);
-        adapter.setImgChooseVisible(true);
+        adapter.setNewData(data);*/
+        mPresenter.getContactsGroups(data -> {
+            adapter.setNewData(data);
+            adapter.setImgChooseVisible(true);
+            adapter.addFooterView(initFoodView());
+        });
     }
 
     public View initFoodView() {
@@ -90,12 +98,27 @@ public class SelectContactsFragment extends BaseContactsListFragment {
 
         title.setText("新建群组");
 
+        bindUi(RxUtils.textChanges(content), mPresenter.setGroupName());
+
         btnLeft.setOnClickListener(v -> {
             dialogPrompt.dismiss();
         });
 
         btnRight.setOnClickListener(v -> {
+            if(mPresenter.groupName.length() < 3){
+                ToastUtil.showLongToast(getContext(),"分组名称长度不能小于3位");
+                return;
+            }
 
+            mPresenter.addContactsGroups(r ->{
+                dialogPrompt.dismiss();
+                if(r.status){
+                    bindData();
+                    showTips("添加成功", TipType.Dialog);
+                }else {
+                    error(r.msg);
+                }
+            });
         });
 
         dialogPrompt.setView(view);
@@ -103,7 +126,7 @@ public class SelectContactsFragment extends BaseContactsListFragment {
     }
 
     @Override
-    protected BasePresenter initPresenter() {
-        return null;
+    protected TelephoneBookPre initPresenter() {
+        return new TelephoneBookPre(this);
     }
 }

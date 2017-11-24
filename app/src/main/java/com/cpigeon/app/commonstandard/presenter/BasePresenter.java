@@ -1,5 +1,6 @@
 package com.cpigeon.app.commonstandard.presenter;
 
+import android.app.Activity;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -46,6 +47,8 @@ public abstract class BasePresenter<TView extends IView, TDao extends IBaseDao> 
     protected final CompositeDisposable composite = new CompositeDisposable();
     protected final BehaviorSubject<RestErrorInfo> error = BehaviorSubject.<RestErrorInfo>create();
 
+    Activity activity;
+
     public BasePresenter(TView mView) {
         onAttach();
         this.mView = mView;
@@ -53,6 +56,16 @@ public abstract class BasePresenter<TView extends IView, TDao extends IBaseDao> 
         mCancelableWeakHashMap = new WeakHashMap<>();
         this.mHandler = new WeakHandler();
         mDao = initDao();
+    }
+
+    public BasePresenter(Activity activity) {
+        onAttach();
+        this.mView = mView;
+        onAttached();
+        mCancelableWeakHashMap = new WeakHashMap<>();
+        this.mHandler = new WeakHandler();
+        mDao = initDao();
+        this.activity = activity;
     }
 
     protected abstract TDao initDao();
@@ -229,5 +242,9 @@ public abstract class BasePresenter<TView extends IView, TDao extends IBaseDao> 
 
     public void clearError() {
         this.error.onNext(null);
+    }
+
+    public Activity getActivity() {
+        return activity;
     }
 }

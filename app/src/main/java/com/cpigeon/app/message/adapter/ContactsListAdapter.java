@@ -25,7 +25,7 @@ public class ContactsListAdapter extends BaseMultiSelectAdapter<ContactsGroupEnt
     protected void convert(BaseViewHolder holder, ContactsGroupEntity item) {
         super.convert(holder, item);
 
-        holder.setText(R.id.title,item.fzmc);
+        holder.setText(R.id.title,item.fzmc != null ? item.fzmc : "12312312");
         holder.setText(R.id.number,mContext.getString(R.string.string_text_contacts_number
                 ,String.valueOf(item.fzcount)));
 

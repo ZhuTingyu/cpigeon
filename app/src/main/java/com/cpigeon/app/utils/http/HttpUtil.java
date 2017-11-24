@@ -92,6 +92,11 @@ public class HttpUtil<T> {
         return this;
     }
 
+    public HttpUtil<T> setUserId(String name, int value) {
+        requestParams.addQueryStringParameter(name, String.valueOf(value));
+        return this;
+    }
+
     /**
      * 设置请求方式
      * @param type

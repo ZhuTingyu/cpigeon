@@ -16,6 +16,8 @@
     <string name="api_contact_group">GXT_HMFZ</string>
     <string name="api_contact_group_add">GXT_TJFZ</string>
 
+    <string name="api_contact_add">GXT_TJSJHM</string>
+
 
 
 </resources>

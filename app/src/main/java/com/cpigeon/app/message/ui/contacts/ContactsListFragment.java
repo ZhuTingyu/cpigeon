@@ -43,6 +43,7 @@ public class ContactsListFragment extends BaseMVPFragment {
     }
 
     private void initView() {
+        searchEditText.clearFocus();
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         addItemDecorationLine(recyclerView);
