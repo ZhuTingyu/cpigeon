@@ -5,6 +5,7 @@ import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
@@ -62,7 +63,19 @@ public class BaseWebViewActivity extends BaseActivity {
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true); //支持通过JS打开新窗口
         webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
         webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
 
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+                view.loadUrl(url);
+
+                //如果不需要其他对点击链接事件的处理返回true，否则返回false
+
+                return true;
+
+            }
+        });
         //webView.loadDataWithBaseURL(null, url, "text/html", "utf-8", null);
         webView.loadUrl(url);
 

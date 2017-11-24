@@ -23,7 +23,8 @@ import java.util.List;
 
 public class PigeonMessageHomeAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
-    private int size;
+    private int sizeH;
+    private int sizeW;
     private int imgSize;
     private List<Integer> icList;
 
@@ -42,7 +43,8 @@ public class PigeonMessageHomeAdapter extends BaseQuickAdapter<String, BaseViewH
                 R.mipmap.ic_user_greement);
 
 
-        size = (ScreenTool.getScreenHeight(context) - ScreenTool.dip2px(80)) / 4;
+        sizeH = (ScreenTool.getScreenHeight(context) - ScreenTool.dip2px(80)) / 4 ;
+        sizeW = (ScreenTool.getScreenWidth(context) - ScreenTool.dip2px(32)) / 2;
         imgSize = (ScreenTool.getScreenWidth(context) - ScreenTool.dip2px(32)) / 4;
     }
 
@@ -55,7 +57,7 @@ public class PigeonMessageHomeAdapter extends BaseQuickAdapter<String, BaseViewH
     protected void convert(BaseViewHolder holder, String item) {
         holder.setText(R.id.title, item);
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(sizeW, sizeH);
 
         holder.itemView.setLayoutParams(params);
 
