@@ -241,7 +241,7 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <activity
-            android:name=".message.ui.UserAgreementActivity"
+            android:name=".message.userAgreement.UserAgreementActivity"
             android:launchMode="singleTask"
             android:theme="@style/ToolbarTheme"
             android:windowSoftInputMode="adjustPan|stateHidden" />

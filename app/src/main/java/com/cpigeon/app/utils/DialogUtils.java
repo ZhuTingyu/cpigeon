@@ -22,6 +22,17 @@ public class DialogUtils {
                 .setConfirmText(left).show();
     }
 
+    public static void createDialog(Context context, String title, String content,String right,
+                                    SweetAlertDialog.OnSweetClickListener rightListener){
+        SweetAlertDialog dialogPrompt;
+        dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);
+        dialogPrompt.setCancelable(false);
+        dialogPrompt.setTitleText(title)
+                .setConfirmClickListener(rightListener)
+                .setContentText(content)
+                .setConfirmText(right).show();
+    }
+
     public static void createDialog(Context context, View view){
         SweetAlertDialog dialogPrompt;
         dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);

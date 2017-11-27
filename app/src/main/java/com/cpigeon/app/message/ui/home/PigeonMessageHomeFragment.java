@@ -5,11 +5,11 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.cpigeon.app.R;
-import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
+import com.cpigeon.app.entity.UserGXTEntity;
 import com.cpigeon.app.message.adapter.PigeonMessageHomeAdapter;
 import com.cpigeon.app.message.ui.BaseWebViewActivity;
-import com.cpigeon.app.message.ui.UserAgreementActivity;
+import com.cpigeon.app.message.userAgreement.UserAgreementActivity;
 import com.cpigeon.app.message.ui.common.CommonMessageFragment;
 import com.cpigeon.app.message.ui.contacts.TelephoneBookFragment;
 import com.cpigeon.app.message.ui.history.MessageHistoryFragment;
@@ -18,6 +18,7 @@ import com.cpigeon.app.message.ui.person.PersonInfoFragment;
 import com.cpigeon.app.message.ui.sendmessage.SendMessageFragment;
 import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 
@@ -34,6 +35,8 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre>{
     PigeonMessageHomeAdapter adapter;
 
     private List<String> titleList;
+    UserGXTEntity userGXTEntity;
+
 
     @Override
     public PigeonHomePre initPresenter() {
@@ -75,6 +78,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre>{
             }else if(7 == position){
                 //用户协议
                 IntentBuilder.Builder(getSupportActivity(), UserAgreementActivity.class)
+                        .putExtra(IntentBuilder.KEY_BOOLEAN, true)
                         .putExtra(IntentBuilder.KEY_TITLE, "用户协议")
                         .putExtra(IntentBuilder.KEY_DATA, CPigeonApiUrl.getInstance().getServer()
                                 + getString(R.string.api_user_agreement)).startActivity();
@@ -93,10 +97,13 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre>{
 
         mPresenter.userId = CpigeonData.getInstance().getUserId(getContext());
 
+        initView();
+
+
         mPresenter.getUserInfo(r -> {
+            userGXTEntity = r.data;
             if(r.status){
-                initView();
-                if(r.data.syts < 1000){
+                if(userGXTEntity.syts < 1000){
                     showTips(getString(R.string.message_pigeon_message_count_not_enough),TipType.Dialog);
                 }
             }else {

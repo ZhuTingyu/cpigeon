@@ -10,7 +10,9 @@ import android.widget.Toast;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
+import com.cpigeon.app.even.ContactsEvent;
 import com.cpigeon.app.utils.ContactsUtil;
+import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.http.GsonUtil;
 import com.cpigeon.app.message.selectPhoneNumber.adapter.ContactAdapter;
@@ -24,6 +26,7 @@ import com.cpigeon.app.message.selectPhoneNumber.widget.ZSideBar;
 import com.google.gson.reflect.TypeToken;
 import com.jiang.android.lib.adapter.expand.StickyRecyclerHeadersDecoration;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 
 import java.util.ArrayList;
@@ -76,8 +79,10 @@ public class SelectPhoneActivity extends BaseActivity<SelectPhonePre> {
                 mPresenter.phoneString = mAdapter.getPhoneString();
                 mPresenter.putTelephone(apiResponse -> {
                     hideLoading();
-                    showTips(apiResponse.msg, TipType.Dialog);
-                    finish();
+                    DialogUtils.createDialog(getActivity(),"提示",apiResponse.msg,"确定",sweetAlertDialog -> {
+                        finish();
+                        EventBus.getDefault().post(new ContactsEvent());
+                    });
                 });
             }else {
                 showTips("请选择联系人", TipType.DialogError);

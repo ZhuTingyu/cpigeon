@@ -56,8 +56,8 @@ public class MessageHistoryFragment extends BaseMVPFragment<MessageHistoryPre>{
     private void initView() {
 
         dateString = DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_YYYY_MM);
-        datePosition = Integer.parseInt(getMonth(dateString));
-        mPresenter.date = datePosition  - 1;
+        datePosition = Integer.parseInt(getMonth(dateString)) - 1;
+        mPresenter.date = datePosition;
         setTitle("发送历史记录");
         initHeadView();
 
