@@ -3,6 +3,8 @@ package com.cpigeon.app.message.adapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.cpigeon.app.R;
+import com.cpigeon.app.entity.MessageEntity;
+import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.Lists;
 
 import java.util.List;
@@ -11,16 +13,24 @@ import java.util.List;
  * Created by Zhu TingYu on 2017/11/21.
  */
 
-public class MessageHistoryAdapter extends BaseQuickAdapter<String, BaseViewHolder>{
+public class MessageHistoryAdapter extends BaseQuickAdapter<MessageEntity, BaseViewHolder>{
 
     public MessageHistoryAdapter() {
         super(R.layout.item_message_history_layout, Lists.newArrayList());
     }
 
     @Override
-    protected void convert(BaseViewHolder holder, String item) {
-        holder.setText(R.id.number, mContext.getString(R.string.string_text_message_addressee_number, String.valueOf(1231)));
-        holder.setText(R.id.date,"3123131");
-        holder.setText(R.id.content, "1231312311131312");
+    protected void convert(BaseViewHolder holder, MessageEntity item) {
+        holder.setText(R.id.number, mContext.getString(R.string.string_text_message_addressee_number, String.valueOf(item.fscount)));
+        holder.setText(R.id.date,item.fssj);
+        holder.setText(R.id.content, item.dxnr);
+    }
+
+    @Override
+    public void setNewData(List<MessageEntity> data) {
+        super.setNewData(data);
+        if(data.isEmpty()){
+            CommonTool.setEmptyView(this,"历史记录为空");
+        }
     }
 }

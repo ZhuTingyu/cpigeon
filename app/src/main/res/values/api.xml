@@ -18,6 +18,8 @@
 
     <string name="api_contact_add">GXT_TJSJHM</string>
 
+    <string name="api_message_history_list">GXT_FSJL</string>
+
 
 
 </resources>

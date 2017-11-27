@@ -304,7 +304,9 @@ public abstract class BaseFragment extends Fragment implements IView {
     }
 
     protected void showLoading(){
-        showTips("正在拼命加载", TipType.LoadingShow);
+        if(refreshLayout != null){
+            refreshLayout.setRefreshing(true);
+        }
     }
 
     protected void showLoading(String message){
@@ -312,7 +314,9 @@ public abstract class BaseFragment extends Fragment implements IView {
     }
 
     protected void hideLoading(){
-        showTips("", TipType.LoadingHide);
+        if(refreshLayout != null){
+            refreshLayout.setRefreshing(false);
+        }
     }
 
     protected void finish(){

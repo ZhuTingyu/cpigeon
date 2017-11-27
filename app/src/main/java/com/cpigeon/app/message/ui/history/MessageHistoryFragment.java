@@ -11,6 +11,7 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.message.adapter.MessageHistoryAdapter;
+import com.cpigeon.app.message.ui.history.presenter.MessageHistoryPre;
 import com.cpigeon.app.utils.DateTool;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
@@ -26,7 +27,7 @@ import cn.qqtheme.framework.widget.WheelView;
  * Created by Zhu TingYu on 2017/11/21.
  */
 
-public class MessageHistoryFragment extends BaseMVPFragment{
+public class MessageHistoryFragment extends BaseMVPFragment<MessageHistoryPre>{
 
     RecyclerView recyclerView;
     MessageHistoryAdapter adapter;
@@ -35,9 +36,11 @@ public class MessageHistoryFragment extends BaseMVPFragment{
     TextView number;
     String dateString;
 
+    int datePosition = 0;
+
     @Override
-    protected BasePresenter initPresenter() {
-        return null;
+    protected MessageHistoryPre initPresenter() {
+        return new MessageHistoryPre(this);
     }
 
     @Override
@@ -53,6 +56,8 @@ public class MessageHistoryFragment extends BaseMVPFragment{
     private void initView() {
 
         dateString = DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_YYYY_MM);
+        datePosition = Integer.parseInt(getMonth(dateString));
+        mPresenter.date = datePosition;
         setTitle("发送历史记录");
         initHeadView();
 
@@ -63,6 +68,7 @@ public class MessageHistoryFragment extends BaseMVPFragment{
         adapter.bindToRecyclerView(recyclerView);
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             IntentBuilder.Builder()
+                    .putExtra(IntentBuilder.KEY_DATA, adapter.getItem(position).fsid)
                     .startParentActivity(getActivity(), MessageDetailsFragment.class);
         });
         bindData();
@@ -79,7 +85,6 @@ public class MessageHistoryFragment extends BaseMVPFragment{
         searchDate.setText(getString(R.string.string_text_date_for_message_history
                 ,getMonth(dateString)));
 
-        number.setText(getString(R.string.string_text_message_addressee_number,String.valueOf(4)));
 
         findViewById(R.id.rl_date).setOnClickListener(v -> {
             showPicker();
@@ -87,7 +92,15 @@ public class MessageHistoryFragment extends BaseMVPFragment{
     }
 
     private void bindData() {
-        adapter.setNewData(Lists.newArrayList("","","","",""));
+        showLoading();
+        mPresenter.getMessageHistoryList(messageEntities -> {
+            adapter.setNewData(messageEntities);
+            number.setText(getString(R.string.string_text_message_addressee_number
+                    ,String.valueOf(mPresenter.getSendMessageCountInDate())));
+            hideLoading();
+
+        });
+
     }
 
 
@@ -100,7 +113,7 @@ public class MessageHistoryFragment extends BaseMVPFragment{
         OptionPicker picker = new OptionPicker(getSupportActivity(), getDates());
         picker.setCanceledOnTouchOutside(false);
         picker.setDividerRatio(WheelView.DividerConfig.FILL);
-        picker.setSelectedIndex(1);
+        picker.setSelectedIndex(datePosition);
         picker.setCycleDisable(true);
         picker.setTextSize(16);
         picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
@@ -109,6 +122,9 @@ public class MessageHistoryFragment extends BaseMVPFragment{
                 date.setText(item);
                 searchDate.setText(getString(R.string.string_text_date_for_message_history
                         ,getMonth(item)));
+                mPresenter.date = Integer.parseInt(getMonth(item));
+                bindData();
+                datePosition = index;
             }
         });
         picker.show();
