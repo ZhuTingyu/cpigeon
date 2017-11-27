@@ -161,7 +161,14 @@ public class CommonTool {
         double temp = (gpsLocationValue - du) * 60;//需要转换的部分（分）
         int fen = (int) temp;
         temp = (temp - fen) * 60;//秒
-        return doubleformat(du,2) + "°" + doubleformat(fen,2) + "'" + doubleformat(temp, 2)+ "\"";
+        return doubleformat(du,2) + "°" + seizeASeat(doubleformat(fen,2)) + "'" + seizeASeat(doubleformat(temp, 2)) + "\"";
+    }
+
+    private static String seizeASeat(String string){
+        if(string.length() == 1){
+            return "0"+string;
+        }
+        return string;
     }
 
     /**

@@ -146,7 +146,7 @@ public class MapLiveFragment extends BaseMVPFragment {
             tvMapDistance.setText("总里程:" + DateTool.doubleformat(lastLocation.getLc() * 0.001, 2) + " Km");
 
             tvMapSpeed.setText(String.format("平均车速:%s Km/H", DateTool.doubleformat((lastLocation.getLc() / usingtime) * 3.6, 2)));
-            tvMapWeather.setText("司放地天气:" + lastLocation.getTq().getMc() + " " + lastLocation.getTq().getWd() + "°"
+            tvMapWeather.setText("司放地天气:  " + lastLocation.getTq().getMc() + " " + lastLocation.getTq().getWd() + "°"
                     + " " + lastLocation.getTq().getFx() + "风 ");
             tvMapStatus.setText(geCheJianKongRace.getState());
             addPolylineInPlayGround();
