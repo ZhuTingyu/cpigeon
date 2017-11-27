@@ -68,7 +68,7 @@ public class MessageHistoryFragment extends BaseMVPFragment<MessageHistoryPre>{
         adapter.bindToRecyclerView(recyclerView);
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             IntentBuilder.Builder()
-                    .putExtra(IntentBuilder.KEY_DATA, adapter.getItem(position).fsid)
+                    .putExtra(IntentBuilder.KEY_DATA, adapter.getItem(position))
                     .startParentActivity(getActivity(), MessageDetailsFragment.class);
         });
         bindData();
