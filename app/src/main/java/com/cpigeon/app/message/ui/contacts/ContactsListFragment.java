@@ -29,6 +29,8 @@ public class ContactsListFragment extends BaseMVPFragment<ContactsListPre> {
     SearchEditText searchEditText;
 
     ContactsInfoAdapter adapter;
+    ContactsGroupEntity contactsGroupEntity;
+
 
     @Override
     protected ContactsListPre initPresenter() {
@@ -42,7 +44,7 @@ public class ContactsListFragment extends BaseMVPFragment<ContactsListPre> {
 
     @Override
     public void finishCreateView(Bundle state) {
-        ContactsGroupEntity contactsGroupEntity = getActivity().getIntent().getParcelableExtra(IntentBuilder.KEY_DATA);
+        contactsGroupEntity = getActivity().getIntent().getParcelableExtra(IntentBuilder.KEY_DATA);
         setTitle(contactsGroupEntity.fzmc);
         initView();
     }
@@ -52,7 +54,9 @@ public class ContactsListFragment extends BaseMVPFragment<ContactsListPre> {
         bindUi(RxUtils.textChanges(searchEditText),mPresenter.setSearchString());
         searchEditText.clearFocus();
         hideSoftInput(searchEditText.getWindowToken());
-
+        searchEditText.setOnSearchClickListener((view, keyword) -> {
+            bindData();
+        });
 
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -62,6 +66,8 @@ public class ContactsListFragment extends BaseMVPFragment<ContactsListPre> {
         adapter.bindToRecyclerView(recyclerView);
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             IntentBuilder.Builder()
+                    .putExtra(IntentBuilder.KEY_TITLE, contactsGroupEntity.fzmc)
+                    .putExtra(IntentBuilder.KEY_DATA, adapter.getData().get(position))
                     .putExtra(IntentBuilder.KEY_TYPE,ContactsInfoFragment.TYPE_LOOK)
                     .startParentActivity(getActivity(), ContactsInfoFragment.class);
         });

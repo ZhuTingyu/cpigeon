@@ -188,6 +188,8 @@ public class ContactAdapter extends BaseAdapter<ContactModel.MembersEntity,Conta
             phoneString.append(entity.getMobile().trim());
             phoneString.append(",");
             phoneString.append(entity.getUsername());
+            phoneString.append(",");
+            phoneString.append("");
             phoneString.append("|");
 
         }

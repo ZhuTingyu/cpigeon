@@ -11,6 +11,7 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.message.ui.common.CommonMessageFragment;
+import com.cpigeon.app.message.ui.contacts.SelectContactsFragment;
 import com.cpigeon.app.message.ui.contacts.SendMessageContactsListFragment;
 import com.cpigeon.app.message.ui.modifysign.ModifySignFragment;
 import com.cpigeon.app.utils.IntentBuilder;
@@ -67,8 +68,9 @@ public class SendMessageFragment extends BaseMVPFragment {
         });
 
         bindUi(RxUtils.click(icContactsAdd), o -> {
-            IntentBuilder.Builder().
-                    startParentActivity(getActivity(), SendMessageContactsListFragment.class, CODE_CONTACTS_LIST);
+            IntentBuilder.Builder()
+                    .putExtra(IntentBuilder.KEY_TYPE, SelectContactsFragment.TYPE_CONTACTS_ADD)
+                    .startParentActivity(getActivity(), SelectContactsFragment.class, CODE_CONTACTS_LIST);
         });
 
         bindUi(RxUtils.click(icRight), o -> {

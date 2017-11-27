@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
+import com.cpigeon.app.entity.ContactsEntity;
 import com.cpigeon.app.entity.ContactsGroupEntity;
 import com.cpigeon.app.even.ContactsEvent;
 import com.cpigeon.app.message.ui.contacts.presenter.ContactsInfoPre;
@@ -42,6 +43,10 @@ public class ContactsInfoFragment extends BaseMVPFragment<ContactsInfoPre> {
 
     TextView btn;
 
+    ContactsEntity contactsEntity;
+
+    String groupName;
+
     int type;
 
     @Override
@@ -62,6 +67,8 @@ public class ContactsInfoFragment extends BaseMVPFragment<ContactsInfoPre> {
     @Override
     public void finishCreateView(Bundle state) {
         type = getActivity().getIntent().getIntExtra(IntentBuilder.KEY_TYPE,0);
+        contactsEntity = getActivity().getIntent().getParcelableExtra(IntentBuilder.KEY_DATA);
+        groupName = getActivity().getIntent().getStringExtra(IntentBuilder.KEY_TITLE);
         initView();
     }
 
@@ -109,10 +116,13 @@ public class ContactsInfoFragment extends BaseMVPFragment<ContactsInfoPre> {
             editText3.setFocusable(false);
             editText4.setCompoundDrawables(null,null,null,null);
 
-            editText1.setText("123123");
-            editText2.setText("123123");
-            editText3.setText("123123");
-            editText4.setText("123123");
+            if(contactsEntity != null){
+
+                editText1.setText(contactsEntity.xingming);
+                editText2.setText(contactsEntity.sjhm);
+                editText3.setText(contactsEntity.beizhu);
+                editText4.setText(groupName);
+            }
 
             textView4.setText("分组");
 
