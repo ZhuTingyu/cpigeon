@@ -26,7 +26,9 @@
  * #                                                   #
  */
 
-package com.cpigeon.app.view.indexrecyclerview.pinyin;
+package com.cpigeon.app.message.selectPhoneNumber.pinyin;
+
+import com.cpigeon.app.utils.StringValid;
 
 /**
  * Created by jiang on 15/12/11.
@@ -150,20 +152,24 @@ public class CharacterParser {
      * 词组解析 * * @param chs * @return
      */
     public String getSelling(String chs) {
-        String key, value;
         buffer = new StringBuilder();
-        for (int i = 0; i < chs.length(); i++) {
-            key = chs.substring(i, i + 1);
-            if (key.getBytes().length >= 2) {
-                value = (String) convert(key);
-                if (value == null) {
-                    value = "unknown";
+
+        if(StringValid.isStringValid(chs)){
+            String key, value;
+            for (int i = 0; i < chs.length(); i++) {
+                key = chs.substring(i, i + 1);
+                if (key.getBytes().length >= 2) {
+                    value = (String) convert(key);
+                    if (value == null) {
+                        value = "unknown";
+                    }
+                } else {
+                    value = key;
                 }
-            } else {
-                value = key;
+                buffer.append(value);
             }
-            buffer.append(value);
         }
+
         return buffer.toString();
     }
 

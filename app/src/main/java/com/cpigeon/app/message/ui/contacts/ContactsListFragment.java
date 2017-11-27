@@ -43,6 +43,7 @@ public class ContactsListFragment extends BaseMVPFragment {
     }
 
     private void initView() {
+        searchEditText = findViewById(R.id.widget_title_bar_search);
         searchEditText.clearFocus();
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

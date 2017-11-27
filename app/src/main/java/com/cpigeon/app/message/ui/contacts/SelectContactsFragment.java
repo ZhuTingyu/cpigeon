@@ -9,17 +9,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
-import com.cpigeon.app.commonstandard.presenter.BasePresenter;
-import com.cpigeon.app.entity.ContactsGroupEntity;
-import com.cpigeon.app.entity.MultiSelectEntity;
 import com.cpigeon.app.message.ui.contacts.presenter.TelephoneBookPre;
 import com.cpigeon.app.utils.IntentBuilder;
-import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.ToastUtil;
-import com.cpigeon.app.view.indexrecyclerview.SelectPhoneActivity;
-
-import java.util.ArrayList;
+import com.cpigeon.app.message.selectPhoneNumber.SelectPhoneActivity;
 
 /**
  * Created by Zhu TingYu on 2017/11/21.
@@ -51,8 +45,14 @@ public class SelectContactsFragment extends BaseContactsListFragment<TelephoneBo
                 getActivity().setResult(0, intent);
                 finish();
             }else if(type == TYPE_PHONE_SELECT) {
-                IntentBuilder.Builder(getSupportActivity(), SelectPhoneActivity.class)
-                        .startActivity();
+                if(!adapter.getSelectedPotion().isEmpty()){
+                    IntentBuilder.Builder(getSupportActivity(), SelectPhoneActivity.class)
+                            .putExtra(IntentBuilder.KEY_DATA,adapter.getItem(adapter.getSelectedPotion().get(0)).fzid)
+                            .startActivity();
+                    finish();
+                }else {
+                    showTips("请选择一个分组", TipType.DialogError);
+                }
             }
         });
 

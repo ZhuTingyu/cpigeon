@@ -26,7 +26,7 @@
  * #                                                   #
  */
 
-package com.cpigeon.app.view.indexrecyclerview.adapter;
+package com.cpigeon.app.message.selectPhoneNumber.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
@@ -39,14 +39,11 @@ import android.widget.TextView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.utils.Lists;
-import com.cpigeon.app.view.indexrecyclerview.SelectPhoneActivity;
-import com.cpigeon.app.view.indexrecyclerview.model.ContactModel;
-import com.cpigeon.app.view.indexrecyclerview.widget.IndexAdapter;
+import com.cpigeon.app.message.selectPhoneNumber.model.ContactModel;
+import com.cpigeon.app.message.selectPhoneNumber.widget.IndexAdapter;
 import com.jiang.android.lib.adapter.BaseAdapter;
 import com.jiang.android.lib.adapter.expand.StickyRecyclerHeadersAdapter;
-import com.jiang.android.lib.widget.SwipeItemLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -96,11 +93,15 @@ public class ContactAdapter extends BaseAdapter<ContactModel.MembersEntity,Conta
         TextView textView = holder.mName;
         textView.setText(entity.getUsername());
 
-        holder.mNumber.setText("1231231123");
+        holder.mNumber.setText(entity.getMobile());
 
         holder.imgChoose.setVisibility(entity.isChooseVisible ? View.VISIBLE : View.GONE);
 
         holder.imgChoose.setBackgroundResource(entity.isChoose ? R.drawable.ic_choosed : R.drawable.ic_no_choose);
+
+        holder.itemView.setOnClickListener(v -> {
+            setMultiSelectItem(entity, position);
+        });
 
     }
 
@@ -138,7 +139,7 @@ public class ContactAdapter extends BaseAdapter<ContactModel.MembersEntity,Conta
         entity.isChoose = isChoose;
     }
 
-    private void setAllChoose(List<ContactModel.MembersEntity> productEntities, boolean isChoose){
+    public void setAllChoose(List<ContactModel.MembersEntity> productEntities, boolean isChoose){
         for(ContactModel.MembersEntity productEntity : productEntities){
             setChoose(productEntity, isChoose);
         }
@@ -177,6 +178,20 @@ public class ContactAdapter extends BaseAdapter<ContactModel.MembersEntity,Conta
         }
         return -1;
 
+    }
+
+    public String getPhoneString(){
+        StringBuffer phoneString = new StringBuffer();
+        List<Integer> positions = getSelectedPotion();
+        for(Integer position : positions){
+            ContactModel.MembersEntity entity = mLists.get(position);
+            phoneString.append(entity.getMobile().trim());
+            phoneString.append(",");
+            phoneString.append(entity.getUsername());
+            phoneString.append("|");
+
+        }
+        return phoneString.toString();
     }
 
     public class ContactViewHolder extends RecyclerView.ViewHolder {

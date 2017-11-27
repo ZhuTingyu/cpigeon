@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <include layout="@layout/layout_toolbar"/>
@@ -24,10 +25,33 @@
         app:search_gravity="left"/>
 
 
+
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="16dp">
+        android:layout_marginTop="16dp">
+        <RelativeLayout
+            android:id="@+id/rl1"
+            android:layout_alignParentBottom="true"
+            android:background="@color/message_button"
+            android:layout_width="match_parent"
+            android:layout_height="56dp">
+
+
+            <TextView
+                android:id="@+id/text_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:visibility="visible"
+                android:layout_centerInParent="true"
+                android:textSize="16dp"
+                android:text="确定" />
+
+        </RelativeLayout>
+
 
         <TextView
             android:id="@+id/contact_dialog"
@@ -41,21 +65,23 @@
             android:visibility="invisible" />
 
 
-        <com.cpigeon.app.view.indexrecyclerview.widget.TouchableRecyclerView
+        <com.cpigeon.app.message.selectPhoneNumber.widget.TouchableRecyclerView
             android:id="@+id/contact_member"
+            android:layout_above="@id/rl1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginLeft="0dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginRight="24dp" />
 
 
-        <com.cpigeon.app.view.indexrecyclerview.widget.ZSideBar
+        <com.cpigeon.app.message.selectPhoneNumber.widget.ZSideBar
             android:id="@+id/contact_zsidebar"
             android:layout_width="24dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_gravity="end"
+            android:layout_above="@id/rl1"
             android:visibility="visible"
             />
     </RelativeLayout>

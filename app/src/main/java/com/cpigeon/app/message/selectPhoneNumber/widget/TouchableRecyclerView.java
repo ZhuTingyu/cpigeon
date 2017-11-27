@@ -26,7 +26,7 @@
  * #                                                   #
  */
 
-package com.cpigeon.app.view.indexrecyclerview.widget;
+package com.cpigeon.app.message.selectPhoneNumber.widget;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

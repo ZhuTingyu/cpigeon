@@ -222,7 +222,8 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_NETWORK_STATE})
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.READ_CONTACTS})
     void sysytemAlertWindow() {
 
     }
@@ -230,7 +231,8 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
     @OnShowRationale({Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.ACCESS_NETWORK_STATE})
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.READ_CONTACTS})
     void systemAlertWindowOnShowRationale(final PermissionRequest request) {
         showRequest(request);
     }
@@ -263,7 +265,8 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
     @OnPermissionDenied({Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_NETWORK_STATE})
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.READ_CONTACTS})
     void systemAlertWindowOnPermissionDenied() {
 //        showTips("权限被拒绝了", TipType.ToastShort);
         ToastUtil.showToast(MyApp.getInstance(), "权限已被拒绝，程序即将退出", Toast.LENGTH_SHORT);
@@ -280,7 +283,8 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_NETWORK_STATE})
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.READ_CONTACTS})
     void systemAlertWindowOnNeverAskAgain() {
         SweetAlertDialog dialog = new SweetAlertDialog(this)
                 .setCancelText("退出程序")

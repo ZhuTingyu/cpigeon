@@ -26,10 +26,10 @@
  * #                                                   #
  */
 
-package com.cpigeon.app.view.indexrecyclerview.model;
+package com.cpigeon.app.message.selectPhoneNumber.model;
 
 
-import com.cpigeon.app.view.indexrecyclerview.widget.Indexable;
+import com.cpigeon.app.message.selectPhoneNumber.widget.Indexable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +58,15 @@ public class ContactModel {
 
         private String username;
 
-        private String profession;
+        private String mobile;
+
+        public String getMobile() {
+            return mobile;
+        }
+
+        public void setMobile(String mobile) {
+            this.mobile = mobile;
+        }
 
         public boolean isChooseVisible;
 
@@ -88,9 +96,7 @@ public class ContactModel {
             this.username = username;
         }
 
-        public void setProfession(String profession) {
-            this.profession = profession;
-        }
+
 
         public String getId() {
             return id;
@@ -100,8 +106,6 @@ public class ContactModel {
             return username;
         }
 
-        public String getProfession() {
-            return profession;
-        }
+
     }
 }

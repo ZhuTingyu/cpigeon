@@ -20,6 +20,8 @@
 
     <string name="api_message_history_list">GXT_FSJL</string>
 
+    <string name="api_input_number_of_phone">GXT_BatchTJSJHM</string>
+
 
 
 </resources>
