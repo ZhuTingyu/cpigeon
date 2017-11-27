@@ -2,6 +2,7 @@ package com.cpigeon.app.message.ui.contacts;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.entity.CommonEntity;
+import com.cpigeon.app.entity.ContactsEntity;
 import com.cpigeon.app.entity.ContactsGroupEntity;
 import com.cpigeon.app.message.GXYHttpUtil;
 import com.cpigeon.app.utils.databean.ApiResponse;
@@ -49,10 +50,22 @@ public class ContactsModel {
                 .addBody("fzid", groupId)
                 .addBody("sjhm", phoneNumber)
                 .addBody("xingming", name)
-                .addBody("beizhu",remarks)
+                .addBody("beizhu", remarks)
                 .request();
     }
 
+    public static Observable<ApiResponse<List<ContactsEntity>>> ContactsInGroup(int userId, int groupId, int page, String search) {
+        return GXYHttpUtil.<ApiResponse<List<ContactsEntity>>>build()
+                .setToJsonType(new TypeToken<ApiResponse<List<ContactsEntity>>>() {
+                }.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_get_contacts_in_group)
+                .addQueryString("u", String.valueOf(userId))
+                .addBody("fzid", String.valueOf(groupId))
+                .addBody("p", String.valueOf(page))
+                .addBody("s", search)
+                .request();
+    }
 
 
 }

@@ -22,6 +22,8 @@
 
     <string name="api_input_number_of_phone">GXT_BatchTJSJHM</string>
 
+    <string name="api_get_contacts_in_group">GXT_HMFZSJHM</string>
+
 
 
 </resources>

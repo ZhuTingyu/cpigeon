@@ -53,7 +53,7 @@ public class TelephoneBookFragment extends BaseContactsListFragment<TelephoneBoo
 
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             IntentBuilder.Builder()
-                    .putExtra(IntentBuilder.KEY_DATA,"川南地区")
+                    .putExtra(IntentBuilder.KEY_DATA,adapter.getItem(position))
                     .startParentActivity(getActivity(), ContactsListFragment.class);
         });
 
@@ -63,9 +63,11 @@ public class TelephoneBookFragment extends BaseContactsListFragment<TelephoneBoo
 
     @Override
     protected void bindData() {
+        showLoading();
         mPresenter.getContactsGroups(data -> {
             adapter.setNewData(data);
             adapter.setImgChooseVisible(false);
+            hideLoading();
         });
 
     }
