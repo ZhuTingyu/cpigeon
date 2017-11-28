@@ -36,7 +36,7 @@
         <TextView
             android:id="@+id/phone_numbers"
             android:textSize="16dp"
-            android:text="1321321313131213213213123132131313"
+            tools:text="1321321313131213213213123132131313"
             android:paddingLeft="16dp"
             android:paddingEnd="16dp"
             android:layout_toRightOf="@id/text1"

@@ -111,10 +111,13 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre>{
                 DialogUtils.createDialog(getContext(),"提示"
                         ,getString(R.string.message_not_open_pigeon_message)
                         ,"确定",sweetAlertDialog -> {
-
+                            IntentBuilder.Builder(getSupportActivity(), UserAgreementActivity.class)
+                                    .putExtra(IntentBuilder.KEY_BOOLEAN, false)
+                                    .putExtra(IntentBuilder.KEY_TITLE, "用户协议")
+                                    .putExtra(IntentBuilder.KEY_DATA, CPigeonApiUrl.getInstance().getServer()
+                                            + getString(R.string.api_user_agreement)).startActivity();
                         });
 
-                showTips(getString(R.string.message_not_open_pigeon_message),TipType.Dialog);
             }
         });
 

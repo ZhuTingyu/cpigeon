@@ -90,7 +90,8 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
         bottomText2.setText("确定");
         bottomText2.setOnClickListener(v -> {
             Intent intent = new Intent();
-            intent.putExtra(IntentBuilder.KEY_DATA, "sdfasdfasdfasdfas");
+            intent.putExtra(IntentBuilder.KEY_DATA
+                    ,adapter.getItem(adapter.getSelectedPotion().get(0)).dxnr);
             getActivity().setResult(0, intent);
             finish();
         });

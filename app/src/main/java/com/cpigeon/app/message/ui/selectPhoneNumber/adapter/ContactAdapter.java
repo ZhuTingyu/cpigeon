@@ -185,7 +185,7 @@ public class ContactAdapter extends BaseAdapter<ContactModel.MembersEntity,Conta
         List<Integer> positions = getSelectedPotion();
         for(Integer position : positions){
             ContactModel.MembersEntity entity = mLists.get(position);
-            phoneString.append(entity.getMobile().trim());
+            phoneString.append(entity.getMobile().replaceAll(" +",""));
             phoneString.append(",");
             phoneString.append(entity.getUsername());
             phoneString.append(",");

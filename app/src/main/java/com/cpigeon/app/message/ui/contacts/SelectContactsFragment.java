@@ -2,6 +2,7 @@ package com.cpigeon.app.message.ui.contacts;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.message.ui.selectPhoneNumber.SelectPhoneActivity;
+
+import java.util.ArrayList;
 
 /**
  * Created by Zhu TingYu on 2017/11/21.
@@ -38,26 +41,30 @@ public class SelectContactsFragment extends BaseContactsListFragment<TelephoneBo
         btn.setVisibility(View.VISIBLE);
         btn.setText("确定");
         btn.setOnClickListener(v -> {
-            if(type == TYPE_CONTACTS_ADD){
-                Intent intent = new Intent();
-                intent.putExtra(IntentBuilder.KEY_DATA
-                        ,adapter.getItem(adapter.getSelectedPotion().get(0)));
-                getActivity().setResult(0, intent);
-                finish();
-            }else if(type == TYPE_PHONE_SELECT) {
-                if(!adapter.getSelectedPotion().isEmpty()){
+            if(!adapter.getSelectedPotion().isEmpty()){
+                if(type == TYPE_CONTACTS_ADD) {
+                    Intent intent = new Intent();
+                    intent.putParcelableArrayListExtra(IntentBuilder.KEY_DATA
+                            , (ArrayList<? extends Parcelable>) adapter.getSelectedEntity());
+                    getActivity().setResult(0, intent);
+                    finish();
+                }else if(type == TYPE_PHONE_SELECT) {
                     IntentBuilder.Builder(getSupportActivity(), SelectPhoneActivity.class)
                             .putExtra(IntentBuilder.KEY_DATA,adapter.getItem(adapter.getSelectedPotion().get(0)).fzid)
                             .startActivity();
                     finish();
-                }else {
-                    showTips("请选择一个分组", TipType.DialogError);
                 }
+            } else {
+                showTips("请选择一个分组", TipType.DialogError);
             }
         });
 
         adapter.setOnItemClickListener((adapter1, view, position) -> {
-            adapter.setSingleItem(adapter.getItem(position), position);
+            if(type == TYPE_CONTACTS_ADD){
+                adapter.setMultiSelectItem(adapter.getItem(position), position);
+            }else {
+                adapter.setSingleItem(adapter.getItem(position), position);
+            }
         });
 
 

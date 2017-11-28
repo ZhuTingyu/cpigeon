@@ -12,4 +12,8 @@ public class StringUtil {
         return s.substring(start, end);
     }
 
+    public static String removeAllSpace(String s){
+        return s.replaceAll(" +","");
+    }
+
 }

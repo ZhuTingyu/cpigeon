@@ -9,6 +9,8 @@ import com.cpigeon.app.utils.databean.ApiResponse;
 import com.cpigeon.app.utils.http.HttpUtil;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -64,6 +66,18 @@ public class ContactsModel {
                 .addBody("fzid", String.valueOf(groupId))
                 .addBody("p", String.valueOf(page))
                 .addBody("s", search)
+                .request();
+    }
+
+    public static Observable<ApiResponse<ContactsEntity>> NumberOfContactsInGroup(int userId, String groupIds) {
+        return GXYHttpUtil.<ApiResponse<ContactsEntity>>build()
+                .setToJsonType(new TypeToken<ApiResponse<ContactsEntity>>() {
+                }.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_get_contacts_in_group)
+                .addQueryString("u", String.valueOf(userId))
+                .addBody("fzid", groupIds)
+                .addBody("type","s")
                 .request();
     }
 

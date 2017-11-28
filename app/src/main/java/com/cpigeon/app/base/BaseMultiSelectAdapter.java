@@ -55,6 +55,16 @@ public class BaseMultiSelectAdapter<K extends MultiSelectEntity, B extends BaseV
         return selectedPositions;
     }
 
+    public List<K> getSelectedEntity(){
+        List<K> list = Lists.newArrayList();
+        for(int i = 0; i < mData.size(); i++){
+            if(mData.get(i).isChoose){
+                list.add(mData.get(i));
+            }
+        }
+        return list;
+    }
+
     public void deleteChoose() {
         for (int i = 0; i < mData.size();) {
             if (mData.get(i).isChoose) {

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
+import com.cpigeon.app.entity.ContactsGroupEntity;
 import com.cpigeon.app.message.ui.common.CommonMessageFragment;
 import com.cpigeon.app.message.ui.contacts.SelectContactsFragment;
 import com.cpigeon.app.message.ui.contacts.SendMessageContactsListFragment;
@@ -18,11 +19,13 @@ import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.StringValid;
 
+import java.util.List;
+
 /**
  * Created by Zhu TingYu on 2017/11/20.
  */
 
-public class SendMessageFragment extends BaseMVPFragment {
+public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
 
     public static final int CODE_COMMON_MESSAGE = 0x123;
     public static final int CODE_CONTACTS_LIST = 0x234;
@@ -38,8 +41,8 @@ public class SendMessageFragment extends BaseMVPFragment {
 
 
     @Override
-    protected BasePresenter initPresenter() {
-        return null;
+    protected SendMessagePre initPresenter() {
+        return new SendMessagePre(getActivity());
     }
 
     @Override
@@ -63,6 +66,8 @@ public class SendMessageFragment extends BaseMVPFragment {
         btnModifySign = (TextView) findViewById(R.id.btn_modify_sign);
         contactsNumber = findViewById(R.id.number);
 
+        bindUi(RxUtils.textChanges(edContent),mPresenter.setMessageContent());
+
         bindUi(RxUtils.click(tvPhoneNumbers), o -> {
 
         });
@@ -84,7 +89,15 @@ public class SendMessageFragment extends BaseMVPFragment {
         });
 
         bindUi(RxUtils.click(btnRight), o -> {
-
+            showLoading();
+            mPresenter.sendMessage(r -> {
+                hideLoading();
+                if(r.status){
+                    showTips(r.msg, TipType.Dialog);
+                }else {
+                    showTips(r.msg, TipType.DialogError);
+                }
+            });
         });
 
         bindUi(RxUtils.click(btnModifySign), o -> {
@@ -106,8 +119,15 @@ public class SendMessageFragment extends BaseMVPFragment {
                 edContent.setText(data.getStringExtra(IntentBuilder.KEY_DATA));
             }
         }else if (CODE_CONTACTS_LIST == requestCode){
-            if(data != null){
+            if(data != null && data.hasExtra(IntentBuilder.KEY_DATA)){
+                List<ContactsGroupEntity> groupEntities = data.getParcelableArrayListExtra(IntentBuilder.KEY_DATA);
                 contactsNumber.setVisibility(View.VISIBLE);
+                contactsNumber.setText(getString(R.string.string_text_select_contacts_number
+                        ,String.valueOf(mPresenter.getContactsCount(groupEntities))));
+                mPresenter.setGroupIds(groupEntities);
+                mPresenter.getSendNumber(s -> {
+                    tvPhoneNumbers.setText(s);
+                });
             }
         }
     }

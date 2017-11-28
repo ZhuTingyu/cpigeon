@@ -26,6 +26,8 @@
 
     <string name="api_set_user_agreement">GetGXT_TYXY</string>
 
+    <string name="api_send_message">GXT_DXTJ</string>
+
 
 
 </resources>
