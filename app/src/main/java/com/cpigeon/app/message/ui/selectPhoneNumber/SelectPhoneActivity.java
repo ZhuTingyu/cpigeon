@@ -1,6 +1,7 @@
 package com.cpigeon.app.message.ui.selectPhoneNumber;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
@@ -12,7 +13,9 @@ import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.even.ContactsEvent;
 import com.cpigeon.app.utils.ContactsUtil;
 import com.cpigeon.app.utils.DialogUtils;
+import com.cpigeon.app.utils.StringUtil;
 import com.cpigeon.app.utils.StringValid;
+import com.cpigeon.app.utils.customview.SearchEditText;
 import com.cpigeon.app.utils.http.GsonUtil;
 import com.cpigeon.app.message.ui.selectPhoneNumber.adapter.ContactAdapter;
 import com.cpigeon.app.message.ui.selectPhoneNumber.model.ContactModel;
@@ -38,9 +41,14 @@ import java.util.List;
  */
 public class SelectPhoneActivity extends BaseActivity<SelectPhonePre> {
 
+    public static final int TYPE_ALL = 0;
+    public static final int TYPE_SEACH_NAME = 1;
+    public static final int TYPE_SEACH_NUMBER = 2;
+
     private ZSideBar mZSideBar;
     private TextView mUserDialog;
     private TouchableRecyclerView mRecyclerView;
+    private SearchEditText searchEditText;
 
     ContactModel mModel;
     private List<ContactModel.MembersEntity> mMembers = new ArrayList<>();
@@ -49,6 +57,7 @@ public class SelectPhoneActivity extends BaseActivity<SelectPhonePre> {
     private ContactAdapter mAdapter;
     private List<ContactModel.MembersEntity> mAllLists = new ArrayList<>();
     private int mPermission;
+    ContactsUtil contactsUtil;
 
 
     @Override
@@ -64,6 +73,7 @@ public class SelectPhoneActivity extends BaseActivity<SelectPhonePre> {
     @Override
     public void initView(Bundle savedInstanceState) {
         toolbar.setTitle("选择手机联系人");
+        contactsUtil = new ContactsUtil(getActivity());
         //setChooseAll();
 
         characterParser = CharacterParser.getInstance();
@@ -71,6 +81,11 @@ public class SelectPhoneActivity extends BaseActivity<SelectPhonePre> {
         mZSideBar = (ZSideBar) findViewById(R.id.contact_zsidebar);
         mUserDialog = (TextView) findViewById(R.id.contact_dialog);
         mRecyclerView = (TouchableRecyclerView) findViewById(R.id.contact_member);
+        searchEditText = findViewById(R.id.widget_title_bar_search);
+
+        searchEditText.setOnSearchClickListener((view, keyword) -> {
+            getNetData(TYPE_SEACH_NUMBER, keyword);
+        });
 
         findViewById(R.id.rl1).setOnClickListener(v -> {
             if(!mAdapter.getPhoneString().isEmpty()){
@@ -88,7 +103,7 @@ public class SelectPhoneActivity extends BaseActivity<SelectPhonePre> {
             }
         });
 //        fillData();
-        getNetData(0);
+        getNetData(TYPE_ALL, null);
     }
 
     private void setChooseAll(){
@@ -112,25 +127,24 @@ public class SelectPhoneActivity extends BaseActivity<SelectPhonePre> {
     }
 
 
-    public void getNetData(final int type) {
+    public void getNetData(int type, @Nullable String keyWord) {
 
         //id 已经被处理过
        // JsonObject tempData = "{\"groupName\":\"中国\",\"admins\":[{\"id\":\"111221\",\"username\":\"程景瑞\",\"profession\":\"teacher\"},{\"id\":\"bfcd1feb5db2\",\"username\":\"钱黛\",\"profession\":\"teacher\"},{\"id\":\"bfcd1feb5db2\",\"username\":\"许勤颖\",\"profession\":\"teacher\"},{\"id\":\"bfcd1feb5db2\",\"username\":\"孙顺元\",\"profession\":\"teacher\"},{\"id\":\"fcd1feb5db2\",\"username\":\"朱佳\",\"profession\":\"teacher\"},{\"id\":\"bfcd1feb5db2\",\"username\":\"李茂\",\"profession\":\"teacher\"},{\"id\":\"d1feb5db2\",\"username\":\"周莺\",\"profession\":\"teacher\"},{\"id\":\"cd1feb5db2\",\"username\":\"任倩栋\",\"profession\":\"teacher\"},{\"id\":\"d1feb5db2\",\"username\":\"严庆佳\",\"profession\":\"teacher\"}],\"members\":[{\"id\":\"d1feb5db2\",\"username\":\"彭怡1\",\"profession\":\"student\"},{\"id\":\"d1feb5db2\",\"username\":\"方谦\",\"profession\":\"student\"},{\"id\":\"dd2feb5db2\",\"username\":\"谢鸣瑾\",\"profession\":\"student\"},{\"id\":\"dd2478fb5db2\",\"username\":\"孔秋\",\"profession\":\"student\"},{\"id\":\"dd24cd1feb5db2\",\"username\":\"曹莺安\",\"profession\":\"student\"},{\"id\":\"dd2478eb5db2\",\"username\":\"酆有松\",\"profession\":\"student\"},{\"id\":\"dd2478b5db2\",\"username\":\"姜莺岩\",\"profession\":\"student\"},{\"id\":\"dd2eb5db2\",\"username\":\"谢之轮\",\"profession\":\"student\"},{\"id\":\"dd2eb5db2\",\"username\":\"钱固茂\",\"profession\":\"student\"},{\"id\":\"dd2d1feb5db2\",\"username\":\"潘浩\",\"profession\":\"student\"},{\"id\":\"dd24ab5db2\",\"username\":\"花裕彪\",\"profession\":\"student\"},{\"id\":\"dd24ab5db2\",\"username\":\"史厚婉\",\"profession\":\"student\"},{\"id\":\"dd24a00d1feb5db2\",\"username\":\"陶信勤\",\"profession\":\"student\"},{\"id\":\"dd24a5db2\",\"username\":\"水天固\",\"profession\":\"student\"},{\"id\":\"dd24a5db2\",\"username\":\"柳莎婷\",\"profession\":\"student\"},{\"id\":\"dd2d1feb5db2\",\"username\":\"冯茜\",\"profession\":\"student\"},{\"id\":\"dd24a0eb5db2\",\"username\":\"吕言栋\",\"profession\":\"student\"}],\"creater\":{\"id\":\"1\",\"username\":\"褚奇清\",\"profession\":\"teacher\"}}";
-        ContactsUtil contactsUtil = new ContactsUtil(getActivity());
+
         try {
-            String data = contactsUtil.getContactInfo();
+            String data;
+            if(type == TYPE_ALL){
+                data = contactsUtil.getContactInfo();
+            }else {
+               data = contactsUtil.searchContacts(keyWord);
+            }
             mAllLists = GsonUtil.fromJson(data,new TypeToken<List<ContactModel.MembersEntity>>(){}.getType());
             mModel = new ContactModel();
             mModel.setMembers(mAllLists);
             setUI();
         } catch (JSONException e) {
             e.printStackTrace();
-        }
-
-        try {
-
-        } catch (Exception e) {
-
         }
 
 
@@ -160,6 +174,7 @@ public class SelectPhoneActivity extends BaseActivity<SelectPhonePre> {
                 }
             });
         } else {
+            mAdapter.addAll(mMembers);
             mAdapter.notifyDataSetChanged();
         }
         mAdapter.setImgChooseVisible(true);
@@ -168,7 +183,7 @@ public class SelectPhoneActivity extends BaseActivity<SelectPhonePre> {
     }
 
     private void seperateLists(ContactModel mModel) {
-
+        mMembers.clear();
         if (mModel.getMembers() != null && mModel.getMembers().size() > 0) {
             for (int i = 0; i < mModel.getMembers().size(); i++) {
                 ContactModel.MembersEntity temp = mModel.getMembers().get(i);

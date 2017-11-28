@@ -157,9 +157,11 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
 
 
     private void bindData() {
+        showLoading();
         mPresenter.getCommonList(commonEntities -> {
             hideLoading();
             adapter.setNewData(commonEntities);
+            hideLoading();
         });
     }
 

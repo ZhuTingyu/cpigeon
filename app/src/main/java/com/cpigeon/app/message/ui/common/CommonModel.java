@@ -15,7 +15,7 @@ import io.reactivex.Observable;
  * Created by Zhu TingYu on 2017/11/23.
  */
 
-class CommonModel {
+public class CommonModel {
 
     static Observable<ApiResponse<List<CommonEntity>>> getCommons(int userId){
         return GXYHttpUtil.<ApiResponse<List<CommonEntity>>>build()
@@ -25,7 +25,7 @@ class CommonModel {
                 .request();
     }
 
-    static Observable<ApiResponse> addCommonMessage(int userId, String content){
+    public static Observable<ApiResponse> addCommonMessage(int userId, String content){
 
         return GXYHttpUtil.<ApiResponse>build()
                 .setToJsonType(new TypeToken<ApiResponse>(){}.getType())

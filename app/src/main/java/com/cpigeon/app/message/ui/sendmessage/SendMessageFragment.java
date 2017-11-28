@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
@@ -15,9 +16,11 @@ import com.cpigeon.app.message.ui.common.CommonMessageFragment;
 import com.cpigeon.app.message.ui.contacts.SelectContactsFragment;
 import com.cpigeon.app.message.ui.contacts.SendMessageContactsListFragment;
 import com.cpigeon.app.message.ui.modifysign.ModifySignFragment;
+import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.StringValid;
+import com.cpigeon.app.utils.ToastUtil;
 
 import java.util.List;
 
@@ -85,7 +88,13 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
         });
 
         bindUi(RxUtils.click(btnLeft), o -> {
-
+            mPresenter.addCommonMessage(r -> {
+                if(r.status){
+                    showTips(r.msg, TipType.Dialog);
+                }else {
+                    showTips(r.msg, TipType.DialogError);
+                }
+            });
         });
 
         bindUi(RxUtils.click(btnRight), o -> {
@@ -93,7 +102,8 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
             mPresenter.sendMessage(r -> {
                 hideLoading();
                 if(r.status){
-                    showTips(r.msg, TipType.Dialog);
+                    ToastUtil.showLongToast(MyApp.getInstance().getBaseContext(),r.msg);
+                    finish();
                 }else {
                     showTips(r.msg, TipType.DialogError);
                 }

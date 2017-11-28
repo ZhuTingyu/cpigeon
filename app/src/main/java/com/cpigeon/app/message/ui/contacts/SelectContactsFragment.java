@@ -77,7 +77,9 @@ public class SelectContactsFragment extends BaseContactsListFragment<TelephoneBo
             data.add(new ContactsGroupEntity());
         }
         adapter.setNewData(data);*/
+        showLoading();
         mPresenter.getContactsGroups(data -> {
+            hideLoading();
             adapter.setNewData(data);
             adapter.setImgChooseVisible(true);
             adapter.addFooterView(initFoodView());

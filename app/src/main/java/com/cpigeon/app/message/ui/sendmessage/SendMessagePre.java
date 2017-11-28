@@ -6,6 +6,7 @@ import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.IView;
 import com.cpigeon.app.entity.ContactsGroupEntity;
+import com.cpigeon.app.message.ui.common.CommonModel;
 import com.cpigeon.app.message.ui.contacts.ContactsModel;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.StringUtil;
@@ -54,17 +55,19 @@ public class SendMessagePre extends BasePresenter {
 
     public void sendMessage(Consumer<ApiResponse> consumer){
 
-        if(!StringValid.isStringValid(groupId)){
-            error.onNext(getErrorString("请选择联系人"));
-            return;
-        }
+        submitRequestThrowError(SendMessageModel.sendMessage(userId,groupId,messageContent).map(r -> {
+            return r;
+        }),consumer);
+    }
+
+    public void addCommonMessage(Consumer<ApiResponse> consumer){
 
         if(!StringValid.isStringValid(messageContent)){
             error.onNext(getErrorString("发送的内容为空"));
             return;
         }
 
-        submitRequestThrowError(SendMessageModel.sendMessage(userId,groupId,messageContent).map(r -> {
+        submitRequestThrowError(CommonModel.addCommonMessage(userId, messageContent).map(r ->{
             return r;
         }),consumer);
     }

@@ -1,7 +1,10 @@
 package com.cpigeon.app.utils;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Event;
@@ -17,6 +20,8 @@ import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Data;
 import android.util.Log;
 
+import com.cpigeon.app.message.ui.selectPhoneNumber.pinyin.CharacterParser;
+import com.cpigeon.app.message.ui.selectPhoneNumber.pinyin.PinyinComparator;
 import com.cpigeon.app.utils.http.LogUtil;
 
 
@@ -44,10 +49,12 @@ public class ContactsUtil {
 
     public ContactsUtil(Context context) {
         this.context = context;
+        contactData = new  JSONArray();
     }
 
     // ContactsContract.Contacts.CONTENT_URI= content://com.android.contacts/contacts;
     // ContactsContract.Data.CONTENT_URI = content://com.android.contacts/data;
+
 
     /**
      * 获取联系人信息，并把数据转换成json数据
@@ -55,24 +62,30 @@ public class ContactsUtil {
      * @return
      * @throws JSONException
      */
+
+
     public String getContactInfo() throws JSONException {
+
+        // 1.查询通讯录所有联系人信息，通过id排序，我们看下android联系人的表就知道，所有的联系人的数据是由RAW_CONTACT_ID来索引开的
+        // 所以，先获取所有的人的RAW_CONTACT_ID
+        removeData();
+        Cursor cursor = context.getContentResolver().query(Data.CONTENT_URI,
+                null, null, null, Data.RAW_CONTACT_ID);
+        getPhoneString(cursor);
+        return contactData.toString();
+    }
+
+    private void getPhoneString(Cursor cursor) throws JSONException{
         list = new ArrayList<Contacts>();
-        contactData = new  JSONArray();
         String mimetype = "";
         int oldrid = -1;
         int contactId = -1;
-        // 1.查询通讯录所有联系人信息，通过id排序，我们看下android联系人的表就知道，所有的联系人的数据是由RAW_CONTACT_ID来索引开的
-        // 所以，先获取所有的人的RAW_CONTACT_ID
-        Cursor cursor = context.getContentResolver().query(Data.CONTENT_URI,
-                null, null, null, Data.RAW_CONTACT_ID);
-        int numm = 0;
         while (cursor.moveToNext()) {
             contactId = cursor.getInt(cursor
                     .getColumnIndex(Data.RAW_CONTACT_ID));
             if (oldrid != contactId) {
                 jsonObject = new JSONObject();
                 contactData.put(jsonObject);
-                numm++;
                 oldrid = contactId;
             }
             mimetype = cursor.getString(cursor.getColumnIndex(Data.MIMETYPE)); // 取得mimetype类型,扩展的数据都在这个类型里面
@@ -367,6 +380,32 @@ public class ContactsUtil {
         }
         LogUtil.print(contactData.toString());
         cursor.close();
+    }
+    public String searchContacts(String keyWord) throws JSONException {
+        removeData();
+        Uri uri = Uri.parse("content://com.android.contacts/data/phones/filter/" + keyWord);
+        ContentResolver resolver = context.getContentResolver();
+        Cursor cursor = resolver.query(uri, new String[]{"display_name","data1"}, null, null, null);
+        if(cursor != null){
+            while (cursor.moveToNext()){
+                jsonObject = new JSONObject();
+                jsonObject.put("username", cursor.getString(0)) ;
+                jsonObject.put("mobile", cursor.getString(1)) ;
+                contactData.put(jsonObject);
+            }
+            cursor.close();
+        }
+        LogUtil.print(contactData.toString());
         return contactData.toString();
     }
+
+    private void removeData() throws JSONException {
+        for (int i = 0, len = contactData.length(); i < len; i++) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                contactData.remove(i);
+            }else contactData = new JSONArray(new ArrayList<String>());
+        }
+    }
+
+
 }

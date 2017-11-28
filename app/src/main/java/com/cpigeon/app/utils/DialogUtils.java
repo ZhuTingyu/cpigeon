@@ -3,6 +3,7 @@ package com.cpigeon.app.utils;
 import android.content.Context;
 import android.view.View;
 
+import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -31,6 +32,18 @@ public class DialogUtils {
                 .setConfirmClickListener(rightListener)
                 .setContentText(content)
                 .setConfirmText(right).show();
+    }
+
+    public static void createDialog(Context context, String content,
+                                    SweetAlertDialog.OnSweetClickListener rightListener){
+        SweetAlertDialog dialogPrompt;
+        dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);
+        dialogPrompt.setCanceledOnTouchOutside(false);
+        dialogPrompt.setCancelable(false);
+        dialogPrompt.setTitleText("提示")
+                .setConfirmClickListener(rightListener)
+                .setContentText(content)
+                .setConfirmText("确定").show();
     }
 
     public static void createDialog(Context context, View view){
