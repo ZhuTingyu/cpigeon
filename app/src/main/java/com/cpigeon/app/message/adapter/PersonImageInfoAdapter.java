@@ -34,6 +34,7 @@ public class PersonImageInfoAdapter extends BaseQuickAdapter<String, BaseViewHol
         holder.findViewById(R.id.title).setVisibility(View.GONE);
         AppCompatImageView imageView = holder.findViewById(R.id.icon);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, (int) (size * 0.6));
+        params.setMargins(0,0,0,ScreenTool.dip2px(8));
         imageView.setLayoutParams(params);
         imageView.setBackgroundResource(icList.get(holder.getAdapterPosition() - 1));
     }

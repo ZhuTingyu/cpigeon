@@ -61,6 +61,7 @@ public class ModifySignFragment extends BaseMVPFragment {
     private View initHeadView() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.item_modify_sign_head_layout, recyclerView, false);
         edSign = findViewById(view, R.id.sign);
+        edSign.clearFocus();
         return view;
     }
 
