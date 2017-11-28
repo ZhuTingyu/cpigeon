@@ -1,4 +1,4 @@
-package com.cpigeon.app.message.userAgreement;
+package com.cpigeon.app.message.ui.userAgreement;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.message.GXYHttpUtil;

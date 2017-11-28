@@ -26,10 +26,10 @@
  * #                                                   #
  */
 
-package com.cpigeon.app.message.selectPhoneNumber.model;
+package com.cpigeon.app.message.ui.selectPhoneNumber.model;
 
 
-import com.cpigeon.app.message.selectPhoneNumber.widget.Indexable;
+import com.cpigeon.app.message.ui.selectPhoneNumber.widget.Indexable;
 
 import java.util.ArrayList;
 import java.util.List;

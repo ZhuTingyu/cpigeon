@@ -26,7 +26,7 @@
  * #                                                   #
  */
 
-package com.cpigeon.app.message.selectPhoneNumber.adapter;
+package com.cpigeon.app.message.ui.selectPhoneNumber.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
@@ -39,8 +39,8 @@ import android.widget.TextView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.utils.Lists;
-import com.cpigeon.app.message.selectPhoneNumber.model.ContactModel;
-import com.cpigeon.app.message.selectPhoneNumber.widget.IndexAdapter;
+import com.cpigeon.app.message.ui.selectPhoneNumber.model.ContactModel;
+import com.cpigeon.app.message.ui.selectPhoneNumber.widget.IndexAdapter;
 import com.jiang.android.lib.adapter.BaseAdapter;
 import com.jiang.android.lib.adapter.expand.StickyRecyclerHeadersAdapter;
 

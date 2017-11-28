@@ -1,4 +1,4 @@
-package com.cpigeon.app.message.selectPhoneNumber.widget;
+package com.cpigeon.app.message.ui.selectPhoneNumber.widget;
 
 /**
  * @author 陈治谋 (513500085@qq.com)

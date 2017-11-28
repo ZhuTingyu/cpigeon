@@ -1,4 +1,4 @@
-package com.cpigeon.app.message.selectPhoneNumber;
+package com.cpigeon.app.message.ui.userAgreement;
 
 import android.app.Activity;
 
@@ -7,7 +7,6 @@ import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.databean.ApiResponse;
-import com.cpigeon.app.utils.http.HttpErrorException;
 
 import io.reactivex.functions.Consumer;
 
@@ -15,16 +14,15 @@ import io.reactivex.functions.Consumer;
  * Created by Zhu TingYu on 2017/11/27.
  */
 
-public class SelectPhonePre extends BasePresenter {
+public class UserAgreementPre extends BasePresenter {
 
     int userId;
-    int groupId;
-    public String phoneString;
+    boolean agreementState;
 
-    public SelectPhonePre(Activity activity) {
+    public UserAgreementPre(Activity activity) {
         super(activity);
         userId = CpigeonData.getInstance().getUserId(activity);
-        groupId = activity.getIntent().getIntExtra(IntentBuilder.KEY_DATA,0);
+        agreementState = activity.getIntent().getBooleanExtra(IntentBuilder.KEY_BOOLEAN, false);
     }
 
     @Override
@@ -32,11 +30,9 @@ public class SelectPhonePre extends BasePresenter {
         return null;
     }
 
-    public void putTelephone(Consumer<ApiResponse> consumer){
-        submitRequestThrowError(SelectPhoneModel.getCommons(userId,groupId,phoneString).map(r -> {
-            if(r.status){
-                return r;
-            }else throw new HttpErrorException(r);
+    public void setUserAgreement(Consumer<ApiResponse> consumer){
+        submitRequestThrowError(UserAgreementModel.setUserAgreement(userId).map(r -> {
+            return r;
         }),consumer);
     }
 

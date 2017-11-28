@@ -13,7 +13,7 @@ import com.cpigeon.app.message.ui.contacts.presenter.TelephoneBookPre;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.ToastUtil;
-import com.cpigeon.app.message.selectPhoneNumber.SelectPhoneActivity;
+import com.cpigeon.app.message.ui.selectPhoneNumber.SelectPhoneActivity;
 
 /**
  * Created by Zhu TingYu on 2017/11/21.

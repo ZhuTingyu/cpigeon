@@ -1,4 +1,4 @@
-package com.cpigeon.app.message.selectPhoneNumber;
+package com.cpigeon.app.message.ui.selectPhoneNumber;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.message.GXYHttpUtil;

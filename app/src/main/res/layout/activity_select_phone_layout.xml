@@ -65,7 +65,7 @@
             android:visibility="invisible" />
 
 
-        <com.cpigeon.app.message.selectPhoneNumber.widget.TouchableRecyclerView
+        <com.cpigeon.app.message.ui.selectPhoneNumber.widget.TouchableRecyclerView
             android:id="@+id/contact_member"
             android:layout_above="@id/rl1"
             android:layout_width="match_parent"
@@ -75,7 +75,7 @@
             android:layout_marginRight="24dp" />
 
 
-        <com.cpigeon.app.message.selectPhoneNumber.widget.ZSideBar
+        <com.cpigeon.app.message.ui.selectPhoneNumber.widget.ZSideBar
             android:id="@+id/contact_zsidebar"
             android:layout_width="24dp"
             android:layout_height="match_parent"

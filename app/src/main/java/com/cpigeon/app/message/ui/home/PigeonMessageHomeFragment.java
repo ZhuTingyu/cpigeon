@@ -9,7 +9,7 @@ import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.UserGXTEntity;
 import com.cpigeon.app.message.adapter.PigeonMessageHomeAdapter;
 import com.cpigeon.app.message.ui.BaseWebViewActivity;
-import com.cpigeon.app.message.userAgreement.UserAgreementActivity;
+import com.cpigeon.app.message.ui.userAgreement.UserAgreementActivity;
 import com.cpigeon.app.message.ui.common.CommonMessageFragment;
 import com.cpigeon.app.message.ui.contacts.TelephoneBookFragment;
 import com.cpigeon.app.message.ui.history.MessageHistoryFragment;
@@ -107,6 +107,13 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre>{
                     showTips(getString(R.string.message_pigeon_message_count_not_enough),TipType.Dialog);
                 }
             }else {
+
+                DialogUtils.createDialog(getContext(),"提示"
+                        ,getString(R.string.message_not_open_pigeon_message)
+                        ,"确定",sweetAlertDialog -> {
+
+                        });
+
                 showTips(getString(R.string.message_not_open_pigeon_message),TipType.Dialog);
             }
         });

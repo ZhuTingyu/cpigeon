@@ -19,7 +19,7 @@ import static android.view.KeyEvent.KEYCODE_BACK;
  * Created by Zhu TingYu on 2017/11/22.
  */
 
-public abstract class BaseWebViewActivity<Pre extends BasePresenter> extends BaseActivity<Pre> {
+public class BaseWebViewActivity<Pre extends BasePresenter> extends BaseActivity<Pre> {
 
     WebView webView;
     String url;
@@ -29,6 +29,11 @@ public abstract class BaseWebViewActivity<Pre extends BasePresenter> extends Bas
     @Override
     public int getLayoutId() {
         return R.layout.activity_web_view_layout;
+    }
+
+    @Override
+    public Pre initPresenter() {
+        return null;
     }
 
 

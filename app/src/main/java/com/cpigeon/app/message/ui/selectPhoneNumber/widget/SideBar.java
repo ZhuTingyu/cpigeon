@@ -26,7 +26,7 @@
  * #                                                   #
  */
 
-package com.cpigeon.app.message.selectPhoneNumber.widget;
+package com.cpigeon.app.message.ui.selectPhoneNumber.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;

@@ -235,13 +235,13 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <activity
-            android:name=".message.selectPhoneNumber.SelectPhoneActivity"
+            android:name=".message.ui.selectPhoneNumber.SelectPhoneActivity"
             android:launchMode="singleTask"
             android:theme="@style/ToolbarTheme"
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <activity
-            android:name=".message.userAgreement.UserAgreementActivity"
+            android:name=".message.ui.userAgreement.UserAgreementActivity"
             android:launchMode="singleTask"
             android:theme="@style/ToolbarTheme"
             android:windowSoftInputMode="adjustPan|stateHidden" />

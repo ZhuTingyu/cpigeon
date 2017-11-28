@@ -26,7 +26,7 @@
  * #                                                   #
  */
 
-package com.cpigeon.app.message.selectPhoneNumber.adapter;
+package com.cpigeon.app.message.ui.selectPhoneNumber.adapter;
 
 /**
  * Created by jiang on 16/2/2.

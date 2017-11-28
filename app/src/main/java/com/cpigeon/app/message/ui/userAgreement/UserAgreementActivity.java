@@ -1,4 +1,4 @@
-package com.cpigeon.app.message.userAgreement;
+package com.cpigeon.app.message.ui.userAgreement;
 
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
-import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.message.ui.BaseWebViewActivity;
 import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;

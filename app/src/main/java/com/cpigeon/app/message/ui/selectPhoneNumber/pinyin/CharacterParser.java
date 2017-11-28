@@ -26,7 +26,7 @@
  * #                                                   #
  */
 
-package com.cpigeon.app.message.selectPhoneNumber.pinyin;
+package com.cpigeon.app.message.ui.selectPhoneNumber.pinyin;
 
 import com.cpigeon.app.utils.StringValid;
 

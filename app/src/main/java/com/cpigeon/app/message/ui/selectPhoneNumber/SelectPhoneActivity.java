@@ -1,4 +1,4 @@
-package com.cpigeon.app.message.selectPhoneNumber;
+package com.cpigeon.app.message.ui.selectPhoneNumber;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,20 +8,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cpigeon.app.R;
-import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.even.ContactsEvent;
 import com.cpigeon.app.utils.ContactsUtil;
 import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.http.GsonUtil;
-import com.cpigeon.app.message.selectPhoneNumber.adapter.ContactAdapter;
-import com.cpigeon.app.message.selectPhoneNumber.model.ContactModel;
-import com.cpigeon.app.message.selectPhoneNumber.pinyin.CharacterParser;
-import com.cpigeon.app.message.selectPhoneNumber.pinyin.PinyinComparator;
-import com.cpigeon.app.message.selectPhoneNumber.widget.DividerDecoration;
-import com.cpigeon.app.message.selectPhoneNumber.widget.TouchableRecyclerView;
-import com.cpigeon.app.message.selectPhoneNumber.widget.ZSideBar;
+import com.cpigeon.app.message.ui.selectPhoneNumber.adapter.ContactAdapter;
+import com.cpigeon.app.message.ui.selectPhoneNumber.model.ContactModel;
+import com.cpigeon.app.message.ui.selectPhoneNumber.pinyin.CharacterParser;
+import com.cpigeon.app.message.ui.selectPhoneNumber.pinyin.PinyinComparator;
+import com.cpigeon.app.message.ui.selectPhoneNumber.widget.DividerDecoration;
+import com.cpigeon.app.message.ui.selectPhoneNumber.widget.TouchableRecyclerView;
+import com.cpigeon.app.message.ui.selectPhoneNumber.widget.ZSideBar;
 
 import com.google.gson.reflect.TypeToken;
 import com.jiang.android.lib.adapter.expand.StickyRecyclerHeadersDecoration;
