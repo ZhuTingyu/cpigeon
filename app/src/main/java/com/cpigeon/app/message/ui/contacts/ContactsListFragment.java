@@ -5,19 +5,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.cpigeon.app.R;
-import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
-import com.cpigeon.app.entity.ContactsEntity;
 import com.cpigeon.app.entity.ContactsGroupEntity;
-import com.cpigeon.app.entity.MultiSelectEntity;
 import com.cpigeon.app.message.adapter.ContactsInfoAdapter;
 import com.cpigeon.app.message.ui.contacts.presenter.ContactsListPre;
 import com.cpigeon.app.utils.IntentBuilder;
-import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.customview.SearchEditText;
 
-import java.util.ArrayList;
 
 /**
  * Created by Zhu TingYu on 2017/11/21.
@@ -55,6 +50,7 @@ public class ContactsListFragment extends BaseMVPFragment<ContactsListPre> {
         searchEditText.clearFocus();
         hideSoftInput(searchEditText.getWindowToken());
         searchEditText.setOnSearchClickListener((view, keyword) -> {
+            mPresenter.page = 1;
             bindData();
         });
 
@@ -63,16 +59,8 @@ public class ContactsListFragment extends BaseMVPFragment<ContactsListPre> {
         recyclerView.requestFocus();
         addItemDecorationLine(recyclerView);
         adapter = new ContactsInfoAdapter();
-        adapter.bindToRecyclerView(recyclerView);
-        adapter.setOnItemClickListener((adapter1, view, position) -> {
-            IntentBuilder.Builder()
-                    .putExtra(IntentBuilder.KEY_TITLE, contactsGroupEntity.fzmc)
-                    .putExtra(IntentBuilder.KEY_DATA, adapter.getData().get(position))
-                    .putExtra(IntentBuilder.KEY_TYPE,ContactsInfoFragment.TYPE_LOOK)
-                    .startParentActivity(getActivity(), ContactsInfoFragment.class);
-        });
-
-        adapter.setOnLoadMoreListener(() -> {
+        /*adapter.setOnLoadMoreListener(() -> {
+            mPresenter.page++;
             mPresenter.getContactsInGroup(contactsEntities -> {
                 if(contactsEntities.isEmpty()){
                     adapter.setLoadMore(true);
@@ -81,10 +69,20 @@ public class ContactsListFragment extends BaseMVPFragment<ContactsListPre> {
                     adapter.setLoadMore(false);
                 }
             });
-        },recyclerView);
+        },recyclerView);*/
+        adapter.setOnItemClickListener((adapter1, view, position) -> {
+            IntentBuilder.Builder()
+                    .putExtra(IntentBuilder.KEY_TITLE, contactsGroupEntity.fzmc)
+                    .putExtra(IntentBuilder.KEY_DATA, adapter.getData().get(position))
+                    .putExtra(IntentBuilder.KEY_TYPE,ContactsInfoFragment.TYPE_LOOK)
+                    .startParentActivity(getActivity(), ContactsInfoFragment.class);
+        });
+        adapter.bindToRecyclerView(recyclerView);
+
 
         bindData();
     }
+
 
     private void bindData() {
        /* ArrayList<String> data = Lists.newArrayList();

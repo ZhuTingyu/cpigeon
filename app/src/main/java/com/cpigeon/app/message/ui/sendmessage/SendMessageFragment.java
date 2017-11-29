@@ -77,7 +77,7 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
 
         bindUi(RxUtils.click(icContactsAdd), o -> {
             IntentBuilder.Builder()
-                    .putExtra(IntentBuilder.KEY_TYPE, SelectContactsFragment.TYPE_CONTACTS_ADD)
+                    .putExtra(IntentBuilder.KEY_TYPE, SelectContactsFragment.TYPE_SEND_MESSAGE)
                     .startParentActivity(getActivity(), SelectContactsFragment.class, CODE_CONTACTS_LIST);
         });
 

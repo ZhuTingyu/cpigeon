@@ -1,5 +1,7 @@
 package com.cpigeon.app.message.adapter;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseViewHolder;
@@ -33,9 +35,10 @@ public class ContactsInfoAdapter extends BaseQuickAdapter<ContactsEntity,BaseVie
 
     @Override
     public void setNewData(List<ContactsEntity> data) {
-        super.setNewData(data);
+        new RecyclerView.RecycledViewPool().clear();
         if(data.isEmpty()){
             CommonTool.setEmptyView(this, "暂时没有联系人");
         }
+        super.setNewData(data);
     }
 }

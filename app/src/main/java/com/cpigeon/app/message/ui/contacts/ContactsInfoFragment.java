@@ -102,6 +102,7 @@ public class ContactsInfoFragment extends BaseMVPFragment<ContactsInfoPre> {
                     if(r.status){
                         ToastUtil.showLongToast(getContext(), r.msg);
                         EventBus.getDefault().post(new ContactsEvent());
+                        finish();
                     }else {
                         error(r.msg);
                     }

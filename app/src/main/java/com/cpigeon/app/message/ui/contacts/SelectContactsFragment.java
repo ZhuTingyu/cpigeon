@@ -24,9 +24,11 @@ import java.util.ArrayList;
 
 public class SelectContactsFragment extends BaseContactsListFragment<TelephoneBookPre> {
 
-    public static final int TYPE_CONTACTS_ADD = 1;
+    public static final int TYPE_SEND_MESSAGE = 1;
 
     public static final int TYPE_PHONE_SELECT = 2;
+
+    public static final int TYPE_CONTACTS_ADD = 3;
 
 
     private int type;
@@ -42,7 +44,7 @@ public class SelectContactsFragment extends BaseContactsListFragment<TelephoneBo
         btn.setText("确定");
         btn.setOnClickListener(v -> {
             if(!adapter.getSelectedPotion().isEmpty()){
-                if(type == TYPE_CONTACTS_ADD) {
+                if(type == TYPE_SEND_MESSAGE) {
                     Intent intent = new Intent();
                     intent.putParcelableArrayListExtra(IntentBuilder.KEY_DATA
                             , (ArrayList<? extends Parcelable>) adapter.getSelectedEntity());
@@ -53,6 +55,11 @@ public class SelectContactsFragment extends BaseContactsListFragment<TelephoneBo
                             .putExtra(IntentBuilder.KEY_DATA,adapter.getItem(adapter.getSelectedPotion().get(0)).fzid)
                             .startActivity();
                     finish();
+                }else if(type == TYPE_CONTACTS_ADD){
+                    Intent intent = new Intent();
+                    intent.putExtra(IntentBuilder.KEY_DATA, adapter.getSelectedEntity().get(0));
+                    getActivity().setResult(0, intent);
+                    finish();
                 }
             } else {
                 showTips("请选择一个分组", TipType.DialogError);
@@ -60,7 +67,7 @@ public class SelectContactsFragment extends BaseContactsListFragment<TelephoneBo
         });
 
         adapter.setOnItemClickListener((adapter1, view, position) -> {
-            if(type == TYPE_CONTACTS_ADD){
+            if(type == TYPE_SEND_MESSAGE){
                 adapter.setMultiSelectItem(adapter.getItem(position), position);
             }else {
                 adapter.setSingleItem(adapter.getItem(position), position);

@@ -48,7 +48,6 @@ public class ContactsListPre extends BasePresenter {
             }else throw new HttpErrorException(r);
         }),consumer);
 
-        page++;
     }
 
 
