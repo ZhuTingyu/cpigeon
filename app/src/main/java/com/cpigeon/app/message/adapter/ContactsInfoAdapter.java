@@ -35,7 +35,8 @@ public class ContactsInfoAdapter extends BaseQuickAdapter<ContactsEntity,BaseVie
 
     @Override
     public void setNewData(List<ContactsEntity> data) {
-        new RecyclerView.RecycledViewPool().clear();
+        getRecyclerView().getRecycledViewPool().clear();
+        notifyDataSetChanged();
         if(data.isEmpty()){
             CommonTool.setEmptyView(this, "暂时没有联系人");
         }

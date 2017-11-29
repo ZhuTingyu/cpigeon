@@ -59,7 +59,7 @@ public class ContactsListFragment extends BaseMVPFragment<ContactsListPre> {
         recyclerView.requestFocus();
         addItemDecorationLine(recyclerView);
         adapter = new ContactsInfoAdapter();
-        /*adapter.setOnLoadMoreListener(() -> {
+        adapter.setOnLoadMoreListener(() -> {
             mPresenter.page++;
             mPresenter.getContactsInGroup(contactsEntities -> {
                 if(contactsEntities.isEmpty()){
@@ -69,7 +69,7 @@ public class ContactsListFragment extends BaseMVPFragment<ContactsListPre> {
                     adapter.setLoadMore(false);
                 }
             });
-        },recyclerView);*/
+        },recyclerView);
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             IntentBuilder.Builder()
                     .putExtra(IntentBuilder.KEY_TITLE, contactsGroupEntity.fzmc)
@@ -77,9 +77,9 @@ public class ContactsListFragment extends BaseMVPFragment<ContactsListPre> {
                     .putExtra(IntentBuilder.KEY_TYPE,ContactsInfoFragment.TYPE_LOOK)
                     .startParentActivity(getActivity(), ContactsInfoFragment.class);
         });
-        adapter.bindToRecyclerView(recyclerView);
 
 
+        recyclerView.setAdapter(adapter);
         bindData();
     }
 
