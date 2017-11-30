@@ -2,7 +2,9 @@ package com.cpigeon.app.message.ui.modifysign;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.message.GXYHttpUtil;
+import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.databean.ApiResponse;
+import com.cpigeon.app.utils.http.GsonUtil;
 import com.cpigeon.app.utils.http.HttpUtil;
 import com.google.gson.reflect.TypeToken;
 
@@ -25,9 +27,9 @@ public class PersonSignModel {
                 .url(R.string.api_modify_sign)
                 .addQueryString("u", String.valueOf(userId))
                 .addBody("qm", sign)
-                .addBody("sfzzm",new File(IdCardP))
-                .addBody("sfzbm",new File(IdCardN))
-                .addBody("gswj",new File(license))
+                .addFileBody("sfzzm",IdCardP)
+                .addFileBody("sfzbm",IdCardN)
+                .addFileBody("gswj",license)
                 .addBody("xingming",name)
                 .addBody("xingbie",sex)
                 .addBody("minzu",familyName)

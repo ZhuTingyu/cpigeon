@@ -38,7 +38,7 @@ public class PersonSignPre extends BasePresenter {
         return null;
     }
 
-    private void modifySign(Consumer<ApiResponse> consumer) {
+    public void modifySign(Consumer<ApiResponse> consumer) {
         submitRequestThrowError(PersonSignModel.modifySign(userId, sign, idCardP, idCardN, license, name
                 , sex, familyName, address, idCardNumber, organization, idCardDate).map(r -> {
             return r;

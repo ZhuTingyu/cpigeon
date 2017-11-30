@@ -171,6 +171,9 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.1.1'
     compile files('libs/youtu-java-sdk.jar')
     compile files('libs/json.jar')
+
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
+    compile 'com.github.lovetuzitong:MultiImageSelector:1.2'
 }
 
 int getCustomVersionCode() {

@@ -2850,6 +2850,9 @@ public class CallAPI {
         pretreatmentParams(requestParams);
         requestParams.addParameter("u", userid);
         requestParams.addBodyParameter("uface", uface);
+        requestParams.addBodyParameter("uface1", "3123");
+        requestParams.addBodyParameter("uface2", "3");
+        requestParams.addBodyParameter("uface3", "312");
         requestParams.addHeader("u", CommonTool.getUserToken(context));
         requestParams.setMultipart(true);
         return x.http().post(requestParams, new org.xutils.common.Callback.CommonCallback<String>() {

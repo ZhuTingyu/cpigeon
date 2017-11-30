@@ -7,6 +7,7 @@ import android.util.Log;
 import com.cpigeon.app.MyApp;
 import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.CallAPI;
+import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.databean.ApiResponse;
 import com.google.gson.reflect.TypeToken;
 
@@ -67,8 +68,15 @@ public class HttpUtil<T> {
         return this;
     }
 
-    public HttpUtil<T> addBody(String name, File file) {
-        requestParams.addBodyParameter(name, file);
+    public HttpUtil<T> addFileBody(String name, String path) {
+        if(StringValid.isStringValid(path)){
+            if(!requestParams.isMultipart()){
+                requestParams.setMultipart(true);
+            }
+            requestParams.addBodyParameter(name, new File(path));
+
+        }
+
         return this;
     }
 
@@ -120,6 +128,7 @@ public class HttpUtil<T> {
 
     public Observable<T> request() {
         printf();
+
         CallAPI.addApiSign(requestParams);
         LogUtil.print(requestParams.getUri());
         Observable<T> observable = RxNet.newRequest(this)
