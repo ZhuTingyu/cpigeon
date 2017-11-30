@@ -15,6 +15,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-feature android:name="android.hardware.camera" android:required="true"/>
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/>
 
     <!-- 读联系人权限 -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -152,6 +154,12 @@
         <activity
             android:name=".modular.usercenter.view.activity.HelpActivity"
             android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+
+        <activity
+            android:name=".message.ui.idCard.IdCardCameraActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".modular.usercenter.view.activity.SetUserPwdActivity"

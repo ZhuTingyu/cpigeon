@@ -12,6 +12,8 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.message.adapter.PersonImageInfoAdapter;
+import com.cpigeon.app.message.ui.idCard.IdCardCameraActivity;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 
 /**
@@ -40,6 +42,7 @@ public class ModifySignFragment extends BaseMVPFragment {
     @Override
     public void finishCreateView(Bundle state) {
         setTitle("修改签名");
+        hideSoftInput();
         initView();
     }
 
@@ -55,6 +58,18 @@ public class ModifySignFragment extends BaseMVPFragment {
         adapter.bindToRecyclerView(recyclerView);
         adapter.addHeaderView(initHeadView());
         adapter.setNewData(Lists.newArrayList("", "", ""));
+        recyclerView.requestFocus();
+
+        adapter.setOnItemClickListener((adapter1, view, position) -> {
+            if (position == 0) {//身份证正面
+                IntentBuilder.Builder(getActivity(), IdCardCameraActivity.class)
+                        .startActivity();
+            } else if (position == 1) {//身份中反面
+
+            } else if (position == 2) {//营业执照
+
+            }
+        });
 
     }
 

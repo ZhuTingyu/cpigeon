@@ -80,7 +80,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         setToolbar();
         mPresenter = this.initPresenter();
         initView(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
 
     }
 
@@ -121,7 +120,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     /**
      * 设置layout前配置
      */
-    private void doBeforeSetcontentView() {
+    protected void doBeforeSetcontentView() {
         weakReference = new WeakReference<AppCompatActivity>(this);
         // 把actvity放到application栈中管理
         AppManager.getAppManager().addActivity(weakReference);

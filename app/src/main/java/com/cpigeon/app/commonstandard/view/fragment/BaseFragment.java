@@ -20,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -345,6 +346,12 @@ public abstract class BaseFragment extends Fragment implements IView {
             manager.hideSoftInputFromWindow(token,
                     InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+    //edittext默认不显示软键盘，只有edittext被点击时，软键盘才弹出
+
+    protected void hideSoftInput(){
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
 }
