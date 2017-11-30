@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -22,8 +23,15 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.AppManager;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
+import com.cpigeon.app.entity.IdCardNInfoEntity;
+import com.cpigeon.app.entity.IdCardPInfoEntity;
 import com.cpigeon.app.utils.IdCardIdentification;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.ScreenTool;
+import com.cpigeon.app.utils.ToastUtil;
+import com.cpigeon.app.utils.http.GsonUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -32,11 +40,19 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 /**
  * Created by Zhu TingYu on 2017/11/30.
  */
 
 public class IdCardCameraActivity extends AppCompatActivity {
+
+    public static final int CODE_ID_CARD_P = 0x123;
+    public static final int CODE_ID_CARD_N = 0x234;
+
+    public static final int TYPE_P = 0; //身份证正面
+    public static final int TYPE_N = 1; //身份证反面
 
     private SurfaceView surfaceview;
     private Camera camera;
@@ -55,9 +71,17 @@ public class IdCardCameraActivity extends AppCompatActivity {
 
     private IdCardIdentification idCardIdentification;
 
+    SweetAlertDialog mLoadingSweetAlertDialog;
+
+    SweetAlertDialog dialogPrompt;
+
+    int type;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        type = getIntent().getIntExtra(IntentBuilder.KEY_TYPE,0);
 
         screenH = ScreenTool.getScreenHeight(getApplicationContext());
         screenW = ScreenTool.getScreenWidth(getApplicationContext());
@@ -144,17 +168,52 @@ public class IdCardCameraActivity extends AppCompatActivity {
 
 
                 data = Bitmap2Bytes(bitmap1);
-                File file = new File(Environment.getExternalStorageDirectory(), "身份证" + ".jpg");
+                File file;
+                if(type == TYPE_P){
+                    file = new File(Environment.getExternalStorageDirectory(), "IdCard_P" + ".jpg");
+                }else {
+                    file = new File(Environment.getExternalStorageDirectory(), "IdCard_N" + ".jpg");
+                }
                 FileOutputStream fos = new FileOutputStream(file);
                 fos.write(data);
                 fos.close();
 
 
+                showLoad();
+                if(type == TYPE_P){
+                    idCardIdentification.IdCardOcr(file.getPath(),IdCardIdentification.TYPE_POSITIVE,jsonObject -> {
+                        camera.startPreview();
+                        showLoad();
+                        IdCardPInfoEntity idCardPInfoEntity = GsonUtil.fromJson(jsonObject.toString(),new TypeToken<IdCardPInfoEntity>(){}.getType());
+                        if(idCardPInfoEntity.errorcode == 0){
+                            idCardPInfoEntity.frontimage = file.getPath();
+                            Intent intent = new Intent();
+                            intent.putExtra(IntentBuilder.KEY_DATA, idCardPInfoEntity);
+                            setResult(0, intent);
+                            ToastUtil.showLongToast(getApplicationContext(),"识别成功");
+                            finish();
+                        }else {
+                            error();
+                        }
+                    });
+                }else {
+                    idCardIdentification.IdCardOcr(file.getPath(),IdCardIdentification.TYPE_NOT_POSITIVE,jsonObject -> {
+                        camera.startPreview();
+                        showLoad();
+                        IdCardNInfoEntity idCardNInfoEntity = GsonUtil.fromJson(jsonObject.toString(),new TypeToken<IdCardNInfoEntity>(){}.getType());
+                        if(idCardNInfoEntity.errorcode == 0){
+                            idCardNInfoEntity.backimage = file.getPath();
+                            Intent intent = new Intent();
+                            intent.putExtra(IntentBuilder.KEY_DATA, idCardNInfoEntity);
+                            setResult(0, intent);
+                            ToastUtil.showLongToast(getApplicationContext(),"识别成功");
+                            finish();
+                        }else {
+                            error();
+                        }
+                    });
+                }
 
-                idCardIdentification.IdCardOcr(file.getPath(),IdCardIdentification.TYPE_POSITIVE,idCardInfoEntity -> {
-
-                    camera.startPreview();
-                });
 
                 // 在拍照的时候相机是被占用的,拍照之后需要重新预览
                 //跳到新的页面
@@ -284,6 +343,27 @@ public class IdCardCameraActivity extends AppCompatActivity {
             }
         }
         return optimalSize;
+    }
+
+    private void showLoad(){
+        if (mLoadingSweetAlertDialog != null && mLoadingSweetAlertDialog.isShowing())
+            mLoadingSweetAlertDialog.dismiss();
+        else {
+            mLoadingSweetAlertDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+            mLoadingSweetAlertDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            mLoadingSweetAlertDialog.setCancelable(true);
+            mLoadingSweetAlertDialog.setTitleText("正在识别。。。");
+            mLoadingSweetAlertDialog.show();
+        }
+
+    }
+
+    private void error(){
+        dialogPrompt = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
+        dialogPrompt.setCancelable(false);
+        dialogPrompt.setTitleText("失败")
+                .setContentText("请在蓝色框里拍照").
+                setConfirmText(getString(R.string.confirm)).show();
     }
 
 }

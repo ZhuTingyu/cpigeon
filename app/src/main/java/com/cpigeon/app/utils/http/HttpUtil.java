@@ -17,6 +17,7 @@ import org.xutils.http.HttpMethod;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.io.File;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -63,6 +64,11 @@ public class HttpUtil<T> {
 
     public HttpUtil<T> addBody(String name, String value) {
         requestParams.addBodyParameter(name, value);
+        return this;
+    }
+
+    public HttpUtil<T> addBody(String name, File file) {
+        requestParams.addBodyParameter(name, file);
         return this;
     }
 

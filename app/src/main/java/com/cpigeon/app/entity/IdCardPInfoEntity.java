@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Zhu TingYu on 2017/11/30.
  */
 
-public class IdCardInfoEntity implements Parcelable {
+public class IdCardPInfoEntity implements Parcelable {
 
     /**
      * errorcode : 0
@@ -95,10 +95,10 @@ public class IdCardInfoEntity implements Parcelable {
         dest.writeList(this.detail_errormsg);
     }
 
-    public IdCardInfoEntity() {
+    public IdCardPInfoEntity() {
     }
 
-    protected IdCardInfoEntity(Parcel in) {
+    protected IdCardPInfoEntity(Parcel in) {
         this.errorcode = in.readInt();
         this.errormsg = in.readString();
         this.session_id = in.readString();
@@ -137,15 +137,15 @@ public class IdCardInfoEntity implements Parcelable {
         in.readList(this.detail_errormsg, Object.class.getClassLoader());
     }
 
-    public static final Creator<IdCardInfoEntity> CREATOR = new Creator<IdCardInfoEntity>() {
+    public static final Creator<IdCardPInfoEntity> CREATOR = new Creator<IdCardPInfoEntity>() {
         @Override
-        public IdCardInfoEntity createFromParcel(Parcel source) {
-            return new IdCardInfoEntity(source);
+        public IdCardPInfoEntity createFromParcel(Parcel source) {
+            return new IdCardPInfoEntity(source);
         }
 
         @Override
-        public IdCardInfoEntity[] newArray(int size) {
-            return new IdCardInfoEntity[size];
+        public IdCardPInfoEntity[] newArray(int size) {
+            return new IdCardPInfoEntity[size];
         }
     };
 }

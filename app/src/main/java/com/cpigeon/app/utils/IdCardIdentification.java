@@ -1,6 +1,6 @@
 package com.cpigeon.app.utils;
 
-import com.cpigeon.app.entity.IdCardInfoEntity;
+import com.cpigeon.app.entity.IdCardPInfoEntity;
 import com.cpigeon.app.utils.http.GsonUtil;
 import com.google.gson.reflect.TypeToken;
 import com.youtu.Youtu;
@@ -8,8 +8,6 @@ import com.youtu.Youtu;
 import org.json.JSONObject;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -33,11 +31,10 @@ public class IdCardIdentification {
         faceYoutu = new Youtu(APP_ID,SECRET_ID,SECRET_KEY,Youtu.API_YOUTU_END_POINT);
     }
 
-    public void  IdCardOcr(final String path, final int type, Consumer<IdCardInfoEntity> consumer){
-        Observable.<IdCardInfoEntity>create(observableEmitter -> {
+    public void  IdCardOcr(final String path, final int type, Consumer<JSONObject> consumer){
+        Observable.<JSONObject>create(observableEmitter -> {
             JSONObject jsonObject = faceYoutu.IdCardOcr(path,type);
-            IdCardInfoEntity entity = GsonUtil.fromJson(jsonObject.toString(),new TypeToken<IdCardInfoEntity>(){}.getType());
-            observableEmitter.onNext(entity);
+            observableEmitter.onNext(jsonObject);
         }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(consumer);
 
     }
