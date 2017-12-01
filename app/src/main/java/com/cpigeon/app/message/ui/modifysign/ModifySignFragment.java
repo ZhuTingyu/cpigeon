@@ -97,6 +97,7 @@ public class ModifySignFragment extends BaseMVPFragment {
         if(!entity.isExamine()){
             btn.setText("正在审核。。。。");
             btn.setEnabled(false);
+            adapter.setOnItemClickListener(null);
         }
     }
 
