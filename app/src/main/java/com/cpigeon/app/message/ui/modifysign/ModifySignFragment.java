@@ -26,6 +26,7 @@ import com.cpigeon.app.utils.FileTool;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
+import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.customview.SaActionSheetDialog;
 import com.cpigeon.app.utils.inputfilter.PhotoUtil;
 import com.orhanobut.logger.Logger;
@@ -93,8 +94,8 @@ public class ModifySignFragment extends BaseMVPFragment {
     private void bindData(){
         adapter.setNewData(imgs);
         edSign.setText(entity.qianming);
-        if(entity.isExamine()){
-            edSign.setText("正在审核。。。。");
+        if(!entity.isExamine()){
+            btn.setText("正在审核。。。。");
             btn.setEnabled(false);
         }
     }
@@ -139,7 +140,8 @@ public class ModifySignFragment extends BaseMVPFragment {
         btn.setOnClickListener(v -> {
             signPre.modifySign(r -> {
                 if(r.status){
-                    showTips(r.msg, TipType.Dialog);
+                    ToastUtil.showLongToast(getContext(),"修改成功");
+                    finish();
                 }else {
                     error(r.msg);
                 }

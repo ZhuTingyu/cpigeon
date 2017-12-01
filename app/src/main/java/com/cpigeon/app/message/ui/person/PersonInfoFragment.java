@@ -19,6 +19,8 @@ import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.IdCardNInfoEntity;
 import com.cpigeon.app.entity.IdCardPInfoEntity;
 import com.cpigeon.app.entity.PersonInfoEntity;
+import com.cpigeon.app.even.ContactsEvent;
+import com.cpigeon.app.even.PersonInfoEvent;
 import com.cpigeon.app.message.adapter.PersonImageInfoAdapter;
 import com.cpigeon.app.message.ui.idCard.IdCardCameraActivity;
 import com.cpigeon.app.message.ui.modifysign.PersonSignPre;
@@ -27,11 +29,14 @@ import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.StringValid;
+import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.customview.SaActionSheetDialog;
 import com.cpigeon.app.utils.inputfilter.PhotoUtil;
 import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.List;
@@ -77,6 +82,7 @@ public class PersonInfoFragment extends BaseMVPFragment {
 
     @Override
     public void finishCreateView(Bundle state) {
+        EventBus.getDefault().register(this);
         signPre = new PersonSignPre(getActivity());
         type = getActivity().getIntent().getIntExtra(IntentBuilder.KEY_TYPE, 0);
         imgs = Lists.newArrayList("idCard_P", "idCard_N", "license");
@@ -162,7 +168,9 @@ public class PersonInfoFragment extends BaseMVPFragment {
             btn.setOnClickListener(v -> {
                 signPre.modifyPersonInfo(r -> {
                     if(r.status){
-                        showTips(r.msg, TipType.Dialog);
+                        EventBus.getDefault().post(new PersonInfoEvent(TYPE_LOOK));
+                        ToastUtil.showLongToast(getContext(),"修改成功");
+                        finish();
                     }else {
                         error(r.msg);
                     }
@@ -270,4 +278,16 @@ public class PersonInfoFragment extends BaseMVPFragment {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(PersonInfoEvent event){
+        if(event.type == TYPE_LOOK){
+            getPersonInfo();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }
