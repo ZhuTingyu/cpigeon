@@ -3,6 +3,7 @@ package com.cpigeon.app.message.ui.person;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
@@ -25,9 +26,12 @@ import com.cpigeon.app.utils.FileTool;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
+import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.customview.SaActionSheetDialog;
 import com.cpigeon.app.utils.inputfilter.PhotoUtil;
 import com.orhanobut.logger.Logger;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.List;
@@ -61,7 +65,6 @@ public class PersonInfoFragment extends BaseMVPFragment {
 
     List<String> imgs;
 
-
     @Override
     protected BasePresenter initPresenter() {
         return null;
@@ -79,9 +82,13 @@ public class PersonInfoFragment extends BaseMVPFragment {
         imgs = Lists.newArrayList("idCard_P", "idCard_N", "license");
         setTitle("个人信息");
         hideSoftInput();
-        getPersonInfo();
+        if(type == TYPE_LOOK){
+            getPersonInfo();
+        }else {
+        }
         initView();
     }
+
 
     private void getPersonInfo() {
         showLoading();
@@ -92,10 +99,16 @@ public class PersonInfoFragment extends BaseMVPFragment {
                 FileTool.byte2File(entity.sfzbm,imgs.get(1));
                 FileTool.byte2File(entity.yyzz,imgs.get(2));
                 hideLoading();
-                adapter.setNewData(imgs);
-
+                bindData();
             }
         });
+    }
+
+    private void bindData(){
+        adapter.setNewData(imgs);
+        edName.setText(StringValid.isStringValid(entity.xingming) ? entity.xingming : "无");
+        edNumber.setText(StringValid.isStringValid(entity.sjhm) ? entity.sjhm : "无");
+        edWork.setText(StringValid.isStringValid(entity.dwmc) ? entity.dwmc : "无");
     }
 
     private void initView() {
@@ -109,7 +122,11 @@ public class PersonInfoFragment extends BaseMVPFragment {
         adapter = new PersonImageInfoAdapter(getContext());
         adapter.bindToRecyclerView(recyclerView);
         adapter.addHeaderView(initHeadView());
-        adapter.setNewData(Lists.newArrayList("","",""));
+        if(type == TYPE_LOOK){
+            adapter.setNewData(Lists.newArrayList("","",""));
+        }else {
+            adapter.setNewData(imgs);
+        }
         if(type == TYPE_LOOK){
 
             btn.setText("编辑");
@@ -118,6 +135,9 @@ public class PersonInfoFragment extends BaseMVPFragment {
                         .putExtra(IntentBuilder.KEY_TYPE, PersonInfoFragment.TYPE_EDIT)
                         .startParentActivity(getActivity(), PersonInfoFragment.class);
             });
+
+
+        }else {
 
             adapter.setOnItemClickListener((adapter1, view, position) -> {
 
@@ -138,7 +158,6 @@ public class PersonInfoFragment extends BaseMVPFragment {
                 }
             });
 
-        }else {
             btn.setText("确定");
             btn.setOnClickListener(v -> {
                 signPre.modifyPersonInfo(r -> {
@@ -192,9 +211,7 @@ public class PersonInfoFragment extends BaseMVPFragment {
             edNumber.setFocusable(false);
             edWork.setFocusable(false);
 
-            edName.setText("12312");
-            edNumber.setText("123213");
-            edWork.setText("13123");
+
         }else {
             bindUi(RxUtils.textChanges(edName), signPre.setPersonName());
             bindUi(RxUtils.textChanges(edNumber), signPre.setPersonPhoneNumber());

@@ -32,4 +32,11 @@ public interface ApiService {
             @Query("sign") String sign,
             @Body RequestBody requestBody);
 
+    @POST("GXT_XGGRXX")
+    Observable<ApiResponse> modifyPersonInfo(
+            @Header("u") String token,
+            @Query("u") String userId,
+            @Query("sign") String sign,
+            @Body RequestBody requestBody);
+
 }

@@ -27,6 +27,16 @@ import okhttp3.RequestBody;
 
 public class PersonSignModel {
 
+    public static Observable<ApiResponse<PersonInfoEntity>> personSignInfo(int userId){
+        return GXYHttpUtil.<ApiResponse<PersonInfoEntity>>build()
+                .setToJsonType(new TypeToken<ApiResponse<PersonInfoEntity>>() {
+                }.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_sign_info)
+                .addQueryString("u", String.valueOf(userId))
+                .request();
+    }
+
     public static Observable<ApiResponse<PersonInfoEntity>> personInfo(int userId){
         return GXYHttpUtil.<ApiResponse<PersonInfoEntity>>build()
                 .setToJsonType(new TypeToken<ApiResponse<PersonInfoEntity>>() {
@@ -181,7 +191,7 @@ public class PersonSignModel {
     }
 
 
-    public static Observable<ApiResponse> modifyPersonInfo(int userId, String sign, String IdCardP, String IdCardN
+    public static Observable<ApiResponse> modifyPersonInfo(int userId, String IdCardP, String IdCardN
             , String license, String name, String sex, String familyName, String address, String idCardNumber
             , String organization, String idCardDate, String personName, String personPhoneNumber, String personWork) {
         /*return GXYHttpUtil.<ApiResponse>build()
@@ -272,7 +282,6 @@ public class PersonSignModel {
         }
 
         Map<String, String> map = new HashMap<>();
-        map.put("qm", sign);
         map.put("xingming", name);
         map.put("xingbie", sex);
         map.put("minzu", familyName);
@@ -283,10 +292,9 @@ public class PersonSignModel {
 
 
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("qm", getString(sign))
-                .addFormDataPart("xingming",getString(name) )
+                .addFormDataPart("xingming",getString(name))
                 .addFormDataPart("xingbie", getString(sex))
-                .addFormDataPart("minzu",getString(familyName) )
+                .addFormDataPart("minzu",getString(familyName))
                 .addFormDataPart("zhuzhi",getString(address) )
                 .addFormDataPart("haoma", getString(idCardNumber))
                 .addFormDataPart("qianfajiguan",getString(organization) )
@@ -314,7 +322,7 @@ public class PersonSignModel {
         RequestBody requestBody = builder.build();
 
 
-        return RetrofitHelper.getApi().modifySign(
+        return RetrofitHelper.getApi().modifyPersonInfo(
                 CommonTool.getUserToken(MyApp.getInstance().getBaseContext()),
                 String.valueOf(userId),
                 CommonUitls.getApiSign(System.currentTimeMillis() / 1000, map),

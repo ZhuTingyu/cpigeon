@@ -18,6 +18,15 @@ public class PersonInfoEntity implements Parcelable {
     public byte[] sfzbm; //身份证背面图片 data
     public String xingming; //姓名"
 
+    public String qianming; //签名",
+    public int qmshenhe;  //签名审核标记：1为已审核，否则未审核
+
+    public boolean isExamine(){
+        return qmshenhe == 1;
+    }
+
+    public PersonInfoEntity() {
+    }
 
     @Override
     public int describeContents() {
@@ -32,9 +41,8 @@ public class PersonInfoEntity implements Parcelable {
         dest.writeString(this.dwmc);
         dest.writeByteArray(this.sfzbm);
         dest.writeString(this.xingming);
-    }
-
-    public PersonInfoEntity() {
+        dest.writeString(this.qianming);
+        dest.writeInt(this.qmshenhe);
     }
 
     protected PersonInfoEntity(Parcel in) {
@@ -44,9 +52,11 @@ public class PersonInfoEntity implements Parcelable {
         this.dwmc = in.readString();
         this.sfzbm = in.createByteArray();
         this.xingming = in.readString();
+        this.qianming = in.readString();
+        this.qmshenhe = in.readInt();
     }
 
-    public static final Parcelable.Creator<PersonInfoEntity> CREATOR = new Parcelable.Creator<PersonInfoEntity>() {
+    public static final Creator<PersonInfoEntity> CREATOR = new Creator<PersonInfoEntity>() {
         @Override
         public PersonInfoEntity createFromParcel(Parcel source) {
             return new PersonInfoEntity(source);

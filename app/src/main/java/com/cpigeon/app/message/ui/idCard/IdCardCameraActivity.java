@@ -183,9 +183,9 @@ public class IdCardCameraActivity extends AppCompatActivity {
                 if(type == TYPE_P){
                     idCardIdentification.IdCardOcr(file.getPath(),IdCardIdentification.TYPE_POSITIVE,jsonObject -> {
                         camera.startPreview();
-                        showLoad();
                         IdCardPInfoEntity idCardPInfoEntity = GsonUtil.fromJson(jsonObject.toString(),new TypeToken<IdCardPInfoEntity>(){}.getType());
                         if(idCardPInfoEntity.errorcode == 0){
+                            showLoad();
                             idCardPInfoEntity.frontimage = file.getPath();
                             Intent intent = new Intent();
                             intent.putExtra(IntentBuilder.KEY_DATA, idCardPInfoEntity);
@@ -199,9 +199,9 @@ public class IdCardCameraActivity extends AppCompatActivity {
                 }else {
                     idCardIdentification.IdCardOcr(file.getPath(),IdCardIdentification.TYPE_NOT_POSITIVE,jsonObject -> {
                         camera.startPreview();
-                        showLoad();
                         IdCardNInfoEntity idCardNInfoEntity = GsonUtil.fromJson(jsonObject.toString(),new TypeToken<IdCardNInfoEntity>(){}.getType());
                         if(idCardNInfoEntity.errorcode == 0){
+                            showLoad();
                             idCardNInfoEntity.backimage = file.getPath();
                             Intent intent = new Intent();
                             intent.putExtra(IntentBuilder.KEY_DATA, idCardNInfoEntity);

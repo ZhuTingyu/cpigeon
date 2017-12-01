@@ -32,4 +32,6 @@
 
     <string name="api_person_info">GXT_GRXX</string>
 
+    <string name="api_sign_info">GXT_QMXX</string>
+
 </resources>

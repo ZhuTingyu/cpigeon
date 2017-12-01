@@ -17,10 +17,12 @@ import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.IdCardNInfoEntity;
 import com.cpigeon.app.entity.IdCardPInfoEntity;
+import com.cpigeon.app.entity.PersonInfoEntity;
 import com.cpigeon.app.message.adapter.PersonImageInfoAdapter;
 import com.cpigeon.app.message.ui.idCard.IdCardCameraActivity;
 import com.cpigeon.app.modular.usercenter.view.activity.UserInfoActivity;
 import com.cpigeon.app.utils.DialogUtils;
+import com.cpigeon.app.utils.FileTool;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
@@ -49,6 +51,10 @@ public class ModifySignFragment extends BaseMVPFragment {
     EditText edSign;
     private int PHOTO_SUCCESS_REQUEST = 2083;
 
+    PersonInfoEntity entity;
+
+    List<String> imgs;
+
 
     @Override
     protected BasePresenter initPresenter() {
@@ -64,8 +70,33 @@ public class ModifySignFragment extends BaseMVPFragment {
     public void finishCreateView(Bundle state) {
         setTitle("修改签名");
         signPre = new PersonSignPre(getActivity());
+        imgs = Lists.newArrayList("idCard_P", "idCard_N", "license");
         hideSoftInput();
+        getData();
         initView();
+    }
+
+    private void getData() {
+        showLoading();
+        signPre.getPersonSignInfo(personInfoEntity -> {
+            if(personInfoEntity != null){
+                entity = personInfoEntity;
+                FileTool.byte2File(entity.sfzzm,imgs.get(0));
+                FileTool.byte2File(entity.sfzbm,imgs.get(1));
+                FileTool.byte2File(entity.yyzz,imgs.get(2));
+                hideLoading();
+                bindData();
+            }
+        });
+    }
+
+    private void bindData(){
+        adapter.setNewData(imgs);
+        edSign.setText(entity.qianming);
+        if(entity.isExamine()){
+            edSign.setText("正在审核。。。。");
+            btn.setEnabled(false);
+        }
     }
 
     protected void initView() {
