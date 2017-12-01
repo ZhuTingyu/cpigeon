@@ -132,7 +132,9 @@ public class HttpUtil<T> {
         CallAPI.addApiSign(requestParams);
         LogUtil.print(requestParams.getUri());
         Observable<T> observable = RxNet.newRequest(this)
-                .map(s -> GsonUtil.fromJson(s, toJsonType));
+                .map(s -> {
+                    return GsonUtil.fromJson(s, toJsonType);
+                });
 
         observable = observable.map(e -> {
             if (e instanceof ApiResponse) {

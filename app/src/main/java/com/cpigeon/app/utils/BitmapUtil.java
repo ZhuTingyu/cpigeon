@@ -18,6 +18,16 @@ import java.lang.ref.SoftReference;
  */
 
 public class BitmapUtil {
+
+
+    public static Bitmap Bytes2Bimap(byte[] b) {
+        if (b.length != 0) {
+            return BitmapFactory.decodeByteArray(b, 0, b.length);
+        } else {
+            return null;
+        }
+    }
+
     public static SoftReference<Bitmap> getCropBitmapFromAssets(Context context, String src,
                                                                 int width, int height) {
         if (src == null) {

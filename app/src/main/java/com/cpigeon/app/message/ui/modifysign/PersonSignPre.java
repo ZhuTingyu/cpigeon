@@ -4,8 +4,10 @@ import android.app.Activity;
 
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
+import com.cpigeon.app.entity.PersonInfoEntity;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.databean.ApiResponse;
+import com.cpigeon.app.utils.http.HttpErrorException;
 
 import io.reactivex.functions.Consumer;
 
@@ -28,6 +30,10 @@ public class PersonSignPre extends BasePresenter {
     public String organization;//身份证信息：签发机关
     public String idCardDate;//身份证信息：有效期
 
+    public String personName;
+    public String personPhoneNumber;
+    public String personWork;
+
     public PersonSignPre(Activity activity) {
         super(activity);
         userId = CpigeonData.getInstance().getUserId(activity);
@@ -45,9 +51,42 @@ public class PersonSignPre extends BasePresenter {
         }), consumer);
     }
 
+    public void modifyPersonInfo(Consumer<ApiResponse> consumer) {
+        submitRequestThrowError(PersonSignModel.modifyPersonInfo(userId, sign, idCardP, idCardN, license, name
+                , sex, familyName, address, idCardNumber, organization, idCardDate, personName,personPhoneNumber, personWork).map(r -> {
+            return r;
+        }), consumer);
+    }
+
+    public void getPersonInfo(Consumer<PersonInfoEntity> consumer){
+        submitRequestThrowError(PersonSignModel.personInfo(userId).map(r -> {
+            if(r.isOk()){
+                return r.data;
+            }else throw new HttpErrorException(r);
+        }),consumer);
+    }
+
     public Consumer<String> setSign(){
         return s -> {
           sign = s;
+        };
+    }
+
+    public Consumer<String> setPersonName(){
+        return s -> {
+            personName = s;
+        };
+    }
+
+    public Consumer<String> setPersonPhoneNumber(){
+        return s -> {
+            personPhoneNumber = s;
+        };
+    }
+
+    public Consumer<String> setPersonWork(){
+        return s -> {
+            personWork = s;
         };
     }
 

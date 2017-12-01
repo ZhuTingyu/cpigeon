@@ -39,7 +39,7 @@ import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 
 public class ModifySignFragment extends BaseMVPFragment {
 
-    PersonSignPre signPre;
+    protected PersonSignPre signPre;
 
     RecyclerView recyclerView;
     PersonImageInfoAdapter adapter;
@@ -68,7 +68,7 @@ public class ModifySignFragment extends BaseMVPFragment {
         initView();
     }
 
-    private void initView() {
+    protected void initView() {
         findViewById(R.id.ll1).setVisibility(View.GONE);
         btn = findViewById(R.id.text_btn);
         btn.setVisibility(View.VISIBLE);
@@ -100,6 +100,11 @@ public class ModifySignFragment extends BaseMVPFragment {
             }
         });
 
+        setBtn();
+
+    }
+
+    private void setBtn(){
         btn.setOnClickListener(v -> {
             signPre.modifySign(r -> {
                 if(r.status){
@@ -109,7 +114,6 @@ public class ModifySignFragment extends BaseMVPFragment {
                 }
             });
         });
-
     }
 
     private SaActionSheetDialog.OnSheetItemClickListener OnSheetItemClickListener = new SaActionSheetDialog.OnSheetItemClickListener() {
@@ -141,7 +145,7 @@ public class ModifySignFragment extends BaseMVPFragment {
         });
     }
 
-    private View initHeadView() {
+    protected View initHeadView() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.item_modify_sign_head_layout, recyclerView, false);
         edSign = findViewById(view, R.id.sign);
         bindUi(RxUtils.textChanges(edSign), signPre.setSign());
@@ -167,12 +171,14 @@ public class ModifySignFragment extends BaseMVPFragment {
                 signPre.idCardNumber = idCardInfoEntity.id;
                 AppCompatImageView imageView = (AppCompatImageView) adapter.getViewByPosition(recyclerView, 1, R.id.icon);
                 imageView.setImageBitmap(BitmapFactory.decodeFile(idCardInfoEntity.frontimage));
+                signPre.idCardP = idCardInfoEntity.frontimage;
             } else if (IdCardCameraActivity.CODE_ID_CARD_N == requestCode) {
                 IdCardNInfoEntity idCardNInfoEntity = data.getParcelableExtra(IntentBuilder.KEY_DATA);
                 signPre.organization = idCardNInfoEntity.authority;
                 signPre.idCardDate = idCardNInfoEntity.valid_date;
                 AppCompatImageView imageView = (AppCompatImageView) adapter.getViewByPosition(recyclerView, 2, R.id.icon);
                 imageView.setImageBitmap(BitmapFactory.decodeFile(idCardNInfoEntity.backimage));
+                signPre.idCardN = idCardNInfoEntity.backimage;
             }
 
         }

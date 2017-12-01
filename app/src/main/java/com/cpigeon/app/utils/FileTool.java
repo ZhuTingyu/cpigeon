@@ -1,9 +1,14 @@
 package com.cpigeon.app.utils;
 
+import android.os.Environment;
+
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 /**
@@ -16,12 +21,32 @@ public class FileTool {
     public static final int SIZETYPE_MB = 3;//获取文件大小单位为MB的double值
     public static final int SIZETYPE_GB = 4;//获取文件大小单位为GB的double值
 
+    public static File byte2File(byte[] data, String fileName){
+
+        File file = new File(Environment.getExternalStorageDirectory(), fileName + ".jpg");
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(file);
+            fos.write(data);
+            fos.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return file;
+
+    }
+
     /**
      * 获取文件指定文件的指定单位的大小
      *
      * @param filePath 文件路径
      * @param sizeType 获取大小的类型1为B、2为KB、3为MB、4为GB
      * @return double值的大小
+     *
      */
     public static double getFileOrFilesSize(String filePath, int sizeType) {
         File file = new File(filePath);
