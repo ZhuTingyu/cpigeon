@@ -15,14 +15,23 @@
         android:layout_centerHorizontal="true"
         android:textSize="16dp"/>
 
-    <EditText
+    <android.support.v7.widget.AppCompatEditText
         android:id="@+id/content"
         android:layout_below="@id/title"
         android:maxLines="5"
         android:gravity="left"
+        android:background="@color/white"
         tools:text="sdfadfljka;ldskjfl;akdjffadf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <include
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/content"
+        layout="@layout/item_line_view_layout"/>
 
     <TextView
         android:id="@+id/btn_left"
@@ -33,7 +42,8 @@
         android:paddingTop="8dp"
         android:paddingEnd="32dp"
         android:paddingBottom="8dp"
-        android:layout_below="@id/content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/line"
         android:background="@drawable/button_gary_bg"
         android:textSize="16dp"/>
 
@@ -42,12 +52,13 @@
         android:id="@+id/btn_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:text="确定"
         android:paddingLeft="32dp"
         android:paddingTop="8dp"
         android:paddingEnd="32dp"
         android:paddingBottom="8dp"
-        android:layout_below="@id/content"
+        android:layout_below="@+id/line"
         android:layout_alignParentRight="true"
         android:background="@drawable/button_primary_bg"
         android:textColor="@color/white"

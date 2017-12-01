@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -82,6 +83,10 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
         showLoading();
 
         bindData();
+
+        setRefreshListener(() -> {
+            bindData();
+        });
     }
 
     private void initSelectMessage() {
@@ -194,7 +199,7 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_message_layout, null);
 
         TextView title = findViewById(view, R.id.title);
-        EditText content = findViewById(view, R.id.content);
+        AppCompatEditText content = findViewById(view, R.id.content);
 
         TextView btnLeft = findViewById(view, R.id.btn_left);
         TextView btnRight = findViewById(view, R.id.btn_right);
@@ -230,7 +235,7 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_add_message_layout, null);
 
         TextView title = view.findViewById(R.id.title);
-        EditText content = view.findViewById(R.id.content);
+        AppCompatEditText content = view.findViewById(R.id.content);
 
         TextView btnLeft = view.findViewById(R.id.btn_left);
         TextView btnRight = view.findViewById(R.id.btn_right);

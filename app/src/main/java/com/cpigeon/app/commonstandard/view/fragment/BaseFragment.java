@@ -333,11 +333,6 @@ public abstract class BaseFragment extends Fragment implements IView {
         }
     }
 
-    protected void setRefreshListener(boolean isRefresh){
-        if(refreshLayout != null){
-            refreshLayout.setRefreshing(isRefresh);
-        }
-    }
 
     // 隐藏软键盘
     protected void hideSoftInput(IBinder token) {

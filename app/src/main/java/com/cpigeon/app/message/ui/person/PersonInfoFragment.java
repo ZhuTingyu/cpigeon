@@ -166,8 +166,10 @@ public class PersonInfoFragment extends BaseMVPFragment {
 
             btn.setText("确定");
             btn.setOnClickListener(v -> {
+                showTips("正在修改", TipType.LoadingShow);
                 signPre.modifyPersonInfo(r -> {
                     if(r.status){
+                        showTips("", TipType.LoadingHide);
                         EventBus.getDefault().post(new PersonInfoEvent(TYPE_LOOK));
                         ToastUtil.showLongToast(getContext(),"修改成功");
                         finish();
