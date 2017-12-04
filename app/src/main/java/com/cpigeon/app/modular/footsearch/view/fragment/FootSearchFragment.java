@@ -120,7 +120,9 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> implement
     @Override
     public void getFootSearchService(CpigeonUserServiceInfo info) {
         boolean noService = info == null || TextUtils.isEmpty(info.getName());
-        CpigeonData.getInstance().setUserFootSearchServiceInfo(info);
+        if(info != null){
+            CpigeonData.getInstance().setUserFootSearchServiceInfo(info);
+        }
         if (tvPromptTitle != null)
             tvPromptTitle.setText(noService ? "未购买套餐,最多显示2条结果" :
                     info.getShowNumber() == 0 ? String.format("您当前使用%s,结果条数不限制", info.getPackageName()) :

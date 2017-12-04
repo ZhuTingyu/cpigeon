@@ -168,7 +168,9 @@ public abstract class BasePageTurnActivity<Pre extends BasePresenter, Adapter ex
         mAdapter = getNewAdapterWithNoData();
         mAdapter.setOnLoadMoreListener(this, mRecyclerView);
         mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
-        mRecyclerView.setAdapter(mAdapter);
+        if(mRecyclerView != null){
+            mRecyclerView.setAdapter(mAdapter);
+        }
         mAdapter.setEnableLoadMore(true);
         pageindex = 1;
     }

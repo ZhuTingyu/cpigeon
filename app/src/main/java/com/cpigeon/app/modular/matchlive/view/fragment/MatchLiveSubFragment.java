@@ -275,7 +275,9 @@ public class MatchLiveSubFragment extends BaseFragment implements IMatchSubView,
 
     @Override
     public void showRefreshLoading() {
-        mSwipeRefreshLayout.setRefreshing(true);
+        if(mSwipeRefreshLayout != null){
+            mSwipeRefreshLayout.setRefreshing(true);
+        }
     }
 
     @Override
@@ -296,7 +298,9 @@ public class MatchLiveSubFragment extends BaseFragment implements IMatchSubView,
     @Override
     public boolean showTips(String tip, TipType tipType) {
         if (tipType == TipType.View) {
-            mSwipeRefreshLayout.setRefreshing(false);
+            if(mSwipeRefreshLayout != null){
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
             mCustomEmptyView.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
             mCustomEmptyView.setEmptyImage(R.drawable.ic_empty);

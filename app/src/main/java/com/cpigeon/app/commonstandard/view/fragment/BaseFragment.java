@@ -176,58 +176,62 @@ public abstract class BaseFragment extends Fragment implements IView {
 
     @Override
     public boolean showTips(String tip, TipType tipType) {
-        SweetAlertDialog dialogPrompt;
-        switch (tipType) {
-            case Dialog:
-                dialogPrompt = new SweetAlertDialog(getActivity(), SweetAlertDialog.NORMAL_TYPE);
-                dialogPrompt.setCancelable(false);
-                dialogPrompt.setTitleText(getString(R.string.prompt))
-                        .setContentText(tip)
-                        .setConfirmText(getString(R.string.confirm)).show();
-                return true;
-            case DialogSuccess:
-                dialogPrompt = new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE);
-                dialogPrompt.setCancelable(false);
-                dialogPrompt.setTitleText("成功")
-                        .setContentText(tip)
-                        .setConfirmText(getString(R.string.confirm)).show();
-                return true;
-            case DialogError:
-                dialogPrompt = new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE);
-                dialogPrompt.setCancelable(false);
-                dialogPrompt.setTitleText("失败")
-                        .setContentText(tip)
-                        .setConfirmText(getString(R.string.confirm)).show();
-                return true;
-            case View:
-            case ViewSuccess:
-            case ViewError:
-                return false;
-            case HINT:
+        if(!getActivity().isFinishing()){
+            SweetAlertDialog dialogPrompt;
+            switch (tipType) {
+                case Dialog:
+                    dialogPrompt = new SweetAlertDialog(getActivity(), SweetAlertDialog.NORMAL_TYPE);
+                    dialogPrompt.setCancelable(false);
+                    dialogPrompt.setTitleText(getString(R.string.prompt))
+                            .setContentText(tip)
+                            .setConfirmText(getString(R.string.confirm)).show();
+                    return true;
+                case DialogSuccess:
+                    dialogPrompt = new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE);
+                    dialogPrompt.setCancelable(false);
+                    dialogPrompt.setTitleText("成功")
+                            .setContentText(tip)
+                            .setConfirmText(getString(R.string.confirm)).show();
+                    return true;
+                case DialogError:
+                    dialogPrompt = new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE);
+                    dialogPrompt.setCancelable(false);
+                    dialogPrompt.setTitleText("失败")
+                            .setContentText(tip)
+                            .setConfirmText(getString(R.string.confirm)).show();
+                    return true;
+                case View:
+                case ViewSuccess:
+                case ViewError:
+                    return false;
+                case HINT:
 
-                return false;
-            case LoadingShow:
-                if (mLoadingSweetAlertDialog != null && mLoadingSweetAlertDialog.isShowing())
-                    mLoadingSweetAlertDialog.dismiss();
-                mLoadingSweetAlertDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
-                mLoadingSweetAlertDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                mLoadingSweetAlertDialog.setTitleText(tip);
-                mLoadingSweetAlertDialog.setCancelable(false);
-                mLoadingSweetAlertDialog.show();
-                return true;
-            case LoadingHide:
-                if (mLoadingSweetAlertDialog != null && mLoadingSweetAlertDialog.isShowing())
-                    mLoadingSweetAlertDialog.dismiss();
-                return true;
-            case ToastLong:
-                Toast.makeText(getActivity(), tip, Toast.LENGTH_LONG).show();
-                return true;
-            case ToastShort:
-                Toast.makeText(getActivity(), tip, Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return false;
+                    return false;
+                case LoadingShow:
+                    if (mLoadingSweetAlertDialog != null && mLoadingSweetAlertDialog.isShowing())
+                        mLoadingSweetAlertDialog.dismiss();
+                    mLoadingSweetAlertDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+                    mLoadingSweetAlertDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                    mLoadingSweetAlertDialog.setTitleText(tip);
+                    mLoadingSweetAlertDialog.setCancelable(false);
+                    mLoadingSweetAlertDialog.show();
+                    return true;
+                case LoadingHide:
+                    if (mLoadingSweetAlertDialog != null && mLoadingSweetAlertDialog.isShowing())
+                        mLoadingSweetAlertDialog.dismiss();
+                    return true;
+                case ToastLong:
+                    Toast.makeText(getActivity(), tip, Toast.LENGTH_LONG).show();
+                    return true;
+                case ToastShort:
+                    Toast.makeText(getActivity(), tip, Toast.LENGTH_SHORT).show();
+                    return true;
+                default:
+                    return false;
+            }
         }
+        return false;
+
     }
 
     @Override

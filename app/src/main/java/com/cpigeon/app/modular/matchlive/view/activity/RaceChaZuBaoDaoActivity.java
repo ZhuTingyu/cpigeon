@@ -197,7 +197,11 @@ public class RaceChaZuBaoDaoActivity extends BasePageTurnActivity<ChaZuBaoDaoDet
     @NonNull
     @Override
     public String getTitleName() {
-        return matchInfo.getMc();
+        String data = "";
+        if(matchInfo != null){
+            data =  matchInfo.getMc();
+        }
+        return data;
     }
 
     @Override

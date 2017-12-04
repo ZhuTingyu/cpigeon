@@ -421,7 +421,7 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
                 }
                 break;
         }
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
         setCurrIndex(position);
     }
 

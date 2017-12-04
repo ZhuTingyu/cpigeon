@@ -25,6 +25,7 @@ import com.cpigeon.app.utils.DateTool;
 import com.cpigeon.app.utils.FileTool;
 import com.cpigeon.app.utils.NetUtils;
 import com.cpigeon.app.utils.SharedPreferencesTool;
+import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.UpdateManager;
 import com.cpigeon.app.utils.cache.CacheManager;
 import com.cpigeon.app.utils.cache.DataCleanManager;
@@ -143,7 +144,11 @@ public class SettingsActivity extends BaseActivity {
                 String mAddress = "market://details?id=" + getPackageName();
                 Intent marketIntent = new Intent("android.intent.action.VIEW");
                 marketIntent.setData(Uri.parse(mAddress));
-                startActivity(marketIntent);
+                try {
+                    startActivity(marketIntent);
+                } catch (Exception e) {
+                    ToastUtil.showLongToast(getApplicationContext(), "请下载安卓应用市场");
+                }
                 break;
             case R.id.rl_check_new_version:
                 checkNewVersion();

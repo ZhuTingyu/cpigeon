@@ -92,7 +92,9 @@ public abstract class BasePageTurnFragment<Pre extends BasePresenter, Adapter ex
     @Override
     public void onLoadMoreRequested() {
         if (canLoadMore) {
-            mSwipeRefreshLayout.setEnabled(false);
+            if(mSwipeRefreshLayout != null){
+                mSwipeRefreshLayout.setEnabled(false);
+            }
             isMoreDateLoading = true;
             loadDataByPresenter();
         } else {

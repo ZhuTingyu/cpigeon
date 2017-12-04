@@ -116,7 +116,9 @@ public class RaceReportActivity extends BaseActivity<RaceReportPre> implements I
         matchInfo = (MatchInfo) bundle.getSerializable("matchinfo");
         loadType = bundle.getString("loadType");
         if (TextUtils.isEmpty(loadType)) {
-            loadType = matchInfo.getLx();
+            if(matchInfo != null){
+                loadType = matchInfo.getLx();
+            }
         }
 
 //        Logger.e("当前页面加载的数据是：" + loadType + "类型的数据");
