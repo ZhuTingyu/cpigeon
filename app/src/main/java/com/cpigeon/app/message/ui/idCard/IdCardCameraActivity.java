@@ -152,7 +152,7 @@ public class IdCardCameraActivity extends AppCompatActivity {
                 bitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, m,
                         true);
 
-                int wId = (int) (photoW * RATIO_SCREN_W);
+                int wId = (int) (width * RATIO_SCREN_W);
                 int hId = (int) (wId / RATIO_PHOTO_W);
 
                 Log.d("TAG", "width " + width);
@@ -160,8 +160,8 @@ public class IdCardCameraActivity extends AppCompatActivity {
 
                 //截取透明框内照片(身份证)
                 Bitmap bitmap1 = Bitmap.createBitmap(bitmap
-                        , (photoW  - wId) / 2
-                        , (photoH - hId) / 2
+                        , (width  - wId) / 2
+                        , (height - hId) / 2
                         , wId
                         , hId);
 
@@ -183,9 +183,9 @@ public class IdCardCameraActivity extends AppCompatActivity {
                 if(type == TYPE_P){
                     idCardIdentification.IdCardOcr(file.getPath(),IdCardIdentification.TYPE_POSITIVE,jsonObject -> {
                         camera.startPreview();
+                        showLoad();
                         IdCardPInfoEntity idCardPInfoEntity = GsonUtil.fromJson(jsonObject.toString(),new TypeToken<IdCardPInfoEntity>(){}.getType());
                         if(idCardPInfoEntity.errorcode == 0){
-                            showLoad();
                             idCardPInfoEntity.frontimage = file.getPath();
                             Intent intent = new Intent();
                             intent.putExtra(IntentBuilder.KEY_DATA, idCardPInfoEntity);
@@ -199,9 +199,9 @@ public class IdCardCameraActivity extends AppCompatActivity {
                 }else {
                     idCardIdentification.IdCardOcr(file.getPath(),IdCardIdentification.TYPE_NOT_POSITIVE,jsonObject -> {
                         camera.startPreview();
+                        showLoad();
                         IdCardNInfoEntity idCardNInfoEntity = GsonUtil.fromJson(jsonObject.toString(),new TypeToken<IdCardNInfoEntity>(){}.getType());
                         if(idCardNInfoEntity.errorcode == 0){
-                            showLoad();
                             idCardNInfoEntity.backimage = file.getPath();
                             Intent intent = new Intent();
                             intent.putExtra(IntentBuilder.KEY_DATA, idCardNInfoEntity);
@@ -259,22 +259,40 @@ public class IdCardCameraActivity extends AppCompatActivity {
                 // 当surfaceview创建就去打开相机
                 camera = Camera.open();
                 Camera.Parameters params = camera.getParameters();
-                List<Camera.Size> sizeList = params.getSupportedPreviewSizes();
-                Camera.Size optionSize = getOptimalPreviewSize(sizeList, surfaceview.getWidth(), surfaceview.getHeight());
-                params.setPreviewSize(optionSize.width,optionSize.height);//把camera.size赋值到parameters
-                // Log.i("i", params.flatten());
-                params.setJpegQuality(80);  // 设置照片的质量
-                photoW = optionSize.width;
-                photoH = optionSize.height;
-                params.setPictureSize(optionSize.width, optionSize.height);
-                params.setPreviewFrameRate(5);  // 预览帧率
-                camera.setParameters(params); // 将参数设置给相机
+
+                try {
+                    List<Camera.Size> sizeList = params.getSupportedPreviewSizes();
+                    Camera.Size optionSize = getOptimalPreviewSize(sizeList, surfaceview.getWidth(), surfaceview.getHeight());
+                    params.setPreviewSize(optionSize.width,optionSize.height);//把camera.size赋值到parameters
+                    // Log.i("i", params.flatten());
+                    params.setJpegQuality(80);  // 设置照片的质量
+
+                /*List<Camera.Size> allSizes = params.getSupportedPictureSizes();
+                Camera.Size size = allSizes.get(0); // get top size
+                for (int i = 0; i < allSizes.size(); i++) {
+                    if (allSizes.get(i).width > size.width) {
+                        size = allSizes.get(i);
+                    }
+                }*/
+                /*photoW = size.width;
+                photoH = size.height;*/
+                    //set max Picture Size
+                    //params.setPictureSize(size.width, size.height);
+                    params.setPictureSize(optionSize.width, optionSize.height);
+                    //params.setPreviewFrameRate(5);  // 预览帧率
+                    camera.setParameters(params); // 将参数设置给相机
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 //右旋90度，将预览调正
                 //camera.setDisplayOrientation(90);
                 // 设置预览显示
                 camera.setPreviewDisplay(surfaceview.getHolder());
                 // 开启预览
                 camera.startPreview();
+
+
+
 
             } catch (IOException e) {
                 // TODO Auto-generated catch block

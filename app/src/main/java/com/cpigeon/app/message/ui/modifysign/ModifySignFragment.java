@@ -138,11 +138,11 @@ public class ModifySignFragment extends BaseMVPFragment {
     }
 
     private void setBtn(){
-        showTips("正在修改", TipType.LoadingShow);
         btn.setOnClickListener(v -> {
+            showTips("正在修改", TipType.LoadingShow);
             signPre.modifySign(r -> {
+                showTips("",TipType.LoadingHide);
                 if(r.status){
-                    showTips("",TipType.LoadingHide);
                     ToastUtil.showLongToast(getContext(),"修改成功");
                     finish();
                 }else {
