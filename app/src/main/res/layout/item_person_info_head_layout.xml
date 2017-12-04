@@ -57,6 +57,7 @@
             android:layout_toRightOf="@id/text2"
             android:background="@null"
             android:maxLength="11"
+            android:inputType="phone"
             android:textSize="16dp" />
     </RelativeLayout>
 
