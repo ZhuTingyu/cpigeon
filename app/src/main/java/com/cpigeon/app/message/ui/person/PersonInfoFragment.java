@@ -99,12 +99,12 @@ public class PersonInfoFragment extends BaseMVPFragment {
     private void getPersonInfo() {
         showLoading();
         signPre.getPersonInfo(personInfoEntity -> {
+            hideLoading();
             if(personInfoEntity != null){
                 entity = personInfoEntity;
                 FileTool.byte2File(entity.sfzzm,imgs.get(0));
                 FileTool.byte2File(entity.sfzbm,imgs.get(1));
                 FileTool.byte2File(entity.yyzz,imgs.get(2));
-                hideLoading();
                 bindData();
             }
         });
@@ -170,7 +170,13 @@ public class PersonInfoFragment extends BaseMVPFragment {
                 signPre.modifyPersonInfo(r -> {
                     showTips("", TipType.LoadingHide);
                     if(r.status){
-                        EventBus.getDefault().post(new PersonInfoEvent(TYPE_LOOK));
+                        PersonInfoEvent personInfoEvent = new PersonInfoEvent(TYPE_LOOK);
+                        PersonInfoEntity personInfoEntity = new PersonInfoEntity();
+                        personInfoEntity.xingming = signPre.personName;
+                        personInfoEntity.sjhm = signPre.personPhoneNumber;
+                        personInfoEntity.dwmc = signPre.personWork;
+                        personInfoEvent.entity = personInfoEntity;
+                        EventBus.getDefault().post(personInfoEvent);
                         ToastUtil.showLongToast(getContext(),"修改成功");
                         finish();
                     }else {
@@ -283,7 +289,11 @@ public class PersonInfoFragment extends BaseMVPFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(PersonInfoEvent event){
         if(event.type == TYPE_LOOK){
-            getPersonInfo();
+            PersonInfoEntity personInfoEntity = event.entity;
+            edName.setText(personInfoEntity.xingming != null ? personInfoEntity.xingming : "");
+            edNumber.setText(personInfoEntity.sjhm != null ? personInfoEntity.sjhm : "");
+            edWork.setText(personInfoEntity.dwmc != null ? personInfoEntity.dwmc : "");
+            adapter.setNewData(imgs);
         }
     }
 

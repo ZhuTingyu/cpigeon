@@ -7,6 +7,7 @@ import com.cpigeon.app.entity.PersonInfoEntity;
  */
 
 public class PersonInfoEvent {
+    public PersonInfoEntity entity;
     public int type;
     public PersonInfoEvent(int type){
         this.type = type;
