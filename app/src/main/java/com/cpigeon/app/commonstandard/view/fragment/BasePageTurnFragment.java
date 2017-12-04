@@ -117,9 +117,15 @@ public abstract class BasePageTurnFragment<Pre extends BasePresenter, Adapter ex
     }
 
     protected void finishTask() {
-        mSwipeRefreshLayout.setRefreshing(false);
-        mCustomEmptyView.setVisibility(View.GONE);
-        mRecyclerView.setVisibility(View.VISIBLE);
+        if(mSwipeRefreshLayout != null){
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+        if(mCustomEmptyView != null){
+            mCustomEmptyView.setVisibility(View.GONE);
+        }
+        if(mRecyclerView != null){
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

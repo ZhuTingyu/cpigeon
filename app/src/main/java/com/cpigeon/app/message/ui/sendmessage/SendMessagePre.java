@@ -6,8 +6,10 @@ import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.IView;
 import com.cpigeon.app.entity.ContactsGroupEntity;
+import com.cpigeon.app.entity.PersonInfoEntity;
 import com.cpigeon.app.message.ui.common.CommonModel;
 import com.cpigeon.app.message.ui.contacts.ContactsModel;
+import com.cpigeon.app.message.ui.modifysign.PersonSignModel;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.StringUtil;
 import com.cpigeon.app.utils.StringValid;
@@ -49,6 +51,14 @@ public class SendMessagePre extends BasePresenter {
                 }else {
                     return "";
                 }
+            }else throw new HttpErrorException(r);
+        }),consumer);
+    }
+
+    public void getPersonSignName(Consumer<String> consumer){
+        submitRequestThrowError(PersonSignModel.personSignInfo(userId).map(r -> {
+            if(r.isOk()){
+                return r.data.qianming;
             }else throw new HttpErrorException(r);
         }),consumer);
     }

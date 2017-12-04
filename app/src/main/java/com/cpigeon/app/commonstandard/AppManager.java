@@ -79,10 +79,12 @@ public class AppManager {
 
     public Activity getActivityByClass(Class<?> cls) {
         AppCompatActivity return_activity = null;
-        for (WeakReference<AppCompatActivity> activity : mActivityStack) {
-            if (activity.get().getClass().equals(cls)) {
-                return_activity = activity.get();
-                break;
+        if(!mActivityStack.empty()){
+            for (WeakReference<AppCompatActivity> activity : mActivityStack) {
+                if (activity.get().getClass().equals(cls)) {
+                    return_activity = activity.get();
+                    break;
+                }
             }
         }
         return return_activity;

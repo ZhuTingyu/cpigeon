@@ -280,8 +280,12 @@ public class MatchLiveSubFragment extends BaseFragment implements IMatchSubView,
 
     @Override
     public void hideRefreshLoading() {
-        mCustomEmptyView.setVisibility(View.GONE);
-        mSwipeRefreshLayout.setRefreshing(false);
+        if(mCustomEmptyView != null){
+            mCustomEmptyView.setVisibility(View.GONE);
+        }
+        if(mSwipeRefreshLayout != null){
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override

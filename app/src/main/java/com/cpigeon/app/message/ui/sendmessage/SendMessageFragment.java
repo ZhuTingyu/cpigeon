@@ -41,6 +41,7 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
     TextView btnRight;
     TextView btnModifySign;
     TextView contactsNumber;
+    TextView tvSign;
 
 
     @Override
@@ -57,6 +58,13 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
     public void finishCreateView(Bundle state) {
         setTitle("发送短信");
         initView();
+        bindData();
+    }
+
+    private void bindData(){
+        mPresenter.getPersonSignName(s -> {
+            tvSign.setText(getString(R.string.string_sign_info,s));
+        });
     }
 
     private void initView() {
@@ -68,6 +76,7 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
         btnRight = (TextView) findViewById(R.id.btn_right);
         btnModifySign = (TextView) findViewById(R.id.btn_modify_sign);
         contactsNumber = findViewById(R.id.number);
+        tvSign = findViewById(R.id.text2);
 
         bindUi(RxUtils.textChanges(edContent),mPresenter.setMessageContent());
 

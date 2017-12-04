@@ -153,7 +153,7 @@
 
     <TextView
         android:id="@+id/text2"
-        android:text="@string/string_sign_info"
+        tools:text="@string/string_sign_info"
         android:layout_below="@+id/btn_left"
         android:textColor="@color/gray"
         android:textSize="12dp"
