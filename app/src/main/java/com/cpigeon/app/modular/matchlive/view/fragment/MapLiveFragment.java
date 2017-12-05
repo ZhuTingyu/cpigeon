@@ -260,7 +260,7 @@ public class MapLiveFragment extends BaseMVPFragment {
             smoothMarker = new SmoothMoveMarker(aMap);
             // 设置滑动的图标
             smoothMarker.setDescriptor(BitmapDescriptorFactory.fromResource(R.mipmap.car));
-            smoothMarker.setMoveListener(v -> getActivity().runOnUiThread(() -> {
+            smoothMarker.setMoveListener(v -> {
                 if (infoWindowLayout != null && title != null && smoothMarker.getMarker().isInfoWindowShown()) {
                     title.setText("距离司放地还有： " + DateTool.doubleformat(v * 0.001, 2) + "Km" + "\n" +
                             "车速：" + DateTool.doubleformat(gytRaceLocations.get(smoothMarker.getIndex()).getSd(), 2) + "Km/H");
@@ -275,14 +275,12 @@ public class MapLiveFragment extends BaseMVPFragment {
                     //distanceOfEndPoint = -1;
                     mDisplaybtn.setChecked(false);
                 } else {
-                    LatLng position = smoothMarker.getPosition();
+                    LatLng position = smoothMarker.getMarker().getPosition();
                     aMap.animateCamera(CameraUpdateFactory.changeLatLng(position));
                 }
-            }));
+            });
             initCartPoint();
         }
-
-
     }
 
     /*private void startWeather(double v1, double v2, double v3, double v4) {
