@@ -31,6 +31,7 @@ public class GeCheJianKongListFragment extends BasePageTurnFragment<GeCheJianKon
     public static final String KEY_TYPE = "show_type";
     public static final String TYPE_XIEHUI = "2";
     public static final String TYPE_GONGPENG = "1";
+    public static final String TYPE_GEREN = "3";
     @BindView(R.id.search_edittext)
     SearchEditText searchEdittext;
     private String _showType = TYPE_XIEHUI;

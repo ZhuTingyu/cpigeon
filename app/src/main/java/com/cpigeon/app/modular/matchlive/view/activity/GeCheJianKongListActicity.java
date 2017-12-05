@@ -56,14 +56,17 @@ public class GeCheJianKongListActicity extends BaseActivity {
 
         Bundle bundleXiehui = new Bundle();
         Bundle bundleGonepeng = new Bundle();
+        Bundle bundleGeren = new Bundle();
 
         bundleXiehui.putString(GeCheJianKongListFragment.KEY_TYPE, GeCheJianKongListFragment.TYPE_XIEHUI);
         bundleGonepeng.putString(GeCheJianKongListFragment.KEY_TYPE, GeCheJianKongListFragment.TYPE_GONGPENG);
+        bundleGonepeng.putString(GeCheJianKongListFragment.KEY_TYPE, GeCheJianKongListFragment.TYPE_GEREN);
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), FragmentPagerItems.with(this)
                 .add("协会", GeCheJianKongListFragment.class, bundleXiehui)
                 .add("公棚", GeCheJianKongListFragment.class, bundleGonepeng)
+                .add("个人", GeCheJianKongListFragment.class, bundleGeren)
                 .create());
 
         viewPager.setAdapter(adapter);
