@@ -17,10 +17,15 @@ import com.cpigeon.app.modular.matchlive.model.bean.RaceImageOrVideo;
 import com.cpigeon.app.modular.matchlive.view.activity.MapLiveActivity;
 import com.cpigeon.app.modular.matchlive.view.adapter.TimeLinePhotoAdapter;
 import com.cpigeon.app.utils.CallAPI;
+import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.customview.CustomEmptyView;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.facebook.imagepipeline.decoder.SimpleProgressiveJpegConfig;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.orhanobut.logger.Logger;
+import com.stfalcon.frescoimageviewer.ImageViewer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +63,12 @@ public class MapPhotoFragment extends BaseFragment {
     @Override
     public void finishCreateView(Bundle state) {
         isPrepared = true;
+        ImagePipelineConfig config = ImagePipelineConfig.newBuilder(getContext())
+                .setProgressiveJpegConfig(new SimpleProgressiveJpegConfig())
+                .setResizeAndRotateEnabledForNetwork(true)
+                .setDownsampleEnabled(true)
+                .build();
+        Fresco.initialize(getContext(), config);
         lazyLoad();
     }
 
@@ -146,7 +157,12 @@ public class MapPhotoFragment extends BaseFragment {
         mAdapter = new TimeLinePhotoAdapter(null);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (list.size() > 0) {
-                PictureSelector.create(MapPhotoFragment.this).externalPicturePreview(position, list);
+                //PictureSelector.create(MapPhotoFragment.this).externalPicturePreview(position, list);
+                List<String> imgs = Lists.newArrayList();
+                for (LocalMedia media : list ) {
+                    imgs.add(media.getPath());
+                }
+                showImageDialog(getContext(), imgs, position);
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -168,5 +184,27 @@ public class MapPhotoFragment extends BaseFragment {
     public void hideEmptyView() {
         mCustomEmptyView.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    public static void showImageDialog(Context context, List<String> list, int startPosition) {
+        new ImageViewer.Builder<String>(context, list)
+                .setStartPosition(startPosition)
+                .hideStatusBar(false)
+                .allowZooming(true)
+                .allowSwipeToDismiss(true)
+                //.setBackgroundColorRes(colorRes)
+                //.setBackgroundColor(color)
+                //.setImageMargin(margin)
+                //.setImageMarginPx(marginPx)
+                //.setContainerPadding(this, dimen)
+                //.setContainerPadding(this, dimenStart, dimenTop, dimenEnd, dimenBottom)
+                //.setContainerPaddingPx(padding)
+                //.setContainerPaddingPx(start, top, end, bottom)
+//                        .setCustomImageRequestBuilder(imageRequestBuilder)
+//                        .setCustomDraweeHierarchyBuilder(draweeHierarchyBuilder)
+//                        .setImageChangeListener(imageChangeListener)
+//                        .setOnDismissListener(onDismissListener)
+//                        .setOverlayView(overlayView)
+                .show();
     }
 }

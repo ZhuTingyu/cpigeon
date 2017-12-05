@@ -13,6 +13,7 @@ import android.util.Log;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.SharedPreferencesTool;
 import com.cpigeon.app.utils.cache.CacheManager;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Cache;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -57,6 +58,7 @@ public class MyApp extends Application {
         }
         initJPhsh();
         initLocalCacheManager();
+        Fresco.initialize(this);
     }
 
     /**

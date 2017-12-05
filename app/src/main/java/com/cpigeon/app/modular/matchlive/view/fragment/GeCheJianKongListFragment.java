@@ -21,6 +21,8 @@ import com.cpigeon.app.utils.customview.SearchEditText;
 import com.cpigeon.app.utils.http.LogUtil;
 import com.orhanobut.logger.Logger;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -120,6 +122,12 @@ public class GeCheJianKongListFragment extends BasePageTurnFragment<GeCheJianKon
     @Override
     protected void loadDataByPresenter() {
         mPresenter.loadNext();
+    }
+
+    @Override
+    public void showMoreData(List<MultiItemEntity> dataBeen) {
+        super.showMoreData(dataBeen);
+        currentPosition = -1;
     }
 
     //private int lastExpandItemPosition = -1;//最后一个索引

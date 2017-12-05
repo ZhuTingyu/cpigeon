@@ -182,6 +182,9 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.squareup.okhttp3:okhttp:3.7.0'
+
+    compile 'com.github.stfalcon:frescoimageviewer:0.5.0'
+    compile 'com.facebook.fresco:fresco:0.12.0'
 }
 
 int getCustomVersionCode() {
