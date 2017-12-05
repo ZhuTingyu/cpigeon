@@ -275,7 +275,7 @@ public class MapLiveFragment extends BaseMVPFragment {
                     //distanceOfEndPoint = -1;
                     mDisplaybtn.setChecked(false);
                 } else {
-                    LatLng position = smoothMarker.getMarker().getPosition();
+                    LatLng position = smoothMarker.getPosition();
                     aMap.animateCamera(CameraUpdateFactory.changeLatLng(position));
                 }
             });

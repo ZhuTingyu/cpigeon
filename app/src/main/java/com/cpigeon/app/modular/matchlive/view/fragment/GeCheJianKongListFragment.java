@@ -15,8 +15,10 @@ import com.cpigeon.app.commonstandard.view.fragment.BasePageTurnFragment;
 import com.cpigeon.app.modular.matchlive.presenter.GeCheJianKongPersenter;
 import com.cpigeon.app.modular.matchlive.view.activity.MapLiveActivity;
 import com.cpigeon.app.modular.matchlive.view.adapter.GeCheJianKongExpandListAdapter;
+import com.cpigeon.app.modular.matchlive.view.adapter.MatchLiveExpandAdapter;
 import com.cpigeon.app.modular.matchlive.view.fragment.viewdao.IGeCheJianKongListView;
 import com.cpigeon.app.utils.customview.SearchEditText;
+import com.cpigeon.app.utils.http.LogUtil;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
@@ -37,6 +39,8 @@ public class GeCheJianKongListFragment extends BasePageTurnFragment<GeCheJianKon
     private String _showType;
 
     String _searchKey = "";
+
+    int currentPosition = -1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -124,11 +128,29 @@ public class GeCheJianKongListFragment extends BasePageTurnFragment<GeCheJianKon
         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
             Object item = ((GeCheJianKongExpandListAdapter) adapter).getData().get(position);
             if (item instanceof GeCheJianKongExpandListAdapter.OrgItem) {
-                if (((GeCheJianKongExpandListAdapter.OrgItem) item).isExpanded()) {
-                    adapter.collapse(position);
-                } else {
+                LogUtil.print("p: " + position);
+                if(currentPosition == -1){ //当前没有展开项
                     adapter.expand(position);
+                    currentPosition = position;
+
+                }else {
+                    if(currentPosition == position){
+                        adapter.collapse(position);
+                        currentPosition = -1;
+                    }else if(currentPosition > position){
+                        adapter.collapse(currentPosition);
+                        adapter.expand(position);
+                        currentPosition = position;
+                    }else {
+                        adapter.collapse(currentPosition);
+                        GeCheJianKongExpandListAdapter.OrgItem orgItem = (GeCheJianKongExpandListAdapter.OrgItem) mAdapter.getItem(currentPosition);
+                        int dataSize = orgItem.getOrgInfo().getRaces().size();
+                        int expandPosition = position - dataSize;
+                        adapter.expand(expandPosition);
+                        currentPosition = expandPosition;
+                    }
                 }
+                LogUtil.print("cp: " + currentPosition);
             } else if (item instanceof GeCheJianKongExpandListAdapter.RaceItem) {
                 GeCheJianKongExpandListAdapter.RaceItem raceItem = (GeCheJianKongExpandListAdapter.RaceItem) item;
                 if(raceItem.getRace().getStateCode() == 0){
