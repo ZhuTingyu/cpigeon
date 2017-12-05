@@ -34,18 +34,14 @@ public class GeCheJianKongListFragment extends BasePageTurnFragment<GeCheJianKon
     public static final String TYPE_GEREN = "3";
     @BindView(R.id.search_edittext)
     SearchEditText searchEdittext;
-    private String _showType = TYPE_XIEHUI;
+    private String _showType;
 
     String _searchKey = "";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        String type = getArguments().getString(KEY_TYPE);
-        if (!TextUtils.isEmpty(type) &&
-                (type.equals(TYPE_XIEHUI) ||
-                        type.equals(TYPE_GONGPENG))) {
-            _showType = type;
-        }
+        _showType = getArguments().getString(KEY_TYPE);
+
         super.onCreate(savedInstanceState);
     }
 

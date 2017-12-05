@@ -60,7 +60,7 @@ public class GeCheJianKongListActicity extends BaseActivity {
 
         bundleXiehui.putString(GeCheJianKongListFragment.KEY_TYPE, GeCheJianKongListFragment.TYPE_XIEHUI);
         bundleGonepeng.putString(GeCheJianKongListFragment.KEY_TYPE, GeCheJianKongListFragment.TYPE_GONGPENG);
-        bundleGonepeng.putString(GeCheJianKongListFragment.KEY_TYPE, GeCheJianKongListFragment.TYPE_GEREN);
+        bundleGeren.putString(GeCheJianKongListFragment.KEY_TYPE, GeCheJianKongListFragment.TYPE_GEREN);
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), FragmentPagerItems.with(this)
