@@ -46,6 +46,22 @@ public class DialogUtils {
                 .setConfirmText("确定").show();
     }
 
+    public static void createDialogWithLeft(Context context, String content,
+                                    SweetAlertDialog.OnSweetClickListener rightListener){
+        SweetAlertDialog dialogPrompt;
+        dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);
+        dialogPrompt.setCanceledOnTouchOutside(false);
+        dialogPrompt.setCancelable(false);
+        dialogPrompt.setTitleText("提示")
+                .setCancelText("取消")
+                .setCancelClickListener(sweetAlertDialog -> {
+                    dialogPrompt.dismissWithAnimation();
+                })
+                .setConfirmClickListener(rightListener)
+                .setContentText(content)
+                .setConfirmText("确定").show();
+    }
+
     public static void createDialog(Context context, View view){
         SweetAlertDialog dialogPrompt;
         dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);

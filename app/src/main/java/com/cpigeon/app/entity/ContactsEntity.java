@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by Zhu TingYu on 2017/11/27.
  */
 
-public class ContactsEntity implements Parcelable {
+public class ContactsEntity extends MultiSelectEntity implements Parcelable {
     public int id;//整数，传递给修改接口
     public int fzid;//整数，分组ID
     public String xingming;    //姓名

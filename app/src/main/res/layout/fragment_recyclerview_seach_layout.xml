@@ -2,7 +2,75 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <LinearLayout
+        android:id="@+id/ll1"
+        android:baselineAligned="false"
+        android:layout_alignParentBottom="true"
+        android:background="@color/message_button"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:layout_height="56dp">
+        <LinearLayout
+            android:id="@+id/ll_left"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/ic_left"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                tools:srcCompat="@drawable/ic_contacts_edit_name"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="4dp" />
+            <TextView
+                android:id="@+id/title_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:visibility="visible"
+                android:textSize="12dp"
+                android:text="重新命名" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_right"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@id/icon"
+                app:srcCompat="@mipmap/ic_contats_delete"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="4dp" />
+            <TextView
+                android:id="@id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:visibility="visible"
+                android:textSize="12dp"
+                android:text="删除分组" />
+        </LinearLayout>
+
+
+    </LinearLayout>
 
     <com.cpigeon.app.utils.customview.SearchEditText
         android:id="@+id/widget_title_bar_search"
@@ -26,6 +94,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:layout_below="@id/widget_title_bar_search"
+        android:layout_above="@id/ll1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

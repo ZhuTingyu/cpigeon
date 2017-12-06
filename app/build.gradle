@@ -53,6 +53,8 @@ android {
                 output.outputFile  = new File(oldFile.parent, newName)
             }
             if (variant.buildType.name.equals('debug')) {
+                newName = oldFile.name.replace(".apk", "-v" + getCustomVersionName() + "-" + getCustomVersionCode() + ".apk")
+                output.outputFile  = new File(oldFile.parent, newName)
             }
         }
     }
@@ -62,9 +64,9 @@ android {
             //混淆
             minifyEnabled true
             //Zipalign优化
-            zipAlignEnabled true
+           // zipAlignEnabled true
             // 移除无用的resource文件
-            shrinkResources true
+           // shrinkResources true
 //            signingConfig signingConfigs.release
             signingConfig signingConfigs.release
         }

@@ -81,5 +81,39 @@ public class ContactsModel {
                 .request();
     }
 
+    public static Observable<ApiResponse> ModifyContactGroupName(int userId, int groupIds, String groupName) {
+        return GXYHttpUtil.<ApiResponse>build()
+                .setToJsonType(new TypeToken<ApiResponse>() {
+                }.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_modify_contacts_group_name)
+                .addQueryString("u", String.valueOf(userId))
+                .addBody("fzid", String.valueOf(groupIds))
+                .addBody("fzmc",groupName)
+                .request();
+    }
+
+    public static Observable<ApiResponse> deleteContactGroup(int userId, int groupIds) {
+        return GXYHttpUtil.<ApiResponse>build()
+                .setToJsonType(new TypeToken<ApiResponse>() {
+                }.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_delete_contacts_group)
+                .addQueryString("u", String.valueOf(userId))
+                .addBody("fzid", String.valueOf(groupIds))
+                .request();
+    }
+
+    public static Observable<ApiResponse> deleteContactInGroup(int userId, String contactIds) {
+        return GXYHttpUtil.<ApiResponse>build()
+                .setToJsonType(new TypeToken<ApiResponse>() {
+                }.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_delete_contacts_in_group)
+                .addQueryString("u", String.valueOf(userId))
+                .addBody("ids", contactIds)
+                .request();
+    }
+
 
 }

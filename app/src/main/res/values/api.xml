@@ -34,4 +34,8 @@
 
     <string name="api_sign_info">GXT_QMXX</string>
 
+    <string name="api_modify_contacts_group_name">GXT_XGFZ</string>
+    <string name="api_delete_contacts_group">GXT_SCFZ</string>
+    <string name="api_delete_contacts_in_group">GXT_SCSJHM</string>
+
 </resources>
