@@ -3,21 +3,15 @@ package com.cpigeon.app.modular.matchlive.view.fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewStub;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemLongClickListener;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.fragment.BaseFragment;
 import com.cpigeon.app.modular.home.view.activity.SearchActivity;
-import com.cpigeon.app.modular.home.view.activity.WebActivity;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
 import com.cpigeon.app.modular.matchlive.presenter.MatchLiveSubPre;
 import com.cpigeon.app.modular.matchlive.view.activity.RaceXunFangActivity;
@@ -28,7 +22,6 @@ import com.cpigeon.app.utils.Const;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.customview.CustomEmptyView;
 import com.cpigeon.app.utils.customview.SaActionSheetDialog;
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -303,7 +296,7 @@ public class MatchLiveSubFragment extends BaseFragment implements IMatchSubView,
             }
             mCustomEmptyView.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
-            mCustomEmptyView.setEmptyImage(R.drawable.ic_empty);
+            mCustomEmptyView.setEmptyImage(R.drawable.ic_empty_img);
             mCustomEmptyView.setEmptyText(tip);
             return true;
         }

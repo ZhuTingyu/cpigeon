@@ -9,8 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewStub;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -136,7 +134,7 @@ public abstract class BasePageTurnFragment<Pre extends BasePresenter, Adapter ex
             mSwipeRefreshLayout.setRefreshing(false);
             mCustomEmptyView.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
-            mCustomEmptyView.setEmptyImage(R.drawable.ic_empty);
+            mCustomEmptyView.setEmptyImage(R.drawable.ic_empty_img);
             mCustomEmptyView.setEmptyText(tip);
             return true;
         }

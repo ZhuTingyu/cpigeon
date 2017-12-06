@@ -3,17 +3,13 @@ package com.cpigeon.app.modular.matchlive.view.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewStub;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
-import com.cpigeon.app.modular.matchlive.model.bean.Bulletin;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
 import com.cpigeon.app.modular.matchlive.presenter.ChaZuReportPre;
 import com.cpigeon.app.modular.matchlive.view.activity.RaceChaZuBaoDaoActivity;
@@ -128,7 +124,7 @@ public class ChaZuBaoDaoFragment extends BaseMVPFragment<ChaZuReportPre> impleme
         if (tipType == TipType.View) {
             mCustomEmptyView.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
-            mCustomEmptyView.setEmptyImage(R.drawable.ic_empty);
+            mCustomEmptyView.setEmptyImage(R.drawable.ic_empty_img);
             mCustomEmptyView.setEmptyText("tip");
             return true;
         }

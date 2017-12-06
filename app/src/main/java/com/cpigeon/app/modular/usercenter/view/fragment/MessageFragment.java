@@ -1,23 +1,14 @@
 package com.cpigeon.app.modular.usercenter.view.fragment;
 
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewStub;
-import android.widget.TextView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.fragment.BaseFragment;
 import com.cpigeon.app.utils.customview.CustomEmptyView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Created by Administrator on 2017/2/16.
@@ -42,7 +33,7 @@ public class MessageFragment extends BaseFragment {
         if (tipType == TipType.View) {
             mCustomEmptyView.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
-            mCustomEmptyView.setEmptyImage(R.drawable.ic_empty);
+            mCustomEmptyView.setEmptyImage(R.drawable.ic_empty_img);
             mCustomEmptyView.setEmptyText(tip);
             return true;
         }

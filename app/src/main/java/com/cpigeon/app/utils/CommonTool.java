@@ -1,14 +1,11 @@
 package com.cpigeon.app.utils;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.ShortcutInfo;
 import android.net.Uri;
-import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.content.FileProvider;
@@ -336,7 +333,7 @@ public class CommonTool {
 
     public static void setEmptyView(BaseQuickAdapter adapter, String message){
         CustomEmptyView emptyView = new CustomEmptyView(MyApp.getInstance().getBaseContext());
-        emptyView.setEmptyImage(R.drawable.ic_empty);
+        emptyView.setEmptyImage(R.drawable.ic_empty_img);
         emptyView.setEmptyText(message);
         adapter.setEmptyView(emptyView);
     }

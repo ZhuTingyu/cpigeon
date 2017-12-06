@@ -22,7 +22,6 @@ import com.cpigeon.app.utils.customview.CustomEmptyView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.facebook.imagepipeline.decoder.SimpleProgressiveJpegConfig;
-import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.orhanobut.logger.Logger;
 import com.stfalcon.frescoimageviewer.ImageViewer;
@@ -176,7 +175,7 @@ public class MapPhotoFragment extends BaseFragment {
         mSwipeRefreshLayout.setRefreshing(false);
         mCustomEmptyView.setVisibility(View.VISIBLE);
         mRecyclerView.setVisibility(View.GONE);
-        mCustomEmptyView.setEmptyImage(R.drawable.ic_empty);
+        mCustomEmptyView.setEmptyImage(R.drawable.ic_empty_img);
         mCustomEmptyView.setEmptyText(tips);
     }
 

@@ -13,7 +13,6 @@ import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongRace;
 import com.cpigeon.app.modular.matchlive.model.bean.RaceImageOrVideo;
 import com.cpigeon.app.modular.matchlive.view.activity.MapLiveActivity;
 import com.cpigeon.app.modular.matchlive.view.adapter.CarVideoAdapter;
-import com.cpigeon.app.modular.matchlive.view.adapter.TimeLinePhotoAdapter;
 import com.cpigeon.app.utils.CallAPI;
 import com.cpigeon.app.utils.customview.CustomEmptyView;
 import com.luck.picture.lib.PictureSelector;
@@ -149,7 +148,7 @@ public class MapVideoFragment extends BaseFragment{
         mSwipeRefreshLayout.setRefreshing(false);
         mCustomEmptyView.setVisibility(View.VISIBLE);
         mRecyclerView.setVisibility(View.GONE);
-        mCustomEmptyView.setEmptyImage(R.drawable.ic_empty);
+        mCustomEmptyView.setEmptyImage(R.drawable.ic_empty_img);
         mCustomEmptyView.setEmptyText(tips);
     }
 
