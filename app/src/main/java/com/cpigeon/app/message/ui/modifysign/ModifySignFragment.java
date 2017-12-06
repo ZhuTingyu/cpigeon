@@ -95,7 +95,7 @@ public class ModifySignFragment extends BaseMVPFragment {
         adapter.setNewData(imgs);
         edSign.setText(entity.qianming);
         if(!entity.isExamine()){
-            btn.setText("正在审核。。。。");
+            btn.setText("签名正在审核中....");
             btn.setEnabled(false);
             adapter.setOnItemClickListener(null);
         }

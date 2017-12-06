@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -75,6 +76,8 @@ public class IdCardCameraActivity extends AppCompatActivity {
 
     SweetAlertDialog dialogPrompt;
 
+    AppCompatTextView hint;
+
     int type;
 
     @Override
@@ -103,6 +106,13 @@ public class IdCardCameraActivity extends AppCompatActivity {
         take = findViewById(R.id.take);
         frame = findViewById(R.id.frame);
         frame.setBackgroundResource(R.drawable.background_blue);
+        hint = findViewById(R.id.tv_hint);
+
+        if(type == TYPE_P){
+            hint.setText("请拍摄身份证正面");
+        }else {
+            hint.setText("请拍摄身份证反面");
+        }
 
         int w = (int) (screenW * RATIO_SCREN_W);
         int h = (int) (w / RATIO_PHOTO_W);
@@ -264,22 +274,10 @@ public class IdCardCameraActivity extends AppCompatActivity {
                     List<Camera.Size> sizeList = params.getSupportedPreviewSizes();
                     Camera.Size optionSize = getOptimalPreviewSize(sizeList, surfaceview.getWidth(), surfaceview.getHeight());
                     params.setPreviewSize(optionSize.width,optionSize.height);//把camera.size赋值到parameters
-                    // Log.i("i", params.flatten());
                     params.setJpegQuality(80);  // 设置照片的质量
 
-                /*List<Camera.Size> allSizes = params.getSupportedPictureSizes();
-                Camera.Size size = allSizes.get(0); // get top size
-                for (int i = 0; i < allSizes.size(); i++) {
-                    if (allSizes.get(i).width > size.width) {
-                        size = allSizes.get(i);
-                    }
-                }*/
-                /*photoW = size.width;
-                photoH = size.height;*/
-                    //set max Picture Size
-                    //params.setPictureSize(size.width, size.height);
+
                     params.setPictureSize(optionSize.width, optionSize.height);
-                    //params.setPreviewFrameRate(5);  // 预览帧率
                     camera.setParameters(params); // 将参数设置给相机
                 } catch (Exception e) {
                     e.printStackTrace();

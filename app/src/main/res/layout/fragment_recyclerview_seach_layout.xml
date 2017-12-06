@@ -13,7 +13,7 @@
         android:background="@color/message_button"
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_height="56dp">
         <LinearLayout
             android:id="@+id/ll_left"
@@ -93,6 +93,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:layout_below="@id/widget_title_bar_search"
         android:layout_above="@id/ll1"
         android:layout_width="match_parent"

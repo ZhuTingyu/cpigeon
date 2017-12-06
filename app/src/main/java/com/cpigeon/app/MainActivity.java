@@ -367,7 +367,9 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
 
 
         mBottomNavigationBar.setTabSelectedListener(this);
-        checkUpData();
+        if (!BuildConfig.DEBUG) {
+            checkUpData();
+        }
         checkAvailableVersion();
         // startService(new Intent(mContext.getApplicationContext(), CoreService.class));
         bindService(new Intent(MyApp.getInstance(), MainActivityService.class), conn, Context.BIND_AUTO_CREATE);
