@@ -2,16 +2,24 @@ package com.cpigeon.app.message.ui;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
+import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.StringValid;
+import com.tencent.bugly.crashreport.CrashReport;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.view.KeyEvent.KEYCODE_BACK;
 
@@ -24,6 +32,7 @@ public class BaseWebViewActivity<Pre extends BasePresenter> extends BaseActivity
     WebView webView;
     String url;
     String title;
+    ProgressBar progressBar;
 
 
     @Override
@@ -50,6 +59,26 @@ public class BaseWebViewActivity<Pre extends BasePresenter> extends BaseActivity
 
 
         webView = findViewById(R.id.web_view);
+        progressBar = findViewById(R.id.pb_progressbar);
+
+        webView.setWebChromeClient(new WebChromeClient() {
+
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                CrashReport.setJavascriptMonitor(view, true);
+                if (progressBar != null) {
+                    if (newProgress == 100) {
+                        progressBar.setVisibility(View.GONE);
+                    } else {
+                        if (View.GONE == progressBar.getVisibility()) {
+                            progressBar.setVisibility(View.VISIBLE);
+                        }
+                        progressBar.setProgress(newProgress);
+                    }
+                }
+                super.onProgressChanged(view, newProgress);
+            }
+        });
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -66,10 +95,21 @@ public class BaseWebViewActivity<Pre extends BasePresenter> extends BaseActivity
         webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
         webView.setWebViewClient(new WebViewClient(){
             @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                if(progressBar != null){
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+
+
+            @Override
 
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
                 view.loadUrl(url);
+
+
 
                 //如果不需要其他对点击链接事件的处理返回true，否则返回false
 
@@ -78,7 +118,9 @@ public class BaseWebViewActivity<Pre extends BasePresenter> extends BaseActivity
             }
         });
         //webView.loadDataWithBaseURL(null, url, "text/html", "utf-8", null);
-        webView.loadUrl(url);
+        Map<String, String> mHeaderMap = new HashMap<>();
+        mHeaderMap.put("u", CommonTool.getUserToken(this));
+        webView.loadUrl(url, mHeaderMap);
 
     }
 

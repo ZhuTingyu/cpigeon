@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -16,21 +15,17 @@ import com.cpigeon.app.commonstandard.AppManager;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
-import com.cpigeon.app.modular.settings.view.activity.dao.ISettingView;
+import com.cpigeon.app.modular.usercenter.view.activity.FeedBackActivity;
 import com.cpigeon.app.modular.usercenter.view.activity.LoginActivity;
 import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.CpigeonConfig;
-import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.DateTool;
 import com.cpigeon.app.utils.FileTool;
-import com.cpigeon.app.utils.NetUtils;
-import com.cpigeon.app.utils.SharedPreferencesTool;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.UpdateManager;
 import com.cpigeon.app.utils.cache.CacheManager;
 import com.cpigeon.app.utils.cache.DataCleanManager;
 import com.cpigeon.app.utils.databean.UpdateInfo;
-import com.kyleduo.switchbutton.SwitchButton;
 
 import org.xutils.DbManager;
 import org.xutils.db.sqlite.WhereBuilder;
@@ -38,11 +33,10 @@ import org.xutils.ex.DbException;
 import org.xutils.x;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -74,6 +68,8 @@ public class SettingsActivity extends BaseActivity {
     RelativeLayout rlCheckNewVersion;
     @BindView(R.id.btn_logout)
     Button btnLogout;
+    @BindView(R.id.rl_face)
+    RelativeLayout rlFace;
     private UpdateManager mUpdateManager;
     boolean mEntryInstall = false;
 
@@ -128,7 +124,7 @@ public class SettingsActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.rl_clear_cache, R.id.rl_security, R.id.rl_push_notification, R.id.rl_market_score, R.id.rl_check_new_version, R.id.btn_logout})
+    @OnClick({R.id.rl_clear_cache, R.id.rl_security, R.id.rl_push_notification, R.id.rl_market_score, R.id.rl_check_new_version, R.id.btn_logout, R.id.rl_face})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_clear_cache:
@@ -155,6 +151,10 @@ public class SettingsActivity extends BaseActivity {
                 break;
             case R.id.btn_logout:
                 logout();
+                break;
+
+            case R.id.rl_face:
+                startActivity(FeedBackActivity.class);
                 break;
         }
     }

@@ -144,6 +144,10 @@
 -keep class com.alipay.** { *; }
 -keepattributes EnclosingMethod
 
+-dontwarn javax.servlet.**
+-dontwarn org.joda.time.**
+-dontwarn org.w3c.dom.**
+
 
 
 

@@ -60,13 +60,13 @@ android {
     }
     buildTypes {
         release {
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            /*proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             //混淆
             minifyEnabled true
             //Zipalign优化
-           // zipAlignEnabled true
-            // 移除无用的resource文件
-           // shrinkResources true
+            zipAlignEnabled true
+             //移除无用的resource文件
+           shrinkResources true*/
 //            signingConfig signingConfigs.release
             signingConfig signingConfigs.release
         }
@@ -228,7 +228,7 @@ def updateVersionConfig() {
         //写入编译时间
         versionProps['BUILD_LAST_TIME'] = buildTime.time.toString()
         //写入版本代码
-        versionProps['VERSION_CODE'] = new Date().format("yyyyMMdd") + versionProps['BUILD_TIMES'].toString()
+        //versionProps['VERSION_CODE'] = new Date().format("yyyyMMdd") + versionProps['BUILD_TIMES'].toString()
 
         println(versionProps)
         versionProps.store(versionPropsFile.newWriter(), null)
