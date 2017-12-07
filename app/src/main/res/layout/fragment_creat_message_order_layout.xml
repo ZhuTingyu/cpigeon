@@ -143,6 +143,7 @@
             android:background="@drawable/background_round_white_5"
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
+            android:inputType="number"
             android:layout_below="@+id/tv_select3"/>
 
 
