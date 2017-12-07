@@ -117,20 +117,39 @@
         android:layout_below="@id/text3"
         app:srcCompat="@mipmap/ic_arrow_right"/>-->
 
-    <TextView
-        android:id="@+id/ed4"
+
+    <RelativeLayout
+        android:id="@+id/rl2"
         android:layout_below="@id/text3"
-        android:layout_toRightOf="@id/text1"
-        android:gravity="center"
-        android:drawableRight="@mipmap/ic_arrow_right"
-        android:layout_margin="16dp"
-        android:textSize="16dp"
-        tools:text="21231231"
-        android:maxLines="1"
-        android:minLines="1"
-        android:textColor="@color/black"
+        android:layout_toRightOf="@id/text4"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/ed4"
+            android:gravity="center"
+            android:layout_margin="16dp"
+            android:textSize="16dp"
+            tools:text="21231231"
+            android:maxLines="1"
+            android:minLines="1"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:rotation="-90"
+            app:srcCompat="@drawable/ic_arrow_down"/>
+
+    </RelativeLayout>
+
+
+
 
 
     <include
@@ -138,7 +157,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/text4" />
+        android:layout_below="@+id/rl2" />
 
 
     <RelativeLayout

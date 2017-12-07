@@ -91,6 +91,7 @@ public class PersonInfoFragment extends BaseMVPFragment {
         if(type == TYPE_LOOK){
             getPersonInfo();
         }else {
+            entity = getActivity().getIntent().getParcelableExtra(IntentBuilder.KEY_DATA);
         }
         initView();
     }
@@ -131,7 +132,7 @@ public class PersonInfoFragment extends BaseMVPFragment {
         if(type == TYPE_LOOK){
             adapter.setNewData(Lists.newArrayList("","",""));
         }else {
-            adapter.setNewData(imgs);
+            bindData(entity);
         }
         if(type == TYPE_LOOK){
 
@@ -139,6 +140,7 @@ public class PersonInfoFragment extends BaseMVPFragment {
             btn.setOnClickListener(v -> {
                 IntentBuilder.Builder()
                         .putExtra(IntentBuilder.KEY_TYPE, PersonInfoFragment.TYPE_EDIT)
+                        .putExtra(IntentBuilder.KEY_DATA, entity)
                         .startParentActivity(getActivity(), PersonInfoFragment.class);
             });
 
@@ -233,8 +235,6 @@ public class PersonInfoFragment extends BaseMVPFragment {
             bindUi(RxUtils.textChanges(edNumber), signPre.setPersonPhoneNumber());
             bindUi(RxUtils.textChanges(edWork), signPre.setPersonWork());
 
-
-
         }
 
         return view;
@@ -286,14 +286,18 @@ public class PersonInfoFragment extends BaseMVPFragment {
         }
     }
 
+    private void bindData(PersonInfoEntity entity){
+        edName.setText(entity.xingming != null ? entity.xingming : "");
+        edNumber.setText(entity.sjhm != null ? entity.sjhm : "");
+        edWork.setText(entity.dwmc != null ? entity.dwmc : "");
+        adapter.setNewData(imgs);
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(PersonInfoEvent event){
         if(event.type == TYPE_LOOK){
             PersonInfoEntity personInfoEntity = event.entity;
-            edName.setText(personInfoEntity.xingming != null ? personInfoEntity.xingming : "");
-            edNumber.setText(personInfoEntity.sjhm != null ? personInfoEntity.sjhm : "");
-            edWork.setText(personInfoEntity.dwmc != null ? personInfoEntity.dwmc : "");
-            adapter.setNewData(imgs);
+            bindData(personInfoEntity);
         }
     }
 

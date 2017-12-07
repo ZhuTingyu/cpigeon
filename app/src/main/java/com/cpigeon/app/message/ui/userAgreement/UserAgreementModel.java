@@ -19,7 +19,7 @@ public class UserAgreementModel {
                 .setToJsonType(new TypeToken<ApiResponse>() {
                 }.getType())
                 .setType(HttpUtil.TYPE_POST)
-                .url(R.string.api_user_agreement)
+                .url(R.string.api_set_user_agreement)
                 .addQueryString("u", String.valueOf(userId))
                 .request();
     }

@@ -9,6 +9,7 @@ import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.UserGXTEntity;
 import com.cpigeon.app.message.adapter.PigeonMessageHomeAdapter;
 import com.cpigeon.app.message.ui.BaseWebViewActivity;
+import com.cpigeon.app.message.ui.order.ui.BaseOrderPayFragment;
 import com.cpigeon.app.message.ui.userAgreement.UserAgreementActivity;
 import com.cpigeon.app.message.ui.common.CommonMessageFragment;
 import com.cpigeon.app.message.ui.contacts.TelephoneBookFragment;
@@ -21,6 +22,7 @@ import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.http.LogUtil;
 
 import java.util.List;
 
@@ -77,11 +79,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre>{
                         .startParentActivity(getActivity(), PersonInfoFragment.class);
             }else if(7 == position){
                 //用户协议
-                IntentBuilder.Builder(getSupportActivity(), UserAgreementActivity.class)
-                        .putExtra(IntentBuilder.KEY_BOOLEAN, true)
-                        .putExtra(IntentBuilder.KEY_TITLE, "用户协议")
-                        .putExtra(IntentBuilder.KEY_DATA, CPigeonApiUrl.getInstance().getServer()
-                                + getString(R.string.api_user_agreement)).startActivity();
+                UserAgreementActivity.startActivity(getSupportActivity());
             }
         });
 
@@ -97,7 +95,6 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre>{
 
         mPresenter.userId = CpigeonData.getInstance().getUserId(getContext());
 
-        initView();
 
 
         mPresenter.getUserInfo(r -> {
@@ -106,16 +103,17 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre>{
                 if(userGXTEntity.syts < 1000){
                     showTips(getString(R.string.message_pigeon_message_count_not_enough),TipType.Dialog);
                 }
+                initView();
             }else {
 
-                DialogUtils.createDialog(getContext(),"提示"
+                DialogUtils.createDialogWithLeft(getContext()
                         ,getString(R.string.message_not_open_pigeon_message)
-                        ,"确定",sweetAlertDialog -> {
-                            IntentBuilder.Builder(getSupportActivity(), UserAgreementActivity.class)
-                                    .putExtra(IntentBuilder.KEY_BOOLEAN, false)
-                                    .putExtra(IntentBuilder.KEY_TITLE, "用户协议")
-                                    .putExtra(IntentBuilder.KEY_DATA, CPigeonApiUrl.getInstance().getServer()
-                                            + getString(R.string.api_user_agreement)).startActivity();
+                        ,sweetAlertDialog -> {
+                            finish();
+                        }
+                        ,sweetAlertDialog -> {
+                            IntentBuilder.Builder()
+                                    .startParentActivity(getActivity(), BaseOrderPayFragment.class);
                         });
 
             }

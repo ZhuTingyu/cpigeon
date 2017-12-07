@@ -49,6 +49,8 @@ public class ContactsInfoFragment extends BaseMVPFragment<ContactsInfoPre> {
 
     int type;
 
+    RelativeLayout rlSelectGroup;
+
     @Override
     protected int getLayoutResource() {
         return R.layout.fragent_cantacts_info_layout;
@@ -81,6 +83,7 @@ public class ContactsInfoFragment extends BaseMVPFragment<ContactsInfoPre> {
         textView4 = findViewById(R.id.text4);
 
         relativeLayout = findViewById(R.id.rl1);
+        rlSelectGroup = findViewById(R.id.rl2);
         btn = findViewById(R.id.text_btn);
 
 
@@ -90,7 +93,7 @@ public class ContactsInfoFragment extends BaseMVPFragment<ContactsInfoPre> {
             bindUi(RxUtils.textChanges(editText2), mPresenter.setPhoneNumer());
             bindUi(RxUtils.textChanges(editText3), mPresenter.setRemarks());
 
-            editText4.setOnClickListener(v -> {
+            rlSelectGroup.setOnClickListener(v -> {
                 IntentBuilder.Builder()
                         .putExtra(IntentBuilder.KEY_TYPE, SelectContactsFragment.TYPE_CONTACTS_ADD)
                         .startParentActivity(getActivity(), SelectContactsFragment.class, CODE_SELECTE);
@@ -115,7 +118,6 @@ public class ContactsInfoFragment extends BaseMVPFragment<ContactsInfoPre> {
             editText1.setFocusable(false);
             editText2.setFocusable(false);
             editText3.setFocusable(false);
-            editText4.setCompoundDrawables(null,null,null,null);
 
             if(contactsEntity != null){
 

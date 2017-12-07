@@ -1,5 +1,6 @@
 package com.cpigeon.app.message.ui.userAgreement;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.message.ui.BaseWebViewActivity;
+import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;
 
@@ -17,6 +19,14 @@ import com.cpigeon.app.utils.IntentBuilder;
 public class UserAgreementActivity extends BaseWebViewActivity<UserAgreementPre> {
 
     boolean agreeState;
+
+    public static void startActivity(Activity activity){
+        IntentBuilder.Builder(activity, UserAgreementActivity.class)
+                .putExtra(IntentBuilder.KEY_BOOLEAN, true)
+                .putExtra(IntentBuilder.KEY_TITLE, "用户协议")
+                .putExtra(IntentBuilder.KEY_DATA, CPigeonApiUrl.getInstance().getServer()
+                        + "/APP/Protocol?type=gxt").startActivity();
+    }
 
     @Override
     public int getLayoutId() {
