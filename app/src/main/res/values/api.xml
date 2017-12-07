@@ -5,6 +5,8 @@
 
     <string name="api_user_agreement">/APP/Protocol?type=gxt</string>
     <string name="api_user_help">/APP/Help?type=gxt</string>
+    <string name="api_user_pay">/APP/Protocol?type=pay</string>
+
     <string name="api_user_info">GetGXT_UserInfo</string>
 
 

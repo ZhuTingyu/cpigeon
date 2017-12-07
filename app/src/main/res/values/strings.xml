@@ -114,5 +114,7 @@
 
     <string name="string_text_message_addressee_number">收信人数：%1$s</string>
 
+    <string name="string_text_create_message_order_explain">鸽信通%1$s元/1万条，不限时间，发完为止。（安捷公棚协会用户优惠价为%2$s元/1万条）</string>
+
 
 </resources>
