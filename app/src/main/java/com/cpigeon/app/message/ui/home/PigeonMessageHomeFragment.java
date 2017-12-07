@@ -10,6 +10,7 @@ import com.cpigeon.app.entity.UserGXTEntity;
 import com.cpigeon.app.message.adapter.PigeonMessageHomeAdapter;
 import com.cpigeon.app.message.ui.BaseWebViewActivity;
 import com.cpigeon.app.message.ui.order.ui.BaseOrderPayFragment;
+import com.cpigeon.app.message.ui.order.ui.CreateMessageOrderFragment;
 import com.cpigeon.app.message.ui.userAgreement.UserAgreementActivity;
 import com.cpigeon.app.message.ui.common.CommonMessageFragment;
 import com.cpigeon.app.message.ui.contacts.TelephoneBookFragment;
@@ -113,7 +114,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre>{
                         }
                         ,sweetAlertDialog -> {
                             IntentBuilder.Builder()
-                                    .startParentActivity(getActivity(), BaseOrderPayFragment.class);
+                                    .startParentActivity(getActivity(), CreateMessageOrderFragment.class);
                         });
 
             }

@@ -118,11 +118,28 @@
             android:text="其他："
             android:textSize="16dp" />
 
+
+
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/text3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:layout_below="@+id/tv_select1"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
+            android:padding="5dp"
+            android:text="万条"
+            android:textSize="16dp" />
+
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/ed_count"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/tv_select5"
+            android:layout_toLeftOf="@id/text3"
             android:background="@drawable/background_round_white_5"
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
@@ -171,22 +188,6 @@
         android:layout_height="1dp"
         android:layout_marginTop="16dp"
         android:layout_below="@+id/order_price" />
-
-
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/btn_1"
-        android:textSize="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_below="@id/line3"
-        android:text="查看我的充值记录"
-        android:textColor="@color/gray_low"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:layout_marginLeft="16dp"
-        android:background="@drawable/gray_button_background"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
 
 
 

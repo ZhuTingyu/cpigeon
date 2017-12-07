@@ -1,8 +1,10 @@
 package com.cpigeon.app.message.ui.order.ui;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
@@ -22,7 +24,6 @@ public class CreateMessageOrderFragment extends BaseMVPFragment{
     AppCompatTextView tvPrice;
     AppCompatButton btnLook;
 
-    TextView btn;
 
     List<AppCompatTextView> selectTvs;
 
@@ -51,23 +52,53 @@ public class CreateMessageOrderFragment extends BaseMVPFragment{
     }
 
     private void initView() {
+
+        setTitle("短信充值");
+
+        toolbar.getMenu().add("充值记录")
+                .setOnMenuItemClickListener(item -> {
+                    return false;
+                }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
         tvIds = Lists.newArrayList(R.id.tv_select1,R.id.tv_select2,R.id.tv_select3
                 ,R.id.tv_select4,R.id.tv_select5);
+        selectTvs = Lists.newArrayList();
 
         tvExplain = findViewById(R.id.tv_explain);
         tvPrice = findViewById(R.id.order_price);
-        btnLook = findViewById(R.id.btn_1);
 
-        btn = findViewById(R.id.text_btn);
+        tvExplain.setText(getString(R.string.string_text_create_message_order_explain,"1231","123"));
 
-        for (Integer id : tvIds) {
-            AppCompatTextView textView = findViewById(tvIds.get(id));
-            textView.setOnClickListener(v -> {
 
-            });
+        for (int i = 0, len = tvIds.size(); i < len; i++) {
+            AppCompatTextView textView = findViewById(tvIds.get(i));
             selectTvs.add(textView);
         }
 
+        for (int i = 0, len = selectTvs.size(); i < len; i++) {
+            int finalI = i;
+            selectTvs.get(i).setOnClickListener(v -> {
+                setTvExplainListener(finalI);
+            });
+        }
 
+    }
+
+    private void setTvExplainListener(int position){
+        for (int i = 0, len = selectTvs.size(); i < len; i++) {
+            AppCompatTextView textView = selectTvs.get(i);
+
+            if(position == i){
+
+                Drawable drawable = getResources().getDrawable(R.drawable.ic_blue_hook);
+                drawable.setBounds(-16, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                textView.setCompoundDrawables(drawable,null,null,null);
+
+                textView.setSelected(true);
+            }else {
+                textView.setCompoundDrawables(null,null,null,null);
+                textView.setSelected(false);
+            }
+        }
     }
 }
