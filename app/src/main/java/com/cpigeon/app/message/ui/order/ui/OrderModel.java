@@ -17,7 +17,7 @@ import io.reactivex.Observable;
  */
 
 public class OrderModel {
-    public static Observable<ApiResponse<OrderInfoEntity>> greatGXTOrder(int userId, int sid) {
+    public static Observable<ApiResponse<OrderInfoEntity>> greatServiceOrder(int userId, int sid) {
         return GXYHttpUtil.<ApiResponse<OrderInfoEntity>>build()
                 .setToJsonType(new TypeToken<ApiResponse<OrderInfoEntity>>() {
                 }.getType())

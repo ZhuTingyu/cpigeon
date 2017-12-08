@@ -39,4 +39,11 @@ public interface ApiService {
             @Query("sign") String sign,
             @Body RequestBody requestBody);
 
+    @POST("GXT_TJGRXX")
+    Observable<ApiResponse> uploadPersonInfo(
+            @Header("u") String token,
+            @Query("u") String userId,
+            @Query("sign") String sign,
+            @Body RequestBody requestBody);
+
 }

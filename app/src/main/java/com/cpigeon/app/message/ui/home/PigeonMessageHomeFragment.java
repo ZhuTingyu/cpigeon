@@ -17,6 +17,7 @@ import com.cpigeon.app.message.ui.history.MessageHistoryFragment;
 import com.cpigeon.app.message.ui.modifysign.ModifySignFragment;
 import com.cpigeon.app.message.ui.person.PersonInfoFragment;
 import com.cpigeon.app.message.ui.sendmessage.SendMessageFragment;
+import com.cpigeon.app.modular.order.presenter.OrderPre;
 import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.DialogUtils;
@@ -115,6 +116,8 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
                                 IntentBuilder.Builder()
                                         .putExtra(IntentBuilder.KEY_TYPE, PersonInfoFragment.TYPE_UPLOAD_INFO)
                                         .startParentActivity(getActivity(), PersonInfoFragment.class);
+                                sweetAlertDialog.dismiss();
+                                finish();
                             });
 
                 } else if (r.errorCode == PigeonHomePre.STATE_EXAMINEING) {
@@ -132,11 +135,12 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
                             }
                             , sweetAlertDialog -> {
                                 showLoading();
-                                mPresenter.greatGXTOrder(orderInfoEntity -> {
+                                mPresenter.greatOrder(orderInfoEntity -> {
                                     hideLoading();
                                     IntentBuilder.Builder()
                                             .putExtra(IntentBuilder.KEY_DATA, orderInfoEntity)
                                             .startParentActivity(getActivity(), OrderPayFragment.class);
+                                    sweetAlertDialog.dismiss();
                                     finish();
 
                                 });

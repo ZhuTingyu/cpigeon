@@ -195,7 +195,6 @@ public abstract class BaseFragment extends Fragment implements IView {
                     return true;
                 case DialogError:
                     dialogPrompt = new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE);
-                    dialogPrompt.setCancelable(false);
                     dialogPrompt.setTitleText("失败")
                             .setContentText(tip)
                             .setConfirmText(getString(R.string.confirm)).show();

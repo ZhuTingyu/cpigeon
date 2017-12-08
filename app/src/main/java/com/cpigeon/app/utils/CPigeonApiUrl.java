@@ -60,7 +60,7 @@ public class CPigeonApiUrl {
             } while (index == mServerIndex && index >= 0 && Servers.length > 0);
             mServerIndex = index;
         }
-        return Servers[mServerIndex];
+        return Servers[2];
     }
 
     public String getServer() {

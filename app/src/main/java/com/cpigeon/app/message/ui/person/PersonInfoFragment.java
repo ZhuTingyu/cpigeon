@@ -22,6 +22,7 @@ import com.cpigeon.app.event.PersonInfoEvent;
 import com.cpigeon.app.message.adapter.PersonImageInfoAdapter;
 import com.cpigeon.app.message.ui.idCard.IdCardCameraActivity;
 import com.cpigeon.app.message.ui.modifysign.PersonSignPre;
+import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.FileTool;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
@@ -29,6 +30,7 @@ import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.customview.SaActionSheetDialog;
+import com.cpigeon.app.utils.http.LogUtil;
 import com.cpigeon.app.utils.inputfilter.PhotoUtil;
 import com.orhanobut.logger.Logger;
 
@@ -84,12 +86,15 @@ public class PersonInfoFragment extends BaseMVPFragment {
         signPre = new PersonSignPre(getActivity());
         type = getActivity().getIntent().getIntExtra(IntentBuilder.KEY_TYPE, 0);
         imgs = Lists.newArrayList("idCard_P", "idCard_N", "license");
-        setTitle("个人信息");
         hideSoftInput();
         if(type == TYPE_LOOK){
+            setTitle("个人信息");
             getPersonInfo();
         }else if(type == TYPE_EDIT){
+            setTitle("个人信息");
             entity = getActivity().getIntent().getParcelableExtra(IntentBuilder.KEY_DATA);
+        }else if(type == TYPE_UPLOAD_INFO){
+            setTitle("提交个人信息");
         }
         initView();
     }
@@ -184,9 +189,37 @@ public class PersonInfoFragment extends BaseMVPFragment {
         }else if(type == TYPE_UPLOAD_INFO){
             //TODO 开通提交鸽信通个人信息
             adapter.setNewData(Lists.newArrayList("","",""));
+            adapter.setOnItemClickListener((adapter1, view, position) -> {
+
+                if (position == 0) {//身份证正面
+                    IntentBuilder.Builder(getActivity(), IdCardCameraActivity.class)
+                            .putExtra(IntentBuilder.KEY_TYPE, IdCardCameraActivity.TYPE_P)
+                            .startActivity(getActivity(), IdCardCameraActivity.CODE_ID_CARD_P);
+                } else if (position == 1) {//身份中反面
+                    IntentBuilder.Builder(getActivity(), IdCardCameraActivity.class)
+                            .putExtra(IntentBuilder.KEY_TYPE, IdCardCameraActivity.TYPE_N)
+                            .startActivity(getActivity(), IdCardCameraActivity.CODE_ID_CARD_N);
+                } else if (position == 2) {//营业执照
+                    new SaActionSheetDialog(getContext())
+                            .builder()
+                            .addSheetItem("相册选取", OnSheetItemClickListener)
+                            .addSheetItem("拍一张", OnSheetItemClickListener)
+                            .show();
+                }
+            });
             btn.setText("提交");
             btn.setOnClickListener(v -> {
-
+                signPre.uploadPersonInfo(r -> {
+                    LogUtil.print(r);
+                    if(r.status){
+                        DialogUtils.createDialog(getContext(), r.msg, sweetAlertDialog -> {
+                            sweetAlertDialog.dismiss();
+                            finish();
+                        });
+                    }else {
+                        error(r.msg);
+                    }
+                });
             });
         }
     }
@@ -260,6 +293,8 @@ public class PersonInfoFragment extends BaseMVPFragment {
                 AppCompatImageView imageView = (AppCompatImageView) adapter.getViewByPosition(recyclerView, 1, R.id.icon);
                 imageView.setImageBitmap(BitmapFactory.decodeFile(idCardInfoEntity.frontimage));
                 signPre.idCardP = idCardInfoEntity.frontimage;
+
+                edName.setText(idCardInfoEntity.name);
             } else if (IdCardCameraActivity.CODE_ID_CARD_N == requestCode) {
                 IdCardNInfoEntity idCardNInfoEntity = data.getParcelableExtra(IntentBuilder.KEY_DATA);
                 signPre.organization = idCardNInfoEntity.authority;

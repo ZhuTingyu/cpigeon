@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
+import com.cpigeon.app.message.ui.order.ui.presenter.MessageCreateOrderPre;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 
@@ -21,7 +22,7 @@ import java.util.List;
  * Created by Zhu TingYu on 2017/12/7.
  */
 
-public class CreateMessageOrderFragment extends BaseMVPFragment{
+public class CreateMessageOrderFragment extends BaseMVPFragment<MessageCreateOrderPre>{
 
     AppCompatTextView tvExplain;
     AppCompatTextView tvPrice;
@@ -33,8 +34,8 @@ public class CreateMessageOrderFragment extends BaseMVPFragment{
     List<Integer> tvIds;
 
     @Override
-    protected BasePresenter initPresenter() {
-        return null;
+    protected MessageCreateOrderPre initPresenter() {
+        return new MessageCreateOrderPre(getActivity());
     }
 
     @Override

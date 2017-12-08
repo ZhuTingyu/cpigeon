@@ -18,7 +18,7 @@ import io.reactivex.functions.Consumer;
 public class PigeonHomePre extends BasePresenter {
 
     public int userId;
-    int sid = 22;
+    public static final int SID_GXT = 22;//鸽信通
 
     public static final int STATE_NO_OPEN = 10000;
     public static final int STATE_EXAMINEING = 10010;
@@ -43,12 +43,10 @@ public class PigeonHomePre extends BasePresenter {
         }), consumer);
     }
 
-    public void greatGXTOrder(Consumer<OrderInfoEntity> consumer) {
-        submitRequestThrowError(OrderModel.greatGXTOrder(userId, sid).map(r -> {
-            if (r.isOk()) {
-                if (r.status) {
-                    return r.data;
-                } else throw new HttpErrorException(r);
+    public void greatOrder(Consumer<OrderInfoEntity> consumer) {
+        submitRequestThrowError(OrderModel.greatServiceOrder(userId, SID_GXT).map(r -> {
+            if (r.isHaveDate()){
+                return r.data;
             } else throw new HttpErrorException(r);
         }), consumer);
     }

@@ -6,6 +6,8 @@ import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.entity.PersonInfoEntity;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.StringValid;
+import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.databean.ApiResponse;
 import com.cpigeon.app.utils.http.HttpErrorException;
 
@@ -53,6 +55,27 @@ public class PersonSignPre extends BasePresenter {
 
     public void modifyPersonInfo(Consumer<ApiResponse> consumer) {
         submitRequestThrowError(PersonSignModel.modifyPersonInfo(userId, idCardP, idCardN, license, name
+                , sex, familyName, address, idCardNumber, organization, idCardDate, personName,personPhoneNumber, personWork).map(r -> {
+            return r;
+        }), consumer);
+    }
+
+    public void uploadPersonInfo(Consumer<ApiResponse> consumer) {
+        if(!StringValid.isStringValid(personName)){
+            ToastUtil.showLongToast(getActivity(),"请输入名字");
+            return;
+        }
+
+        if(!StringValid.phoneNumberValid(personPhoneNumber)){
+            ToastUtil.showLongToast(getActivity(),"手机号码无效");
+            return;
+        }
+
+        if(!StringValid.isStringValid(personWork)){
+            ToastUtil.showLongToast(getActivity(),"请输入单位名称");
+            return;
+        }
+        submitRequestThrowError(PersonSignModel.uploadPersonInfo(userId, idCardP, idCardN, license, name
                 , sex, familyName, address, idCardNumber, organization, idCardDate, personName,personPhoneNumber, personWork).map(r -> {
             return r;
         }), consumer);
