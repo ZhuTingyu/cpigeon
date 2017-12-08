@@ -1,4 +1,4 @@
-package com.cpigeon.app.even;
+package com.cpigeon.app.event;
 
 import com.cpigeon.app.entity.PersonInfoEntity;
 

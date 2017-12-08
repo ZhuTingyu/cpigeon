@@ -10,10 +10,9 @@ import android.widget.Toast;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
-import com.cpigeon.app.even.ContactsEvent;
+import com.cpigeon.app.event.ContactsEvent;
 import com.cpigeon.app.utils.ContactsUtil;
 import com.cpigeon.app.utils.DialogUtils;
-import com.cpigeon.app.utils.StringUtil;
 import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.customview.SearchEditText;
 import com.cpigeon.app.utils.http.GsonUtil;

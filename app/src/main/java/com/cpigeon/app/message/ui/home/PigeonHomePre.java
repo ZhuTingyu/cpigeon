@@ -20,6 +20,10 @@ public class PigeonHomePre extends BasePresenter {
     public int userId;
     int sid = 22;
 
+    public static final int STATE_NO_OPEN = 10000;
+    public static final int STATE_EXAMINEING = 10010;
+    public static final int STATE_NOT_PAY = 10011;
+
     public PigeonHomePre(IView mView) {
         super(mView);
     }
@@ -29,24 +33,23 @@ public class PigeonHomePre extends BasePresenter {
         return null;
     }
 
-    public void getUserInfo(Consumer<ApiResponse<UserGXTEntity>> consumer){
+    public void getUserInfo(Consumer<ApiResponse<UserGXTEntity>> consumer) {
         submitRequestThrowError(UserGXTModel.getUserInfo(userId).map(r -> {
-            if(r.errorCode == -1){
+            if (r.errorCode == -1) {
                 throw new HttpErrorException(r);
-            }else {
+            } else {
                 return r;
             }
-        }),consumer);
+        }), consumer);
     }
 
-    public void greatGXTOrder(Consumer<OrderInfoEntity> consumer){
+    public void greatGXTOrder(Consumer<OrderInfoEntity> consumer) {
         submitRequestThrowError(OrderModel.greatGXTOrder(userId, sid).map(r -> {
-            if(r.isOk()){
-                if(r.status){
+            if (r.isOk()) {
+                if (r.status) {
                     return r.data;
-                }else throw new HttpErrorException(r);
-            }else throw new HttpErrorException(r);
-        }),consumer);
+                } else throw new HttpErrorException(r);
+            } else throw new HttpErrorException(r);
+        }), consumer);
     }
-
 }

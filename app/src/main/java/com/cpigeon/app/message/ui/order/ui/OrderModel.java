@@ -2,7 +2,10 @@ package com.cpigeon.app.message.ui.order.ui;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.entity.OrderInfoEntity;
+import com.cpigeon.app.entity.UserBalanceEntity;
+import com.cpigeon.app.entity.WeiXinPayEntity;
 import com.cpigeon.app.message.GXYHttpUtil;
+import com.cpigeon.app.utils.EncryptionTool;
 import com.cpigeon.app.utils.databean.ApiResponse;
 import com.cpigeon.app.utils.http.HttpUtil;
 import com.google.gson.reflect.TypeToken;
@@ -24,4 +27,38 @@ public class OrderModel {
                 .addBody("sid", String.valueOf(sid))
                 .request();
     }
+
+    public static Observable<ApiResponse> payOrderByBalance(int userId, String orderId, String password) {
+        return GXYHttpUtil.<ApiResponse>build()
+                .setToJsonType(new TypeToken<ApiResponse>() {
+                }.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_pay_order_by_balance)
+                .addQueryString("u", String.valueOf(userId))
+                .addBody("oid", orderId)
+                .addBody("p", EncryptionTool.encryptAES(password))
+                .request();
+    }
+
+    public static Observable<ApiResponse<UserBalanceEntity>> getUserBalance(int userId) {
+        return GXYHttpUtil.<ApiResponse<UserBalanceEntity>>build()
+                .setToJsonType(new TypeToken<ApiResponse<UserBalanceEntity>>() {
+                }.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_user_balance_info)
+                .addQueryString("u", String.valueOf(userId))
+                .request();
+    }
+
+    public static Observable<ApiResponse<WeiXinPayEntity>> greatWXOrder(int userId, String orderId) {
+        return GXYHttpUtil.<ApiResponse<WeiXinPayEntity>>build()
+                .setToJsonType(new TypeToken<ApiResponse<WeiXinPayEntity>>() {
+                }.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_get_wx_order)
+                .addQueryString("u", String.valueOf(userId))
+                .addBody("oid", orderId)
+                .request();
+    }
+
 }

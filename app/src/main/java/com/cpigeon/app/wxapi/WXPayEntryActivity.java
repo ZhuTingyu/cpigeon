@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.cpigeon.app.event.WXPayResultEvent;
 import com.cpigeon.app.utils.CpigeonData;
 import com.orhanobut.logger.Logger;
 import com.tencent.mm.sdk.modelbase.BaseReq;
@@ -14,6 +15,8 @@ import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Administrator on 2017/1/11.
@@ -60,6 +63,7 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
                 ", openId='" + baseResp.openId + '\'' +
                 '}');// 支付结果码
         CpigeonData.getInstance().onWxPay(this, baseResp.errCode);
+        EventBus.getDefault().post(new WXPayResultEvent(baseResp.errCode));
         this.finish();
     }
 }

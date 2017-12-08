@@ -1,6 +1,7 @@
 package com.cpigeon.app.utils;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.cpigeon.app.MyApp;
@@ -14,7 +15,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class DialogUtils {
 
-    public static void createDialog(Context context, String title, String content,String left){
+    public static void createDialog(Context context, String title, String content, String left) {
         SweetAlertDialog dialogPrompt;
         dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);
         dialogPrompt.setCancelable(false);
@@ -23,8 +24,8 @@ public class DialogUtils {
                 .setConfirmText(left).show();
     }
 
-    public static void createDialog(Context context, String title, String content,String right,
-                                    SweetAlertDialog.OnSweetClickListener rightListener){
+    public static void createDialog(Context context, String title, String content, String right,
+                                    SweetAlertDialog.OnSweetClickListener rightListener) {
         SweetAlertDialog dialogPrompt;
         dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);
         dialogPrompt.setCancelable(false);
@@ -35,7 +36,7 @@ public class DialogUtils {
     }
 
     public static void createDialog(Context context, String content,
-                                    SweetAlertDialog.OnSweetClickListener rightListener){
+                                    SweetAlertDialog.OnSweetClickListener rightListener) {
         SweetAlertDialog dialogPrompt;
         dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);
         dialogPrompt.setCanceledOnTouchOutside(false);
@@ -47,7 +48,7 @@ public class DialogUtils {
     }
 
     public static void createDialogWithLeft(Context context, String content,
-                                    SweetAlertDialog.OnSweetClickListener rightListener){
+                                            SweetAlertDialog.OnSweetClickListener rightListener) {
         SweetAlertDialog dialogPrompt;
         dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);
         dialogPrompt.setCanceledOnTouchOutside(false);
@@ -64,7 +65,7 @@ public class DialogUtils {
 
     public static void createDialogWithLeft(Context context, String content,
                                             SweetAlertDialog.OnSweetClickListener leftListener,
-                                            SweetAlertDialog.OnSweetClickListener rightListener){
+                                            SweetAlertDialog.OnSweetClickListener rightListener) {
         SweetAlertDialog dialogPrompt;
         dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);
         dialogPrompt.setCanceledOnTouchOutside(false);
@@ -77,24 +78,34 @@ public class DialogUtils {
                 .setConfirmText("确定").show();
     }
 
-    public static void createDialog(Context context, View view){
+    public static void createDialog(Context context, View view) {
         SweetAlertDialog dialogPrompt;
         dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);
         dialogPrompt.setContentView(view);
     }
 
     public static void createDialog(Context context, String title, String content
-            , String left, String right, SweetAlertDialog.OnSweetClickListener leftListener, SweetAlertDialog.OnSweetClickListener rightListener){
+            , @Nullable String left, String right, @Nullable SweetAlertDialog.OnSweetClickListener leftListener, @Nullable SweetAlertDialog.OnSweetClickListener rightListener) {
 
         SweetAlertDialog dialogPrompt;
         dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);
         dialogPrompt.setCancelable(false);
-        dialogPrompt.setTitleText(title)
-                .setCancelText(left)
-                .setCancelClickListener(leftListener)
-                .setConfirmClickListener(rightListener)
-                .setContentText(content)
-                .setConfirmText(right).show();
+        dialogPrompt.setTitleText(title);
+        if (left != null) {
+            dialogPrompt.setCancelText(left);
+        }
+        dialogPrompt.setCancelClickListener(leftListener);
+        dialogPrompt.setConfirmClickListener(rightListener);
+        dialogPrompt.setContentText(content);
+        dialogPrompt.setConfirmText(right);
+        dialogPrompt.show();
+
+    }
+
+    public static void createHintDialog(Context context, String content) {
+
+        createDialog(context, "提示", content
+                , null, "确定", null,null);
 
     }
 }

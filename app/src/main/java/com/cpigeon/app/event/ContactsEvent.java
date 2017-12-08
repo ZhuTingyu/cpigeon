@@ -1,4 +1,4 @@
-package com.cpigeon.app.even;
+package com.cpigeon.app.event;
 
 /**
  * Created by Zhu TingYu on 2017/11/24.

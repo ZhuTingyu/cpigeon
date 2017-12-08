@@ -3,7 +3,6 @@ package com.cpigeon.app.message.ui.person;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,8 +18,7 @@ import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.IdCardNInfoEntity;
 import com.cpigeon.app.entity.IdCardPInfoEntity;
 import com.cpigeon.app.entity.PersonInfoEntity;
-import com.cpigeon.app.even.ContactsEvent;
-import com.cpigeon.app.even.PersonInfoEvent;
+import com.cpigeon.app.event.PersonInfoEvent;
 import com.cpigeon.app.message.adapter.PersonImageInfoAdapter;
 import com.cpigeon.app.message.ui.idCard.IdCardCameraActivity;
 import com.cpigeon.app.message.ui.modifysign.PersonSignPre;
@@ -38,7 +36,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.File;
 import java.util.List;
 
 import me.nereo.multi_image_selector.MultiImageSelector;
@@ -54,6 +51,7 @@ public class PersonInfoFragment extends BaseMVPFragment {
 
     public static final int TYPE_LOOK = 0;
     public static final int TYPE_EDIT = 1;
+    public static final int TYPE_UPLOAD_INFO = 2;
 
     private int PHOTO_SUCCESS_REQUEST = 2083;
 
@@ -90,7 +88,7 @@ public class PersonInfoFragment extends BaseMVPFragment {
         hideSoftInput();
         if(type == TYPE_LOOK){
             getPersonInfo();
-        }else {
+        }else if(type == TYPE_EDIT){
             entity = getActivity().getIntent().getParcelableExtra(IntentBuilder.KEY_DATA);
         }
         initView();
@@ -129,13 +127,9 @@ public class PersonInfoFragment extends BaseMVPFragment {
         adapter = new PersonImageInfoAdapter(getContext());
         adapter.bindToRecyclerView(recyclerView);
         adapter.addHeaderView(initHeadView());
+
         if(type == TYPE_LOOK){
             adapter.setNewData(Lists.newArrayList("","",""));
-        }else {
-            bindData(entity);
-        }
-        if(type == TYPE_LOOK){
-
             btn.setText("编辑");
             btn.setOnClickListener(v -> {
                 IntentBuilder.Builder()
@@ -145,7 +139,8 @@ public class PersonInfoFragment extends BaseMVPFragment {
             });
 
 
-        }else {
+        }else if(type == TYPE_EDIT){
+            bindData(entity);
 
             adapter.setOnItemClickListener((adapter1, view, position) -> {
 
@@ -185,6 +180,13 @@ public class PersonInfoFragment extends BaseMVPFragment {
                         error(r.msg);
                     }
                 });
+            });
+        }else if(type == TYPE_UPLOAD_INFO){
+            //TODO 开通提交鸽信通个人信息
+            adapter.setNewData(Lists.newArrayList("","",""));
+            btn.setText("提交");
+            btn.setOnClickListener(v -> {
+
             });
         }
     }

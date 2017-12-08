@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
+import com.cpigeon.app.entity.WeiXinPayEntity;
+import com.cpigeon.app.event.WXPayResultEvent;
 import com.cpigeon.app.message.ui.order.OderInfoViewHolder;
 import com.cpigeon.app.message.ui.order.adpter.OrderPayAdapter;
 import com.cpigeon.app.message.ui.order.ui.presenter.PayOrderPre;
@@ -21,14 +23,21 @@ import com.cpigeon.app.modular.home.view.activity.WebActivity;
 import com.cpigeon.app.modular.usercenter.view.activity.SetPayPwdActivity;
 import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
+import com.cpigeon.app.utils.SendWX;
+import com.cpigeon.app.utils.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by Zhu TingYu on 2017/12/7.
  */
 
-public class OrderPayFragment extends BaseMVPFragment<PayOrderPre>{
+public class OrderPayFragment extends BaseMVPFragment<PayOrderPre> {
 
     RecyclerView recyclerView;
     OrderPayAdapter adapter;
@@ -54,6 +63,7 @@ public class OrderPayFragment extends BaseMVPFragment<PayOrderPre>{
 
     @Override
     public void finishCreateView(Bundle state) {
+        EventBus.getDefault().register(this);
         initView();
     }
 
@@ -66,16 +76,31 @@ public class OrderPayFragment extends BaseMVPFragment<PayOrderPre>{
         adapter.setNewData(Lists.newArrayList("余额支付", "微信支付"));
         adapter.addHeaderView(initHeadView());
 
-        adapter.setOnItemClickListener((adapter1, view, position) -> {
-            if(position == 0){
-                showPayDialog(String.format("%.2f", CpigeonData.getInstance().getUserBalance()),mPresenter.orderInfoEntity.price);
-                bindUi(RxUtils.textChanges(edPassword),mPresenter.setPassword());
-            }else {
+        bindHeadData();
 
+        adapter.setOnItemClickListener((adapter1, view, position) -> {
+
+            if (holder.checkBox.isChecked()) {
+                if (position == 0) {
+                    mPresenter.getUserBalance(userBalanceEntity -> {
+                        showPayDialog(String.format("%.2f", userBalanceEntity.ye), mPresenter.orderInfoEntity.price);
+                        bindUi(RxUtils.textChanges(edPassword), mPresenter.setPassword());
+                    });
+
+                } else {
+                    showLoading("正在创建订单");
+                    mPresenter.getWXOrder(weiXinPayEntity -> {
+                        hideLoading();
+                        SendWX sendWX = new SendWX(getActivity());
+                        sendWX.payWeiXin(weiXinPayEntity.getPayReq());
+                    });
+                }
+            } else {
+                error("请同意中鸽网支付协议");
             }
+
         });
 
-        bindHeadData();
     }
 
     private View initHeadView() {
@@ -92,13 +117,13 @@ public class OrderPayFragment extends BaseMVPFragment<PayOrderPre>{
         return holder.itemView;
     }
 
-    protected void bindHeadData(){
+    protected void bindHeadData() {
         holder.bindData(mPresenter.orderInfoEntity);
     }
 
-    protected void showPayDialog(String balance, String price){
+    protected void showPayDialog(String balance, String price) {
         BottomSheetDialog dialog = new BottomSheetDialog(getContext());
-        View view = View.inflate(getContext(),R.layout.dialogfragment_pay,null);
+        View view = View.inflate(getContext(), R.layout.dialogfragment_pay, null);
 
         ImageView colse = findViewById(view, R.id.iv_pay_close);
         TextView title = findViewById(view, R.id.tv_yue_prompt);
@@ -107,9 +132,9 @@ public class OrderPayFragment extends BaseMVPFragment<PayOrderPre>{
         TextView meanPassword = findViewById(view, R.id.tv_mean_for_paypwd);
         TextView forgotPassword = findViewById(view, R.id.tv_forget_paypwd);
 
-        bindUi(RxUtils.textChanges(edPassword),mPresenter.setPassword());
+        bindUi(RxUtils.textChanges(edPassword), mPresenter.setPassword());
 
-        title.setText(getString(R.string.format_pay_account_balance_tips,balance,price));
+        title.setText(getString(R.string.format_pay_account_balance_tips, balance, price));
 
         colse.setOnClickListener(v -> {
             dialog.dismiss();
@@ -132,13 +157,34 @@ public class OrderPayFragment extends BaseMVPFragment<PayOrderPre>{
         });
 
 
-
         dialog.setContentView(view);
         dialog.show();
     }
 
-    private void payByBalance(){
-
+    private void payByBalance() {
+        mPresenter.payOrderByBalance(r -> {
+            if (r.status) {
+                DialogUtils.createHintDialog(getContext(), r.msg);
+            } else {
+                error(r.msg);
+            }
+        });
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(WXPayResultEvent event) {
+        if (WXPayResultEvent.CODE_OK == event.code) {
+            ToastUtil.showLongToast(getContext(), "支付成功");
+        } else if (WXPayResultEvent.CODE_ERROR == event.code) {
+            ToastUtil.showLongToast(getContext(), "支付失败");
+        } else {
+            ToastUtil.showLongToast(getContext(), "取消支付");
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

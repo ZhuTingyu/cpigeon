@@ -2,18 +2,16 @@ package com.cpigeon.app.message.ui.contacts;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
-import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.ContactsEntity;
 import com.cpigeon.app.entity.ContactsGroupEntity;
-import com.cpigeon.app.even.ContactsEvent;
+import com.cpigeon.app.event.ContactsEvent;
 import com.cpigeon.app.message.ui.contacts.presenter.ContactsInfoPre;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.RxUtils;

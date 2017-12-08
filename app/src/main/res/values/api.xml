@@ -42,4 +42,10 @@
 
     <string name="api_creat_order">CreateServiceOrder</string>
 
+    <string name="api_pay_order_by_balance">OrderPayByBalance</string>
+
+    <string name="api_user_balance_info">GetUserYEJF</string>
+
+    <string name="api_get_wx_order">GetWXPrePayOrder</string>
+
 </resources>

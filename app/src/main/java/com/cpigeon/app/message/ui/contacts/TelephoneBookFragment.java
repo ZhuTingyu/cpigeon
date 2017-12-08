@@ -8,20 +8,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
-import com.cpigeon.app.entity.MultiSelectEntity;
-import com.cpigeon.app.even.ContactsEvent;
+import com.cpigeon.app.event.ContactsEvent;
 import com.cpigeon.app.message.ui.contacts.presenter.TelephoneBookPre;
-import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.IntentBuilder;
-import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.ArrayList;
 
 /**
  * Created by Zhu TingYu on 2017/11/21.

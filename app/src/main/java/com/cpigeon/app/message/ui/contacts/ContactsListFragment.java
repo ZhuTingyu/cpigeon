@@ -10,13 +10,12 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.ContactsGroupEntity;
-import com.cpigeon.app.even.ContactsEvent;
+import com.cpigeon.app.event.ContactsEvent;
 import com.cpigeon.app.message.adapter.ContactsInfoAdapter;
 import com.cpigeon.app.message.ui.contacts.presenter.ContactsListPre;
 import com.cpigeon.app.utils.DialogUtils;
@@ -26,8 +25,6 @@ import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.customview.SearchEditText;
 
 import org.greenrobot.eventbus.EventBus;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 /**

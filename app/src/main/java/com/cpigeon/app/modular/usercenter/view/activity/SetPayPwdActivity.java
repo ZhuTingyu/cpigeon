@@ -181,6 +181,7 @@ public class SetPayPwdActivity extends BaseActivity<SetPayPwdPresenter> implemen
                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismiss();
                             finish();
                         }
                     })
