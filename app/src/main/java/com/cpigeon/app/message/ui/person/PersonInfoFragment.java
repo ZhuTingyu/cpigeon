@@ -30,6 +30,7 @@ import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.customview.SaActionSheetDialog;
+import com.cpigeon.app.utils.http.GsonUtil;
 import com.cpigeon.app.utils.http.LogUtil;
 import com.cpigeon.app.utils.inputfilter.PhotoUtil;
 import com.orhanobut.logger.Logger;
@@ -209,8 +210,10 @@ public class PersonInfoFragment extends BaseMVPFragment {
             });
             btn.setText("提交");
             btn.setOnClickListener(v -> {
+                showLoading("正在提交");
                 signPre.uploadPersonInfo(r -> {
-                    LogUtil.print(r);
+                    hideLoading();
+                    LogUtil.print(r.toJsonString());
                     if(r.status){
                         DialogUtils.createDialog(getContext(), r.msg, sweetAlertDialog -> {
                             sweetAlertDialog.dismiss();
