@@ -30,6 +30,8 @@ public abstract class BaseOrderPayFragment<P extends  BasePresenter> extends Bas
     RecyclerView recyclerView;
     OrderPayAdapter adapter;
     OderInfoViewHolder holder;
+    TextView tvPay;
+    EditText edPassword;
 
     @Override
     protected int getLayoutResource() {
@@ -47,24 +49,16 @@ public abstract class BaseOrderPayFragment<P extends  BasePresenter> extends Bas
         initView();
     }
 
-    private void initView() {
+    protected void initView() {
         setTitle("订单支付");
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new OrderPayAdapter();
-        adapter.setOnItemClickListener((adapter1, view, position) -> {
-            if(position == 0){
-                showPayDialog();
-            }else if(position == 1){
-                showPayDialog();
-            }
-        });
-
         recyclerView.setAdapter(adapter);
         adapter.setNewData(Lists.newArrayList("余额支付", "微信支付"));
         adapter.addHeaderView(initHeadView());
 
-        bindData();
+        bindHeadData();
     }
 
     private View initHeadView() {
@@ -81,22 +75,20 @@ public abstract class BaseOrderPayFragment<P extends  BasePresenter> extends Bas
         return holder.itemView;
     }
 
-    private void bindData(){
-        holder.bindData();
-    }
+    protected abstract void bindHeadData();
 
-    private void showPayDialog(){
+    protected void showPayDialog(String balance, String price){
         BottomSheetDialog dialog = new BottomSheetDialog(getContext());
         View view = View.inflate(getContext(),R.layout.dialogfragment_pay,null);
 
         ImageView colse = findViewById(view, R.id.iv_pay_close);
         TextView title = findViewById(view, R.id.tv_yue_prompt);
-        EditText password = findViewById(view, R.id.et_paypwd);
-        TextView pay = findViewById(view, R.id.tv_pay);
+        edPassword = findViewById(view, R.id.et_paypwd);
+        tvPay = findViewById(view, R.id.tv_pay);
         TextView meanPassword = findViewById(view, R.id.tv_mean_for_paypwd);
         TextView forgotPassword = findViewById(view, R.id.tv_forget_paypwd);
 
-        title.setText(getString(R.string.format_pay_account_balance_tips,"123","123"));
+        title.setText(getString(R.string.format_pay_account_balance_tips,balance,price));
 
         colse.setOnClickListener(v -> {
             dialog.dismiss();
@@ -114,9 +106,7 @@ public abstract class BaseOrderPayFragment<P extends  BasePresenter> extends Bas
             startActivity(new Intent(getActivity(), SetPayPwdActivity.class));
         });
 
-        pay.setOnClickListener(v -> {
 
-        });
 
         dialog.setContentView(view);
         dialog.show();
