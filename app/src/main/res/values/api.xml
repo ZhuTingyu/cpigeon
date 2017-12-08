@@ -40,4 +40,6 @@
     <string name="api_delete_contacts_group">GXT_SCFZ</string>
     <string name="api_delete_contacts_in_group">GXT_SCSJHM</string>
 
+    <string name="api_creat_order">CreateServiceOrder</string>
+
 </resources>

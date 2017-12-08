@@ -9,8 +9,7 @@ import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.UserGXTEntity;
 import com.cpigeon.app.message.adapter.PigeonMessageHomeAdapter;
 import com.cpigeon.app.message.ui.BaseWebViewActivity;
-import com.cpigeon.app.message.ui.order.ui.BaseOrderPayFragment;
-import com.cpigeon.app.message.ui.order.ui.CreateMessageOrderFragment;
+import com.cpigeon.app.message.ui.order.ui.OrderPayFragment;
 import com.cpigeon.app.message.ui.userAgreement.UserAgreementActivity;
 import com.cpigeon.app.message.ui.common.CommonMessageFragment;
 import com.cpigeon.app.message.ui.contacts.TelephoneBookFragment;
@@ -23,7 +22,6 @@ import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
-import com.cpigeon.app.utils.http.LogUtil;
 
 import java.util.List;
 
@@ -113,8 +111,14 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre>{
                             finish();
                         }
                         ,sweetAlertDialog -> {
-                            IntentBuilder.Builder()
-                                    .startParentActivity(getActivity(), CreateMessageOrderFragment.class);
+                            showLoading();
+                            mPresenter.greatGXTOrder(orderInfoEntity -> {
+                                hideLoading();
+                                IntentBuilder.Builder()
+                                        .putExtra(IntentBuilder.KEY_DATA, orderInfoEntity)
+                                        .startParentActivity(getActivity(), OrderPayFragment.class);
+
+                            });
                         });
 
             }

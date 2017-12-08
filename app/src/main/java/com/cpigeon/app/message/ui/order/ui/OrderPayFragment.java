@@ -16,16 +16,19 @@ import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.message.ui.order.OderInfoViewHolder;
 import com.cpigeon.app.message.ui.order.adpter.OrderPayAdapter;
+import com.cpigeon.app.message.ui.order.ui.presenter.PayOrderPre;
 import com.cpigeon.app.modular.home.view.activity.WebActivity;
 import com.cpigeon.app.modular.usercenter.view.activity.SetPayPwdActivity;
 import com.cpigeon.app.utils.CPigeonApiUrl;
+import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.RxUtils;
 
 /**
  * Created by Zhu TingYu on 2017/12/7.
  */
 
-public abstract class BaseOrderPayFragment<P extends  BasePresenter> extends BaseMVPFragment<P>{
+public class OrderPayFragment extends BaseMVPFragment<PayOrderPre>{
 
     RecyclerView recyclerView;
     OrderPayAdapter adapter;
@@ -38,6 +41,11 @@ public abstract class BaseOrderPayFragment<P extends  BasePresenter> extends Bas
         return R.layout.fragment_recyclerview_layout;
     }
 
+
+    @Override
+    protected PayOrderPre initPresenter() {
+        return new PayOrderPre(getActivity());
+    }
 
     @Override
     protected boolean isCanDettach() {
@@ -58,6 +66,15 @@ public abstract class BaseOrderPayFragment<P extends  BasePresenter> extends Bas
         adapter.setNewData(Lists.newArrayList("余额支付", "微信支付"));
         adapter.addHeaderView(initHeadView());
 
+        adapter.setOnItemClickListener((adapter1, view, position) -> {
+            if(position == 0){
+                showPayDialog(String.format("%.2f", CpigeonData.getInstance().getUserBalance()),mPresenter.orderInfoEntity.price);
+                bindUi(RxUtils.textChanges(edPassword),mPresenter.setPassword());
+            }else {
+
+            }
+        });
+
         bindHeadData();
     }
 
@@ -75,7 +92,9 @@ public abstract class BaseOrderPayFragment<P extends  BasePresenter> extends Bas
         return holder.itemView;
     }
 
-    protected abstract void bindHeadData();
+    protected void bindHeadData(){
+        holder.bindData(mPresenter.orderInfoEntity);
+    }
 
     protected void showPayDialog(String balance, String price){
         BottomSheetDialog dialog = new BottomSheetDialog(getContext());
@@ -88,10 +107,16 @@ public abstract class BaseOrderPayFragment<P extends  BasePresenter> extends Bas
         TextView meanPassword = findViewById(view, R.id.tv_mean_for_paypwd);
         TextView forgotPassword = findViewById(view, R.id.tv_forget_paypwd);
 
+        bindUi(RxUtils.textChanges(edPassword),mPresenter.setPassword());
+
         title.setText(getString(R.string.format_pay_account_balance_tips,balance,price));
 
         colse.setOnClickListener(v -> {
             dialog.dismiss();
+        });
+
+        tvPay.setOnClickListener(v -> {
+            payByBalance();
         });
 
         meanPassword.setOnClickListener(v -> {
@@ -110,6 +135,10 @@ public abstract class BaseOrderPayFragment<P extends  BasePresenter> extends Bas
 
         dialog.setContentView(view);
         dialog.show();
+    }
+
+    private void payByBalance(){
+
     }
 
 }

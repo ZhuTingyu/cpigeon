@@ -18,6 +18,6 @@ public class RechargeHistoryAdapter extends BaseQuickAdapter<String, OderInfoVie
 
     @Override
     protected void convert(OderInfoViewHolder holder, String item) {
-        holder.bindData();
+        //holder.bindData();
     }
 }

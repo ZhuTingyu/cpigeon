@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseViewHolder;
+import com.cpigeon.app.entity.OrderInfoEntity;
 
 /**
  * Created by Zhu TingYu on 2017/12/7.
@@ -38,11 +39,11 @@ public class OderInfoViewHolder extends BaseViewHolder {
         tvProtocol = getView(R.id.tv_order_protocol);
     }
 
-    public void bindData(){
-        orderId.setText("123123");
-        orderContent.setText("123123");
-        orderTime.setText("123123");
-        orderPrice.setText("123123");
+    public void bindData(OrderInfoEntity entity){
+        orderId.setText(entity.number);
+        orderContent.setText(entity.item);
+        orderTime.setText(entity.time);
+        orderPrice.setText(entity.price + "元");
     }
 
     public void visibleBottom(){

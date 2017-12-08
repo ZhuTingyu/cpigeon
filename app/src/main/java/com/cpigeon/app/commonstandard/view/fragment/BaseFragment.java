@@ -321,6 +321,9 @@ public abstract class BaseFragment extends Fragment implements IView {
     }
 
     protected void hideLoading(){
+
+        showTips("", TipType.LoadingHide);
+
         if(refreshLayout != null){
             refreshLayout.setRefreshing(false);
         }

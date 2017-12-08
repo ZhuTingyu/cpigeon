@@ -3,7 +3,9 @@ package com.cpigeon.app.message.ui.home;
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.IView;
+import com.cpigeon.app.entity.OrderInfoEntity;
 import com.cpigeon.app.entity.UserGXTEntity;
+import com.cpigeon.app.message.ui.order.ui.OrderModel;
 import com.cpigeon.app.utils.databean.ApiResponse;
 import com.cpigeon.app.utils.http.HttpErrorException;
 
@@ -16,6 +18,7 @@ import io.reactivex.functions.Consumer;
 public class PigeonHomePre extends BasePresenter {
 
     public int userId;
+    int sid = 22;
 
     public PigeonHomePre(IView mView) {
         super(mView);
@@ -33,6 +36,16 @@ public class PigeonHomePre extends BasePresenter {
             }else {
                 return r;
             }
+        }),consumer);
+    }
+
+    public void greatGXTOrder(Consumer<OrderInfoEntity> consumer){
+        submitRequestThrowError(OrderModel.greatGXTOrder(userId, sid).map(r -> {
+            if(r.isOk()){
+                if(r.status){
+                    return r.data;
+                }else throw new HttpErrorException(r);
+            }else throw new HttpErrorException(r);
         }),consumer);
     }
 
