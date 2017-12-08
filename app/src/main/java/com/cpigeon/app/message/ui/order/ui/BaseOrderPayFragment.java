@@ -14,20 +14,18 @@ import android.widget.TextView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
-import com.cpigeon.app.message.ui.BaseWebViewActivity;
 import com.cpigeon.app.message.ui.order.OderInfoViewHolder;
 import com.cpigeon.app.message.ui.order.adpter.OrderPayAdapter;
 import com.cpigeon.app.modular.home.view.activity.WebActivity;
 import com.cpigeon.app.modular.usercenter.view.activity.SetPayPwdActivity;
 import com.cpigeon.app.utils.CPigeonApiUrl;
-import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 
 /**
  * Created by Zhu TingYu on 2017/12/7.
  */
 
-public class BaseOrderPayFragment extends BaseMVPFragment{
+public abstract class BaseOrderPayFragment<P extends  BasePresenter> extends BaseMVPFragment<P>{
 
     RecyclerView recyclerView;
     OrderPayAdapter adapter;
@@ -38,10 +36,6 @@ public class BaseOrderPayFragment extends BaseMVPFragment{
         return R.layout.fragment_recyclerview_layout;
     }
 
-    @Override
-    protected BasePresenter initPresenter() {
-        return null;
-    }
 
     @Override
     protected boolean isCanDettach() {

@@ -25,6 +25,9 @@ public class DateTool {
 
     public final static String FORMAT_YYYY_MM = "yyyy-MM";
 
+    public final static String FORMAT_MM = "MM";
+    public final static String FORMAT_DD = "dd";
+
     //字符串转换为日期
     public static Date strToDate(String strDate) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(FORMAT_DATE);

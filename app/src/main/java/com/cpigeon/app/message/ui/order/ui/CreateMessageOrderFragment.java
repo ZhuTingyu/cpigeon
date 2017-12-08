@@ -3,13 +3,16 @@ package com.cpigeon.app.message.ui.order.ui;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 
 import java.util.List;
@@ -23,7 +26,7 @@ public class CreateMessageOrderFragment extends BaseMVPFragment{
     AppCompatTextView tvExplain;
     AppCompatTextView tvPrice;
     AppCompatButton btnLook;
-
+    AppCompatEditText edCount;
 
     List<AppCompatTextView> selectTvs;
 
@@ -57,6 +60,7 @@ public class CreateMessageOrderFragment extends BaseMVPFragment{
 
         toolbar.getMenu().add("充值记录")
                 .setOnMenuItemClickListener(item -> {
+                    IntentBuilder.Builder().startParentActivity(getActivity(), RechargeHistoryFragment.class);
                     return false;
                 }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
@@ -66,6 +70,8 @@ public class CreateMessageOrderFragment extends BaseMVPFragment{
 
         tvExplain = findViewById(R.id.tv_explain);
         tvPrice = findViewById(R.id.order_price);
+
+        edCount = findViewById(R.id.ed_count);
 
         tvExplain.setText(getString(R.string.string_text_create_message_order_explain,"1231","123"));
 
@@ -85,11 +91,15 @@ public class CreateMessageOrderFragment extends BaseMVPFragment{
     }
 
     private void setTvExplainListener(int position){
+
+        if(position == 4){
+            edCount.setEnabled(true);
+        }else edCount.setEnabled(false);
+
         for (int i = 0, len = selectTvs.size(); i < len; i++) {
             AppCompatTextView textView = selectTvs.get(i);
 
             if(position == i){
-
                 Drawable drawable = getResources().getDrawable(R.drawable.ic_blue_hook);
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                 textView.setCompoundDrawables(drawable,null,null,null);
