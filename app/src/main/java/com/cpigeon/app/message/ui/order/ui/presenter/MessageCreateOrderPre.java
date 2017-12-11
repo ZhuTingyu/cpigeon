@@ -9,7 +9,8 @@ import com.cpigeon.app.message.ui.order.ui.OrderModel;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.http.HttpErrorException;
 
-import java.util.function.Consumer;
+import io.reactivex.functions.Consumer;
+
 
 /**
  * Created by Zhu TingYu on 2017/12/8.
@@ -30,8 +31,12 @@ public class MessageCreateOrderPre extends BasePresenter {
         return null;
     }
 
-    public void greatOrder(io.reactivex.functions.Consumer<OrderInfoEntity> consumer) {
-
+    public void greatOrder(Consumer<OrderInfoEntity> consumer) {
+        submitRequestThrowError(OrderModel.greatServiceOrder(userId, SID_MESSAGE).map(r -> {
+            if(r.isHaveDate()){
+                return r.data;
+            }else throw new HttpErrorException(r);
+        }),consumer);
     }
 
 }

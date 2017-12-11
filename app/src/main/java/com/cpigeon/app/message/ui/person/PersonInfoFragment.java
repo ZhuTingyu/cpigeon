@@ -210,8 +210,8 @@ public class PersonInfoFragment extends BaseMVPFragment {
             });
             btn.setText("提交");
             btn.setOnClickListener(v -> {
-                showLoading("正在提交");
                 signPre.uploadPersonInfo(r -> {
+                    showLoading("正在提交");
                     hideLoading();
                     LogUtil.print(r.toJsonString());
                     if(r.status){

@@ -4,11 +4,14 @@ import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
 import com.cpigeon.app.entity.PersonInfoEntity;
 import com.cpigeon.app.message.GXYHttpUtil;
+import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.CommonTool;
+import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.databean.ApiResponse;
 import com.cpigeon.app.utils.http.CommonUitls;
 import com.cpigeon.app.utils.http.HttpUtil;
+import com.cpigeon.app.utils.http.LogUtil;
 import com.cpigeon.app.utils.http.RetrofitHelper;
 import com.google.gson.reflect.TypeToken;
 
@@ -87,7 +90,7 @@ public class PersonSignModel {
                 .addFormDataPart("minzu",getString(familyName) )
                 .addFormDataPart("zhuzhi",getString(address) )
                 .addFormDataPart("haoma", getString(idCardNumber))
-                .addFormDataPart("qianfajiguan",getString(organization) )
+                .addFormDataPart("qianfajiguan",getString(organization))
                 .addFormDataPart("youxiaoqi", getString(idCardDate));
 
         if (imgIdCardP != null) {
@@ -248,6 +251,28 @@ public class PersonSignModel {
             builder.addPart(MultipartBody.Part.createFormData("gswj",imgLicense.getName(),
                     RequestBody.create(MediaType.parse("image/*"), imgLicense)));
         }
+
+        LogUtil.print("{\n");
+        for (String key : map.keySet()) {
+            LogUtil.print(key + ": " + map.get(key)+"\n");
+        }
+
+        if(imgIdCardP != null){
+            LogUtil.print("sfzzm" + ": " + imgIdCardP.getPath()+"\n");
+        }
+
+        if(imgIdCardN != null){
+            LogUtil.print("sfzbm" + ": " + imgIdCardN.getPath()+"\n");
+        }
+
+        if(imgLicense != null){
+            LogUtil.print("gswj" + ": " + imgLicense.getPath()+"\n");
+        }
+
+        LogUtil.print("}");
+
+        LogUtil.print(CPigeonApiUrl.getInstance().getServer()
+                + "/CPAPI/V1/"+"GXT_TJGRXX");
 
         RequestBody requestBody = builder.build();
 
