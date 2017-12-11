@@ -5,8 +5,11 @@ import android.os.Bundle;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.modular.matchlive.presenter.SearchMatchPre;
+import com.cpigeon.app.modular.matchlive.view.adapter.JiGeDataAdapter;
+import com.cpigeon.app.modular.matchlive.view.adapter.RaceReportAdapter;
 import com.cpigeon.app.modular.matchlive.view.adapter.SearchJGAdapter;
 import com.cpigeon.app.modular.matchlive.view.adapter.SearchMatchAdapter;
+import com.cpigeon.app.utils.IntentBuilder;
 
 /**
  * Created by Zhu TingYu on 2017/12/11.
@@ -14,8 +17,9 @@ import com.cpigeon.app.modular.matchlive.view.adapter.SearchMatchAdapter;
 
 public class SearchJGFragment extends BaseSearchResultFragment<SearchMatchPre> {
 
-     SearchJGAdapter adapter;
+    JiGeDataAdapter adapter;
 
+    int currentPosition = -1;
     @Override
     protected SearchMatchPre initPresenter() {
         return new SearchMatchPre(getActivity());
@@ -26,11 +30,50 @@ public class SearchJGFragment extends BaseSearchResultFragment<SearchMatchPre> {
         super.initView();
         tvTitle1.setText("序号");
 
-        adapter = new SearchJGAdapter();
+        adapter = new JiGeDataAdapter(mPresenter.matchInfo.getLx());
         recyclerView.setAdapter(adapter);
 
-        mPresenter.getJGMessage(data -> {
-            adapter.setNewData(data);
+
+        adapter.setOnItemClickListener((adapter1, view, position) -> {
+            Object item = ((JiGeDataAdapter) adapter).getData().get(position);
+            if(item instanceof JiGeDataAdapter.JiGeTitleItem_XH
+                    || item instanceof JiGeDataAdapter.JiGeTitleItem_GP){
+                if(currentPosition == -1){ //当前没有展开项
+                    adapter.expand(position);
+                    currentPosition = position;
+
+                }else {
+                    if(currentPosition == position){
+                        adapter.collapse(position);
+                        currentPosition = -1;
+                    }else if(currentPosition > position){
+                        adapter.collapse(currentPosition);
+                        adapter.expand(position);
+                        currentPosition = position;
+                    }else {
+                        adapter.collapse(currentPosition);
+                        int expandPosition = position - 1;
+                        adapter.expand(expandPosition);
+                        currentPosition = expandPosition;
+                    }
+                }
+            }
+
         });
+
+        showLoading();
+
+        if (mPresenter.matchInfo.getLx().equals("xh")) {
+            mPresenter.getJGMessageXH(data -> {
+                hideLoading();
+                adapter.setNewData(JiGeDataAdapter.getXH(data));
+            });
+        }else {
+            mPresenter.getJGMessageGP(data -> {
+                hideLoading();
+                adapter.setNewData(JiGeDataAdapter.getGP(data));
+            });
+        }
+
     }
 }

@@ -55,7 +55,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  * Created by Administrator on 2017/4/10.
  */
 
-public class RaceReportActivity extends BaseActivity<RaceReportPre> implements IRaceReportView, RaceDetailsFragment.DialogFragmentDataImpl {
+public class  RaceReportActivity extends BaseActivity<RaceReportPre> implements IRaceReportView, RaceDetailsFragment.DialogFragmentDataImpl {
     @BindView(R.id.race_details_marqueetv)
     MarqueeTextView raceDetailsMarqueetv;
     @BindView(R.id.toolbar)

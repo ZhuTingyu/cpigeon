@@ -90,6 +90,7 @@ public class ReportDataFragment extends BasePageTurnFragment<RacePre, RaceReport
                 IntentBuilder.Builder()
                         .putExtra(IntentBuilder.KEY_DATA, matchInfo)
                         .putExtra(BaseSearchResultFragment.KEY_WORD, keyword)
+                        .putExtra(IntentBuilder.KEY_TYPE, matchInfo.getLx())
                         .startParentActivity(getSupportActivity(), SearchReportFragment.class);
                 searchEditText.setText(keyword);
             }

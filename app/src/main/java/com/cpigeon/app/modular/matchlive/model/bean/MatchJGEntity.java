@@ -4,7 +4,7 @@ package com.cpigeon.app.modular.matchlive.model.bean;
  * Created by Zhu TingYu on 2017/12/11.
  */
 
-public class MatchEntity {
+public class MatchJGEntity {
 
     /**
      * id : 11927024

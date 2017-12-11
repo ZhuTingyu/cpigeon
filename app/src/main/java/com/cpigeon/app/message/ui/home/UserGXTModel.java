@@ -18,8 +18,8 @@ class UserGXTModel {
         return GXYHttpUtil.<ApiResponse<UserGXTEntity>>build()
                 .setToJsonType(new TypeToken<ApiResponse<UserGXTEntity>>(){}.getType())
                 .url(R.string.api_user_info)
-                .setType(HttpUtil.TYPE_GET)
-                .addParameter("u",userId)
+                .setType(HttpUtil.TYPE_POST)
+                .addQueryString("u",String.valueOf(userId))
                 .request();
     }
 }

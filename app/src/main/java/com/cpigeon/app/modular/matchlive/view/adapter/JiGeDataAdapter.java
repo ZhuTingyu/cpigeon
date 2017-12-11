@@ -10,6 +10,7 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchPigeonsGP;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchPigeonsXH;
 import com.cpigeon.app.utils.EncryptionTool;
+import com.cpigeon.app.utils.StringValid;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,12 +57,18 @@ public class JiGeDataAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
                     mc = titleItem.getMatchPigeonsXH().getOrder();
                     name = titleItem.getMatchPigeonsXH().getName();
                     footNumber = EncryptionTool.decryptAES(titleItem.getMatchPigeonsXH().getFoot());
+                    if(!StringValid.isStringValid(footNumber)){
+                        footNumber = titleItem.getMatchPigeonsXH().getFoot();
+                    }
 
                 } else {
                     JiGeTitleItem_GP titleItem = (JiGeTitleItem_GP) item;
                     mc = titleItem.getMatchPigeonsGP().getOrder();
                     name = titleItem.getMatchPigeonsGP().getName();
                     footNumber = EncryptionTool.decryptAES(titleItem.getMatchPigeonsGP().getFoot());
+                    if(!StringValid.isStringValid(footNumber)){
+                        footNumber = titleItem.getMatchPigeonsGP().getFoot();
+                    }
                 }
                 helper.setText(R.id.report_info_item_mc, mc + "");
                 helper.setText(R.id.report_info_item_xm, name);

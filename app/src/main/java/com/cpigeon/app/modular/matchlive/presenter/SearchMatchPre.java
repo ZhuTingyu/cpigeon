@@ -5,8 +5,11 @@ import android.app.Activity;
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
+import com.cpigeon.app.modular.matchlive.model.bean.MatchPigeonsGP;
+import com.cpigeon.app.modular.matchlive.model.bean.MatchPigeonsXH;
+import com.cpigeon.app.modular.matchlive.model.bean.MatchReportGP;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchReportXH;
-import com.cpigeon.app.modular.matchlive.model.bean.MatchEntity;
+import com.cpigeon.app.modular.matchlive.model.bean.MatchJGEntity;
 import com.cpigeon.app.modular.matchlive.model.daoimpl.MatchModel;
 import com.cpigeon.app.modular.matchlive.view.fragment.BaseSearchResultFragment;
 import com.cpigeon.app.utils.CpigeonData;
@@ -25,7 +28,7 @@ import io.reactivex.functions.Consumer;
 public class SearchMatchPre extends BasePresenter {
 
     int userId;
-    MatchInfo matchInfo;
+    public MatchInfo matchInfo;
     String key;
 
     public SearchMatchPre(Activity activity) {
@@ -40,8 +43,8 @@ public class SearchMatchPre extends BasePresenter {
         return null;
     }
 
-    public void getReport(Consumer<List<MatchReportXH>> consumer){
-        submitRequestThrowError(MatchModel.greatReport(userId, matchInfo.getLx(), matchInfo.getSsid(),key).map(r -> {
+    public void getReportXH(Consumer<List<MatchReportXH>> consumer){
+        submitRequestThrowError(MatchModel.greatReportXH(userId, matchInfo.getLx(), matchInfo.getSsid(),key).map(r -> {
             if(r.isOk()){
                 if(r.status){
                     return r.data;
@@ -50,8 +53,28 @@ public class SearchMatchPre extends BasePresenter {
         }),consumer);
     }
 
-    public void getJGMessage(Consumer<List<MatchEntity>> consumer){
-        submitRequestThrowError(MatchModel.getJGMessage(userId, matchInfo.getLx(), matchInfo.getSsid(),key).map(r -> {
+    public void getReportGP(Consumer<List<MatchReportGP>> consumer){
+        submitRequestThrowError(MatchModel.greatReportGP(userId, matchInfo.getLx(), matchInfo.getSsid(),key).map(r -> {
+            if(r.isOk()){
+                if(r.status){
+                    return r.data;
+                }else return Lists.newArrayList();
+            }else throw new HttpErrorException(r);
+        }),consumer);
+    }
+
+    public void getJGMessageXH(Consumer<List<MatchPigeonsXH>> consumer){
+        submitRequestThrowError(MatchModel.getJGMessageXH(userId, matchInfo.getLx(), matchInfo.getSsid(),key).map(r -> {
+            if(r.isOk()){
+                if(r.status){
+                    return r.data;
+                }else return Lists.newArrayList();
+            }else throw new HttpErrorException(r);
+        }),consumer);
+    }
+
+    public void getJGMessageGP(Consumer<List<MatchPigeonsGP>> consumer){
+        submitRequestThrowError(MatchModel.getJGMessageGP(userId, matchInfo.getLx(), matchInfo.getSsid(),key).map(r -> {
             if(r.isOk()){
                 if(r.status){
                     return r.data;

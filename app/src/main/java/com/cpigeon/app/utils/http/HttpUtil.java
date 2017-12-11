@@ -4,6 +4,7 @@ package com.cpigeon.app.utils.http;
 import android.support.annotation.StringRes;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.cpigeon.app.MyApp;
 import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.CallAPI;
@@ -133,7 +134,7 @@ public class HttpUtil<T> {
         LogUtil.print(requestParams.getUri());
         Observable<T> observable = RxNet.newRequest(this)
                 .map(s -> {
-                    return GsonUtil.fromJson(s, toJsonType);
+                    return JSON.parseObject(s, toJsonType);
                 });
 
         observable = observable.map(e -> {

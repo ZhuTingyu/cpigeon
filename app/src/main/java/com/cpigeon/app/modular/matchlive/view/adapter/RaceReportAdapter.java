@@ -10,6 +10,7 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchReportGP;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchReportXH;
 import com.cpigeon.app.utils.EncryptionTool;
+import com.cpigeon.app.utils.StringValid;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -53,13 +54,22 @@ public class RaceReportAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity
                     mc = titleItem.getMatchReportXH().getMc();
                     name = titleItem.getMatchReportXH().getName();
                     footNumber = EncryptionTool.decryptAES(titleItem.getMatchReportXH().getFoot());
+                    if(!StringValid.isStringValid(footNumber)){
+                        footNumber = titleItem.getMatchReportXH().getFoot();
+                    }
 
                 } else {
                     MatchTitleGPItem titleItem = (MatchTitleGPItem) item;
                     mc = titleItem.getMatchReportGP().getMc();
                     name = titleItem.getMatchReportGP().getName();
                     footNumber = EncryptionTool.decryptAES(titleItem.getMatchReportGP().getFoot());
+                    if(!StringValid.isStringValid(footNumber)){
+                        footNumber = titleItem.getMatchReportGP().getFoot();
+                    }
                 }
+
+
+
                 switch (mc)
                 {
                     case 1:
