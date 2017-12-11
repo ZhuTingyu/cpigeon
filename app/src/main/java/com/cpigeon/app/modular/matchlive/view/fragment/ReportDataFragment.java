@@ -3,9 +3,7 @@ package com.cpigeon.app.modular.matchlive.view.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,19 +13,16 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.fragment.BasePageTurnFragment;
 import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongRace;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
-import com.cpigeon.app.modular.matchlive.model.bean.MatchReportGP;
-import com.cpigeon.app.modular.matchlive.model.bean.MatchReportXH;
 import com.cpigeon.app.modular.matchlive.presenter.RacePre;
 import com.cpigeon.app.modular.matchlive.view.activity.RaceReportActivity;
 import com.cpigeon.app.modular.matchlive.view.adapter.RaceReportAdapter;
 import com.cpigeon.app.modular.matchlive.view.fragment.viewdao.IReportData;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.customview.SaActionSheetDialog;
 import com.cpigeon.app.utils.customview.SearchEditText;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Created by Administrator on 2017/4/15.
@@ -91,7 +86,11 @@ public class ReportDataFragment extends BasePageTurnFragment<RacePre, RaceReport
         searchEditText.setOnSearchClickListener(new SearchEditText.OnSearchClickListener() {
             @Override
             public void onSearchClick(View view, String keyword) {
-                search(keyword);
+                //search(keyword);
+                IntentBuilder.Builder()
+                        .putExtra(IntentBuilder.KEY_DATA, matchInfo)
+                        .putExtra(BaseSearchResultFragment.KEY_WORD, keyword)
+                        .startParentActivity(getSupportActivity(), SearchReportFragment.class);
                 searchEditText.setText(keyword);
             }
         });

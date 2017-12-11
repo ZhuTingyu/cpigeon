@@ -49,5 +49,6 @@
     <string name="api_get_wx_order">GetWXPrePayOrder</string>
     
     <string name="api_get_match_race_report">RaceReport</string>
+    <string name="api_get_JG_message">GetJGSJ</string>
 
 </resources>

@@ -22,7 +22,7 @@ public abstract class BaseSearchResultFragment<P extends BasePresenter> extends 
     TextView tvTitle3;
 
 
-
+    public static final String KEY_WORD = "KEY_WORD";
 
     @Override
     protected boolean isCanDettach() {
@@ -36,9 +36,14 @@ public abstract class BaseSearchResultFragment<P extends BasePresenter> extends 
 
     protected void initView() {
 
+        setTitle("搜索结果");
+
         tvTitle1 = findViewById(R.id.tv_title1);
-        tvTitle1 = findViewById(R.id.tv_title2);
-        tvTitle1 = findViewById(R.id.tv_title3);
+        tvTitle2 = findViewById(R.id.tv_title2);
+        tvTitle3 = findViewById(R.id.tv_title3);
+
+        tvTitle2.setText("姓名");
+        tvTitle3.setText("足环号码");
 
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

@@ -7,23 +7,6 @@
     android:layout_margin="16dp"
     android:layout_height="match_parent">
 
-    <com.cpigeon.app.utils.customview.SearchEditText
-        android:id="@+id/widget_title_bar_search"
-        style="@style/searchedittextstyle"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/search_edittext_height"
-        android:layout_marginLeft="@dimen/search_edittext_home_margin_h"
-        android:layout_marginRight="@dimen/search_edittext_home_margin_h"
-        android:dropDownHeight="12dp"
-        android:hint="搜索"
-        android:paddingRight="@dimen/dp_10"
-        android:textColor="@color/light_black2"
-        android:textColorHint="@color/search_edit_gray"
-        app:drawableDel="@mipmap/ic_delete"
-        app:search_gravity="left"/>
-
-
-
     <LinearLayout
         android:id="@+id/report_info_item_layout_jyxx"
         android:layout_width="match_parent"

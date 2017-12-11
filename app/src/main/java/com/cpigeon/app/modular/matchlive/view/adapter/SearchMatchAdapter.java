@@ -6,8 +6,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseViewHolder;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchReportXH;
+import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.EncryptionTool;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.http.CommonUitls;
 
 import java.util.List;
 
@@ -15,9 +17,9 @@ import java.util.List;
  * Created by Zhu TingYu on 2017/12/11.
  */
 
-public class SearchReportAdapter extends BaseQuickAdapter<MatchReportXH, BaseViewHolder> {
+public class SearchMatchAdapter extends BaseQuickAdapter<MatchReportXH, BaseViewHolder> {
 
-    public SearchReportAdapter() {
+    public SearchMatchAdapter() {
         super(R.layout.listitem_report_info, Lists.newArrayList());
     }
 
@@ -25,7 +27,7 @@ public class SearchReportAdapter extends BaseQuickAdapter<MatchReportXH, BaseVie
     protected void convert(BaseViewHolder helper, MatchReportXH item) {
         int mc = item.getMc();
         String name = item.getName();
-        String footNumber = EncryptionTool.decryptAES(item.getFoot());
+        String footNumber = item.getFoot();
 
 
         switch (mc) {
@@ -51,5 +53,13 @@ public class SearchReportAdapter extends BaseQuickAdapter<MatchReportXH, BaseVie
         }
         helper.setText(R.id.report_info_item_xm, name);
         helper.setText(R.id.report_info_item_hh, footNumber);
+    }
+
+    @Override
+    public void setNewData(List<MatchReportXH> data) {
+        super.setNewData(data);
+        if(data.isEmpty()){
+            CommonTool.setEmptyView(this,"没有搜索到信息");
+        }
     }
 }

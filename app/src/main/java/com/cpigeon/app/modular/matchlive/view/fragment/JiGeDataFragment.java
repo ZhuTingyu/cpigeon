@@ -26,6 +26,7 @@ import com.cpigeon.app.modular.matchlive.view.activity.RaceReportActivity;
 import com.cpigeon.app.modular.matchlive.view.adapter.JiGeDataAdapter;
 import com.cpigeon.app.modular.matchlive.view.adapter.RaceReportAdapter;
 import com.cpigeon.app.modular.matchlive.view.fragment.viewdao.IReportData;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.customview.SaActionSheetDialog;
 import com.cpigeon.app.utils.customview.SearchEditText;
 import com.orhanobut.logger.Logger;
@@ -81,7 +82,11 @@ public class JiGeDataFragment extends BasePageTurnFragment<JiGePre, JiGeDataAdap
         searchEditText.setOnSearchClickListener(new SearchEditText.OnSearchClickListener() {
             @Override
             public void onSearchClick(View view, String keyword) {
-                search(keyword);
+                //search(keyword);
+                IntentBuilder.Builder()
+                        .putExtra(IntentBuilder.KEY_DATA, matchInfo)
+                        .putExtra(BaseSearchResultFragment.KEY_WORD, keyword)
+                        .startParentActivity(getSupportActivity(), SearchJGFragment.class);
                 searchEditText.setText(keyword);
             }
         });

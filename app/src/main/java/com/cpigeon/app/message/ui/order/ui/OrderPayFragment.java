@@ -24,6 +24,7 @@ import com.cpigeon.app.modular.usercenter.view.activity.SetPayPwdActivity;
 import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.DialogUtils;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.SendWX;
@@ -39,11 +40,15 @@ import org.greenrobot.eventbus.ThreadMode;
 
 public class OrderPayFragment extends BaseMVPFragment<PayOrderPre> {
 
+    public static final String TYPE_OPNE_GXT = "TYPE_OPNE_GXT";
+
     RecyclerView recyclerView;
     OrderPayAdapter adapter;
     OderInfoViewHolder holder;
     TextView tvPay;
     EditText edPassword;
+
+    String type;
 
     @Override
     protected int getLayoutResource() {
@@ -64,6 +69,7 @@ public class OrderPayFragment extends BaseMVPFragment<PayOrderPre> {
     @Override
     public void finishCreateView(Bundle state) {
         EventBus.getDefault().register(this);
+        type = getActivity().getIntent().getStringExtra(IntentBuilder.KEY_TYPE);
         initView();
     }
 
@@ -164,7 +170,14 @@ public class OrderPayFragment extends BaseMVPFragment<PayOrderPre> {
     private void payByBalance() {
         mPresenter.payOrderByBalance(r -> {
             if (r.status) {
-                DialogUtils.createHintDialog(getContext(), r.msg);
+                DialogUtils.createDialog(getContext(),r.msg, sweetAlertDialog -> {
+                    if(type.equals(TYPE_OPNE_GXT)){
+
+                    }else {
+                        sweetAlertDialog.dismiss();
+                        finish();
+                    }
+                });
             } else {
                 error(r.msg);
             }

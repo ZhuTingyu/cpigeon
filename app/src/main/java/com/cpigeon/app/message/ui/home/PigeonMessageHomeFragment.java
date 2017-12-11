@@ -105,7 +105,6 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
                 initView();
             } else {
                 if (r.errorCode == PigeonHomePre.STATE_NO_OPEN) {
-                    //todo 打开上面的，删掉下面的
                     DialogUtils.createDialogWithLeft(getContext()
                             , getString(R.string.message_not_open_pigeon_message)
                             , sweetAlertDialog -> {
@@ -138,6 +137,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
                                 mPresenter.greatOrder(orderInfoEntity -> {
                                     hideLoading();
                                     IntentBuilder.Builder()
+                                            .putExtra(IntentBuilder.KEY_TYPE, OrderPayFragment.TYPE_OPNE_GXT)
                                             .putExtra(IntentBuilder.KEY_DATA, orderInfoEntity)
                                             .startParentActivity(getActivity(), OrderPayFragment.class);
                                     sweetAlertDialog.dismiss();

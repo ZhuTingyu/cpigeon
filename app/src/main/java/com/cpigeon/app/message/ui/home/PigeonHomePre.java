@@ -35,10 +35,10 @@ public class PigeonHomePre extends BasePresenter {
 
     public void getUserInfo(Consumer<ApiResponse<UserGXTEntity>> consumer) {
         submitRequestThrowError(UserGXTModel.getUserInfo(userId).map(r -> {
-            if (r.errorCode == -1) {
-                throw new HttpErrorException(r);
-            } else {
+            if (r.isHaveDate()) {
                 return r;
+            } else {
+                throw new HttpErrorException(r);
             }
         }), consumer);
     }
