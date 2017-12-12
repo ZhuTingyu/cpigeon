@@ -25,6 +25,7 @@ public class MatchModel {
                 .setToJsonType(new TypeToken<ApiResponse<List<MatchReportXH>>>() {
                 }.getType())
                 .setType(HttpUtil.TYPE_POST)
+                .setCache()
                 .url(R.string.api_get_match_race_report)
                 .addQueryString("u", String.valueOf(userId))
                 .addBody("t", String.valueOf("gp".equals(matchType) ? 1 : 2))
@@ -41,6 +42,7 @@ public class MatchModel {
                 .setToJsonType(new TypeToken<ApiResponse<List<MatchReportGP>>>() {
                 }.getType())
                 .setType(HttpUtil.TYPE_POST)
+                .setCache()
                 .url(R.string.api_get_match_race_report)
                 .addQueryString("u", String.valueOf(userId))
                 .addBody("t", String.valueOf("gp".equals(matchType) ? 1 : 2))
@@ -58,6 +60,7 @@ public class MatchModel {
                 .setToJsonType(new TypeToken<ApiResponse<List<MatchPigeonsXH>>>() {
                 }.getType())
                 .setType(HttpUtil.TYPE_POST)
+                .setCache()
                 .url(R.string.api_get_JG_message)
                 .addQueryString("u", String.valueOf(userId))
                 .addBody("t", String.valueOf("gp".equals(matchType) ? 1 : 2))
@@ -74,6 +77,7 @@ public class MatchModel {
                 .setToJsonType(new TypeToken<ApiResponse<List<MatchPigeonsGP>>>() {
                 }.getType())
                 .setType(HttpUtil.TYPE_POST)
+                .setCache()
                 .url(R.string.api_get_JG_message)
                 .addQueryString("u", String.valueOf(userId))
                 .addBody("t", String.valueOf("gp".equals(matchType) ? 1 : 2))

@@ -8,9 +8,11 @@ import com.alibaba.fastjson.JSON;
 import com.cpigeon.app.MyApp;
 import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.CallAPI;
+import com.cpigeon.app.utils.CpigeonConfig;
 import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.databean.ApiResponse;
 import com.google.gson.reflect.TypeToken;
+import com.orhanobut.logger.Logger;
 
 import org.xutils.HttpManager;
 import org.xutils.common.Callback;
@@ -41,6 +43,12 @@ public class HttpUtil<T> {
     private Type toJsonType;
 
     private String headUrl;
+
+    String url;
+
+    String cacheKey;
+
+    boolean isHaveCache = false;
 
 
     public static <T> HttpUtil<T> builder() {
@@ -94,16 +102,34 @@ public class HttpUtil<T> {
 
 
     public HttpUtil<T> url(@StringRes int url) {
+        this.url = MyApp.getInstance().getBaseContext().getString(url);
         String stringUrl;
         stringUrl = CPigeonApiUrl.getInstance().getServer()
                 + headUrl
-                + MyApp.getInstance().getBaseContext().getString(url);
+                + this.url;
         requestParams.setUri(stringUrl);
+
         return this;
     }
 
     public HttpUtil<T> addHeader(String name, String value) {
         requestParams.addHeader(name, value);
+        return this;
+    }
+
+    /**
+     *设置可以缓存
+     * 放在设置url之前
+     * @return
+     */
+
+    public HttpUtil<T>  setCache(){
+        this.isHaveCache = true;
+
+        requestParams.setCacheMaxAge(CpigeonConfig.CACHE_MATCH_REPORT_INFO_TIME);
+
+        cacheKey = getCacheKey(this.url, requestParams);
+
         return this;
     }
 
@@ -171,5 +197,26 @@ public class HttpUtil<T> {
         params.append("}");
         params.toString();
         Log.e("params", params.toString());
+    }
+
+     static String getCacheKey(String apiName, RequestParams requestParams) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(apiName);
+        for (KeyValue para : requestParams.getQueryStringParams()) {
+            builder.append(String.format("&get_%s=%s", para.key, para.value.toString()));
+        }
+        for (KeyValue para : requestParams.getBodyParams()) {
+            builder.append(String.format("&post_%s=%s", para.key, para.value.toString()));
+        }
+        Logger.d(builder.toString());
+        return builder.toString();
+    }
+
+    public String getCacheKey() {
+        return cacheKey;
+    }
+
+    public boolean isHaveCache() {
+        return isHaveCache;
     }
 }
