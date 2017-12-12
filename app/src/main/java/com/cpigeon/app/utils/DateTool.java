@@ -13,7 +13,7 @@ import java.util.Date;
 public class DateTool {
 
     //JDK中的日期格式（年-月-日）
-    private final static String FORMAT_DATE = "yyyy-MM-dd";
+    public final static String FORMAT_DATE = "yyyy-MM-dd";
 
     //JDK中的日期时间格式（年-月-日 时:分:秒）
     public final static String FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";

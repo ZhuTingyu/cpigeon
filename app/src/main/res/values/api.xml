@@ -51,4 +51,8 @@
     <string name="api_get_match_race_report">RaceReport</string>
     <string name="api_get_JG_message">GetJGSJ</string>
 
+    <string name="api_get_GXT_message_price">GetServicOrderByGXTCZ</string>
+
+    <string name="api_create_GXT_message_order">CreateServicOrderByGXTCZ</string>
+
 </resources>

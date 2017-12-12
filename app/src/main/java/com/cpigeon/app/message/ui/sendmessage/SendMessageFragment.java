@@ -3,6 +3,7 @@ package com.cpigeon.app.message.ui.sendmessage;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import com.cpigeon.app.message.ui.common.CommonMessageFragment;
 import com.cpigeon.app.message.ui.contacts.SelectContactsFragment;
 import com.cpigeon.app.message.ui.contacts.SendMessageContactsListFragment;
 import com.cpigeon.app.message.ui.modifysign.ModifySignFragment;
+import com.cpigeon.app.message.ui.order.ui.CreateMessageOrderFragment;
 import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.RxUtils;
@@ -57,6 +59,12 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
     @Override
     public void finishCreateView(Bundle state) {
         setTitle("发送短信");
+        toolbar.getMenu().clear();
+        toolbar.getMenu().add("充值短信")
+                .setOnMenuItemClickListener(item -> {
+                    IntentBuilder.Builder().startParentActivity(getActivity(), CreateMessageOrderFragment.class);
+                    return true;
+                }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         initView();
         bindData();
     }

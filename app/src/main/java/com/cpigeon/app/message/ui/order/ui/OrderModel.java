@@ -1,6 +1,7 @@
 package com.cpigeon.app.message.ui.order.ui;
 
 import com.cpigeon.app.R;
+import com.cpigeon.app.entity.GXTMessagePrice;
 import com.cpigeon.app.entity.OrderInfoEntity;
 import com.cpigeon.app.entity.UserBalanceEntity;
 import com.cpigeon.app.entity.WeiXinPayEntity;
@@ -25,6 +26,18 @@ public class OrderModel {
                 .url(R.string.api_creat_order)
                 .addQueryString("u", String.valueOf(userId))
                 .addBody("sid", String.valueOf(sid))
+                .request();
+    }
+
+    public static Observable<ApiResponse<OrderInfoEntity>> createGXTMessageOrder(int userId, int count, double money) {
+        return GXYHttpUtil.<ApiResponse<OrderInfoEntity>>build()
+                .setToJsonType(new TypeToken<ApiResponse<OrderInfoEntity>>() {
+                }.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_create_GXT_message_order)
+                .addQueryString("u", String.valueOf(userId))
+                .addBody("czts", String.valueOf(count))
+                .addBody("money", String.valueOf(money))
                 .request();
     }
 
@@ -61,4 +74,12 @@ public class OrderModel {
                 .request();
     }
 
+    public static Observable<ApiResponse<GXTMessagePrice>> getMessagePirce() {
+        return GXYHttpUtil.<ApiResponse<GXTMessagePrice>>build()
+                .setToJsonType(new TypeToken<ApiResponse<GXTMessagePrice>>() {
+                }.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_get_GXT_message_price)
+                .request();
+    }
 }

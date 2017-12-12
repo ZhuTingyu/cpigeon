@@ -24,7 +24,7 @@ public class WeiXinPayEntity {
         payReq.appId = appid;
         payReq.partnerId = partnerid;
         payReq.prepayId = prepayid;
-        payReq.packageValue = packValue;
+        payReq.packageValue = packValue == null ? "Sign=WXPay" : packValue;
         payReq.nonceStr = noncestr;
         payReq.timeStamp = timestamp;
         payReq.sign = sign;

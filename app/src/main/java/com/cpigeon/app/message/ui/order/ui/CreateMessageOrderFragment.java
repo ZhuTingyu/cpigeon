@@ -12,9 +12,11 @@ import android.widget.TextView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
+import com.cpigeon.app.entity.GXTMessagePrice;
 import com.cpigeon.app.message.ui.order.ui.presenter.MessageCreateOrderPre;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.RxUtils;
 
 import java.util.List;
 
@@ -29,9 +31,14 @@ public class CreateMessageOrderFragment extends BaseMVPFragment<MessageCreateOrd
     AppCompatButton btnLook;
     AppCompatEditText edCount;
 
+    TextView btn;
+
+
     List<AppCompatTextView> selectTvs;
 
     List<Integer> tvIds;
+    GXTMessagePrice price;
+
 
     @Override
     protected MessageCreateOrderPre initPresenter() {
@@ -73,8 +80,25 @@ public class CreateMessageOrderFragment extends BaseMVPFragment<MessageCreateOrd
         tvPrice = findViewById(R.id.order_price);
 
         edCount = findViewById(R.id.ed_count);
+        edCount.setEnabled(false);
 
-        tvExplain.setText(getString(R.string.string_text_create_message_order_explain,"1231","123"));
+        btn = findViewById(R.id.text_btn);
+
+        btn.setOnClickListener(v -> {
+            showLoading("正在创建订单");
+            mPresenter.addCharge();
+            mPresenter.createGXTMessageOrder(r -> {
+                hideLoading();
+                if(r.status){
+                    IntentBuilder.Builder()
+                            .putExtra(IntentBuilder.KEY_DATA, r.data)
+                            .startParentActivity(getActivity(), OrderPayFragment.class);
+                    finish();
+                }else {
+                    error(r.msg);
+                }
+            });
+        });
 
 
         for (int i = 0, len = tvIds.size(); i < len; i++) {
@@ -89,6 +113,22 @@ public class CreateMessageOrderFragment extends BaseMVPFragment<MessageCreateOrd
             });
         }
 
+
+
+        mPresenter.getGXTMessagePrice(r -> {
+            if(r.status){
+                price = r.data;
+                tvExplain.setText(getString(R.string.string_text_create_message_order_explain,String.valueOf(price.money)));
+                bindUi(RxUtils.textChanges(edCount), mPresenter.setMessageCount(integer -> {
+                    mPresenter.price = price.money * (double)integer;
+                    tvPrice.setText(String.valueOf(mPresenter.price) + "+ "+ "（手续费）"
+                            + String.format("%.2f",mPresenter.getCharge()) +"元");
+                }));
+            }else {
+                error(r.msg);
+            }
+        });
+
     }
 
     private void setTvExplainListener(int position){
@@ -97,19 +137,25 @@ public class CreateMessageOrderFragment extends BaseMVPFragment<MessageCreateOrd
             edCount.setEnabled(true);
         }else edCount.setEnabled(false);
 
+
         for (int i = 0, len = selectTvs.size(); i < len; i++) {
             AppCompatTextView textView = selectTvs.get(i);
-
             if(position == i){
                 Drawable drawable = getResources().getDrawable(R.drawable.ic_blue_hook);
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                 textView.setCompoundDrawables(drawable,null,null,null);
-
                 textView.setSelected(true);
             }else {
                 textView.setCompoundDrawables(null,null,null,null);
                 textView.setSelected(false);
             }
+        }
+
+        if(position != selectTvs.size() - 1){
+            mPresenter.messageCount = position + 1;
+            mPresenter.price = price.money * (double)(position + 1);
+            tvPrice.setText(String.valueOf(mPresenter.price) + " + "+ "（手续费）"
+                    + String.format("%.2f",mPresenter.getCharge()) +"元");
         }
     }
 }

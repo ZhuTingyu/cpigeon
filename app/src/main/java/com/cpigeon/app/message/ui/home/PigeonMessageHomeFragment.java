@@ -3,12 +3,14 @@ package com.cpigeon.app.message.ui.home;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.UserGXTEntity;
 import com.cpigeon.app.message.adapter.PigeonMessageHomeAdapter;
 import com.cpigeon.app.message.ui.BaseWebViewActivity;
+import com.cpigeon.app.message.ui.order.ui.CreateMessageOrderFragment;
 import com.cpigeon.app.message.ui.order.ui.OrderPayFragment;
 import com.cpigeon.app.message.ui.userAgreement.UserAgreementActivity;
 import com.cpigeon.app.message.ui.common.CommonMessageFragment;
@@ -52,6 +54,13 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
 
 
     private void initView() {
+        toolbar.getMenu().clear();
+        toolbar.getMenu().add("充值短信")
+                .setOnMenuItemClickListener(item -> {
+                    IntentBuilder.Builder().startParentActivity(getActivity(), CreateMessageOrderFragment.class);
+                    return true;
+                }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
         recyclerView = (RecyclerView) findViewById(R.id.list);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         adapter = new PigeonMessageHomeAdapter(getActivity(), titleList);
@@ -95,14 +104,28 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
 
         mPresenter.userId = CpigeonData.getInstance().getUserId(getContext());
 
+        getUserData();
 
+
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.fragment_recyclerview_layout;
+    }
+
+    public void getUserData(){
         mPresenter.getUserInfo(r -> {
             if (r.status) {
                 userGXTEntity = r.data;
-                if (userGXTEntity.syts < 1000) {
-                    showTips(getString(R.string.message_pigeon_message_count_not_enough), TipType.Dialog);
+                if(userGXTEntity.tyxy == 1){
+
+                }else {
+                    if (userGXTEntity.syts < 1000) {
+                        showTips(getString(R.string.message_pigeon_message_count_not_enough), TipType.Dialog);
+                    }
+                    initView();
                 }
-                initView();
             } else {
                 if (r.errorCode == PigeonHomePre.STATE_NO_OPEN) {
                     DialogUtils.createDialogWithLeft(getContext()
@@ -119,7 +142,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
                                 finish();
                             });
 
-                } else if (r.errorCode == PigeonHomePre.STATE_EXAMINEING) {
+                } else {
 
                     DialogUtils.createDialog(getContext(), r.msg, sweetAlertDialog -> {
                         sweetAlertDialog.dismiss();
@@ -130,11 +153,5 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
 
             }
         });
-
-    }
-
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.fragment_recyclerview_layout;
     }
 }

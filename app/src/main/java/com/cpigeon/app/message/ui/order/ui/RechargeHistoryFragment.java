@@ -37,10 +37,11 @@ public class RechargeHistoryFragment extends BaseMVPFragment {
     @Override
     protected boolean isCanDettach() {
         return false;
-    }
+    }z
 
     @Override
     public void finishCreateView(Bundle state) {
+
         setTitle("充值记录");
         initView();
     }
@@ -48,6 +49,10 @@ public class RechargeHistoryFragment extends BaseMVPFragment {
     private void initView() {
         tvDateLeft = findViewById(R.id.date_left);
         tvDataRight = findViewById(R.id.date_right);
+
+        tvDateLeft.setText(DateTool.format(System.currentTimeMillis(),DateTool.FORMAT_DATE));
+        tvDataRight.setText(DateTool.format(System.currentTimeMillis(),DateTool.FORMAT_DATE));
+
 
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

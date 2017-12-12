@@ -4,11 +4,16 @@ import android.app.Activity;
 
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
+import com.cpigeon.app.entity.GXTMessagePrice;
 import com.cpigeon.app.entity.OrderInfoEntity;
 import com.cpigeon.app.message.ui.order.ui.OrderModel;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.StringValid;
+import com.cpigeon.app.utils.databean.ApiResponse;
 import com.cpigeon.app.utils.http.HttpErrorException;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
 import io.reactivex.functions.Consumer;
 
 
@@ -20,6 +25,8 @@ public class MessageCreateOrderPre extends BasePresenter {
 
     public final static int SID_MESSAGE = 23;
     int userId;
+    public int messageCount;
+    public double price;
 
     public MessageCreateOrderPre(Activity activity) {
         super(activity);
@@ -31,12 +38,33 @@ public class MessageCreateOrderPre extends BasePresenter {
         return null;
     }
 
-    public void greatOrder(Consumer<OrderInfoEntity> consumer) {
-        submitRequestThrowError(OrderModel.greatServiceOrder(userId, SID_MESSAGE).map(r -> {
-            if(r.isHaveDate()){
-                return r.data;
-            }else throw new HttpErrorException(r);
-        }),consumer);
+    public void getGXTMessagePrice(Consumer<ApiResponse<GXTMessagePrice>> consumer){
+        submitRequestThrowError(OrderModel.getMessagePirce(), consumer);
+    }
+
+    public void createGXTMessageOrder(Consumer<ApiResponse<OrderInfoEntity>> consumer){
+        submitRequestThrowError(OrderModel.createGXTMessageOrder(userId, messageCount, price),consumer);
+    }
+
+    public void addCharge(){
+        price += price * 0.006d;
+    }
+
+    public double getCharge(){
+        return price * 0.006d;
+    }
+
+    public Consumer<String> setMessageCount(Consumer<Integer> consumer){
+        return s -> {
+            if(StringValid.isStringValid(s)){
+                messageCount = Integer.valueOf(s);
+            }else {
+                messageCount = 0;
+            }
+            Observable.<Integer>create(observableEmitter -> {
+                observableEmitter.onNext(messageCount);
+            }).subscribe(consumer);
+        };
     }
 
 }
