@@ -83,12 +83,10 @@ public class SelectContactsFragment extends BaseContactsListFragment<TelephoneBo
         mPresenter.getContactsGroups(data -> {
             hideLoading();
             adapter.setNewData(data);
-            adapter.setImgChooseVisible(true);
-            for (int i = 0,len = data.size(); i < len; i++) {
-                if(data.get(i).isNotCanEdit()){
-                    adapter.setChooseGone(data.get(i), i);
-                }
+            for (ContactsGroupEntity entity : data) {
+                entity.isChooseVisible = entity.isNotCanEdit();
             }
+            adapter.notifyDataSetChanged();
             adapter.addFooterView(initFoodView());
         });
     }
