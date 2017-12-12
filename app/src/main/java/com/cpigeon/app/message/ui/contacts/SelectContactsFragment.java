@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
+import com.cpigeon.app.entity.ContactsGroupEntity;
 import com.cpigeon.app.message.ui.contacts.presenter.TelephoneBookPre;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.RxUtils;
@@ -24,14 +25,13 @@ import java.util.ArrayList;
 
 public class SelectContactsFragment extends BaseContactsListFragment<TelephoneBookPre> {
 
+
     public static final int TYPE_SEND_MESSAGE = 1;
 
     public static final int TYPE_PHONE_SELECT = 2;
 
     public static final int TYPE_CONTACTS_ADD = 3;
-
-
-    private int type;
+    protected int type;
 
     @Override
     public void finishCreateView(Bundle state) {
@@ -79,16 +79,16 @@ public class SelectContactsFragment extends BaseContactsListFragment<TelephoneBo
 
     @Override
     protected void bindData() {
-        /*ArrayList<ContactsGroupEntity> data = Lists.newArrayList();
-        for (int i = 0; i < 5; i++) {
-            data.add(new ContactsGroupEntity());
-        }
-        adapter.setNewData(data);*/
         showLoading();
         mPresenter.getContactsGroups(data -> {
             hideLoading();
             adapter.setNewData(data);
             adapter.setImgChooseVisible(true);
+            for (int i = 0,len = data.size(); i < len; i++) {
+                if(data.get(i).isNotCanEdit()){
+                    adapter.setChooseGone(data.get(i), i);
+                }
+            }
             adapter.addFooterView(initFoodView());
         });
     }

@@ -87,6 +87,11 @@ public class BaseMultiSelectAdapter<K extends MultiSelectEntity, B extends BaseV
         notifyDataSetChanged();
     }
 
+    public void setChooseGone(K item, int position){
+        item.isChooseVisible = false;
+        notifyItemChanged(position);
+    }
+
     public void setMultiSelectItem(K item, int position){
         setChoose(item, !item.isChoose);
         notifyItemChanged(position);

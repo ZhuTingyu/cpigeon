@@ -17,7 +17,13 @@ import java.util.List;
 
 public class ContactsListAdapter extends BaseMultiSelectAdapter<ContactsGroupEntity,BaseViewHolder> {
 
+    String type;
+
     public ContactsListAdapter() {
+        super(R.layout.item_contacts_list_layout, Lists.newArrayList());
+    }
+
+    public ContactsListAdapter(String type) {
         super(R.layout.item_contacts_list_layout, Lists.newArrayList());
     }
 
@@ -38,5 +44,9 @@ public class ContactsListAdapter extends BaseMultiSelectAdapter<ContactsGroupEnt
         if(data.isEmpty()){
             CommonTool.setEmptyView(this,"没有分组信息");
         }
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

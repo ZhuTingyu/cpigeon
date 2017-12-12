@@ -31,7 +31,6 @@ public abstract class BaseContactsListFragment<Pre extends BasePresenter> extend
     protected TextView title;
 
 
-
     @Override
     protected boolean isCanDettach() {
         return false;

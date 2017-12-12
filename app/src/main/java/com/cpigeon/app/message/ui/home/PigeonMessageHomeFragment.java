@@ -118,7 +118,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
         mPresenter.getUserInfo(r -> {
             if (r.status) {
                 userGXTEntity = r.data;
-                if(userGXTEntity.tyxy == 1){
+                if(userGXTEntity.tyxy == 0){ //为0是未同意协议
 
                 }else {
                     if (userGXTEntity.syts < 1000) {

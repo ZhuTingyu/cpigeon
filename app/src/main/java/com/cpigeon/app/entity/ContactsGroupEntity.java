@@ -3,6 +3,8 @@ package com.cpigeon.app.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.cpigeon.app.utils.StringValid;
+
 /**
  * Created by Zhu TingYu on 2017/11/24.
  */
@@ -16,6 +18,10 @@ public class ContactsGroupEntity extends MultiSelectEntity implements Parcelable
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    public boolean isNotCanEdit(){
+        return !StringValid.isStringValid(fztype) && fztype.equals("xtfz");
     }
 
     @Override

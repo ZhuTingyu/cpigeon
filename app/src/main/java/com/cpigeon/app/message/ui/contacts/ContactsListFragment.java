@@ -114,7 +114,7 @@ public class ContactsListFragment extends BaseMVPFragment<ContactsListPre> {
         recyclerView.setAdapter(adapter);
         bindData();
 
-        if(!mPresenter.isNotCanDelete()){
+        if(!contactsGroupEntity.isNotCanEdit()){
             bottomLl.setVisibility(View.VISIBLE);
             setToolbarChooseMenu();
             setLeftButton(false);

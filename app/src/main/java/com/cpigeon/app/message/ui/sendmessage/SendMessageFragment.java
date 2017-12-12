@@ -10,15 +10,12 @@ import android.widget.TextView;
 
 import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
-import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.ContactsGroupEntity;
 import com.cpigeon.app.message.ui.common.CommonMessageFragment;
 import com.cpigeon.app.message.ui.contacts.SelectContactsFragment;
-import com.cpigeon.app.message.ui.contacts.SendMessageContactsListFragment;
 import com.cpigeon.app.message.ui.modifysign.ModifySignFragment;
 import com.cpigeon.app.message.ui.order.ui.CreateMessageOrderFragment;
-import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.StringValid;

@@ -116,6 +116,7 @@ public class ContactsInfoFragment extends BaseMVPFragment<ContactsInfoPre> {
             editText1.setFocusable(false);
             editText2.setFocusable(false);
             editText3.setFocusable(false);
+            findViewById(R.id.icon).setVisibility(View.GONE);
 
             if(contactsEntity != null){
 

@@ -7,7 +7,6 @@ import android.view.View;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.entity.MultiSelectEntity;
-import com.cpigeon.app.message.ui.contacts.BaseContactsListFragment;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 

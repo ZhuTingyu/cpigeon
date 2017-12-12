@@ -84,10 +84,6 @@ public class ContactsListPre extends BasePresenter {
         };
     }
 
-    public boolean isNotCanDelete(){
-        return StringValid.isStringValid(contactsGroupEntity.fztype) && contactsGroupEntity.fztype.equals("xtfz");
-    }
-
     public void setSelectIds(ContactsInfoAdapter adapter){
         List<String> id = Lists.newArrayList();
         List<Integer> positions  = adapter.getSelectedPotion();
