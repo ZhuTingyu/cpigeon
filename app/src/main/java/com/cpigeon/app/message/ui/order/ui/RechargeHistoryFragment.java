@@ -37,7 +37,7 @@ public class RechargeHistoryFragment extends BaseMVPFragment {
     @Override
     protected boolean isCanDettach() {
         return false;
-    }z
+    }
 
     @Override
     public void finishCreateView(Bundle state) {
@@ -91,7 +91,7 @@ public class RechargeHistoryFragment extends BaseMVPFragment {
         picker.setTopPadding(ConvertUtils.toPx(getContext(), 10));
         picker.setRangeEnd(endY, endM, endD);
         picker.setRangeStart(2017, 1, 1);
-        picker.setSelectedItem(2017, 1, 1);
+        picker.setSelectedItem(endY, endM, endD);
         picker.setResetWhileWheel(false);
         picker.setTopLineColor(getResources().getColor(R.color.colorPrimary));
         picker.setLabelTextColor(getResources().getColor(R.color.colorPrimary));

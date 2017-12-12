@@ -162,8 +162,10 @@ public class OrderPayActivity extends BaseActivity<OrderPayPresenter> implements
             tvOrderTimeContent.setText(orderInfo.getOrderTime());
         if (tvOrderPriceContent != null) {
             if(orderInfo.getScores() == 0){
+                tvOrderPriceTitle.setText("价格");
                 tvOrderPriceContent.setText(String.format("%.2f元", orderInfo.getPrice()));
             }else {
+                tvOrderPriceTitle.setText("价格/鸽币");
                 tvOrderPriceContent.setText(String.format("%.2f元/%d鸽币", orderInfo.getPrice(), orderInfo.getScores()));
             }
         }

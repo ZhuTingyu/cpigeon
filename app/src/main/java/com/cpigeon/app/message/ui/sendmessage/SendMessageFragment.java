@@ -45,6 +45,8 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
     TextView contactsNumber;
     TextView tvSign;
 
+    String sign;
+
 
     @Override
     protected SendMessagePre initPresenter() {
@@ -71,7 +73,8 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
 
     private void bindData(){
         mPresenter.getPersonSignName(s -> {
-            tvSign.setText(getString(R.string.string_sign_info,s));
+            sign = "【" + s +"】";
+            tvSign.setText(getString(R.string.string_sign_info, s));
         });
     }
 

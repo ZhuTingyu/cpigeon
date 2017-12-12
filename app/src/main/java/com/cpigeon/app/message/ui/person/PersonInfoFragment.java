@@ -146,7 +146,9 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
 
 
         }else if(type == TYPE_EDIT){
-            bindData(entity);
+            if(entity != null){
+                bindData(entity);
+            }
 
             adapter.setOnItemClickListener((adapter1, view, position) -> {
 
