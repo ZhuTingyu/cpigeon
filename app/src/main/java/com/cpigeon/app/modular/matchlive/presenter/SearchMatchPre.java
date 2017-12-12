@@ -30,6 +30,7 @@ public class SearchMatchPre extends BasePresenter {
     int userId;
     public MatchInfo matchInfo;
     String key;
+    public int page = 1;
 
     public SearchMatchPre(Activity activity) {
         super(activity);
@@ -44,7 +45,7 @@ public class SearchMatchPre extends BasePresenter {
     }
 
     public void getReportXH(Consumer<List<MatchReportXH>> consumer){
-        submitRequestThrowError(MatchModel.greatReportXH(userId, matchInfo.getLx(), matchInfo.getSsid(),key).map(r -> {
+        submitRequestThrowError(MatchModel.greatReportXH(userId, matchInfo.getLx(), matchInfo.getSsid(),key,page).map(r -> {
             if(r.isOk()){
                 if(r.status){
                     return r.data;
@@ -54,7 +55,7 @@ public class SearchMatchPre extends BasePresenter {
     }
 
     public void getReportGP(Consumer<List<MatchReportGP>> consumer){
-        submitRequestThrowError(MatchModel.greatReportGP(userId, matchInfo.getLx(), matchInfo.getSsid(),key).map(r -> {
+        submitRequestThrowError(MatchModel.greatReportGP(userId, matchInfo.getLx(), matchInfo.getSsid(),key, matchInfo.isMatch(), page).map(r -> {
             if(r.isOk()){
                 if(r.status){
                     return r.data;
@@ -64,7 +65,7 @@ public class SearchMatchPre extends BasePresenter {
     }
 
     public void getJGMessageXH(Consumer<List<MatchPigeonsXH>> consumer){
-        submitRequestThrowError(MatchModel.getJGMessageXH(userId, matchInfo.getLx(), matchInfo.getSsid(),key).map(r -> {
+        submitRequestThrowError(MatchModel.getJGMessageXH(userId, matchInfo.getLx(), matchInfo.getSsid(),key, page).map(r -> {
             if(r.isOk()){
                 if(r.status){
                     return r.data;
@@ -74,7 +75,7 @@ public class SearchMatchPre extends BasePresenter {
     }
 
     public void getJGMessageGP(Consumer<List<MatchPigeonsGP>> consumer){
-        submitRequestThrowError(MatchModel.getJGMessageGP(userId, matchInfo.getLx(), matchInfo.getSsid(),key).map(r -> {
+        submitRequestThrowError(MatchModel.getJGMessageGP(userId, matchInfo.getLx(), matchInfo.getSsid(),key, page).map(r -> {
             if(r.isOk()){
                 if(r.status){
                     return r.data;

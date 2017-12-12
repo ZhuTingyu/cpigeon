@@ -9,6 +9,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.cpigeon.app.R;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchReportGP;
 import com.cpigeon.app.utils.EncryptionTool;
+import com.cpigeon.app.utils.StringValid;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -45,6 +46,9 @@ public class RaceXunFangAdapter extends BaseMultiItemQuickAdapter<MultiItemEntit
                 mc = titleItem.getMatchReportGP().getMc();
                 name = titleItem.getMatchReportGP().getName();
                 footNumber = EncryptionTool.decryptAES(titleItem.getMatchReportGP().getFoot());
+                if(!StringValid.isStringValid(footNumber)){
+                    footNumber = titleItem.getMatchReportGP().getFoot();
+                }
                 switch (mc) {
                     case 1:
                         helper.setVisible(R.id.report_info_item_mc, false);

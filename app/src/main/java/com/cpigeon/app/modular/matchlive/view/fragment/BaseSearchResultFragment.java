@@ -22,6 +22,7 @@ public abstract class BaseSearchResultFragment<P extends BasePresenter> extends 
     TextView tvTitle3;
 
 
+
     public static final String KEY_WORD = "KEY_WORD";
 
     @Override

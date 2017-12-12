@@ -63,17 +63,36 @@ public class SearchJGFragment extends BaseSearchResultFragment<SearchMatchPre> {
 
         showLoading();
 
+        bindData();
+
+        adapter.setOnLoadMoreListener(() -> {
+            mPresenter.page ++;
+            bindData();
+        }, recyclerView);
+
+    }
+
+    public void bindData(){
         if (mPresenter.matchInfo.getLx().equals("xh")) {
+            hideLoading();
             mPresenter.getJGMessageXH(data -> {
-                hideLoading();
-                adapter.setNewData(JiGeDataAdapter.getXH(data));
+                if(data.isEmpty()){
+                    adapter.loadMoreEnd();
+                }else {
+                    adapter.loadMoreComplete();
+                    adapter.addData(JiGeDataAdapter.getXH(data));
+                }
             });
         }else {
             mPresenter.getJGMessageGP(data -> {
                 hideLoading();
-                adapter.setNewData(JiGeDataAdapter.getGP(data));
+                if(data.isEmpty()){
+                    adapter.loadMoreEnd();
+                }else {
+                    adapter.loadMoreComplete();
+                    adapter.addData(JiGeDataAdapter.getGP(data));
+                }
             });
         }
-
     }
 }

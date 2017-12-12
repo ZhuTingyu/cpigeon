@@ -1,25 +1,17 @@
 package com.cpigeon.app.modular.matchlive.view.fragment;
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.cpigeon.app.modular.matchlive.presenter.SearchMatchPre;
 import com.cpigeon.app.modular.matchlive.view.adapter.RaceReportAdapter;
 import com.cpigeon.app.modular.matchlive.view.adapter.RaceXunFangAdapter;
-import com.cpigeon.app.modular.matchlive.view.adapter.SearchMatchAdapter;
-import com.cpigeon.app.utils.IntentBuilder;
-
-import java.util.List;
 
 /**
- * Created by Zhu TingYu on 2017/12/11.
+ * Created by Zhu TingYu on 2017/12/12.
  */
 
-public class SearchReportFragment extends BaseSearchResultFragment<SearchMatchPre> {
+public class SearchXuFangFragment extends BaseSearchResultFragment<SearchMatchPre> {
 
-    RaceReportAdapter adapter;
-
+    RaceXunFangAdapter adapter;
     int currentPosition = -1;
-
-    String type;
 
     @Override
     protected SearchMatchPre initPresenter() {
@@ -29,18 +21,15 @@ public class SearchReportFragment extends BaseSearchResultFragment<SearchMatchPr
     @Override
     protected void initView() {
         super.initView();
+        tvTitle1.setText("名次");
 
-        type = getActivity().getIntent().getStringExtra(IntentBuilder.KEY_TYPE);
+        adapter = new RaceXunFangAdapter(mPresenter.matchInfo.getLx());
 
-        tvTitle1.setText("暂排名次");
-
-        adapter = new RaceReportAdapter(type);
         recyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener((adapter1, view, position) -> {
-            Object item = ((RaceReportAdapter) adapter).getData().get(position);
-            if(item instanceof RaceReportAdapter.MatchTitleXHItem
-                    || item instanceof RaceReportAdapter.MatchTitleGPItem){
+            Object item = ((RaceXunFangAdapter) adapter).getData().get(position);
+            if(item instanceof RaceXunFangAdapter.MatchTitleGPItem){
                 if(currentPosition == -1){ //当前没有展开项
                     adapter.expand(position);
                     currentPosition = position;
@@ -64,7 +53,6 @@ public class SearchReportFragment extends BaseSearchResultFragment<SearchMatchPr
 
         });
 
-
         showLoading();
 
         bindData();
@@ -74,30 +62,18 @@ public class SearchReportFragment extends BaseSearchResultFragment<SearchMatchPr
             bindData();
         }, recyclerView);
 
-
     }
 
     public void bindData(){
-        if (type.equals("xh")) {
-            mPresenter.getReportXH(data -> {
-                if(data.isEmpty()){
-                    adapter.loadMoreEnd();
-                }else {
-                    adapter.loadMoreComplete();
-                    adapter.addData(RaceReportAdapter.getXH(data));
-                }
-                hideLoading();
-            });
-        }else {
-            mPresenter.getReportGP(data -> {
-                hideLoading();
-                if(data.isEmpty()){
-                    adapter.loadMoreEnd();
-                }else {
-                    adapter.loadMoreComplete();
-                    adapter.addData(RaceReportAdapter.getGP(data));
-                }
-            });
-        }
+        mPresenter.getReportGP(data -> {
+            hideLoading();
+            if(data.isEmpty()){
+                adapter.loadMoreEnd();
+            }else {
+                adapter.loadMoreComplete();
+                adapter.addData(RaceXunFangAdapter.getGP(data));
+            }
+        });
     }
+
 }

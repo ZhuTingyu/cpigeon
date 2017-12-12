@@ -203,7 +203,7 @@ public class JiGeDataFragment extends BasePageTurnFragment<JiGePre, JiGeDataAdap
                             .addSheetItem(getString(R.string.search_prompt_clear_key), new SaActionSheetDialog.OnSheetItemClickListener() {
                                 @Override
                                 public void onClick(int which) {
-                                    search("");
+                                    //search("");
                                 }
                             })
                             .setCancelable(true)
@@ -229,7 +229,11 @@ public class JiGeDataFragment extends BasePageTurnFragment<JiGePre, JiGeDataAdap
                                 .addSheetItem(String.format(getString(R.string.search_prompt_has_key), key), new SaActionSheetDialog.OnSheetItemClickListener() {
                                     @Override
                                     public void onClick(int which) {
-                                        search(finalKey);
+                                        //search(finalKey);
+                                        IntentBuilder.Builder()
+                                                .putExtra(IntentBuilder.KEY_DATA, matchInfo)
+                                                .putExtra(BaseSearchResultFragment.KEY_WORD, finalKey)
+                                                .startParentActivity(getSupportActivity(), SearchJGFragment.class);
                                     }
                                 })
                                 .setCancelable(true)

@@ -20,7 +20,7 @@ import io.reactivex.Observable;
  */
 
 public class MatchModel {
-    public static Observable<ApiResponse<List<MatchReportXH>>> greatReportXH(int userId, String matchType, String ssid, String sKey/*,int pager, int pageSize*/) {
+    public static Observable<ApiResponse<List<MatchReportXH>>> greatReportXH(int userId, String matchType, String ssid, String sKey,int page/*,int pager, int pageSize*/) {
         return GXYHttpUtil.<ApiResponse<List<MatchReportXH>>>build()
                 .setToJsonType(new TypeToken<ApiResponse<List<MatchReportXH>>>() {
                 }.getType())
@@ -31,12 +31,12 @@ public class MatchModel {
                 .addBody("bi", ssid)
                 .addBody("s", sKey)
                 .addBody("hcz", String.valueOf(true))
-                .addBody("pi", String.valueOf(1))
+                .addBody("pi", String.valueOf(page))
                 .addBody("ps", String.valueOf(100))
                 .request();
     }
 
-    public static Observable<ApiResponse<List<MatchReportGP>>> greatReportGP(int userId, String matchType, String ssid, String sKey/*,int pager, int pageSize*/) {
+    public static Observable<ApiResponse<List<MatchReportGP>>> greatReportGP(int userId, String matchType, String ssid, String sKey, boolean hcz, int page/*,int pager, int pageSize*/) {
         return GXYHttpUtil.<ApiResponse<List<MatchReportGP>>>build()
                 .setToJsonType(new TypeToken<ApiResponse<List<MatchReportGP>>>() {
                 }.getType())
@@ -46,14 +46,14 @@ public class MatchModel {
                 .addBody("t", String.valueOf("gp".equals(matchType) ? 1 : 2))
                 .addBody("bi", ssid)
                 .addBody("s", sKey)
-                .addBody("hcz", String.valueOf(true))
-                .addBody("pi", String.valueOf(1))
+                .addBody("hcz", String.valueOf(hcz))
+                .addBody("pi", String.valueOf(page))
                 .addBody("ps", String.valueOf(100))
                 .request();
     }
 
 
-    public static Observable<ApiResponse<List<MatchPigeonsXH>>> getJGMessageXH(int userId, String matchType, String ssid, String sKey/*,int pager, int pageSize*/) {
+    public static Observable<ApiResponse<List<MatchPigeonsXH>>> getJGMessageXH(int userId, String matchType, String ssid, String sKey, int page/*,int pager, int pageSize*/) {
         return GXYHttpUtil.<ApiResponse<List<MatchPigeonsXH>>>build()
                 .setToJsonType(new TypeToken<ApiResponse<List<MatchPigeonsXH>>>() {
                 }.getType())
@@ -64,12 +64,12 @@ public class MatchModel {
                 .addBody("bi", ssid)
                 .addBody("s", sKey)
                 .addBody("hcz", String.valueOf(1))
-                .addBody("pi", String.valueOf(1))
+                .addBody("pi", String.valueOf(page))
                 .addBody("ps", String.valueOf(100))
                 .request();
     }
 
-    public static Observable<ApiResponse<List<MatchPigeonsGP>>> getJGMessageGP(int userId, String matchType, String ssid, String sKey/*,int pager, int pageSize*/) {
+    public static Observable<ApiResponse<List<MatchPigeonsGP>>> getJGMessageGP(int userId, String matchType, String ssid, String sKey, int page/*,int pager, int pageSize*/) {
         return GXYHttpUtil.<ApiResponse<List<MatchPigeonsGP>>>build()
                 .setToJsonType(new TypeToken<ApiResponse<List<MatchPigeonsGP>>>() {
                 }.getType())
@@ -80,7 +80,7 @@ public class MatchModel {
                 .addBody("bi", ssid)
                 .addBody("s", sKey)
                 .addBody("hcz", String.valueOf(1))
-                .addBody("pi", String.valueOf(1))
+                .addBody("pi", String.valueOf(page))
                 .addBody("ps", String.valueOf(100))
                 .request();
     }

@@ -266,7 +266,12 @@ public class ReportDataFragment extends BasePageTurnFragment<RacePre, RaceReport
                                 .addSheetItem(String.format(getString(R.string.search_prompt_has_key), key), new SaActionSheetDialog.OnSheetItemClickListener() {
                                     @Override
                                     public void onClick(int which) {
-                                        search(finalKey);
+                                        //search(finalKey);
+                                        IntentBuilder.Builder()
+                                                .putExtra(IntentBuilder.KEY_DATA, matchInfo)
+                                                .putExtra(BaseSearchResultFragment.KEY_WORD, finalKey)
+                                                .putExtra(IntentBuilder.KEY_TYPE, matchInfo.getLx())
+                                                .startParentActivity(getSupportActivity(), SearchReportFragment.class);
                                     }
                                 })
                                 .setCancelable(true)

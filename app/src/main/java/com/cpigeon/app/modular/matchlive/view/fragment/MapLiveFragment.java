@@ -115,38 +115,38 @@ public class MapLiveFragment extends BaseMVPFragment {
             if (geCheJianKongRace.getLatitude() != 0 && geCheJianKongRace.getLongitude() != 0) {
                 lastLatitude = geCheJianKongRace.getLatitude();
                 lastLongtitude = geCheJianKongRace.getLongitude();
-                tvMapNowareadistance.setText("空距:" + DateTool.doubleformat(CommonTool.getDistance(topLocation.getWd(), topLocation.getJd(),
+                tvMapNowareadistance.setText("空距:   " + DateTool.doubleformat(CommonTool.getDistance(topLocation.getWd(), topLocation.getJd(),
                         CommonTool.Aj2GPSLocation(lastLatitude),
                         CommonTool.Aj2GPSLocation(lastLongtitude)) * 0.001, 2) + " Km");
-                tvMapLocation.setText("司放地坐标:" + CommonTool.GPSformatOfEveryMinute(lastLongtitude) + "/" + CommonTool.GPSformatOfEveryMinute(lastLatitude));
+                tvMapLocation.setText("司放地坐标:   " + CommonTool.GPSformatOfEveryMinute(lastLongtitude) + "/" + CommonTool.GPSformatOfEveryMinute(lastLatitude));
             } else {
                 lastLatitude = lastLocation.getWd();
                 lastLongtitude = lastLocation.getJd();
                 Logger.e("");
-                tvMapNowareadistance.setText("空距:" + DateTool.doubleformat(CommonTool.getDistance(topLocation.getWd(), topLocation.getJd(),
+                tvMapNowareadistance.setText("空距:   " + DateTool.doubleformat(CommonTool.getDistance(topLocation.getWd(), topLocation.getJd(),
                         lastLatitude,
                         lastLongtitude) * 0.001, 2) + "Km");
-                tvMapLocation.setText("司放地坐标:" + CommonTool.GPSformatOfEveryMinute(lastLongtitude) + "/" + CommonTool.GPSformatOfEveryMinute(lastLatitude));
+                tvMapLocation.setText("司放地坐标:   " + CommonTool.GPSformatOfEveryMinute(lastLongtitude) + "/" + CommonTool.GPSformatOfEveryMinute(lastLatitude));
             }
 
 
-            tvMapNowweather.setText("当前天气:" + lastLocation.getTq().getMc());
-            tvMapNowlocation.setText("当前坐标:" + CommonTool.GPSformatOfEveryMinute(lastLocation.getJd()) + "/" +
+            tvMapNowweather.setText("当前天气:   " + lastLocation.getTq().getMc());
+            tvMapNowlocation.setText("当前坐标:   " + CommonTool.GPSformatOfEveryMinute(lastLocation.getJd()) + "/" +
                     CommonTool.GPSformatOfEveryMinute(lastLocation.getWd()));
 
             long usingtime;
             if (!geCheJianKongRace.getMEndTime().isEmpty()) {
                 usingtime = lastLocation.getSj() - topLocation.getSj();
-                tvMapTime.setText("共监控:" + DateTool.getTimeFormat(usingtime));
+                tvMapTime.setText("共监控:   " + DateTool.getTimeFormat(usingtime));
             }else {
                 usingtime = (System.currentTimeMillis() / 1000) - topLocation.getSj();
-                tvMapTime.setText("已监控:" + DateTool.getTimeFormat(usingtime));
+                tvMapTime.setText("已监控:   " + DateTool.getTimeFormat(usingtime));
             }
 
-            tvMapDistance.setText("总里程:" + DateTool.doubleformat(lastLocation.getLc() * 0.001, 2) + " Km");
+            tvMapDistance.setText("总里程:   " + DateTool.doubleformat(lastLocation.getLc() * 0.001, 2) + " Km");
 
-            tvMapSpeed.setText(String.format("平均车速:%s Km/H", DateTool.doubleformat((lastLocation.getLc() / usingtime) * 3.6, 2)));
-            tvMapWeather.setText("司放地天气:  " + lastLocation.getTq().getMc() + " " + lastLocation.getTq().getWd() + "°"
+            tvMapSpeed.setText(String.format("平均车速:   %s Km/H", DateTool.doubleformat((lastLocation.getLc() / usingtime) * 3.6, 2)));
+            tvMapWeather.setText("司放地天气:   " + lastLocation.getTq().getMc() + " " + lastLocation.getTq().getWd() + "°"
                     + " " + lastLocation.getTq().getFx() + "风 ");
             tvMapStatus.setText(geCheJianKongRace.getState());
             addPolylineInPlayGround();
@@ -262,8 +262,8 @@ public class MapLiveFragment extends BaseMVPFragment {
             smoothMarker.setDescriptor(BitmapDescriptorFactory.fromResource(R.mipmap.car));
             smoothMarker.setMoveListener(v -> {
                 if (infoWindowLayout != null && title != null && smoothMarker.getMarker().isInfoWindowShown()) {
-                    title.setText("距离司放地还有： " + DateTool.doubleformat(v * 0.001, 2) + "Km" + "\n" +
-                            "车速：" + DateTool.doubleformat(gytRaceLocations.get(smoothMarker.getIndex()).getSd(), 2) + "Km/H");
+                    title.setText("距离司放地还有：   " + DateTool.doubleformat(v * 0.001, 2) + "Km" + "\n" +
+                            "车速：   " + DateTool.doubleformat(gytRaceLocations.get(smoothMarker.getIndex()).getSd(), 2) + "Km/H");
 
                 }
                 distanceOfEndPoint = v;

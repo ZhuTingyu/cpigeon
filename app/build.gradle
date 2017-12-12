@@ -46,15 +46,15 @@ android {
 //                println(variant.productFlavors[0].name)
                 //def releaseApkName = 'app-release-v' + getCustomVersionName() + '-' + variant.productFlavors[0].name + '-' + getCustomVersionCode() + '.apk'
                 newName = oldFile.name.replace(".apk", "-v" + getCustomVersionName() + "-" + getCustomVersionCode() + ".apk")
-                output.outputFile  = new File(oldFile.parent, newName)
+                output.outputFile = new File(oldFile.parent, newName)
             }
             if (variant.buildType.name.equals('beta')) {
                 newName = oldFile.name.replace(".apk", "-v" + getCustomVersionName() + "-beta" + getDate() + ".apk")
-                output.outputFile  = new File(oldFile.parent, newName)
+                output.outputFile = new File(oldFile.parent, newName)
             }
             if (variant.buildType.name.equals('debug')) {
                 newName = oldFile.name.replace(".apk", "-v" + getCustomVersionName() + "-" + getCustomVersionCode() + ".apk")
-                output.outputFile  = new File(oldFile.parent, newName)
+                output.outputFile = new File(oldFile.parent, newName)
             }
         }
     }
@@ -159,12 +159,12 @@ dependencies {
     compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.2@aar'
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:1.5.0@aar'
     compile 'com.github.vipulasri:timelineview:1.0.5'
-    /*compile 'com.amap.api:navi-3dmap:latest.integration'
-        compile 'com.amap.api:location:latest.integration'
-        compile 'com.amap.api:search:latest.integration'*/
-    compile 'com.amap.api:3dmap:5.0.0'
+    compile 'com.amap.api:navi-3dmap:latest.integration'
+    compile 'com.amap.api:location:latest.integration'
+    compile 'com.amap.api:search:latest.integration'
+    /*compile 'com.amap.api:3dmap:5.0.0'
     compile 'com.amap.api:location:3.3.0'
-    compile 'com.amap.api:search:5.0.0'
+    compile 'com.amap.api:search:5.0.0'*/
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     compile 'com.afollestad:easyvideoplayer:0.3.0'

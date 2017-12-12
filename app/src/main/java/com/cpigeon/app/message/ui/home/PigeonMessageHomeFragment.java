@@ -91,7 +91,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
                 , "修改签名", "使用帮助", "个人信息", "用户协议");
 
 
-        toolbar.setTitle("鸽运通");
+        toolbar.setTitle("鸽信通");
 
         mPresenter.userId = CpigeonData.getInstance().getUserId(getContext());
 

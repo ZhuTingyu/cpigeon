@@ -27,12 +27,15 @@ import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongRace;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
 import com.cpigeon.app.modular.matchlive.presenter.RacePre;
 import com.cpigeon.app.modular.matchlive.view.adapter.RaceXunFangAdapter;
+import com.cpigeon.app.modular.matchlive.view.fragment.BaseSearchResultFragment;
 import com.cpigeon.app.modular.matchlive.view.fragment.RaceDetailsXunFangFragment;
+import com.cpigeon.app.modular.matchlive.view.fragment.SearchXuFangFragment;
 import com.cpigeon.app.modular.matchlive.view.fragment.viewdao.IReportData;
 import com.cpigeon.app.modular.usercenter.model.bean.UserFollow;
 import com.cpigeon.app.utils.CpigeonConfig;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.EncryptionTool;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.customview.MarqueeTextView;
 import com.cpigeon.app.utils.customview.SaActionSheetDialog;
 import com.cpigeon.app.utils.customview.SearchEditText;
@@ -208,7 +211,11 @@ public class RaceXunFangActivity extends BasePageTurnActivity<RacePre, RaceXunFa
         searchEditText.setOnSearchClickListener(new SearchEditText.OnSearchClickListener() {
             @Override
             public void onSearchClick(View view, String keyword) {
-                search(keyword);
+                //search(keyword);
+                IntentBuilder.Builder()
+                        .putExtra(BaseSearchResultFragment.KEY_WORD, keyword)
+                        .putExtra(IntentBuilder.KEY_DATA, matchInfo)
+                        .startParentActivity(getActivity(), SearchXuFangFragment.class);
                 searchEditText.setText(keyword);
             }
         });
@@ -311,7 +318,7 @@ public class RaceXunFangActivity extends BasePageTurnActivity<RacePre, RaceXunFa
                             .addSheetItem(getString(R.string.search_prompt_clear_key), new SaActionSheetDialog.OnSheetItemClickListener() {
                                 @Override
                                 public void onClick(int which) {
-                                    search("");
+                                    //search("");
                                 }
                             })
                             .setCancelable(true)
@@ -331,7 +338,11 @@ public class RaceXunFangActivity extends BasePageTurnActivity<RacePre, RaceXunFa
                                 .addSheetItem(String.format(getString(R.string.search_prompt_has_key), key), new SaActionSheetDialog.OnSheetItemClickListener() {
                                     @Override
                                     public void onClick(int which) {
-                                        search(finalKey);
+                                        //search(finalKey);
+                                        IntentBuilder.Builder()
+                                                .putExtra(IntentBuilder.KEY_DATA, matchInfo)
+                                                .putExtra(BaseSearchResultFragment.KEY_WORD, finalKey)
+                                                .startParentActivity(getActivity(), SearchXuFangFragment.class);
                                     }
                                 })
                                 .setCancelable(true)
