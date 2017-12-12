@@ -1,12 +1,12 @@
 package com.cpigeon.app.message.ui.modifysign;
 
+
 import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
 import com.cpigeon.app.entity.PersonInfoEntity;
 import com.cpigeon.app.message.GXYHttpUtil;
 import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.CommonTool;
-import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.databean.ApiResponse;
 import com.cpigeon.app.utils.http.CommonUitls;

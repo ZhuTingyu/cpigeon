@@ -40,9 +40,8 @@ import me.nereo.multi_image_selector.MultiImageSelectorActivity;
  * Created by Zhu TingYu on 2017/11/22.
  */
 
-public class ModifySignFragment extends BaseMVPFragment {
+public class ModifySignFragment extends BaseMVPFragment<PersonSignPre> {
 
-    protected PersonSignPre signPre;
 
     RecyclerView recyclerView;
     PersonImageInfoAdapter adapter;
@@ -58,8 +57,8 @@ public class ModifySignFragment extends BaseMVPFragment {
 
 
     @Override
-    protected BasePresenter initPresenter() {
-        return null;
+    protected PersonSignPre initPresenter() {
+        return new PersonSignPre(getActivity());
     }
 
     @Override
@@ -70,7 +69,6 @@ public class ModifySignFragment extends BaseMVPFragment {
     @Override
     public void finishCreateView(Bundle state) {
         setTitle("修改签名");
-        signPre = new PersonSignPre(getActivity());
         imgs = Lists.newArrayList("idCard_P", "idCard_N", "license");
         hideSoftInput();
         getData();
@@ -79,14 +77,17 @@ public class ModifySignFragment extends BaseMVPFragment {
 
     private void getData() {
         showLoading();
-        signPre.getPersonSignInfo(personInfoEntity -> {
-            if(personInfoEntity != null){
-                entity = personInfoEntity;
+        mPresenter.getPersonSignInfo(r -> {
+            hideLoading();
+            if(r.status){
+                entity = r.data;
                 FileTool.byte2File(entity.sfzzm,imgs.get(0));
                 FileTool.byte2File(entity.sfzbm,imgs.get(1));
                 FileTool.byte2File(entity.yyzz,imgs.get(2));
                 hideLoading();
                 bindData();
+            }else {
+                error(r.msg);
             }
         });
     }
@@ -140,7 +141,7 @@ public class ModifySignFragment extends BaseMVPFragment {
     private void setBtn(){
         btn.setOnClickListener(v -> {
             showTips("正在修改", TipType.LoadingShow);
-            signPre.modifySign(r -> {
+            mPresenter.modifySign(r -> {
                 showTips("",TipType.LoadingHide);
                 if(r.status){
                     ToastUtil.showLongToast(getContext(),"修改成功");
@@ -177,14 +178,14 @@ public class ModifySignFragment extends BaseMVPFragment {
 
     private void goCamera() {
         PhotoUtil.photo(this, uri -> {
-            signPre.license = PhotoUtil.getPath(getActivity(), uri);
+            mPresenter.license = PhotoUtil.getPath(getActivity(), uri);
         });
     }
 
     protected View initHeadView() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.item_modify_sign_head_layout, recyclerView, false);
         edSign = findViewById(view, R.id.sign);
-        bindUi(RxUtils.textChanges(edSign), signPre.setSign());
+        bindUi(RxUtils.textChanges(edSign), mPresenter.setSign());
         edSign.clearFocus();
         return view;
     }
@@ -200,21 +201,21 @@ public class ModifySignFragment extends BaseMVPFragment {
         if (data != null && data.hasExtra(IntentBuilder.KEY_DATA)) {
             if (IdCardCameraActivity.CODE_ID_CARD_P == requestCode) {
                 IdCardPInfoEntity idCardInfoEntity = data.getParcelableExtra(IntentBuilder.KEY_DATA);
-                signPre.name = idCardInfoEntity.name;
-                signPre.sex = idCardInfoEntity.sex;
-                signPre.address = idCardInfoEntity.address;
-                signPre.familyName = idCardInfoEntity.nation;
-                signPre.idCardNumber = idCardInfoEntity.id;
+                mPresenter.name = idCardInfoEntity.name;
+                mPresenter.sex = idCardInfoEntity.sex;
+                mPresenter.address = idCardInfoEntity.address;
+                mPresenter.familyName = idCardInfoEntity.nation;
+                mPresenter.idCardNumber = idCardInfoEntity.id;
                 AppCompatImageView imageView = (AppCompatImageView) adapter.getViewByPosition(recyclerView, 1, R.id.icon);
                 imageView.setImageBitmap(BitmapFactory.decodeFile(idCardInfoEntity.frontimage));
-                signPre.idCardP = idCardInfoEntity.frontimage;
+                mPresenter.idCardP = idCardInfoEntity.frontimage;
             } else if (IdCardCameraActivity.CODE_ID_CARD_N == requestCode) {
                 IdCardNInfoEntity idCardNInfoEntity = data.getParcelableExtra(IntentBuilder.KEY_DATA);
-                signPre.organization = idCardNInfoEntity.authority;
-                signPre.idCardDate = idCardNInfoEntity.valid_date;
+                mPresenter.organization = idCardNInfoEntity.authority;
+                mPresenter.idCardDate = idCardNInfoEntity.valid_date;
                 AppCompatImageView imageView = (AppCompatImageView) adapter.getViewByPosition(recyclerView, 2, R.id.icon);
                 imageView.setImageBitmap(BitmapFactory.decodeFile(idCardNInfoEntity.backimage));
-                signPre.idCardN = idCardNInfoEntity.backimage;
+                mPresenter.idCardN = idCardNInfoEntity.backimage;
             }
 
         }
@@ -224,7 +225,7 @@ public class ModifySignFragment extends BaseMVPFragment {
                 // Get the result list of select image paths
                 List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
                 // do your logic ....
-                signPre.license = path.get(0);
+                mPresenter.license = path.get(0);
                 AppCompatImageView imageView = (AppCompatImageView) adapter.getViewByPosition(recyclerView, 3, R.id.icon);
                 imageView.setImageBitmap(BitmapFactory.decodeFile(path.get(0)));
             }
@@ -232,7 +233,7 @@ public class ModifySignFragment extends BaseMVPFragment {
 
         if(requestCode == PhotoUtil.CAMERA_SUCCESS && resultCode == -1){
             AppCompatImageView imageView = (AppCompatImageView) adapter.getViewByPosition(recyclerView, 3, R.id.icon);
-            imageView.setImageBitmap(BitmapFactory.decodeFile(signPre.license));
+            imageView.setImageBitmap(BitmapFactory.decodeFile(mPresenter.license));
         }
     }
 }

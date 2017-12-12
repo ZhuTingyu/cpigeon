@@ -81,20 +81,12 @@ public class PersonSignPre extends BasePresenter {
         }), consumer);
     }
 
-    public void getPersonInfo(Consumer<PersonInfoEntity> consumer){
-        submitRequestThrowError(PersonSignModel.personInfo(userId).map(r -> {
-            if(r.isOk()){
-                return r.data;
-            }else throw new HttpErrorException(r);
-        }),consumer);
+    public void getPersonInfo(Consumer<ApiResponse<PersonInfoEntity>> consumer){
+        submitRequestThrowError(PersonSignModel.personInfo(userId),consumer);
     }
 
-    public void getPersonSignInfo(Consumer<PersonInfoEntity> consumer){
-        submitRequestThrowError(PersonSignModel.personSignInfo(userId).map(r -> {
-            if(r.isOk()){
-                return r.data;
-            }else throw new HttpErrorException(r);
-        }),consumer);
+    public void getPersonSignInfo(Consumer<ApiResponse<PersonInfoEntity>> consumer){
+        submitRequestThrowError(PersonSignModel.personSignInfo(userId),consumer);
     }
 
     public Consumer<String> setSign(){

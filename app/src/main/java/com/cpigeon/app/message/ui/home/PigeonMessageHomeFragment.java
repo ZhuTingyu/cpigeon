@@ -97,8 +97,8 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
 
 
         mPresenter.getUserInfo(r -> {
-            userGXTEntity = r.data;
             if (r.status) {
+                userGXTEntity = r.data;
                 if (userGXTEntity.syts < 1000) {
                     showTips(getString(R.string.message_pigeon_message_count_not_enough), TipType.Dialog);
                 }
@@ -126,25 +126,6 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
                         finish();
                     });
 
-                } else if (r.errorCode == PigeonHomePre.STATE_NOT_PAY) {
-                    DialogUtils.createDialogWithLeft(getContext(), r.msg
-                            , sweetAlertDialog -> {
-                                sweetAlertDialog.dismiss();
-                                finish();
-                            }
-                            , sweetAlertDialog -> {
-                                showLoading();
-                                mPresenter.greatOrder(orderInfoEntity -> {
-                                    hideLoading();
-                                    IntentBuilder.Builder()
-                                            .putExtra(IntentBuilder.KEY_TYPE, OrderPayFragment.TYPE_OPNE_GXT)
-                                            .putExtra(IntentBuilder.KEY_DATA, orderInfoEntity)
-                                            .startParentActivity(getActivity(), OrderPayFragment.class);
-                                    sweetAlertDialog.dismiss();
-                                    finish();
-
-                                });
-                            });
                 }
 
             }

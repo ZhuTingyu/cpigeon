@@ -25,4 +25,8 @@ public class StringUtil {
         return m.matches();
     }
 
+    public static String emptyString(){
+        return "";
+    }
+
 }

@@ -22,7 +22,6 @@ public class PigeonHomePre extends BasePresenter {
 
     public static final int STATE_NO_OPEN = 10000;
     public static final int STATE_EXAMINEING = 10010;
-    public static final int STATE_NOT_PAY = 10011;
 
     public PigeonHomePre(IView mView) {
         super(mView);
@@ -35,11 +34,7 @@ public class PigeonHomePre extends BasePresenter {
 
     public void getUserInfo(Consumer<ApiResponse<UserGXTEntity>> consumer) {
         submitRequestThrowError(UserGXTModel.getUserInfo(userId).map(r -> {
-            if (r.isHaveDate()) {
-                return r;
-            } else {
-                throw new HttpErrorException(r);
-            }
+            return r;
         }), consumer);
     }
 

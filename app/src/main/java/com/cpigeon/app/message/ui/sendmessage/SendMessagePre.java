@@ -11,6 +11,7 @@ import com.cpigeon.app.message.ui.common.CommonModel;
 import com.cpigeon.app.message.ui.contacts.ContactsModel;
 import com.cpigeon.app.message.ui.modifysign.PersonSignModel;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.StringUtil;
 import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.databean.ApiResponse;
@@ -58,7 +59,9 @@ public class SendMessagePre extends BasePresenter {
     public void getPersonSignName(Consumer<String> consumer){
         submitRequestThrowError(PersonSignModel.personSignInfo(userId).map(r -> {
             if(r.isOk()){
-                return r.data.qianming;
+                if(r.status){
+                    return r.data.qianming;
+                }else return StringUtil.emptyString();
             }else throw new HttpErrorException(r);
         }),consumer);
     }

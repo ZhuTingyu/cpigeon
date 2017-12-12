@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -27,6 +28,13 @@ public class BitmapUtil {
             return null;
         }
     }
+
+    public static Bitmap rotateBitmap(Bitmap bmp, float degrees){
+        Matrix matrix=new Matrix();
+        matrix.postRotate(degrees);
+        return Bitmap.createBitmap(bmp,0,0,bmp.getWidth(), bmp.getHeight(),matrix,true);
+    }
+
 
     public static SoftReference<Bitmap> getCropBitmapFromAssets(Context context, String src,
                                                                 int width, int height) {
