@@ -39,8 +39,6 @@ public class DialogUtils {
                                     SweetAlertDialog.OnSweetClickListener rightListener) {
         SweetAlertDialog dialogPrompt;
         dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);
-        dialogPrompt.setCanceledOnTouchOutside(false);
-        dialogPrompt.setCancelable(false);
         dialogPrompt.setTitleText("提示")
                 .setConfirmClickListener(rightListener)
                 .setContentText(content)

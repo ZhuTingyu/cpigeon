@@ -175,7 +175,27 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
                                     .putExtra(IntentBuilder.KEY_TYPE, PersonInfoFragment.TYPE_UPLOAD_INFO)
                                     .putExtra(PersonInfoFragment.TYPE_UPLOAD_INFO_HAVE_DATE, true)
                                     .startParentActivity(getActivity(), PersonInfoFragment.class);
+                            sweetAlertDialog.dismiss();
+                            finish();
                         });
+
+                    }else if(r.errorCode == PigeonHomePre.STATE_NOT_PAY){
+
+                        DialogUtils.createDialog(getContext(), r.msg, sweetAlertDialog -> {
+                            showLoading("正在创建订单");
+                            mPresenter.getGXTOrder(order -> {
+                                hideLoading();
+                                if(order.status){
+                                    IntentBuilder.Builder()
+                                            .putExtra(IntentBuilder.KEY_DATA,order.data)
+                                            .startParentActivity(getActivity(), OrderPayFragment.class);
+                                }else {
+                                    error(order.msg);
+                                }
+
+                            });
+                        });
+
 
                     }else {
                         DialogUtils.createDialog(getContext(), r.msg, sweetAlertDialog -> {

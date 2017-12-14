@@ -23,6 +23,7 @@ public class PigeonHomePre extends BasePresenter {
     public static final int STATE_NO_OPEN = 10000; //没有开通鸽信通
     public static final int STATE_ID_CARD_NOT_NORMAL = 10012;
     public static final int STATE_PERSON_INFO_NOT_NORMAL = 10013;
+    public static final int STATE_NOT_PAY = 10014;
 
     public PigeonHomePre(IView mView) {
         super(mView);

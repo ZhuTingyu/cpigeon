@@ -40,8 +40,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 public class OrderPayFragment extends BaseMVPFragment<PayOrderPre> {
 
-    public static final String TYPE_OPNE_GXT = "TYPE_OPNE_GXT";
-
     RecyclerView recyclerView;
     OrderPayAdapter adapter;
     OderInfoViewHolder holder;
@@ -170,13 +168,9 @@ public class OrderPayFragment extends BaseMVPFragment<PayOrderPre> {
     private void payByBalance() {
         mPresenter.payOrderByBalance(r -> {
             if (r.status) {
-                DialogUtils.createDialog(getContext(),r.msg, sweetAlertDialog -> {
-                    if(type.equals(TYPE_OPNE_GXT)){
-
-                    }else {
-                        sweetAlertDialog.dismiss();
-                        finish();
-                    }
+                DialogUtils.createDialog(getContext(), r.msg, sweetAlertDialog -> {
+                    sweetAlertDialog.dismiss();
+                    finish();
                 });
             } else {
                 error(r.msg);
