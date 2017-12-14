@@ -33,5 +33,17 @@ public class PigeonHomePre extends BasePresenter {
         return null;
     }
 
+    public void getUserInfo(Consumer<ApiResponse<UserGXTEntity>> consumer) {
+        submitRequestThrowError(UserGXTModel.getUserInfo(userId).map(r -> {
+            return r;
+        }), consumer);
+    }
+    public void getGXTOrder(Consumer<ApiResponse<OrderInfoEntity>> consumer) {
+        submitRequestThrowError(OrderModel.greatServiceOrder(userId, SID_GXT).map(r -> {
+            return r;
+        }), consumer);
+    }
+
+
 
 }

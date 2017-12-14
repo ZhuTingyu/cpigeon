@@ -46,7 +46,6 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
     PigeonMessageHomeAdapter adapter;
 
     private List<String> titleList;
-    ApiResponse<UserGXTEntity> apiResponse;
     UserGXTEntity userGXTEntity;
 
 
@@ -106,17 +105,16 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
     public void finishCreateView(Bundle state) {
         titleList = Lists.newArrayList("发送短信", "电话薄", "短语库", "发送记录"
                 , "修改签名", "使用帮助", "个人信息", "用户协议");
-        apiResponse = (ApiResponse<UserGXTEntity>) getActivity().getIntent().getSerializableExtra(IntentBuilder.KEY_DATA);
+        userGXTEntity = getActivity().getIntent().getParcelableExtra(IntentBuilder.KEY_DATA);
 
 
         toolbar.setTitle("鸽信通");
 
         mPresenter.userId = CpigeonData.getInstance().getUserId(getContext());
 
-        //getUserData();
+        getUserData();
 
-        userGXTEntity = apiResponse.data;
-        if (userGXTEntity.tyxy == 0) { //为0是未同意协议
+        /*if (userGXTEntity.tyxy == 0) { //为0是未同意协议
             DialogUtils.createDialogWithLeft(getActivity(), "你已经开通鸽信通，阅读并同意后即可使用", sweetAlertDialog -> {
                 UserAgreementActivity.startActivity(getActivity(), false, CODE_AGREEMENT);
                 sweetAlertDialog.dismiss();
@@ -126,7 +124,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
                 showTips(getString(R.string.message_pigeon_message_count_not_enough), TipType.Dialog);
             }
             initView();
-        }
+        }*/
 
     }
 
@@ -135,7 +133,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
         return R.layout.fragment_recyclerview_layout;
     }
 
-   /* public void getUserData(){
+   public void getUserData(){
         showLoading();
         mPresenter.getUserInfo(r -> {
             hideLoading();
@@ -190,7 +188,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
 
             }
         });
-    }*/
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -198,6 +196,8 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
         if (requestCode == CODE_AGREEMENT) {
             if (data == null) {
                 finish();
+            }else {
+                initView();
             }
         }
     }

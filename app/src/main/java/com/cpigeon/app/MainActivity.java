@@ -53,6 +53,7 @@ import com.cpigeon.app.utils.StatusBarTool;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.UpdateManager;
 import com.cpigeon.app.utils.app.ControlManager;
+import com.cpigeon.app.utils.http.LogUtil;
 import com.orhanobut.logger.Logger;
 
 import java.text.SimpleDateFormat;
@@ -369,7 +370,9 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
         mBottomNavigationBar.setTabSelectedListener(this);
         if (!BuildConfig.DEBUG) {
             checkUpData();
+            LogUtil.print("DEBUG: " + (!BuildConfig.DEBUG));
         }
+        checkUpData();
         checkAvailableVersion();
         // startService(new Intent(mContext.getApplicationContext(), CoreService.class));
         bindService(new Intent(MyApp.getInstance(), MainActivityService.class), conn, Context.BIND_AUTO_CREATE);

@@ -53,8 +53,8 @@ android {
                 output.outputFile = new File(oldFile.parent, newName)
             }
             if (variant.buildType.name.equals('debug')) {
-                newName = oldFile.name.replace(".apk", "-v" + getCustomVersionName() + "-" + getCustomVersionCode() + ".apk")
-                output.outputFile = new File(oldFile.parent, newName)
+                /*newName = oldFile.name.replace(".apk", "-v" + getCustomVersionName() + "-" + getCustomVersionCode() + ".apk")
+                output.outputFile = new File(oldFile.parent, newName)*/
             }
         }
     }

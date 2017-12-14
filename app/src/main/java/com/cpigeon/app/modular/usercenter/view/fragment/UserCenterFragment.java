@@ -156,7 +156,8 @@ public class UserCenterFragment extends BaseMVPFragment<UserCenterPre> {
                 break;
             case R.id.ll_user_center_message:
                 //IntentBuilder.Builder(getActivity(), PigeonMessageHomeFragment.class).startActivity();
-                getUserData();
+                //getUserData();
+                IntentBuilder.Builder().startParentActivity(getActivity(), PigeonMessageHomeFragment.class);
                 break;
             case R.id.ll_user_center_focus:
                 startActivity(new Intent(getActivity(), MyFollowActivity.class));
@@ -181,14 +182,14 @@ public class UserCenterFragment extends BaseMVPFragment<UserCenterPre> {
                 break;
         }
     }
-    public void getUserData(){
+   /* public void getUserData(){
         showLoading();
         mPresenter.getUserInfo(r -> {
             hideLoading();
             if (r.status) {
                 userGXTEntity = r.data;
                 IntentBuilder.Builder()
-                        .putExtra(IntentBuilder.KEY_DATA, r)
+                        .putExtra(IntentBuilder.KEY_DATA, r.data)
                         .startParentActivity(getActivity(),PigeonMessageHomeFragment.class);
             } else {
                 if (r.errorCode == PigeonHomePre.STATE_NO_OPEN) {
@@ -208,17 +209,11 @@ public class UserCenterFragment extends BaseMVPFragment<UserCenterPre> {
                     });
                 }else {
                     DialogUtils.createHintDialog(getContext(), r.msg);
-                    //TODO 删掉以下代码
-                    IntentBuilder.Builder()
-                            .putExtra(IntentBuilder.KEY_TYPE, PersonInfoFragment.TYPE_UPLOAD_INFO)
-                            .putExtra(IntentBuilder.KEY_DATA, r.msg)
-                            .putExtra(PersonInfoFragment.TYPE_UPLOAD_INFO_HAVE_DATE, true)
-                            .startParentActivity(getActivity(), PersonInfoFragment.class);
                 }
 
             }
         });
-    }
+    }*/
 
 
     @Override

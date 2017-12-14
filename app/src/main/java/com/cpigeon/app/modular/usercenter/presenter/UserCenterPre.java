@@ -27,10 +27,6 @@ public class UserCenterPre extends BasePresenter {
     protected IBaseDao initDao() {
         return null;
     }
-    public void getUserInfo(Consumer<ApiResponse<UserGXTEntity>> consumer) {
-        submitRequestThrowError(UserGXTModel.getUserInfo(userId).map(r -> {
-            return r;
-        }), consumer);
-    }
+
 
 }

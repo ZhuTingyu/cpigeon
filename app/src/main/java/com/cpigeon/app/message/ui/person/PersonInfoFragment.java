@@ -104,9 +104,9 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
             entity = getActivity().getIntent().getParcelableExtra(IntentBuilder.KEY_DATA);
         }else if(type == TYPE_UPLOAD_INFO){
             if(uploadInfoHaveDate){
-                setTitle("提交个人信息");
-            }else {
                 setTitle("修改个人信息");
+            }else {
+                setTitle("提交个人信息");
             }
         }
         initView();
