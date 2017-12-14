@@ -5,7 +5,9 @@ import android.app.Activity;
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.entity.PersonInfoEntity;
+import com.cpigeon.app.message.ui.person.PersonInfoFragment;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.databean.ApiResponse;
@@ -36,9 +38,12 @@ public class PersonSignPre extends BasePresenter {
     public String personPhoneNumber;
     public String personWork;
 
+    public int type;
+
     public PersonSignPre(Activity activity) {
         super(activity);
         userId = CpigeonData.getInstance().getUserId(activity);
+        type = getActivity().getIntent().getIntExtra(IntentBuilder.KEY_TYPE, 0);
     }
 
     @Override
@@ -75,8 +80,16 @@ public class PersonSignPre extends BasePresenter {
             ToastUtil.showLongToast(getActivity(),"请输入单位名称");
             return;
         }
+
+        if(type == PersonInfoFragment.TYPE_UPLOAD_INFO){
+            if(!StringValid.isStringValid(sign)){
+                ToastUtil.showLongToast(getActivity(),"请输入签名");
+                return;
+            }
+        }
+
         submitRequestThrowError(PersonSignModel.uploadPersonInfo(userId, idCardP, idCardN, license, name
-                , sex, familyName, address, idCardNumber, organization, idCardDate, personName,personPhoneNumber, personWork).map(r -> {
+                , sex, familyName, address, idCardNumber, organization, idCardDate, personName,personPhoneNumber, personWork, sign).map(r -> {
             return r;
         }), consumer);
     }

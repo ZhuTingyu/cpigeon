@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
@@ -55,6 +56,8 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
     public static final int TYPE_EDIT = 1;
     public static final int TYPE_UPLOAD_INFO = 2;
 
+    public static final String TYPE_UPLOAD_INFO_HAVE_DATE = "TYPE_UPLOAD_INFO_HAVE_DATE";
+
     private int PHOTO_SUCCESS_REQUEST = 2083;
 
     int type;
@@ -65,10 +68,13 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
     AppCompatEditText edName;
     AppCompatEditText edNumber;
     AppCompatEditText edWork;
+    AppCompatEditText edSign;
 
     PersonInfoEntity entity;
 
     List<String> imgs;
+
+    boolean uploadInfoHaveDate;
 
     @Override
     protected PersonSignPre initPresenter() {
@@ -83,7 +89,8 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
     @Override
     public void finishCreateView(Bundle state) {
         EventBus.getDefault().register(this);
-        type = getActivity().getIntent().getIntExtra(IntentBuilder.KEY_TYPE, 0);
+        uploadInfoHaveDate = getActivity().getIntent().getBooleanExtra(TYPE_UPLOAD_INFO_HAVE_DATE,false);
+        type = mPresenter.type;
         imgs = Lists.newArrayList("idCard_P", "idCard_N", "license");
         hideSoftInput();
         if(type == TYPE_LOOK){
@@ -105,9 +112,9 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
             hideLoading();
             if(r.status){
                 entity = r.data;
-                FileTool.byte2File(entity.sfzzm,imgs.get(0));
-                FileTool.byte2File(entity.sfzbm,imgs.get(1));
-                FileTool.byte2File(entity.yyzz,imgs.get(2));
+                mPresenter.idCardP =  FileTool.byte2File(entity.sfzzm,imgs.get(0)).getPath();
+                mPresenter.idCardN = FileTool.byte2File(entity.sfzbm,imgs.get(1)).getPath();
+                mPresenter.license = FileTool.byte2File(entity.yyzz,imgs.get(2)).getPath();
                 bindData();
             }else {
                 error(r.msg);
@@ -120,11 +127,18 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
         edName.setText(StringValid.isStringValid(entity.xingming) ? entity.xingming : "无");
         edNumber.setText(StringValid.isStringValid(entity.sjhm) ? entity.sjhm : "无");
         edWork.setText(StringValid.isStringValid(entity.dwmc) ? entity.dwmc : "无");
+        if(edSign != null){
+            edSign.setText(StringValid.isStringValid(entity.qianming) ? entity.qianming : "无");
+        }
+        /*mPresenter.idCardN = imgs.get(0);
+        mPresenter.idCardP = imgs.get(1);
+        mPresenter.license = imgs.get(2);*/
     }
 
     private void initView() {
 
         findViewById(R.id.ll1).setVisibility(View.GONE);
+
         TextView btn = findViewById(R.id.text_btn);
         btn.setVisibility(View.VISIBLE);
 
@@ -190,8 +204,11 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
                 });
             });
         }else if(type == TYPE_UPLOAD_INFO){
-            //TODO 开通提交鸽信通个人信息
-            adapter.setNewData(Lists.newArrayList("","",""));
+            if(uploadInfoHaveDate){
+                getPersonInfo();
+            }else {
+                adapter.setNewData(Lists.newArrayList("","",""));
+            }
             adapter.setOnItemClickListener((adapter1, view, position) -> {
 
                 if (position == 0) {//身份证正面
@@ -274,6 +291,11 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
             bindUi(RxUtils.textChanges(edName), mPresenter.setPersonName());
             bindUi(RxUtils.textChanges(edNumber), mPresenter.setPersonPhoneNumber());
             bindUi(RxUtils.textChanges(edWork), mPresenter.setPersonWork());
+            if(type == TYPE_UPLOAD_INFO){
+                findViewById(view, R.id.rl_sign).setVisibility(View.VISIBLE);
+                edSign = findViewById(view, R.id.sign);
+                bindUi(RxUtils.textChanges(edSign), mPresenter.setSign());
+            }
 
         }
 
@@ -332,6 +354,9 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
         edName.setText(entity.xingming != null ? entity.xingming : "");
         edNumber.setText(entity.sjhm != null ? entity.sjhm : "");
         edWork.setText(entity.dwmc != null ? entity.dwmc : "");
+        if(edSign != null){
+            edSign.setText(entity.qianming != null ? entity.qianming : "");
+        }
         adapter.setNewData(imgs);
     }
 

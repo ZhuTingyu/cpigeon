@@ -114,7 +114,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="忘记密码？"
+            android:text="忘记支付密码？"
             android:textColor="@color/colorBlue"
             android:textSize="@dimen/sp_16" />
     </RelativeLayout>

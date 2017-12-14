@@ -89,7 +89,7 @@
     <string name="text_temperature">%1$s°C</string>
     <string name="text_wind_direction">%1$s风</string>
 
-    <string name="message_not_open_pigeon_message">您当前尚未开通鸽信通服务！开通成功立即赠送1000条短信,请先同意用户协议</string>
+    <string name="message_not_open_pigeon_message">您当前尚未开通鸽信通服务！开通成功立即赠送1000条短信,请先提交个人信息</string>
     <string name="message_pigeon_message_count_not_enough">你的短信不足1000条，请即时充值</string>
 
     <string name="string_sign_info">当前签名为：【%1$s】</string>

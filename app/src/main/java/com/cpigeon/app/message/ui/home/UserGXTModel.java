@@ -13,8 +13,8 @@ import io.reactivex.Observable;
  * Created by Zhu TingYu on 2017/11/23.
  */
 
-class UserGXTModel {
-    static Observable<ApiResponse<UserGXTEntity>> getUserInfo(int userId){
+public class UserGXTModel {
+    public static Observable<ApiResponse<UserGXTEntity>> getUserInfo(int userId){
         return GXYHttpUtil.<ApiResponse<UserGXTEntity>>build()
                 .setToJsonType(new TypeToken<ApiResponse<UserGXTEntity>>(){}.getType())
                 .url(R.string.api_user_info)

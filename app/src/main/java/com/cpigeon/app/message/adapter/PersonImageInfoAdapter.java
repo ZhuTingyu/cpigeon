@@ -15,6 +15,7 @@ import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.ScreenTool;
 import com.cpigeon.app.utils.StringValid;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -41,7 +42,12 @@ public class PersonImageInfoAdapter extends BaseQuickAdapter<String, BaseViewHol
         params.setMargins(0,0,0,ScreenTool.dip2px(8));
         imageView.setLayoutParams(params);
         if(StringValid.isStringValid(item)){
-            imageView.setImageBitmap(BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() +"/" + item + ".jpg"));
+            File img = new File(Environment.getExternalStorageDirectory() +"/" + item + ".jpg");
+            if(img.exists()){
+                imageView.setImageBitmap(BitmapFactory.decodeFile(img.getPath()));
+            }else {
+                imageView.setBackgroundResource(icList.get(holder.getAdapterPosition() - 1));
+            }
         }else {
             imageView.setBackgroundResource(icList.get(holder.getAdapterPosition() - 1));
         }

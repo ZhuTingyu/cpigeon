@@ -26,6 +26,9 @@ import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.databean.ApiResponse;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -43,6 +46,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
     PigeonMessageHomeAdapter adapter;
 
     private List<String> titleList;
+    ApiResponse<UserGXTEntity> apiResponse;
     UserGXTEntity userGXTEntity;
 
 
@@ -102,14 +106,34 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
     public void finishCreateView(Bundle state) {
         titleList = Lists.newArrayList("发送短信", "电话薄", "短语库", "发送记录"
                 , "修改签名", "使用帮助", "个人信息", "用户协议");
+        apiResponse = (ApiResponse<UserGXTEntity>) getActivity().getIntent().getSerializableExtra(IntentBuilder.KEY_DATA);
 
 
         toolbar.setTitle("鸽信通");
 
         mPresenter.userId = CpigeonData.getInstance().getUserId(getContext());
 
-        getUserData();
+        //getUserData();
 
+        if(apiResponse.status){
+            userGXTEntity = apiResponse.data;
+            if(userGXTEntity.tyxy == 0){ //为0是未同意协议
+                DialogUtils.createDialogWithLeft(getActivity(),"你已经开通鸽信通，阅读并同意后即可使用",sweetAlertDialog -> {
+                    UserAgreementActivity.startActivity(getActivity(), false, CODE_AGREEMENT);
+                    sweetAlertDialog.dismiss();
+                });
+            }else {
+                if (userGXTEntity.syts < 1000) {
+                    showTips(getString(R.string.message_pigeon_message_count_not_enough), TipType.Dialog);
+                }
+                initView();
+            }
+        }else {
+            DialogUtils.createDialog(getContext(), apiResponse.msg, sweetAlertDialog -> {
+                sweetAlertDialog.dismiss();
+                finish();
+            });
+        }
 
     }
 
@@ -118,7 +142,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
         return R.layout.fragment_recyclerview_layout;
     }
 
-    public void getUserData(){
+   /* public void getUserData(){
         showLoading();
         mPresenter.getUserInfo(r -> {
             hideLoading();
@@ -152,17 +176,28 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
                             });
 
                 } else {
+                    if(r.errorCode == PigeonHomePre.STATE_ID_CARD_NOT_NORMAL ||
+                            r.errorCode == PigeonHomePre.STATE_PERSON_INFO_NOT_NORMAL){
 
-                    DialogUtils.createDialog(getContext(), r.msg, sweetAlertDialog -> {
-                        sweetAlertDialog.dismiss();
-                        finish();
-                    });
+                        DialogUtils.createDialog(getActivity(), r.msg, sweetAlertDialog -> {
+                            IntentBuilder.Builder()
+                                    .putExtra(IntentBuilder.KEY_TYPE, PersonInfoFragment.TYPE_UPLOAD_INFO)
+                                    .putExtra(PersonInfoFragment.TYPE_UPLOAD_INFO_HAVE_DATE, true)
+                                    .startParentActivity(getActivity(), PersonInfoFragment.class);
+                        });
+
+                    }else {
+                        DialogUtils.createDialog(getContext(), r.msg, sweetAlertDialog -> {
+                            sweetAlertDialog.dismiss();
+                            finish();
+                        });
+                    }
 
                 }
 
             }
         });
-    }
+    }*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -170,8 +205,6 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
         if(requestCode == CODE_AGREEMENT){
             if(data == null){
                 finish();
-            }else {
-                getUserData();
             }
         }
     }

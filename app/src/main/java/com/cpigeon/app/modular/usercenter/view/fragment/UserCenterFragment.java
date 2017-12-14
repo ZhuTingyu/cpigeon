@@ -16,11 +16,16 @@ import android.widget.TextView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
+import com.cpigeon.app.entity.UserGXTEntity;
+import com.cpigeon.app.message.ui.home.PigeonHomePre;
 import com.cpigeon.app.message.ui.home.PigeonMessageHomeFragment;
+import com.cpigeon.app.message.ui.person.PersonInfoFragment;
+import com.cpigeon.app.message.ui.userAgreement.UserAgreementActivity;
 import com.cpigeon.app.modular.home.view.activity.WebActivity;
 import com.cpigeon.app.modular.order.view.activity.OrderActivity;
 import com.cpigeon.app.modular.settings.view.activity.SettingsActivity;
 import com.cpigeon.app.modular.usercenter.model.bean.UserInfo;
+import com.cpigeon.app.modular.usercenter.presenter.UserCenterPre;
 import com.cpigeon.app.modular.usercenter.view.activity.AboutActivity;
 import com.cpigeon.app.modular.usercenter.view.activity.BalanceActivity;
 import com.cpigeon.app.modular.usercenter.view.activity.HelpActivity;
@@ -30,6 +35,7 @@ import com.cpigeon.app.modular.usercenter.view.activity.ScoreActivity;
 import com.cpigeon.app.modular.usercenter.view.activity.UserInfoActivity;
 import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.SharedPreferencesTool;
 import com.cpigeon.app.utils.customview.MarqueeTextView;
@@ -48,7 +54,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by Administrator on 2017/4/6.
  */
 
-public class UserCenterFragment extends BaseMVPFragment {
+public class UserCenterFragment extends BaseMVPFragment<UserCenterPre> {
 
     @BindView(R.id.fragment_user_center_userLogo)
     CircleImageView fragmentUserCenterUserLogo;
@@ -87,6 +93,8 @@ public class UserCenterFragment extends BaseMVPFragment {
     @BindView(R.id.ll_user_center_help)
     LinearLayout llUserCenterHelp;
     long lastUpdateViewTime = -1;
+
+    UserGXTEntity userGXTEntity;
 
     private CpigeonData.OnDataChangedListener onDataChangedListenerWeakReference = new CpigeonData.OnDataChangedListener() {
         @Override
@@ -148,7 +156,7 @@ public class UserCenterFragment extends BaseMVPFragment {
                 break;
             case R.id.ll_user_center_message:
                 //IntentBuilder.Builder(getActivity(), PigeonMessageHomeFragment.class).startActivity();
-                IntentBuilder.Builder().startParentActivity(getActivity(),PigeonMessageHomeFragment.class);
+                getUserData();
                 break;
             case R.id.ll_user_center_focus:
                 startActivity(new Intent(getActivity(), MyFollowActivity.class));
@@ -173,6 +181,40 @@ public class UserCenterFragment extends BaseMVPFragment {
                 break;
         }
     }
+    public void getUserData(){
+        showLoading();
+        mPresenter.getUserInfo(r -> {
+            hideLoading();
+            if (r.status) {
+                userGXTEntity = r.data;
+                IntentBuilder.Builder()
+                        .putExtra(IntentBuilder.KEY_DATA, r)
+                        .startParentActivity(getActivity(),PigeonMessageHomeFragment.class);
+            } else {
+                if (r.errorCode == PigeonHomePre.STATE_NO_OPEN) {
+                    IntentBuilder.Builder()
+                            .putExtra(IntentBuilder.KEY_TYPE, PersonInfoFragment.TYPE_UPLOAD_INFO)
+                            .startParentActivity(getActivity(), PersonInfoFragment.class);
+
+                }else if(r.errorCode == PigeonHomePre.STATE_ID_CARD_NOT_NORMAL ||
+                        r.errorCode == PigeonHomePre.STATE_PERSON_INFO_NOT_NORMAL){
+                    DialogUtils.createDialog(getActivity(), r.msg, sweetAlertDialog -> {
+                        IntentBuilder.Builder()
+                                .putExtra(IntentBuilder.KEY_TYPE, PersonInfoFragment.TYPE_UPLOAD_INFO)
+                                .putExtra(PersonInfoFragment.TYPE_UPLOAD_INFO_HAVE_DATE, true)
+                                .startParentActivity(getActivity(), PersonInfoFragment.class);
+
+                    });
+                }else {
+                    IntentBuilder.Builder()
+                            .putExtra(IntentBuilder.KEY_DATA, r)
+                            .startParentActivity(getActivity(),PigeonMessageHomeFragment.class);
+                }
+
+            }
+        });
+    }
+
 
     @Override
     public boolean showTips(String tip, TipType tipType) {
@@ -238,8 +280,8 @@ public class UserCenterFragment extends BaseMVPFragment {
     }
 
     @Override
-    protected BasePresenter initPresenter() {
-        return null;
+    protected UserCenterPre initPresenter() {
+        return new UserCenterPre(getActivity());
     }
 
     @Override

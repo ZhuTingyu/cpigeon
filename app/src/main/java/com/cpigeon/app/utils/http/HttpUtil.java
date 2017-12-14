@@ -160,7 +160,11 @@ public class HttpUtil<T> {
         LogUtil.print(requestParams.getUri());
         Observable<T> observable = RxNet.newRequest(this)
                 .map(s -> {
-                    return JSON.parseObject(s, toJsonType);
+                    try {
+                        return GsonUtil.fromJson(s, toJsonType);
+                    }catch (Exception e){
+                        return JSON.parseObject(s, toJsonType);
+                    }
                 });
 
         observable = observable.map(e -> {
@@ -187,6 +191,7 @@ public class HttpUtil<T> {
         List<KeyValue> keyValues = requestParams.getQueryStringParams();
         List<KeyValue> body = requestParams.getBodyParams();
         StringBuffer params = new StringBuffer();
+        params.append("{" + "\n");
         params.append("{" + "\n");
         for (KeyValue vale : keyValues) {
             params.append("  url    " + vale.key + ": " + vale.value + "\n");

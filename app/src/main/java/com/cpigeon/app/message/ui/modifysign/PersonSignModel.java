@@ -196,7 +196,7 @@ public class PersonSignModel {
 
     public static Observable<ApiResponse> uploadPersonInfo(int userId, String IdCardP, String IdCardN
             , String license, String name, String sex, String familyName, String address, String idCardNumber
-            , String organization, String idCardDate, String personName, String personPhoneNumber, String personWork) {
+            , String organization, String idCardDate, String personName, String personPhoneNumber, String personWork, String sign) {
 
         File imgIdCardP = null;
         File imgIdCardN = null;
@@ -222,6 +222,10 @@ public class PersonSignModel {
         map.put("haoma", idCardNumber);
         map.put("qianfajiguan", organization);
         map.put("youxiaoqi", idCardDate);
+        map.put("lianxiren",personName);
+        map.put("sjhm",personPhoneNumber);
+        map.put("dwmc",personWork);
+        map.put("qianming",sign);
 
 
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
@@ -234,7 +238,8 @@ public class PersonSignModel {
                 .addFormDataPart("youxiaoqi", getString(idCardDate))
                 .addFormDataPart("lianxiren", getString(personName))
                 .addFormDataPart("sjhm", getString(personPhoneNumber))
-                .addFormDataPart("dwmc", getString(personWork));
+                .addFormDataPart("dwmc", getString(personWork))
+                .addFormDataPart("qianming", getString(sign));
 
         if (imgIdCardP != null) {
             builder.addPart(MultipartBody.Part.createFormData("sfzzm",imgIdCardP.getName(),

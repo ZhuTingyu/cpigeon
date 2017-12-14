@@ -20,8 +20,9 @@ public class PigeonHomePre extends BasePresenter {
     public int userId;
     public static final int SID_GXT = 22;//鸽信通
 
-    public static final int STATE_NO_OPEN = 10000;
-    public static final int STATE_EXAMINEING = 10010;
+    public static final int STATE_NO_OPEN = 10000; //没有开通鸽信通
+    public static final int STATE_ID_CARD_NOT_NORMAL = 10012;
+    public static final int STATE_PERSON_INFO_NOT_NORMAL = 10013;
 
     public PigeonHomePre(IView mView) {
         super(mView);
@@ -32,17 +33,5 @@ public class PigeonHomePre extends BasePresenter {
         return null;
     }
 
-    public void getUserInfo(Consumer<ApiResponse<UserGXTEntity>> consumer) {
-        submitRequestThrowError(UserGXTModel.getUserInfo(userId).map(r -> {
-            return r;
-        }), consumer);
-    }
 
-    public void greatOrder(Consumer<OrderInfoEntity> consumer) {
-        submitRequestThrowError(OrderModel.greatServiceOrder(userId, SID_GXT).map(r -> {
-            if (r.isHaveDate()){
-                return r.data;
-            } else throw new HttpErrorException(r);
-        }), consumer);
-    }
 }
