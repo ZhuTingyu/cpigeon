@@ -2,6 +2,7 @@ package com.cpigeon.app.message.ui.order.ui;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.entity.GXTMessagePrice;
+import com.cpigeon.app.entity.MessageOrderEntity;
 import com.cpigeon.app.entity.OrderInfoEntity;
 import com.cpigeon.app.entity.UserBalanceEntity;
 import com.cpigeon.app.entity.WeiXinPayEntity;
@@ -10,6 +11,8 @@ import com.cpigeon.app.utils.EncryptionTool;
 import com.cpigeon.app.utils.databean.ApiResponse;
 import com.cpigeon.app.utils.http.HttpUtil;
 import com.google.gson.reflect.TypeToken;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 
@@ -74,12 +77,26 @@ public class OrderModel {
                 .request();
     }
 
-    public static Observable<ApiResponse<GXTMessagePrice>> getMessagePirce() {
+    public static Observable<ApiResponse<GXTMessagePrice>> getMessagePrice() {
         return GXYHttpUtil.<ApiResponse<GXTMessagePrice>>build()
                 .setToJsonType(new TypeToken<ApiResponse<GXTMessagePrice>>() {
                 }.getType())
                 .setType(HttpUtil.TYPE_POST)
                 .url(R.string.api_get_GXT_message_price)
+                .request();
+    }
+
+
+    public static Observable<ApiResponse<List<MessageOrderEntity>>> getMessageOrderHistory(int userId, String startTime, String endTime) {
+        return GXYHttpUtil.<ApiResponse<List<MessageOrderEntity>>>build()
+                .setToJsonType(new TypeToken<ApiResponse<List<MessageOrderEntity>>>() {
+                }.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_GXT_message_order_history)
+                .addQueryString("u", String.valueOf(userId))
+                .addBody("u",String.valueOf(userId))
+                .addBody("t1",startTime)
+                .addBody("t2",endTime)
                 .request();
     }
 }

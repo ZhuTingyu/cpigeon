@@ -16,12 +16,12 @@ import com.cpigeon.app.entity.OrderInfoEntity;
 
 public class OderInfoViewHolder extends BaseViewHolder {
 
-    private TextView orderId;
-    private TextView orderContent;
-    private TextView orderTime;
-    private TextView orderPrice;
-    private LinearLayout llBottom;
-    private TextView orderPayText;
+    public TextView orderId;
+    public TextView orderContent;
+    public TextView orderTime;
+    public TextView orderPrice;
+    public LinearLayout llBottom;
+    public TextView orderPayText;
 
     public CheckBox checkBox;
     public TextView tvProtocol;

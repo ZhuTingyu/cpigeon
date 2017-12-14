@@ -10,6 +10,7 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.message.ui.order.adpter.RechargeHistoryAdapter;
+import com.cpigeon.app.message.ui.order.ui.presenter.RechargeHistoryPre;
 import com.cpigeon.app.utils.DateTool;
 import com.cpigeon.app.utils.Lists;
 
@@ -21,7 +22,10 @@ import cn.qqtheme.framework.util.ConvertUtils;
  * Created by Zhu TingYu on 2017/12/7.
  */
 
-public class RechargeHistoryFragment extends BaseMVPFragment {
+public class RechargeHistoryFragment extends BaseMVPFragment<RechargeHistoryPre> {
+
+    private static final String TYPE_START_TIME = "TYPE_START_TIME";
+    private static final String TYPE_END_TIME = "TYPE_END_TIME";
 
     RecyclerView recyclerView;
     RechargeHistoryAdapter adapter;
@@ -29,9 +33,18 @@ public class RechargeHistoryFragment extends BaseMVPFragment {
     TextView tvDateLeft;
     TextView tvDataRight;
 
+    private int cStartY = 2017;
+    private int cStartM = 1;
+    private int cStartD = 1;
+
+    private int cEndY;
+    private int cEndM;
+    private int cEndD;
+
+
     @Override
-    protected BasePresenter initPresenter() {
-        return null;
+    protected RechargeHistoryPre initPresenter() {
+        return new RechargeHistoryPre(getActivity());
     }
 
     @Override
@@ -50,28 +63,35 @@ public class RechargeHistoryFragment extends BaseMVPFragment {
         tvDateLeft = findViewById(R.id.date_left);
         tvDataRight = findViewById(R.id.date_right);
 
-        tvDateLeft.setText(DateTool.format(System.currentTimeMillis(),DateTool.FORMAT_DATE));
-        tvDataRight.setText(DateTool.format(System.currentTimeMillis(),DateTool.FORMAT_DATE));
+        tvDateLeft.setText("2017-01-01");
+        tvDataRight.setText(DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_DATE));
+
+        mPresenter.startTime = "2017-1-1";
+        mPresenter.endTime = DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_DATE);
 
 
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new RechargeHistoryAdapter();
-        recyclerView.setAdapter(adapter);
+        adapter.bindToRecyclerView(recyclerView);
 
         tvDateLeft.setOnClickListener(v -> {
-            showTimePicker(tvDateLeft);
+            showTimePicker(tvDateLeft, TYPE_START_TIME);
         });
 
         tvDataRight.setOnClickListener(v -> {
-            showTimePicker(tvDataRight);
+            showTimePicker(tvDataRight, TYPE_END_TIME);
         });
 
         bindData();
     }
 
-    private void bindData(){
-        adapter.setNewData(Lists.newArrayList("","","",""));
+    private void bindData() {
+        showLoading();
+        mPresenter.getHistory(data -> {
+            hideLoading();
+            adapter.setNewData(data);
+        });
     }
 
     @Override
@@ -79,19 +99,23 @@ public class RechargeHistoryFragment extends BaseMVPFragment {
         return R.layout.fragment_recharge_history_layout;
     }
 
-    public void showTimePicker(TextView textView) {
+    public void showTimePicker(TextView textView, String type) {
 
-        int endY = Integer.parseInt(DateTool.format(System.currentTimeMillis(),DateTool.FORMAT_YYYY));
-        int endM = Integer.parseInt(DateTool.format(System.currentTimeMillis(),DateTool.FORMAT_MM));
-        int endD = Integer.parseInt(DateTool.format(System.currentTimeMillis(),DateTool.FORMAT_DD));
+        cEndY = Integer.parseInt(DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_YYYY));
+        cEndM = Integer.parseInt(DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_MM));
+        cEndD = Integer.parseInt(DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_DD));
 
         final DatePicker picker = new DatePicker(getActivity());
         picker.setCanceledOnTouchOutside(true);
         picker.setUseWeight(true);
         picker.setTopPadding(ConvertUtils.toPx(getContext(), 10));
-        picker.setRangeEnd(endY, endM, endD);
         picker.setRangeStart(2017, 1, 1);
-        picker.setSelectedItem(endY, endM, endD);
+        picker.setRangeEnd(cEndY, cEndM, cEndD);
+        if(type.equals(TYPE_START_TIME)){
+            picker.setSelectedItem(cStartY, cStartM, cStartD);
+        }else {
+            picker.setSelectedItem(cEndY, cEndM, cEndD);
+        }
         picker.setResetWhileWheel(false);
         picker.setTopLineColor(getResources().getColor(R.color.colorPrimary));
         picker.setLabelTextColor(getResources().getColor(R.color.colorPrimary));
@@ -99,7 +123,24 @@ public class RechargeHistoryFragment extends BaseMVPFragment {
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
             @Override
             public void onDatePicked(String year, String month, String day) {
-                textView.setText(year + "-" + month + "-" + day);
+                String time = year + "-" + month + "-" + day;
+                textView.setText(time);
+                if (TYPE_START_TIME.equals(type)) {
+                    cStartY = Integer.parseInt(year);
+                    cStartM = Integer.parseInt(month);
+                    cStartD = Integer.parseInt(day);
+                    mPresenter.startTime = time;
+                } else {
+                    mPresenter.endTime = time;
+                    cEndY = Integer.parseInt(year);
+                    cEndM = Integer.parseInt(month);
+                    cEndD = Integer.parseInt(day);
+                }
+                if(mPresenter.timeValid()){
+                    bindData();
+                }else {
+                    error("开始时间比结束时间大");
+                }
             }
         });
         picker.show();

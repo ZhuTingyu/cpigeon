@@ -1,6 +1,7 @@
 package com.cpigeon.app.message.ui.userAgreement;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.view.View;
@@ -20,12 +21,20 @@ public class UserAgreementActivity extends BaseWebViewActivity<UserAgreementPre>
 
     boolean agreeState;
 
-    public static void startActivity(Activity activity){
+    public static void startActivity(Activity activity, boolean agreeState){
         IntentBuilder.Builder(activity, UserAgreementActivity.class)
-                .putExtra(IntentBuilder.KEY_BOOLEAN, true)
+                .putExtra(IntentBuilder.KEY_BOOLEAN, agreeState)
                 .putExtra(IntentBuilder.KEY_TITLE, "用户协议")
                 .putExtra(IntentBuilder.KEY_DATA, CPigeonApiUrl.getInstance().getServer()
                         + "/APP/Protocol?type=gxt").startActivity();
+    }
+
+    public static void startActivity(Activity activity, boolean agreeState, int requestCode){
+        IntentBuilder.Builder(activity, UserAgreementActivity.class)
+                .putExtra(IntentBuilder.KEY_BOOLEAN, agreeState)
+                .putExtra(IntentBuilder.KEY_TITLE, "用户协议")
+                .putExtra(IntentBuilder.KEY_DATA, CPigeonApiUrl.getInstance().getServer()
+                        + "/APP/Protocol?type=gxt").startActivity(activity, requestCode);
     }
 
     @Override
@@ -57,6 +66,10 @@ public class UserAgreementActivity extends BaseWebViewActivity<UserAgreementPre>
                     mPresenter.setUserAgreement(apiResponse -> {
                         if(apiResponse.status){
                             DialogUtils.createDialog(this,"提示",apiResponse.msg,"确定",sweetAlertDialog -> {
+                                sweetAlertDialog.dismiss();
+                                Intent intent = new Intent();
+                                intent.putExtra(IntentBuilder.KEY_BOOLEAN, true);
+                                getActivity().setResult(0,intent);
                                 finish();
                             });
                         }else {

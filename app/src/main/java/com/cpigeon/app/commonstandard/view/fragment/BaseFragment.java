@@ -312,6 +312,8 @@ public abstract class BaseFragment extends Fragment implements IView {
     protected void showLoading(){
         if(refreshLayout != null){
             refreshLayout.setRefreshing(true);
+        }else {
+            showLoading("请稍后...");
         }
     }
 

@@ -1,5 +1,6 @@
 package com.cpigeon.app.message.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,6 +34,9 @@ import java.util.List;
  */
 
 public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
+
+    private static final int CODE_AGREEMENT = 0x123;
+
 
     RecyclerView recyclerView;
 
@@ -88,7 +92,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
                         .startParentActivity(getActivity(), PersonInfoFragment.class);
             } else if (7 == position) {
                 //用户协议
-                UserAgreementActivity.startActivity(getSupportActivity());
+                UserAgreementActivity.startActivity(getSupportActivity(), true);
             }
         });
 
@@ -115,11 +119,16 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
     }
 
     public void getUserData(){
+        showLoading();
         mPresenter.getUserInfo(r -> {
+            hideLoading();
             if (r.status) {
                 userGXTEntity = r.data;
                 if(userGXTEntity.tyxy == 0){ //为0是未同意协议
-
+                    DialogUtils.createDialogWithLeft(getActivity(),"你已经开通鸽信通，阅读并同意后即可使用",sweetAlertDialog -> {
+                        UserAgreementActivity.startActivity(getActivity(), false, CODE_AGREEMENT);
+                        sweetAlertDialog.dismiss();
+                    });
                 }else {
                     if (userGXTEntity.syts < 1000) {
                         showTips(getString(R.string.message_pigeon_message_count_not_enough), TipType.Dialog);
@@ -153,5 +162,17 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
 
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == CODE_AGREEMENT){
+            if(data == null){
+                finish();
+            }else {
+                getUserData();
+            }
+        }
     }
 }

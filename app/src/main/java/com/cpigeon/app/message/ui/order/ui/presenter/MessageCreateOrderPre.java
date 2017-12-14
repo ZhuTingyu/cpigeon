@@ -39,7 +39,7 @@ public class MessageCreateOrderPre extends BasePresenter {
     }
 
     public void getGXTMessagePrice(Consumer<ApiResponse<GXTMessagePrice>> consumer){
-        submitRequestThrowError(OrderModel.getMessagePirce(), consumer);
+        submitRequestThrowError(OrderModel.getMessagePrice(), consumer);
     }
 
     public void createGXTMessageOrder(Consumer<ApiResponse<OrderInfoEntity>> consumer){
