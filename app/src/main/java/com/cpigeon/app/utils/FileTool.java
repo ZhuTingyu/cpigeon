@@ -2,6 +2,7 @@ package com.cpigeon.app.utils;
 
 import android.os.Environment;
 
+import com.cpigeon.app.MyApp;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
@@ -21,9 +22,9 @@ public class FileTool {
     public static final int SIZETYPE_MB = 3;//获取文件大小单位为MB的double值
     public static final int SIZETYPE_GB = 4;//获取文件大小单位为GB的double值
 
-    public static File byte2File(byte[] data, String fileName){
+    public static File byte2File(byte[] data,String path, String fileName){
 
-        File file = new File(Environment.getExternalStorageDirectory(), fileName + ".jpg");
+        File file = new File(MyApp.getInstance().getCacheDir(), fileName + ".jpg");
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(file);

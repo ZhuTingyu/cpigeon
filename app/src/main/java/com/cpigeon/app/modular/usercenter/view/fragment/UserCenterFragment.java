@@ -201,14 +201,19 @@ public class UserCenterFragment extends BaseMVPFragment<UserCenterPre> {
                     DialogUtils.createDialog(getActivity(), r.msg, sweetAlertDialog -> {
                         IntentBuilder.Builder()
                                 .putExtra(IntentBuilder.KEY_TYPE, PersonInfoFragment.TYPE_UPLOAD_INFO)
+                                .putExtra(IntentBuilder.KEY_DATA, r.msg)
                                 .putExtra(PersonInfoFragment.TYPE_UPLOAD_INFO_HAVE_DATE, true)
                                 .startParentActivity(getActivity(), PersonInfoFragment.class);
 
                     });
                 }else {
+                    DialogUtils.createHintDialog(getContext(), r.msg);
+                    //TODO 删掉以下代码
                     IntentBuilder.Builder()
-                            .putExtra(IntentBuilder.KEY_DATA, r)
-                            .startParentActivity(getActivity(),PigeonMessageHomeFragment.class);
+                            .putExtra(IntentBuilder.KEY_TYPE, PersonInfoFragment.TYPE_UPLOAD_INFO)
+                            .putExtra(IntentBuilder.KEY_DATA, r.msg)
+                            .putExtra(PersonInfoFragment.TYPE_UPLOAD_INFO_HAVE_DATE, true)
+                            .startParentActivity(getActivity(), PersonInfoFragment.class);
                 }
 
             }

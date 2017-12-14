@@ -60,7 +60,7 @@ public class PersonSignPre extends BasePresenter {
 
     public void modifyPersonInfo(Consumer<ApiResponse> consumer) {
         submitRequestThrowError(PersonSignModel.modifyPersonInfo(userId, idCardP, idCardN, license, name
-                , sex, familyName, address, idCardNumber, organization, idCardDate, personName,personPhoneNumber, personWork).map(r -> {
+                , sex, familyName, address, idCardNumber, organization, idCardDate, personName,personPhoneNumber, personWork, sign).map(r -> {
             return r;
         }), consumer);
     }

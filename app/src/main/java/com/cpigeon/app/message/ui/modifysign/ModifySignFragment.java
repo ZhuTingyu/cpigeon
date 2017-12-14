@@ -81,9 +81,9 @@ public class ModifySignFragment extends BaseMVPFragment<PersonSignPre> {
             hideLoading();
             if(r.status){
                 entity = r.data;
-                FileTool.byte2File(entity.sfzzm,imgs.get(0));
-                FileTool.byte2File(entity.sfzbm,imgs.get(1));
-                FileTool.byte2File(entity.yyzz,imgs.get(2));
+                FileTool.byte2File(entity.sfzzm,getContext().getCacheDir().getPath(),imgs.get(0));
+                FileTool.byte2File(entity.sfzbm,getContext().getCacheDir().getPath(),imgs.get(1));
+                FileTool.byte2File(entity.yyzz,getContext().getCacheDir().getPath(),imgs.get(2));
                 hideLoading();
                 bindData();
             }else {

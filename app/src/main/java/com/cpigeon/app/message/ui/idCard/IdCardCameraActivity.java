@@ -180,9 +180,9 @@ public class IdCardCameraActivity extends AppCompatActivity {
                 data = Bitmap2Bytes(bitmap1);
                 File file;
                 if(type == TYPE_P){
-                    file = new File(Environment.getExternalStorageDirectory(), "IdCard_P" + ".jpg");
+                    file = new File(getCacheDir(), "IdCard_P" + ".jpg");
                 }else {
-                    file = new File(Environment.getExternalStorageDirectory(), "IdCard_N" + ".jpg");
+                    file = new File(getCacheDir(), "IdCard_N" + ".jpg");
                 }
                 FileOutputStream fos = new FileOutputStream(file);
                 fos.write(data);

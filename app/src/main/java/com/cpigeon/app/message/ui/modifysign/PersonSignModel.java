@@ -126,7 +126,7 @@ public class PersonSignModel {
 
     public static Observable<ApiResponse> modifyPersonInfo(int userId, String IdCardP, String IdCardN
             , String license, String name, String sex, String familyName, String address, String idCardNumber
-            , String organization, String idCardDate, String personName, String personPhoneNumber, String personWork) {
+            , String organization, String idCardDate, String personName, String personPhoneNumber, String personWork, String sign) {
 
         File imgIdCardP = null;
         File imgIdCardN = null;
@@ -153,6 +153,11 @@ public class PersonSignModel {
         map.put("qianfajiguan", organization);
         map.put("youxiaoqi", idCardDate);
 
+        map.put("lianxiren",personName);
+        map.put("sjhm",personPhoneNumber);
+        map.put("dwmc",personWork);
+        map.put("qianming",sign);
+
 
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("xingming",getString(name))
@@ -164,6 +169,7 @@ public class PersonSignModel {
                 .addFormDataPart("youxiaoqi", getString(idCardDate))
                 .addFormDataPart("lianxiren", getString(personName))
                 .addFormDataPart("sjhm", getString(personPhoneNumber))
+                .addFormDataPart("qianming", getString(sign))
                 .addFormDataPart("dwmc", getString(personWork));
 
         if (imgIdCardP != null) {
@@ -181,6 +187,28 @@ public class PersonSignModel {
             builder.addPart(MultipartBody.Part.createFormData("gswj",imgLicense.getName(),
                     RequestBody.create(MediaType.parse("image/*"), imgLicense)));
         }
+
+        LogUtil.print("{\n");
+        for (String key : map.keySet()) {
+            LogUtil.print(key + ": " + map.get(key)+"\n");
+        }
+
+        if(imgIdCardP != null){
+            LogUtil.print("sfzzm" + ": " + imgIdCardP.getPath()+"\n");
+        }
+
+        if(imgIdCardN != null){
+            LogUtil.print("sfzbm" + ": " + imgIdCardN.getPath()+"\n");
+        }
+
+        if(imgLicense != null){
+            LogUtil.print("gswj" + ": " + imgLicense.getPath()+"\n");
+        }
+
+        LogUtil.print("}");
+
+        LogUtil.print(CPigeonApiUrl.getInstance().getServer()
+                + "/CPAPI/V1/"+"GXT_XGGRXX");
 
         RequestBody requestBody = builder.build();
 

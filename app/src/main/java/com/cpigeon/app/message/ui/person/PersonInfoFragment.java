@@ -69,6 +69,8 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
     AppCompatEditText edNumber;
     AppCompatEditText edWork;
     AppCompatEditText edSign;
+    TextView hint;
+    String hintMessage;
 
     PersonInfoEntity entity;
 
@@ -91,6 +93,7 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
         EventBus.getDefault().register(this);
         uploadInfoHaveDate = getActivity().getIntent().getBooleanExtra(TYPE_UPLOAD_INFO_HAVE_DATE,false);
         type = mPresenter.type;
+        hintMessage = getActivity().getIntent().getStringExtra(IntentBuilder.KEY_DATA);
         imgs = Lists.newArrayList("idCard_P", "idCard_N", "license");
         hideSoftInput();
         if(type == TYPE_LOOK){
@@ -100,7 +103,11 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
             setTitle("个人信息");
             entity = getActivity().getIntent().getParcelableExtra(IntentBuilder.KEY_DATA);
         }else if(type == TYPE_UPLOAD_INFO){
-            setTitle("提交个人信息");
+            if(uploadInfoHaveDate){
+                setTitle("提交个人信息");
+            }else {
+                setTitle("修改个人信息");
+            }
         }
         initView();
     }
@@ -112,9 +119,9 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
             hideLoading();
             if(r.status){
                 entity = r.data;
-                mPresenter.idCardP =  FileTool.byte2File(entity.sfzzm,imgs.get(0)).getPath();
-                mPresenter.idCardN = FileTool.byte2File(entity.sfzbm,imgs.get(1)).getPath();
-                mPresenter.license = FileTool.byte2File(entity.yyzz,imgs.get(2)).getPath();
+                FileTool.byte2File(entity.sfzzm,getContext().getCacheDir().getPath(),imgs.get(0));
+                FileTool.byte2File(entity.sfzbm,getContext().getCacheDir().getPath(),imgs.get(1));
+                FileTool.byte2File(entity.yyzz,getContext().getCacheDir().getPath(),imgs.get(2));
                 bindData();
             }else {
                 error(r.msg);
@@ -227,22 +234,44 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
                             .show();
                 }
             });
-            btn.setText("提交");
-            btn.setOnClickListener(v -> {
-                mPresenter.uploadPersonInfo(r -> {
-                    showLoading("正在提交");
-                    hideLoading();
-                    LogUtil.print(r.toJsonString());
-                    if(r.status){
-                        DialogUtils.createDialog(getContext(), r.msg, sweetAlertDialog -> {
-                            sweetAlertDialog.dismiss();
-                            finish();
-                        });
-                    }else {
-                        error(r.msg);
-                    }
+
+            if(uploadInfoHaveDate){
+                btn.setText("修改");
+                btn.setOnClickListener(v -> {
+                    mPresenter.modifyPersonInfo(r -> {
+                        showLoading("正在修改");
+                        hideLoading();
+                        LogUtil.print(r.toJsonString());
+                        if(r.status){
+                            DialogUtils.createDialog(getContext(), r.msg, sweetAlertDialog -> {
+                                sweetAlertDialog.dismiss();
+                                finish();
+                            });
+                        }else {
+                            error(r.msg);
+                        }
+                    });
                 });
-            });
+            }else {
+                btn.setText("提交");
+                btn.setOnClickListener(v -> {
+                    mPresenter.uploadPersonInfo(r -> {
+                        showLoading("正在提交");
+                        hideLoading();
+                        LogUtil.print(r.toJsonString());
+                        if(r.status){
+                            DialogUtils.createDialog(getContext(), r.msg, sweetAlertDialog -> {
+                                sweetAlertDialog.dismiss();
+                                finish();
+                            });
+                        }else {
+                            error(r.msg);
+                        }
+                    });
+                });
+            }
+
+
         }
     }
     private SaActionSheetDialog.OnSheetItemClickListener OnSheetItemClickListener = new SaActionSheetDialog.OnSheetItemClickListener() {
@@ -286,7 +315,6 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
             edNumber.setFocusable(false);
             edWork.setFocusable(false);
 
-
         }else {
             bindUi(RxUtils.textChanges(edName), mPresenter.setPersonName());
             bindUi(RxUtils.textChanges(edNumber), mPresenter.setPersonPhoneNumber());
@@ -295,6 +323,11 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
                 findViewById(view, R.id.rl_sign).setVisibility(View.VISIBLE);
                 edSign = findViewById(view, R.id.sign);
                 bindUi(RxUtils.textChanges(edSign), mPresenter.setSign());
+                if(uploadInfoHaveDate){
+                    hint = findViewById(view, R.id.hint);
+                    hint.setVisibility(View.VISIBLE);
+                    hint.setText(hintMessage);
+                }
             }
 
         }

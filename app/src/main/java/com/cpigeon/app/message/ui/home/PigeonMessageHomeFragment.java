@@ -115,24 +115,17 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
 
         //getUserData();
 
-        if(apiResponse.status){
-            userGXTEntity = apiResponse.data;
-            if(userGXTEntity.tyxy == 0){ //为0是未同意协议
-                DialogUtils.createDialogWithLeft(getActivity(),"你已经开通鸽信通，阅读并同意后即可使用",sweetAlertDialog -> {
-                    UserAgreementActivity.startActivity(getActivity(), false, CODE_AGREEMENT);
-                    sweetAlertDialog.dismiss();
-                });
-            }else {
-                if (userGXTEntity.syts < 1000) {
-                    showTips(getString(R.string.message_pigeon_message_count_not_enough), TipType.Dialog);
-                }
-                initView();
-            }
-        }else {
-            DialogUtils.createDialog(getContext(), apiResponse.msg, sweetAlertDialog -> {
+        userGXTEntity = apiResponse.data;
+        if (userGXTEntity.tyxy == 0) { //为0是未同意协议
+            DialogUtils.createDialogWithLeft(getActivity(), "你已经开通鸽信通，阅读并同意后即可使用", sweetAlertDialog -> {
+                UserAgreementActivity.startActivity(getActivity(), false, CODE_AGREEMENT);
                 sweetAlertDialog.dismiss();
-                finish();
             });
+        } else {
+            if (userGXTEntity.syts < 1000) {
+                showTips(getString(R.string.message_pigeon_message_count_not_enough), TipType.Dialog);
+            }
+            initView();
         }
 
     }
@@ -202,8 +195,8 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == CODE_AGREEMENT){
-            if(data == null){
+        if (requestCode == CODE_AGREEMENT) {
+            if (data == null) {
                 finish();
             }
         }
