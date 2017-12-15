@@ -4,7 +4,9 @@ import android.app.Activity;
 
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
+import com.cpigeon.app.entity.OrderInfoEntity;
 import com.cpigeon.app.entity.PersonInfoEntity;
+import com.cpigeon.app.message.ui.order.ui.OrderModel;
 import com.cpigeon.app.message.ui.person.PersonInfoFragment;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.IntentBuilder;
@@ -101,6 +103,12 @@ public class PersonSignPre extends BasePresenter {
     public void getPersonSignInfo(Consumer<ApiResponse<PersonInfoEntity>> consumer){
         submitRequestThrowError(PersonSignModel.personSignInfo(userId),consumer);
     }
+    public void getGXTOrder(Consumer<ApiResponse<OrderInfoEntity>> consumer) {
+        submitRequestThrowError(OrderModel.greatServiceOrder(userId).map(r -> {
+            return r;
+        }), consumer);
+    }
+
 
     public Consumer<String> setSign(){
         return s -> {

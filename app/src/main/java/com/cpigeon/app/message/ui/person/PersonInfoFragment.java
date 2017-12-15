@@ -23,6 +23,7 @@ import com.cpigeon.app.event.PersonInfoEvent;
 import com.cpigeon.app.message.adapter.PersonImageInfoAdapter;
 import com.cpigeon.app.message.ui.idCard.IdCardCameraActivity;
 import com.cpigeon.app.message.ui.modifysign.PersonSignPre;
+import com.cpigeon.app.message.ui.order.ui.OrderPayFragment;
 import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.FileTool;
 import com.cpigeon.app.utils.IntentBuilder;
@@ -91,21 +92,21 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
     @Override
     public void finishCreateView(Bundle state) {
         EventBus.getDefault().register(this);
-        uploadInfoHaveDate = getActivity().getIntent().getBooleanExtra(TYPE_UPLOAD_INFO_HAVE_DATE,false);
+        uploadInfoHaveDate = getActivity().getIntent().getBooleanExtra(TYPE_UPLOAD_INFO_HAVE_DATE, false);
         type = mPresenter.type;
         hintMessage = getActivity().getIntent().getStringExtra(IntentBuilder.KEY_DATA);
         imgs = Lists.newArrayList("idCard_P", "idCard_N", "license");
         hideSoftInput();
-        if(type == TYPE_LOOK){
+        if (type == TYPE_LOOK) {
             setTitle("个人信息");
             getPersonInfo();
-        }else if(type == TYPE_EDIT){
+        } else if (type == TYPE_EDIT) {
             setTitle("个人信息");
             entity = getActivity().getIntent().getParcelableExtra(IntentBuilder.KEY_DATA);
-        }else if(type == TYPE_UPLOAD_INFO){
-            if(uploadInfoHaveDate){
+        } else if (type == TYPE_UPLOAD_INFO) {
+            if (uploadInfoHaveDate) {
                 setTitle("修改个人信息");
-            }else {
+            } else {
                 setTitle("提交个人信息");
             }
         }
@@ -117,24 +118,24 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
         showLoading();
         mPresenter.getPersonInfo(r -> {
             hideLoading();
-            if(r.status){
+            if (r.status) {
                 entity = r.data;
-                FileTool.byte2File(entity.sfzzm,getContext().getCacheDir().getPath(),imgs.get(0));
-                FileTool.byte2File(entity.sfzbm,getContext().getCacheDir().getPath(),imgs.get(1));
-                FileTool.byte2File(entity.yyzz,getContext().getCacheDir().getPath(),imgs.get(2));
+                FileTool.byte2File(entity.sfzzm, getContext().getCacheDir().getPath(), imgs.get(0));
+                FileTool.byte2File(entity.sfzbm, getContext().getCacheDir().getPath(), imgs.get(1));
+                FileTool.byte2File(entity.yyzz, getContext().getCacheDir().getPath(), imgs.get(2));
                 bindData();
-            }else {
+            } else {
                 error(r.msg);
             }
         });
     }
 
-    private void bindData(){
+    private void bindData() {
         adapter.setNewData(imgs);
         edName.setText(StringValid.isStringValid(entity.xingming) ? entity.xingming : "无");
         edNumber.setText(StringValid.isStringValid(entity.sjhm) ? entity.sjhm : "无");
         edWork.setText(StringValid.isStringValid(entity.dwmc) ? entity.dwmc : "无");
-        if(edSign != null){
+        if (edSign != null) {
             edSign.setText(StringValid.isStringValid(entity.qianming) ? entity.qianming : "无");
         }
         /*mPresenter.idCardN = imgs.get(0);
@@ -150,13 +151,13 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
         btn.setVisibility(View.VISIBLE);
 
         recyclerView = findViewById(R.id.list);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         adapter = new PersonImageInfoAdapter(getContext());
         adapter.bindToRecyclerView(recyclerView);
         adapter.addHeaderView(initHeadView());
 
-        if(type == TYPE_LOOK){
-            adapter.setNewData(Lists.newArrayList("","",""));
+        if (type == TYPE_LOOK) {
+            adapter.setNewData(Lists.newArrayList("", "", ""));
             btn.setText("编辑");
             btn.setOnClickListener(v -> {
                 IntentBuilder.Builder()
@@ -166,8 +167,8 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
             });
 
 
-        }else if(type == TYPE_EDIT){
-            if(entity != null){
+        } else if (type == TYPE_EDIT) {
+            if (entity != null) {
                 bindData(entity);
             }
 
@@ -195,7 +196,7 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
                 showTips("正在修改", TipType.LoadingShow);
                 mPresenter.modifyPersonInfo(r -> {
                     showTips("", TipType.LoadingHide);
-                    if(r.status){
+                    if (r.status) {
                         PersonInfoEvent personInfoEvent = new PersonInfoEvent(TYPE_LOOK);
                         PersonInfoEntity personInfoEntity = new PersonInfoEntity();
                         personInfoEntity.xingming = mPresenter.personName;
@@ -203,18 +204,18 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
                         personInfoEntity.dwmc = mPresenter.personWork;
                         personInfoEvent.entity = personInfoEntity;
                         EventBus.getDefault().post(personInfoEvent);
-                        ToastUtil.showLongToast(getContext(),"修改成功");
+                        ToastUtil.showLongToast(getContext(), "修改成功");
                         finish();
-                    }else {
+                    } else {
                         error(r.msg);
                     }
                 });
             });
-        }else if(type == TYPE_UPLOAD_INFO){
-            if(uploadInfoHaveDate){
+        } else if (type == TYPE_UPLOAD_INFO) {
+            if (uploadInfoHaveDate) {
                 getPersonInfo();
-            }else {
-                adapter.setNewData(Lists.newArrayList("","",""));
+            } else {
+                adapter.setNewData(Lists.newArrayList("", "", ""));
             }
             adapter.setOnItemClickListener((adapter1, view, position) -> {
 
@@ -235,36 +236,46 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
                 }
             });
 
-            if(uploadInfoHaveDate){
+            if (uploadInfoHaveDate) {
                 btn.setText("修改");
                 btn.setOnClickListener(v -> {
                     mPresenter.modifyPersonInfo(r -> {
                         showLoading("正在修改");
                         hideLoading();
                         LogUtil.print(r.toJsonString());
-                        if(r.status){
+                        if (r.status) {
                             DialogUtils.createDialog(getContext(), r.msg, sweetAlertDialog -> {
                                 sweetAlertDialog.dismiss();
                                 finish();
                             });
-                        }else {
+                        } else {
                             error(r.msg);
                         }
                     });
                 });
-            }else {
+            } else {
                 btn.setText("提交");
                 btn.setOnClickListener(v -> {
                     mPresenter.uploadPersonInfo(r -> {
                         showLoading("正在提交");
                         hideLoading();
                         LogUtil.print(r.toJsonString());
-                        if(r.status){
-                            DialogUtils.createDialog(getContext(), r.msg, sweetAlertDialog -> {
-                                sweetAlertDialog.dismiss();
-                                finish();
-                            });
-                        }else {
+                        if (r.status) {
+                            DialogUtils.createDialogWithLeft(getContext(), "个人信息已经提交成功，是否去支付开通鸽信通"
+                                    ,sweetAlertDialog -> {
+                                        sweetAlertDialog.dismiss();
+                                        finish();
+                                    }
+                                    ,sweetAlertDialog -> {
+                                        mPresenter.getGXTOrder(order -> {
+                                            if(order.status){
+                                                IntentBuilder.Builder()
+                                                        .putExtra(IntentBuilder.KEY_DATA, order.data)
+                                                        .startParentActivity(getActivity(), OrderPayFragment.class);
+                                            }else error(order.msg);
+                                        });
+                                    });
+                        } else {
                             error(r.msg);
                         }
                     });
@@ -274,6 +285,7 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
 
         }
     }
+
     private SaActionSheetDialog.OnSheetItemClickListener OnSheetItemClickListener = new SaActionSheetDialog.OnSheetItemClickListener() {
         @Override
         public void onClick(int which) {
@@ -306,24 +318,24 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
 
     private View initHeadView() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.item_person_info_head_layout, recyclerView, false);
-        edName = findViewById(view,R.id.name);
-        edNumber = findViewById(view,R.id.phone_numbers);
-        edWork = findViewById(view,R.id.work);
+        edName = findViewById(view, R.id.name);
+        edNumber = findViewById(view, R.id.phone_numbers);
+        edWork = findViewById(view, R.id.work);
 
-        if(type == TYPE_LOOK){
+        if (type == TYPE_LOOK) {
             edName.setFocusable(false);
             edNumber.setFocusable(false);
             edWork.setFocusable(false);
 
-        }else {
+        } else {
             bindUi(RxUtils.textChanges(edName), mPresenter.setPersonName());
             bindUi(RxUtils.textChanges(edNumber), mPresenter.setPersonPhoneNumber());
             bindUi(RxUtils.textChanges(edWork), mPresenter.setPersonWork());
-            if(type == TYPE_UPLOAD_INFO){
+            if (type == TYPE_UPLOAD_INFO) {
                 findViewById(view, R.id.rl_sign).setVisibility(View.VISIBLE);
                 edSign = findViewById(view, R.id.sign);
                 bindUi(RxUtils.textChanges(edSign), mPresenter.setSign());
-                if(uploadInfoHaveDate){
+                if (uploadInfoHaveDate) {
                     hint = findViewById(view, R.id.hint);
                     hint.setVisibility(View.VISIBLE);
                     hint.setText(hintMessage);
@@ -339,6 +351,7 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
     protected int getLayoutResource() {
         return R.layout.fragment_recyclerview_with_button_layout;
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -366,8 +379,8 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
 
         }
 
-        if(requestCode == PHOTO_SUCCESS_REQUEST){
-            if(data != null && data.hasExtra(MultiImageSelectorActivity.EXTRA_RESULT)){
+        if (requestCode == PHOTO_SUCCESS_REQUEST) {
+            if (data != null && data.hasExtra(MultiImageSelectorActivity.EXTRA_RESULT)) {
                 // Get the result list of select image paths
                 List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
                 // do your logic ....
@@ -377,25 +390,25 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
             }
         }
 
-        if(requestCode == PhotoUtil.CAMERA_SUCCESS && resultCode == -1){
+        if (requestCode == PhotoUtil.CAMERA_SUCCESS && resultCode == -1) {
             AppCompatImageView imageView = (AppCompatImageView) adapter.getViewByPosition(recyclerView, 3, R.id.icon);
             imageView.setImageBitmap(BitmapFactory.decodeFile(mPresenter.license));
         }
     }
 
-    private void bindData(PersonInfoEntity entity){
+    private void bindData(PersonInfoEntity entity) {
         edName.setText(entity.xingming != null ? entity.xingming : "");
         edNumber.setText(entity.sjhm != null ? entity.sjhm : "");
         edWork.setText(entity.dwmc != null ? entity.dwmc : "");
-        if(edSign != null){
+        if (edSign != null) {
             edSign.setText(entity.qianming != null ? entity.qianming : "");
         }
         adapter.setNewData(imgs);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(PersonInfoEvent event){
-        if(event.type == TYPE_LOOK){
+    public void onEvent(PersonInfoEvent event) {
+        if (event.type == TYPE_LOOK) {
             PersonInfoEntity personInfoEntity = event.entity;
             bindData(personInfoEntity);
         }

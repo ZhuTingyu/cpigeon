@@ -133,18 +133,23 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
         return R.layout.fragment_recyclerview_layout;
     }
 
-   public void getUserData(){
+    public void getUserData() {
         showLoading();
         mPresenter.getUserInfo(r -> {
             hideLoading();
             if (r.status) {
                 userGXTEntity = r.data;
-                if(userGXTEntity.tyxy == 0){ //为0是未同意协议
-                    DialogUtils.createDialogWithLeft(getActivity(),"你已经开通鸽信通，阅读并同意后即可使用",sweetAlertDialog -> {
-                        UserAgreementActivity.startActivity(getActivity(), false, CODE_AGREEMENT);
-                        sweetAlertDialog.dismiss();
-                    });
-                }else {
+                if (userGXTEntity.tyxy == 0) { //为0是未同意协议
+                    DialogUtils.createDialogWithLeft(getActivity(), "你已经开通鸽信通，阅读并同意后即可使用"
+                            , sweetAlertDialog -> {
+                                sweetAlertDialog.dismiss();
+                                finish();
+                            }
+                            , sweetAlertDialog -> {
+                                UserAgreementActivity.startActivity(getActivity(), false, CODE_AGREEMENT);
+                                sweetAlertDialog.dismiss();
+                            });
+                } else {
                     if (userGXTEntity.syts < 1000) {
                         showTips(getString(R.string.message_pigeon_message_count_not_enough), TipType.Dialog);
                     }
@@ -167,37 +172,50 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
                             });
 
                 } else {
-                    if(r.errorCode == PigeonHomePre.STATE_ID_CARD_NOT_NORMAL ||
-                            r.errorCode == PigeonHomePre.STATE_PERSON_INFO_NOT_NORMAL){
+                    if (r.errorCode == PigeonHomePre.STATE_ID_CARD_NOT_NORMAL ||
+                            r.errorCode == PigeonHomePre.STATE_PERSON_INFO_NOT_NORMAL) {
 
-                        DialogUtils.createDialog(getActivity(), r.msg, sweetAlertDialog -> {
-                            IntentBuilder.Builder()
-                                    .putExtra(IntentBuilder.KEY_TYPE, PersonInfoFragment.TYPE_UPLOAD_INFO)
-                                    .putExtra(PersonInfoFragment.TYPE_UPLOAD_INFO_HAVE_DATE, true)
-                                    .startParentActivity(getActivity(), PersonInfoFragment.class);
-                            sweetAlertDialog.dismiss();
-                            finish();
-                        });
-
-                    }else if(r.errorCode == PigeonHomePre.STATE_NOT_PAY){
-
-                        DialogUtils.createDialog(getContext(), r.msg, sweetAlertDialog -> {
-                            showLoading("正在创建订单");
-                            mPresenter.getGXTOrder(order -> {
-                                hideLoading();
-                                if(order.status){
-                                    IntentBuilder.Builder()
-                                            .putExtra(IntentBuilder.KEY_DATA,order.data)
-                                            .startParentActivity(getActivity(), OrderPayFragment.class);
-                                }else {
-                                    error(order.msg);
+                        DialogUtils.createDialogWithLeft(getActivity(), r.msg
+                                , sweetAlertDialog -> {
+                                    sweetAlertDialog.dismiss();
+                                    finish();
                                 }
+                                , sweetAlertDialog -> {
+                                    IntentBuilder.Builder()
+                                            .putExtra(IntentBuilder.KEY_TYPE, PersonInfoFragment.TYPE_UPLOAD_INFO)
+                                            .putExtra(PersonInfoFragment.TYPE_UPLOAD_INFO_HAVE_DATE, true)
+                                            .putExtra(IntentBuilder.KEY_DATA, r.msg)
+                                            .startParentActivity(getActivity(), PersonInfoFragment.class);
+                                    sweetAlertDialog.dismiss();
+                                    finish();
+                                });
 
-                            });
-                        });
+                    } else if (r.errorCode == PigeonHomePre.STATE_NOT_PAY) {
+
+                        DialogUtils.createDialogWithLeft(getContext(), r.msg
+                                ,sweetAlertDialog -> {
+                                    sweetAlertDialog.dismiss();
+                                    finish();
+                                }
+                                , sweetAlertDialog -> {
+                                    showLoading("正在创建订单");
+                                    mPresenter.getGXTOrder(order -> {
+                                        hideLoading();
+                                        if (order.status) {
+                                            IntentBuilder.Builder()
+                                                    .putExtra(IntentBuilder.KEY_DATA, order.data)
+                                                    .startParentActivity(getActivity(), OrderPayFragment.class);
+                                            sweetAlertDialog.dismiss();
+                                            finish();
+                                        } else {
+                                            error(order.msg);
+                                        }
+
+                                    });
+                                });
 
 
-                    }else {
+                    } else {
                         DialogUtils.createDialog(getContext(), r.msg, sweetAlertDialog -> {
                             sweetAlertDialog.dismiss();
                             finish();
@@ -214,9 +232,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CODE_AGREEMENT) {
-            if (data == null) {
-                finish();
-            }else {
+            if (data != null) {
                 initView();
             }
         }

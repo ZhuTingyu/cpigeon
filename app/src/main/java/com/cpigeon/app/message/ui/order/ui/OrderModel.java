@@ -21,14 +21,13 @@ import io.reactivex.Observable;
  */
 
 public class OrderModel {
-    public static Observable<ApiResponse<OrderInfoEntity>> greatServiceOrder(int userId, int sid) {
+    public static Observable<ApiResponse<OrderInfoEntity>> greatServiceOrder(int userId) {
         return GXYHttpUtil.<ApiResponse<OrderInfoEntity>>build()
                 .setToJsonType(new TypeToken<ApiResponse<OrderInfoEntity>>() {
                 }.getType())
                 .setType(HttpUtil.TYPE_POST)
-                .url(R.string.api_creat_order)
+                .url(R.string.api_get_open_GXT_order)
                 .addQueryString("u", String.valueOf(userId))
-                .addBody("sid", String.valueOf(sid))
                 .request();
     }
 

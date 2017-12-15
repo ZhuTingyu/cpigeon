@@ -18,7 +18,6 @@ import io.reactivex.functions.Consumer;
 public class PigeonHomePre extends BasePresenter {
 
     public int userId;
-    public static final int SID_GXT = 22;//鸽信通
 
     public static final int STATE_NO_OPEN = 10000; //没有开通鸽信通
     public static final int STATE_ID_CARD_NOT_NORMAL = 10012;
@@ -40,7 +39,7 @@ public class PigeonHomePre extends BasePresenter {
         }), consumer);
     }
     public void getGXTOrder(Consumer<ApiResponse<OrderInfoEntity>> consumer) {
-        submitRequestThrowError(OrderModel.greatServiceOrder(userId, SID_GXT).map(r -> {
+        submitRequestThrowError(OrderModel.greatServiceOrder(userId).map(r -> {
             return r;
         }), consumer);
     }

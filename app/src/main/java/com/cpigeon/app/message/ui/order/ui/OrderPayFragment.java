@@ -181,7 +181,10 @@ public class OrderPayFragment extends BaseMVPFragment<PayOrderPre> {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(WXPayResultEvent event) {
         if (WXPayResultEvent.CODE_OK == event.code) {
-            ToastUtil.showLongToast(getContext(), "支付成功");
+            DialogUtils.createDialogWithLeft(getContext(), "支付成功", sweetAlertDialog -> {
+                sweetAlertDialog.dismiss();
+                finish();
+            });
         } else if (WXPayResultEvent.CODE_ERROR == event.code) {
             ToastUtil.showLongToast(getContext(), "支付失败");
         } else {
