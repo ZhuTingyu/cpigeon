@@ -13,6 +13,7 @@ import com.cpigeon.app.message.ui.order.adpter.RechargeHistoryAdapter;
 import com.cpigeon.app.message.ui.order.ui.presenter.RechargeHistoryPre;
 import com.cpigeon.app.utils.DateTool;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.http.LogUtil;
 
 import cn.qqtheme.framework.picker.DatePicker;
 import cn.qqtheme.framework.picker.DateTimePicker;
@@ -37,6 +38,10 @@ public class RechargeHistoryFragment extends BaseMVPFragment<RechargeHistoryPre>
     private int cStartM = 1;
     private int cStartD = 1;
 
+    private int rangeEndY;
+    private int rangeEndM;
+    private int rangeEndD;
+
     private int cEndY;
     private int cEndM;
     private int cEndD;
@@ -54,6 +59,13 @@ public class RechargeHistoryFragment extends BaseMVPFragment<RechargeHistoryPre>
 
     @Override
     public void finishCreateView(Bundle state) {
+        rangeEndY = Integer.parseInt(DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_YYYY));
+        rangeEndM = Integer.parseInt(DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_MM));
+        rangeEndD = Integer.parseInt(DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_DD));
+
+        cEndY = rangeEndY;
+        cEndM = rangeEndM;
+        cEndD = rangeEndD;
 
         setTitle("充值记录");
         initView();
@@ -101,16 +113,12 @@ public class RechargeHistoryFragment extends BaseMVPFragment<RechargeHistoryPre>
 
     public void showTimePicker(TextView textView, String type) {
 
-        cEndY = Integer.parseInt(DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_YYYY));
-        cEndM = Integer.parseInt(DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_MM));
-        cEndD = Integer.parseInt(DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_DD));
-
         final DatePicker picker = new DatePicker(getActivity());
         picker.setCanceledOnTouchOutside(true);
         picker.setUseWeight(true);
         picker.setTopPadding(ConvertUtils.toPx(getContext(), 10));
         picker.setRangeStart(2017, 1, 1);
-        picker.setRangeEnd(cEndY, cEndM, cEndD);
+        picker.setRangeEnd(rangeEndY, rangeEndM, rangeEndD);
         if(type.equals(TYPE_START_TIME)){
             picker.setSelectedItem(cStartY, cStartM, cStartD);
         }else {
@@ -131,10 +139,11 @@ public class RechargeHistoryFragment extends BaseMVPFragment<RechargeHistoryPre>
                     cStartD = Integer.parseInt(day);
                     mPresenter.startTime = time;
                 } else {
-                    mPresenter.endTime = time;
                     cEndY = Integer.parseInt(year);
                     cEndM = Integer.parseInt(month);
                     cEndD = Integer.parseInt(day);
+                    mPresenter.endTime = time;
+                    LogUtil.print(time);
                 }
                 if(mPresenter.timeValid()){
                     bindData();

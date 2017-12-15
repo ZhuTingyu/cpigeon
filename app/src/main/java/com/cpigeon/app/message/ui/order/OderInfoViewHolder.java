@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseViewHolder;
 import com.cpigeon.app.entity.OrderInfoEntity;
+import com.cpigeon.app.utils.StringUtil;
 
 /**
  * Created by Zhu TingYu on 2017/12/7.
@@ -43,7 +44,7 @@ public class OderInfoViewHolder extends BaseViewHolder {
         orderId.setText(entity.number);
         orderContent.setText(entity.item);
         orderTime.setText(entity.time);
-        orderPrice.setText(entity.price + "元");
+        orderPrice.setText(entity.price + "元" + "   (微信手续费)" + StringUtil.twoPoint(Double.parseDouble(entity.price) * 0.01));
     }
 
     public void visibleBottom(){

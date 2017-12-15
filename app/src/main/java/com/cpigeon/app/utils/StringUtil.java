@@ -29,4 +29,8 @@ public class StringUtil {
         return "";
     }
 
+    public static String twoPoint(double price){
+        return String.format("%.2f", price);
+    }
+
 }

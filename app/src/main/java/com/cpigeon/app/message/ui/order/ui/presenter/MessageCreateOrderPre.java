@@ -46,13 +46,6 @@ public class MessageCreateOrderPre extends BasePresenter {
         submitRequestThrowError(OrderModel.createGXTMessageOrder(userId, messageCount, price),consumer);
     }
 
-    public void addCharge(){
-        price += price * 0.006d;
-    }
-
-    public double getCharge(){
-        return price * 0.006d;
-    }
 
     public Consumer<String> setMessageCount(Consumer<Integer> consumer){
         return s -> {

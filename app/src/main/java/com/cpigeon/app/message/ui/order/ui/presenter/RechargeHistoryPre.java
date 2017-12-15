@@ -8,6 +8,7 @@ import com.cpigeon.app.commonstandard.view.activity.IView;
 import com.cpigeon.app.entity.MessageOrderEntity;
 import com.cpigeon.app.message.ui.order.ui.OrderModel;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.DateTool;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.http.HttpErrorException;
 
@@ -48,16 +49,10 @@ public class RechargeHistoryPre extends BasePresenter {
     }
 
     public boolean timeValid(){
-        String[] sTime =  startTime.split("-");
-        String[] eTime =  endTime.split("-");
+        long sTime = DateTool.strToDate(startTime).getTime();
+        long eTime =  DateTool.strToDate(endTime).getTime();
 
-        for (int i = 0, len = sTime.length; i < len; i++) {
-            if(Integer.parseInt(sTime[i]) > Integer.parseInt(eTime[i])){
-                return false;
-            }
-        }
-
-        return true;
+        return sTime <= eTime;
     }
 
 }

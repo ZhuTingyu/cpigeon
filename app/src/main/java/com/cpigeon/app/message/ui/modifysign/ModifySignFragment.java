@@ -71,8 +71,8 @@ public class ModifySignFragment extends BaseMVPFragment<PersonSignPre> {
         setTitle("修改签名");
         imgs = Lists.newArrayList("idCard_P", "idCard_N", "license");
         hideSoftInput();
-        getData();
         initView();
+        getData();
     }
 
     private void getData() {
@@ -109,6 +109,7 @@ public class ModifySignFragment extends BaseMVPFragment<PersonSignPre> {
         btn = findViewById(R.id.text_btn);
         btn.setVisibility(View.VISIBLE);
         btn.setText("提交签名");
+        btn.setEnabled(false);
 
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -141,6 +142,7 @@ public class ModifySignFragment extends BaseMVPFragment<PersonSignPre> {
     }
 
     private void setBtn(){
+        btn.setEnabled(true);
         btn.setOnClickListener(v -> {
             showTips("正在修改", TipType.LoadingShow);
             mPresenter.modifySign(r -> {
