@@ -53,6 +53,14 @@ public class CommonMessageQPre extends BasePresenter{
             return r;
         }),consumer);
     }
+    /*public void addCommonMessage1(Consumer<ApiResponse> consumer){
+        submitRequestThrowError(CommonModel.addCommonMessage(userId, messageContent).map(apiResponse -> {
+            if(apiResponse.status){
+                return apiResponse.data;
+            }else return getErrorString()
+        }),consumer);
+    }*/
+
 
     public void modifyMessage(Consumer<ApiResponse> consumer){
         submitRequestThrowError(CommonModel.modifyCommonMessage(userId, messageId, messageContent).map(r -> {

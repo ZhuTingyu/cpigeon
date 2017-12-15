@@ -178,8 +178,14 @@ public class HttpUtil<T> {
     }
 
 
-    public void setHeadUrl(String headUrl) {
+    public HttpUtil<T> setHeadUrl(String headUrl) {
         this.headUrl = headUrl;
+        return this;
+    }
+
+    public HttpUtil<T>  setHeadUrl(@StringRes int headUrl) {
+        this.headUrl = MyApp.getInstance().getBaseContext().getString(headUrl);
+        return this;
     }
 
     public HttpUtil<T> setToJsonType(Type toJsonType) {

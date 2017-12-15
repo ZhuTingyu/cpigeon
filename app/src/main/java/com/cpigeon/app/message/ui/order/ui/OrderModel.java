@@ -1,5 +1,6 @@
 package com.cpigeon.app.message.ui.order.ui;
 
+import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
 import com.cpigeon.app.entity.GXTMessagePrice;
 import com.cpigeon.app.entity.MessageOrderEntity;
@@ -7,6 +8,7 @@ import com.cpigeon.app.entity.OrderInfoEntity;
 import com.cpigeon.app.entity.UserBalanceEntity;
 import com.cpigeon.app.entity.WeiXinPayEntity;
 import com.cpigeon.app.message.GXYHttpUtil;
+import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.EncryptionTool;
 import com.cpigeon.app.utils.databean.ApiResponse;
 import com.cpigeon.app.utils.http.HttpUtil;
@@ -93,9 +95,9 @@ public class OrderModel {
                 .setType(HttpUtil.TYPE_POST)
                 .url(R.string.api_GXT_message_order_history)
                 .addQueryString("u", String.valueOf(userId))
-                .addBody("u",String.valueOf(userId))
-                .addBody("t1",startTime)
-                .addBody("t2",endTime)
+                .addBody("u", String.valueOf(userId))
+                .addBody("t1", startTime)
+                .addBody("t2", endTime)
                 .request();
     }
 }

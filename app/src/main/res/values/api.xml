@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="api_head_url">/CPAPI/V1/</string>
+    <string name="api_public_head_url">/GAPI/V1/</string>
 
 
     <string name="api_user_agreement">/APP/Protocol?type=gxt</string>
@@ -48,7 +49,7 @@
 
     <string name="api_user_balance_info">GetUserYEJF</string>
 
-    <string name="api_get_wx_order">GetWXPrePayOrder</string>
+    <string name="api_get_wx_order">GetWXPrePayOrderBySXF</string>
     
     <string name="api_get_match_race_report">RaceReport</string>
     <string name="api_get_JG_message">GetJGSJ</string>

@@ -120,7 +120,7 @@ public class CreateMessageOrderFragment extends BaseMVPFragment<MessageCreateOrd
                 tvExplain.setText(getString(R.string.string_text_create_message_order_explain,String.valueOf(price.money)));
                 bindUi(RxUtils.textChanges(edCount), mPresenter.setMessageCount(integer -> {
                     mPresenter.price = price.money * (double)integer;
-                    tvPrice.setText(String.valueOf(mPresenter.price));
+                    tvPrice.setText(String.valueOf(mPresenter.price) + "元");
                 }));
             }else {
                 error(r.msg);
@@ -152,7 +152,7 @@ public class CreateMessageOrderFragment extends BaseMVPFragment<MessageCreateOrd
         if(position != selectTvs.size() - 1){
             mPresenter.messageCount = position + 1;
             mPresenter.price = price.money * (double)(position + 1);
-            tvPrice.setText(String.valueOf(mPresenter.price));
+            tvPrice.setText(String.valueOf(mPresenter.price) + "元");
         }
     }
 }

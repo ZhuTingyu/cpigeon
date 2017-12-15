@@ -165,6 +165,7 @@ dependencies {
     /*compile 'com.amap.api:3dmap:5.0.0'
     compile 'com.amap.api:location:3.3.0'
     compile 'com.amap.api:search:5.0.0'*/
+    //compile 'io.reactivex:rxandroid:1.0.1'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     compile 'com.afollestad:easyvideoplayer:0.3.0'
