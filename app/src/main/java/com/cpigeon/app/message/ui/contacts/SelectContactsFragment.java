@@ -84,7 +84,7 @@ public class SelectContactsFragment extends BaseContactsListFragment<TelephoneBo
             hideLoading();
             adapter.setNewData(data);
             for (ContactsGroupEntity entity : data) {
-                entity.isChooseVisible = entity.isNotCanEdit();
+                entity.isChooseVisible = !entity.isSystemGroup();
             }
             adapter.notifyDataSetChanged();
             adapter.addFooterView(initFoodView());

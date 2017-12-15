@@ -94,11 +94,13 @@ public class ModifySignFragment extends BaseMVPFragment<PersonSignPre> {
 
     private void bindData(){
         adapter.setNewData(imgs);
-        edSign.setText(entity.qianming);
         if(!entity.isExamine()){
+            edSign.setText(entity.shenqingqm);
             btn.setText("签名正在审核中....");
             btn.setEnabled(false);
             adapter.setOnItemClickListener(null);
+        }else {
+            edSign.setText(entity.qianming);
         }
     }
 

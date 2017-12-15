@@ -20,6 +20,7 @@ public class PersonInfoEntity implements Parcelable {
 
     public String qianming; //签名",
     public int qmshenhe;  //签名审核标记：1为已审核，否则未审核
+    public String shenqingqm;
 
     public boolean isExamine(){
         return qmshenhe == 1;
@@ -43,6 +44,7 @@ public class PersonInfoEntity implements Parcelable {
         dest.writeString(this.xingming);
         dest.writeString(this.qianming);
         dest.writeInt(this.qmshenhe);
+        dest.writeString(this.shenqingqm);
     }
 
     protected PersonInfoEntity(Parcel in) {
@@ -54,6 +56,7 @@ public class PersonInfoEntity implements Parcelable {
         this.xingming = in.readString();
         this.qianming = in.readString();
         this.qmshenhe = in.readInt();
+        this.shenqingqm = in.readString();
     }
 
     public static final Creator<PersonInfoEntity> CREATOR = new Creator<PersonInfoEntity>() {

@@ -114,7 +114,7 @@ public class ContactsListFragment extends BaseMVPFragment<ContactsListPre> {
         recyclerView.setAdapter(adapter);
         bindData();
 
-        if(!contactsGroupEntity.isNotCanEdit()){
+        if(!contactsGroupEntity.isSystemGroup()){
             bottomLl.setVisibility(View.VISIBLE);
             setToolbarChooseMenu();
             setLeftButton(false);
@@ -224,6 +224,8 @@ public class ContactsListFragment extends BaseMVPFragment<ContactsListPre> {
         TextView btnRight = findViewById(view, R.id.btn_right);
 
         bindUi(RxUtils.textChanges(content),mPresenter.setGroupName());
+        content.setText(contactsGroupEntity.fzmc);
+        content.setSelection(contactsGroupEntity.fzmc.length());
 
         title.setText("重新命名");
         btnRight.setOnClickListener(v -> {

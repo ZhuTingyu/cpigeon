@@ -20,8 +20,8 @@ public class ContactsGroupEntity extends MultiSelectEntity implements Parcelable
         return 0;
     }
 
-    public boolean isNotCanEdit(){
-        return !(StringValid.isStringValid(fztype) && fztype.equals("xtfz"));
+    public boolean isSystemGroup(){
+        return StringValid.isStringValid(fztype) && fztype.equals("xtfz");
     }
 
     @Override

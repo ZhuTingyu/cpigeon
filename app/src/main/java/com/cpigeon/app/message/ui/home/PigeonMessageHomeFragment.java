@@ -32,6 +32,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 /**
  * Created by Zhu TingYu on 2017/11/17.
  */
@@ -47,6 +49,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
 
     private List<String> titleList;
     UserGXTEntity userGXTEntity;
+    SweetAlertDialog dialogAgreement;
 
 
     @Override
@@ -146,8 +149,8 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
                                 finish();
                             }
                             , sweetAlertDialog -> {
+                                dialogAgreement = sweetAlertDialog;
                                 UserAgreementActivity.startActivity(getActivity(), false, CODE_AGREEMENT);
-                                sweetAlertDialog.dismiss();
                             });
                 } else {
                     if (userGXTEntity.syts < 1000) {
@@ -234,6 +237,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
         if (requestCode == CODE_AGREEMENT) {
             if (data != null) {
                 initView();
+                dialogAgreement.dismiss();
             }
         }
     }

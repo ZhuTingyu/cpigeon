@@ -241,6 +241,7 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
         TextView btnRight = view.findViewById(R.id.btn_right);
 
         content.setText(contentString);
+        content.setSelection(contentString.length());
         title.setText("编辑短语");
 
         btnRight.setOnClickListener(v -> {

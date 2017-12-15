@@ -101,7 +101,7 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
             setTitle("个人信息");
             getPersonInfo();
         } else if (type == TYPE_EDIT) {
-            setTitle("个人信息");
+            setTitle("编辑个人信息");
             entity = getActivity().getIntent().getParcelableExtra(IntentBuilder.KEY_DATA);
         } else if (type == TYPE_UPLOAD_INFO) {
             if (uploadInfoHaveDate) {
@@ -120,9 +120,9 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
             hideLoading();
             if (r.status) {
                 entity = r.data;
-                FileTool.byte2File(entity.sfzzm, getContext().getCacheDir().getPath(), imgs.get(0));
-                FileTool.byte2File(entity.sfzbm, getContext().getCacheDir().getPath(), imgs.get(1));
-                FileTool.byte2File(entity.yyzz, getContext().getCacheDir().getPath(), imgs.get(2));
+                mPresenter.idCardP = FileTool.byte2File(entity.sfzzm, getContext().getCacheDir().getPath(), imgs.get(0)).getPath();
+                mPresenter.idCardN = FileTool.byte2File(entity.sfzbm, getContext().getCacheDir().getPath(), imgs.get(1)).getPath();
+                mPresenter.license = FileTool.byte2File(entity.yyzz, getContext().getCacheDir().getPath(), imgs.get(2)).getPath();
                 bindData();
             } else {
                 error(r.msg);
@@ -164,6 +164,7 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
                         .putExtra(IntentBuilder.KEY_TYPE, PersonInfoFragment.TYPE_EDIT)
                         .putExtra(IntentBuilder.KEY_DATA, entity)
                         .startParentActivity(getActivity(), PersonInfoFragment.class);
+                finish();
             });
 
 
@@ -239,7 +240,7 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
             if (uploadInfoHaveDate) {
                 btn.setText("修改");
                 btn.setOnClickListener(v -> {
-                    mPresenter.modifyPersonInfo(r -> {
+                    mPresenter.uploadPersonInfo(r -> {
                         showLoading("正在修改");
                         hideLoading();
                         LogUtil.print(r.toJsonString());
@@ -409,8 +410,7 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(PersonInfoEvent event) {
         if (event.type == TYPE_LOOK) {
-            PersonInfoEntity personInfoEntity = event.entity;
-            bindData(personInfoEntity);
+            bindData(event.entity);
         }
     }
 

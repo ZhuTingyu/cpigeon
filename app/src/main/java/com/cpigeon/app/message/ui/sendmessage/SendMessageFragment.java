@@ -143,7 +143,9 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
         super.onActivityResult(requestCode, resultCode, data);
         if (CODE_COMMON_MESSAGE == requestCode) {
             if (data != null && StringValid.isStringValid(data.getStringExtra(IntentBuilder.KEY_DATA))) {
-                edContent.setText(data.getStringExtra(IntentBuilder.KEY_DATA));
+                String content = data.getStringExtra(IntentBuilder.KEY_DATA);
+                edContent.setText(content);
+                edContent.setSelection(content.length());
             }
         }else if (CODE_CONTACTS_LIST == requestCode){
             if(data != null && data.hasExtra(IntentBuilder.KEY_DATA)){

@@ -112,25 +112,25 @@ public class PersonSignPre extends BasePresenter {
 
     public Consumer<String> setSign(){
         return s -> {
-          sign = s;
+          sign = s.trim();
         };
     }
 
     public Consumer<String> setPersonName(){
         return s -> {
-            personName = s;
+            personName = s.trim();
         };
     }
 
     public Consumer<String> setPersonPhoneNumber(){
         return s -> {
-            personPhoneNumber = s;
+            personPhoneNumber = s.trim();
         };
     }
 
     public Consumer<String> setPersonWork(){
         return s -> {
-            personWork = s;
+            personWork = s.trim();
         };
     }
 
