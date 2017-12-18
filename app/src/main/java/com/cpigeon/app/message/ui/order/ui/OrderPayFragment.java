@@ -93,10 +93,15 @@ public class OrderPayFragment extends BaseMVPFragment<PayOrderPre> {
 
                 } else {
                     showLoading("正在创建订单");
-                    mPresenter.getWXOrder(weiXinPayEntity -> {
+                    mPresenter.getWXOrder(r -> {
                         hideLoading();
-                        SendWX sendWX = new SendWX(getActivity());
-                        sendWX.payWeiXin(weiXinPayEntity.getPayReq());
+                        if(r.status){
+                            SendWX sendWX = new SendWX(getActivity());
+                            sendWX.payWeiXin(r.data.getPayReq());
+                        }else {
+                            error(r.msg);
+                        }
+
                     });
                 }
             } else {

@@ -17,11 +17,14 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.commonstandard.view.activity.BasePageTurnActivity;
+import com.cpigeon.app.entity.OrderInfoEntity;
+import com.cpigeon.app.message.ui.order.ui.OrderPayFragment;
 import com.cpigeon.app.modular.order.model.bean.CpigeonOrderInfo;
 import com.cpigeon.app.modular.order.presenter.OrderPre;
 import com.cpigeon.app.modular.order.view.activity.viewdao.IOrderView;
 import com.cpigeon.app.modular.order.view.adapter.OrderAdapter;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.NetUtils;
 import com.orhanobut.logger.Logger;
 
@@ -42,9 +45,22 @@ public class OrderActivity extends BasePageTurnActivity<OrderPre, OrderAdapter, 
         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
             CpigeonOrderInfo orderInfo = (CpigeonOrderInfo) adapter.getData().get(position);
             if (!orderInfo.ispaid() && "待支付".equals(orderInfo.getStatusName())) {
-                Intent intent = new Intent(OrderActivity.this, OrderPayActivity.class);
-                intent.putExtra(OrderPayActivity.INTENT_DATA_KEY_ORDERINFO, orderInfo);
-                startActivity(intent);
+                if(orderInfo.getScores() == 0){
+                    OrderInfoEntity orderInfoEntity = new OrderInfoEntity();
+                    orderInfoEntity.id = String.valueOf(orderInfo.getId());
+                    orderInfoEntity.time = orderInfo.getOrderTime();
+                    orderInfoEntity.number = String.valueOf(orderInfo.getNumbers());
+                    orderInfoEntity.item = orderInfo.getOrderName();
+                    orderInfoEntity.price = String.valueOf(orderInfo.getPrice());
+                    orderInfoEntity.scores = String.valueOf(orderInfo.getScores());
+                    IntentBuilder.Builder()
+                            .putExtra(IntentBuilder.KEY_DATA, orderInfoEntity)
+                            .startParentActivity(getActivity(), OrderPayFragment.class);
+                }else {
+                    Intent intent = new Intent(OrderActivity.this, OrderPayActivity.class);
+                    intent.putExtra(OrderPayActivity.INTENT_DATA_KEY_ORDERINFO, orderInfo);
+                    startActivity(intent);
+                }
             }
         }
     };

@@ -51,12 +51,8 @@ public class PayOrderPre extends BasePresenter {
         }),consumer);
     }
 
-    public void getWXOrder(Consumer<WeiXinPayEntity> consumer){
-        submitRequestThrowError(OrderModel.greatWXOrder(userId, orderInfoEntity.id).map(r -> {
-            if(r.isHaveDate()){
-                return r.data;
-            }else throw new HttpErrorException(r);
-        }),consumer);
+    public void getWXOrder(Consumer<ApiResponse<WeiXinPayEntity>> consumer){
+        submitRequestThrowError(OrderModel.greatWXOrder(userId, orderInfoEntity.id),consumer);
     }
 
     public Consumer<String> setPassword(){
