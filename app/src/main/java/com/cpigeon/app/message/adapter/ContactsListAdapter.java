@@ -38,14 +38,6 @@ public class ContactsListAdapter extends BaseMultiSelectAdapter<ContactsGroupEnt
 
     }
 
-    @Override
-    public void setNewData(List<ContactsGroupEntity> data) {
-        super.setNewData(data);
-        if(data.isEmpty()){
-            CommonTool.setEmptyView(this,"没有分组信息");
-        }
-    }
-
     public void setType(String type) {
         this.type = type;
     }
