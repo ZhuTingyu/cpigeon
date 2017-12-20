@@ -17,6 +17,7 @@ import com.cpigeon.app.message.ui.order.ui.presenter.MessageCreateOrderPre;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
+import com.cpigeon.app.utils.ToastUtil;
 
 import java.util.List;
 
@@ -85,6 +86,10 @@ public class CreateMessageOrderFragment extends BaseMVPFragment<MessageCreateOrd
         btn = findViewById(R.id.text_btn);
 
         btn.setOnClickListener(v -> {
+            if(mPresenter.messageCount < 1){
+                ToastUtil.showLongToast(getContext(), "请选择充值的数量");
+                return;
+            }
             showLoading("正在创建订单");
             mPresenter.createGXTMessageOrder(r -> {
                 hideLoading();
