@@ -36,6 +36,7 @@ import com.cpigeon.app.modular.matchlive.view.activity.WeatherActivity;
 import com.cpigeon.app.modular.matchlive.view.fragment.viewdao.IMapLiveView;
 import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.DateTool;
+import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.PointsUtil;
 import com.cpigeon.app.utils.ViewExpandAnimation;
 import com.cpigeon.app.utils.http.LogUtil;
@@ -54,7 +55,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2017/7/12.
  */
 
-public class MapLiveFragment extends BaseMVPFragment {
+public class MapLiveFragment extends BaseMVPFragment<GYTRaceLocationPre> implements IMapLiveView {
 
     @BindView(R.id.displaybtn)
     ToggleButton mDisplaybtn;
@@ -101,8 +102,6 @@ public class MapLiveFragment extends BaseMVPFragment {
         super.onAttach(context);
         if (geCheJianKongRace == null)
             this.geCheJianKongRace = ((MapLiveActivity) getActivity()).getGeCheJianKongRace();
-
-        gytRaceLocations = getArguments().getParcelableArrayList("data");
 
     }
 
@@ -174,7 +173,7 @@ public class MapLiveFragment extends BaseMVPFragment {
 
     @Override
     protected GYTRaceLocationPre initPresenter() {
-        return null;
+        return new GYTRaceLocationPre(this);
     }
 
     @Override
@@ -192,30 +191,8 @@ public class MapLiveFragment extends BaseMVPFragment {
         if (aMap == null) {
             aMap = mMapView.getMap();
             mapMarkerManager = new MapMarkerManager(aMap, getContext());
-            if(gytRaceLocations.size() !=  0){
-                initMap();
-                showMapData();
-                if(!geCheJianKongRace.getMEndTime().isEmpty()){
-                    //检测结束
-                    mDisplaybtn.setOnClickListener(v -> {
-                        if (mDisplaybtn.isChecked()) {
-                            if(distanceOfEndPoint == 0){
-                                initCartPoint();
-                                smoothMarker.startSmoothMove();
-                            }else {
-                                smoothMarker.startSmoothMove();
-                            }
-                        } else {
-                            smoothMarker.stopMove();
-                        }
-                    });
-                }else {
-                    //检测中
-                    mDisplaybtn.setVisibility(View.GONE);
-                }
-            }else {
-                showTips("暂时没有数据",TipType.DialogError);
-            }
+            mPresenter.loadGYTRaceLocation();
+
         }
         isPrepared = false;
 
@@ -403,5 +380,57 @@ public class MapLiveFragment extends BaseMVPFragment {
     public void onDestroyView() {
         mMapView.onDestroy();
         super.onDestroyView();
+    }
+
+    @Override
+    public void showMapData(List<GYTRaceLocation> raceLocations) {
+        gytRaceLocations = raceLocations;
+
+        if(gytRaceLocations!=null && gytRaceLocations.size() !=  0){
+            if (geCheJianKongRace.getLatitude() != 0 && geCheJianKongRace.getLongitude() != 0) {
+                ((MapLiveActivity)getActivity()).setPoint(Lists.newArrayList(raceLocations.get(0).getWd(), raceLocations.get(0).getJd(), CommonTool.Aj2GPSLocation(geCheJianKongRace.getLatitude()),
+                        CommonTool.Aj2GPSLocation(geCheJianKongRace.getLongitude())));
+            } else {
+                ((MapLiveActivity)getActivity()).setPoint(Lists.newArrayList(raceLocations.get(0).getWd(), raceLocations.get(0).getJd(), raceLocations.get(raceLocations.size() - 1).getWd(),
+                        raceLocations.get(raceLocations.size() - 1).getJd()));
+            }
+            initMap();
+            showMapData();
+            if(!geCheJianKongRace.getMEndTime().isEmpty()){
+                //检测结束
+                mDisplaybtn.setOnClickListener(v -> {
+                    if (mDisplaybtn.isChecked()) {
+                        if(distanceOfEndPoint == 0){
+                            initCartPoint();
+                            smoothMarker.startSmoothMove();
+                        }else {
+                            smoothMarker.startSmoothMove();
+                        }
+                    } else {
+                        smoothMarker.stopMove();
+                    }
+                });
+            }else {
+                //检测中
+                mDisplaybtn.setVisibility(View.GONE);
+            }
+        }else {
+            showTips("暂时没有数据",TipType.DialogError);
+        }
+    }
+
+    @Override
+    public String getRid() {
+        return String.valueOf(geCheJianKongRace.getId());
+    }
+
+    @Override
+    public String getLid() {
+        return null;
+    }
+
+    @Override
+    public String hw() {
+        return "y";
     }
 }

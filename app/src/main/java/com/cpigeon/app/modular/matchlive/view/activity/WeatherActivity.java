@@ -2,6 +2,7 @@ package com.cpigeon.app.modular.matchlive.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +29,7 @@ import com.cpigeon.app.modular.matchlive.view.adapter.AfterWeatherListAdapter;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.WeatherManager;
 import com.cpigeon.app.utils.http.GsonUtil;
+import com.cpigeon.app.utils.http.LogUtil;
 import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
 
@@ -101,34 +103,34 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
         initView();
 
 
-        /*addressList = new RegeocodeAddress[afterPoints.size()];
-        weatherList = new LocalWeatherLive[afterPoints.size()];*/
+        //addressList = new RegeocodeAddress[afterPoints.size()];
+        //weatherList = new LocalWeatherLive[afterPoints.size()];
 
         addressList = Lists.newArrayList();
         weatherList = Lists.newArrayList();
 
         showLoading();
 
-        searchCityByPoint();
+       searchCityByPoint();
     }
 
     private void initIcMap() {
         icMap = new HashMap<>();
-        icMap.put("雷阵雨并伴有冰雹",R.drawable.ic_weather_white_hail);
-        icMap.put("大雪",R.drawable.ic_weather_white_heavy_snow);
-        icMap.put("大雨",R.drawable.ic_weather_white_heavy_rain);
-        icMap.put("多云",R.drawable.ic_weather_white_cloudy);
-        icMap.put("雷阵雨",R.drawable.ic_weather_white_thunder_shower);
-        icMap.put("霾",R.drawable.ic_weather_white_smog);
-        icMap.put("晴",R.drawable.ic_weather_white_sunny);
-        icMap.put("雾",R.drawable.ic_weather_white_fog);
-        icMap.put("小雪",R.drawable.ic_weather_white_light_snow);
-        icMap.put("小雨",R.drawable.ic_weather_white_light_rain);
-        icMap.put("阴",R.drawable.ic_weather_white_yin);
-        icMap.put("雨夹雪",R.drawable.ic_weather_white_sleet);
-        icMap.put("阵雪",R.drawable.ic_weather_white_heavy_snow);
-        icMap.put("阵雨",R.drawable.ic_weather_white_heavy_rain);
-        icMap.put("中雨",R.drawable.ic_weather_white_moderate_rain);
+        icMap.put("雷阵雨并伴有冰雹", R.drawable.ic_weather_white_hail);
+        icMap.put("大雪", R.drawable.ic_weather_white_heavy_snow);
+        icMap.put("大雨", R.drawable.ic_weather_white_heavy_rain);
+        icMap.put("多云", R.drawable.ic_weather_white_cloudy);
+        icMap.put("雷阵雨", R.drawable.ic_weather_white_thunder_shower);
+        icMap.put("霾", R.drawable.ic_weather_white_smog);
+        icMap.put("晴", R.drawable.ic_weather_white_sunny);
+        icMap.put("雾", R.drawable.ic_weather_white_fog);
+        icMap.put("小雪", R.drawable.ic_weather_white_light_snow);
+        icMap.put("小雨", R.drawable.ic_weather_white_light_rain);
+        icMap.put("阴", R.drawable.ic_weather_white_yin);
+        icMap.put("雨夹雪", R.drawable.ic_weather_white_sleet);
+        icMap.put("阵雪", R.drawable.ic_weather_white_heavy_snow);
+        icMap.put("阵雨", R.drawable.ic_weather_white_heavy_rain);
+        icMap.put("中雨", R.drawable.ic_weather_white_moderate_rain);
     }
 
 
@@ -142,6 +144,7 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
                         bindListData();
                         initMap();
                         hideLoading();
+                        LogUtil.print("debug"+"hideLoading");
                     }else {
                         searchCityByPoint();
                     }
@@ -164,12 +167,13 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
     }
 
     private void bindListData() {
+        LogUtil.print("debug" + "bindListData");
         adapter.setNewData(weatherList);
     }
 
 
     private void initMap() {
-
+        LogUtil.print("debug" + "initMap");
         aMap.addPolyline(new PolylineOptions().
                 addAll(afterPoints).width(10).color(R.color.colorBlue));
 
@@ -177,10 +181,10 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
 
         markerManager.addCustomMarker(afterPoints.get(0),GsonUtil.toJson(weatherList.get(0)),R.mipmap.ic_move_start);
         markerManager.addCustomMarker(afterPoints.get(afterPoints.size() - 1)
-                ,GsonUtil.toJson(weatherList.get(afterPoints.size() - 1)),R.mipmap.ic_move_end);
+                , GsonUtil.toJson(weatherList.get(afterPoints.size() - 1)), R.mipmap.ic_move_end);
 
         for (int i = 1, len = afterPoints.size() - 1; i < len; i++) {
-            markerManager.addMarker(afterPoints.get(i),null,GsonUtil.toJson(weatherList.get(i)));
+            markerManager.addMarker(afterPoints.get(i), null, GsonUtil.toJson(weatherList.get(i)));
         }
 
         List<Marker> markerList = markerManager.addMap();
@@ -237,34 +241,35 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        mMapView.onSaveInstanceState(outState);
         super.onSaveInstanceState(outState);
         //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
-        mMapView.onSaveInstanceState(outState);
     }
 
     View infoWindow = null;
 
     @Override
     public View getInfoWindow(Marker marker) {
-        if(infoWindow == null) {
-            infoWindow = View.inflate(this,R.layout.item_weather_info_window_layout,null);
+        if (infoWindow == null) {
+            infoWindow = View.inflate(this, R.layout.item_weather_info_window_layout, null);
         }
         render(marker, infoWindow);
         return infoWindow;
     }
 
     private void render(Marker marker, View infoWindow) {
-        LocalWeatherLive weatherLive = GsonUtil.fromJson(marker.getSnippet(),new TypeToken<LocalWeatherLive>(){}.getType());
+        LocalWeatherLive weatherLive = GsonUtil.fromJson(marker.getSnippet(), new TypeToken<LocalWeatherLive>() {
+        }.getType());
         BaseViewHolder holder = new BaseViewHolder(infoWindow);
-        holder.setText(R.id.temp, mContext.getString(R.string.text_temperature,weatherLive.getTemperature()));
+        holder.setText(R.id.temp, mContext.getString(R.string.text_temperature, weatherLive.getTemperature()));
         holder.setText(R.id.address, weatherLive.getProvince() + weatherLive.getCity());
         holder.setText(R.id.text1, weatherLive.getWeather());
-        holder.setText(R.id.text2, mContext.getString(R.string.text_wind_direction,weatherLive.getWindDirection()));
+        holder.setText(R.id.text2, mContext.getString(R.string.text_wind_direction, weatherLive.getWindDirection()));
         int integer = icMap.get(weatherLive.getWeather());
-        if(integer == 0){
-            holder.setImageResource(R.id.icon,icMap.get("阴"));
-        }else {
-            holder.setImageResource(R.id.icon,icMap.get(weatherLive.getWeather()));
+        if (integer == 0) {
+            holder.setImageResource(R.id.icon, icMap.get("阴"));
+        } else {
+            holder.setImageResource(R.id.icon, icMap.get(weatherLive.getWeather()));
         }
     }
 

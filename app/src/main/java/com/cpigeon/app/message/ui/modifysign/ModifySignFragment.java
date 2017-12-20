@@ -100,6 +100,7 @@ public class ModifySignFragment extends BaseMVPFragment<PersonSignPre> {
             btn.setEnabled(false);
             adapter.setOnItemClickListener(null);
         }else {
+            setBtn();
             edSign.setText(entity.qianming);
         }
     }
@@ -136,8 +137,6 @@ public class ModifySignFragment extends BaseMVPFragment<PersonSignPre> {
                         .show();
             }
         });
-
-        setBtn();
 
     }
 
