@@ -76,10 +76,12 @@ public class DialogUtils {
                 .setConfirmText("确定").show();
     }
 
-    public static void createDialog(Context context, View view) {
+    public static SweetAlertDialog createErrorDialog(Context context, String error) {
         SweetAlertDialog dialogPrompt;
-        dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);
-        dialogPrompt.setContentView(view);
+        dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE);
+        dialogPrompt.setTitleText(error);
+        dialogPrompt.show();
+        return dialogPrompt;
     }
 
     public static void createDialog(Context context, String title, String content

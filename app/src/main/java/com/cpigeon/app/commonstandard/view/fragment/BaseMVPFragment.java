@@ -11,10 +11,12 @@ import android.view.ViewGroup;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
+import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.ToastUtils;
 import com.cpigeon.app.utils.http.RestErrorInfo;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -32,6 +34,8 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
 
     protected final CompositeDisposable composite = new CompositeDisposable();
 
+    SweetAlertDialog errorDialog;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,9 +51,6 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
             bindData(mPresenter.getError(), o -> {
                 RestErrorInfo error = (RestErrorInfo) o;
                 if (error!=null) {
-                    if (mPresenter != null) {
-                        mPresenter.clearError();
-                    }
                     error(error.code,error.message);
                 }
             });
@@ -62,7 +63,9 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
     protected void error(String message) {
         hideLoading();
         if(!TextUtils.isEmpty(message)) {
-            showTips(message, TipType.DialogError);
+            if(errorDialog == null || !errorDialog.isShowing()){
+                errorDialog = DialogUtils.createErrorDialog(getContext(), message);
+            }
         }
     }
 
