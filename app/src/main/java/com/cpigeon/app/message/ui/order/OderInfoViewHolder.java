@@ -44,7 +44,7 @@ public class OderInfoViewHolder extends BaseViewHolder {
         orderId.setText(entity.number);
         orderContent.setText(entity.item);
         orderTime.setText(entity.time);
-        orderPrice.setText(entity.price + "元" + "   (微信手续费)" + StringUtil.twoPoint(Double.parseDouble(entity.price) * 0.01));
+        orderPrice.setText(entity.price + "元" + "   (微信手续费)" + StringUtil.twoPoint(Double.parseDouble(entity.price) * 0.01)+"元");
     }
 
     public void visibleBottom(){

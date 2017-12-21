@@ -88,7 +88,6 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
         mMapView.onCreate(savedInstanceState);
         if (aMap == null) {
             aMap = mMapView.getMap();
-            aMap.getUiSettings().setRotateGesturesEnabled(false);
             markerManager = new MapMarkerManager(aMap, mContext);
         }
         adapter = new AfterWeatherListAdapter();

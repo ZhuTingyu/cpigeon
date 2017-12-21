@@ -190,6 +190,7 @@ public class MapLiveFragment extends BaseMVPFragment<GYTRaceLocationPre> impleme
         mMapView.onCreate(state);
         if (aMap == null) {
             aMap = mMapView.getMap();
+            aMap.getUiSettings().setRotateGesturesEnabled(false);
             mapMarkerManager = new MapMarkerManager(aMap, getContext());
             mPresenter.loadGYTRaceLocation();
 

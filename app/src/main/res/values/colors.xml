@@ -69,6 +69,7 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="gray">#aaaaaa</color>
+    <color name="gray_m">#999999</color>
     <color name="light_blue">#6593cb</color>
     <color name="light_blue2">#73b9ff</color>
     <color name="light_blue3">#92c8fc</color>
