@@ -79,7 +79,8 @@ public class DialogUtils {
     public static SweetAlertDialog createErrorDialog(Context context, String error) {
         SweetAlertDialog dialogPrompt;
         dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE);
-        dialogPrompt.setTitleText(error);
+        dialogPrompt.setTitleText("失败");
+        dialogPrompt.setContentText(error);
         dialogPrompt.show();
         return dialogPrompt;
     }
