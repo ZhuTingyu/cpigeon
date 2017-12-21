@@ -11,6 +11,8 @@ import com.cpigeon.app.message.ui.order.ui.OrderModel;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.SendWX;
+import com.cpigeon.app.utils.StringValid;
+import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.databean.ApiResponse;
 import com.cpigeon.app.utils.http.HttpErrorException;
 
@@ -40,6 +42,12 @@ public class PayOrderPre extends BasePresenter {
     }
 
     public void payOrderByBalance(Consumer<ApiResponse> consumer){
+
+        if((!StringValid.isStringValid(password) || password.length() < 6)){
+            ToastUtil.showLongToast(getActivity(),"请输出密码（6-12位）");
+            return;
+        }
+
         submitRequestThrowError(OrderModel.payOrderByBalance(userId,orderInfoEntity.id,password),consumer);
     }
 
