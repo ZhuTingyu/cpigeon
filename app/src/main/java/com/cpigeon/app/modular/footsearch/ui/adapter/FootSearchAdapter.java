@@ -16,12 +16,12 @@ import java.util.List;
 public class FootSearchAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
     public FootSearchAdapter() {
-        super(Lists.newArrayList());
+        super(R.layout.item_line_two_text_layout,Lists.newArrayList());
     }
 
     @Override
     protected void convert(BaseViewHolder holder, String item) {
-        TextView textView = new TextView(mContext);
-
+        holder.setText(R.id.title, "12312312123");
+        holder.setText(R.id.content, "12312312123");
     }
 }
