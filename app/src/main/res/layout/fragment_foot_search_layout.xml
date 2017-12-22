@@ -17,27 +17,6 @@
         android:scaleType="fitXY"
         app:srcCompat="@mipmap/ic_foot_search_title"/>
 
-    <TextView
-        android:id="@+id/btn"
-        android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/bgColor_alertview_alert_start"
-        android:textSize="16dp"
-        android:gravity="center"
-        android:textColor="@color/gray_m"
-        android:visibility="gone"
-        android:text="清除历史记录"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list"
-        android:layout_margin="16dp"
-        android:layout_below="@id/icon_title"
-        android:layout_above="@id/btn"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
     <RelativeLayout
         android:id="@+id/rl_content"
         android:visibility="visible"
@@ -74,7 +53,6 @@
 
         <EditText
             android:id="@+id/tv_search_content"
-            android:layout_below="@+id/icon_title"
             android:textSize="16dp"
             android:hint="足环号码、鸽主姓名"
             android:layout_toRightOf="@id/tv_year"

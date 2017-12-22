@@ -1,12 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <TextView
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bgColor_alertview_alert_start"
+        android:textSize="16dp"
+        android:gravity="center"
+        android:textColor="@color/gray_m"
+        android:visibility="gone"
+        android:text="清除历史记录"/>
+
+
     <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/icon"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:scaleType="fitXY"
@@ -14,8 +28,10 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
+        android:layout_below="@id/icon"
         android:layout_margin="16dp"
+        android:layout_above="@id/btn"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-</LinearLayout>
+</RelativeLayout>
