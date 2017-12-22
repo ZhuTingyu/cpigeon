@@ -12,7 +12,7 @@ import com.cpigeon.app.utils.Lists;
 
 import java.util.List;
 
-/**
+/** checkbox 列表基类
  * Created by Zhu TingYu on 2017/11/20.
  */
 

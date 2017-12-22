@@ -6,17 +6,28 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <TextView
-        android:id="@+id/btn"
+    <RelativeLayout
+        android:id="@+id/rl1"
         android:layout_width="match_parent"
-        android:layout_height="58dp"
         android:layout_alignParentBottom="true"
+        android:visibility="visible"
         android:background="@color/bgColor_alertview_alert_start"
-        android:textSize="16dp"
-        android:gravity="center"
-        android:textColor="@color/gray_m"
-        android:visibility="gone"
-        android:text="清除历史记录"/>
+        android:layout_height="58dp">
+
+        <TextView
+            android:id="@+id/btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:drawablePadding="8dp"
+            android:layout_centerInParent="true"
+            android:drawableLeft="@mipmap/ic_foot_delete"
+            android:textColor="@color/gray_m"
+            android:text="清除历史记录"/>
+    </RelativeLayout>
+
+
 
 
     <android.support.v7.widget.AppCompatImageView
@@ -30,7 +41,7 @@
         android:id="@+id/list"
         android:layout_below="@id/icon"
         android:layout_margin="16dp"
-        android:layout_above="@id/btn"
+        android:layout_above="@+id/rl1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

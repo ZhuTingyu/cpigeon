@@ -114,7 +114,9 @@ public class IdCardCameraActivity extends AppCompatActivity {
             hint.setText("请拍摄身份证反面");
         }
 
-        int w = (int) (screenW * RATIO_SCREN_W);
+        //设置选择框的大小
+
+        int w = (int) (screenW * RATIO_SCREN_W); // 宽为屏幕宽带的 3/5
         int h = (int) (w / RATIO_PHOTO_W);
 
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(w, h);

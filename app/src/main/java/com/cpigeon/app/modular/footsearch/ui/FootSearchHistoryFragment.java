@@ -3,6 +3,9 @@ package com.cpigeon.app.modular.footsearch.ui;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
@@ -19,6 +22,7 @@ public class FootSearchHistoryFragment extends BaseMVPFragment {
 
     RecyclerView recyclerView;
     FootSearchAdapter adapter;
+    RelativeLayout btn;
 
     @Override
     protected BasePresenter initPresenter() {
@@ -45,7 +49,12 @@ public class FootSearchHistoryFragment extends BaseMVPFragment {
         addItemDecorationLine(recyclerView);
         adapter = new FootSearchAdapter();
         recyclerView.setAdapter(adapter);
+        btn = findViewById(R.id.rl1);
+        btn.setVisibility(View.VISIBLE);
 
+        btn.setOnClickListener(v -> {
+
+        });
 
         adapter.setNewData(Lists.newArrayList("","",""));
 

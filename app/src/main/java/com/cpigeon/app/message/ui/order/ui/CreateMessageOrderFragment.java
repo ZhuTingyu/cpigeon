@@ -87,7 +87,7 @@ public class CreateMessageOrderFragment extends BaseMVPFragment<MessageCreateOrd
 
         btn.setOnClickListener(v -> {
             if(mPresenter.messageCount < 1){
-                ToastUtil.showLongToast(getContext(), "请选择充值的数量");
+                ToastUtil.showLongToast(getContext(), "请确认充值的数量");
                 return;
             }
             showLoading("正在创建订单");
@@ -138,6 +138,9 @@ public class CreateMessageOrderFragment extends BaseMVPFragment<MessageCreateOrd
 
         if(position == 4){
             edCount.setEnabled(true);
+            tvPrice.setText(String.valueOf(0.0)+"元");
+            mPresenter.price = 0;
+            mPresenter.messageCount = 0;
         }else edCount.setEnabled(false);
 
 

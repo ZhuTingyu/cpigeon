@@ -77,14 +77,19 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             if (0 == position) {
+                //发送消息
                 IntentBuilder.Builder().startParentActivity(getActivity(), SendMessageFragment.class);
             } else if (1 == position) {
+                //电话簿
                 IntentBuilder.Builder().startParentActivity(getActivity(), TelephoneBookFragment.class);
             } else if (2 == position) {
+                //常用短语
                 IntentBuilder.Builder().startParentActivity(getActivity(), CommonMessageFragment.class);
             } else if (3 == position) {
+                //发送记录
                 IntentBuilder.Builder().startParentActivity(getActivity(), MessageHistoryFragment.class);
             } else if (4 == position) {
+                //修改签名
                 IntentBuilder.Builder().startParentActivity(getActivity(), ModifySignFragment.class);
             } else if (5 == position) {
                 //使用帮助
@@ -93,6 +98,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
                         .putExtra(IntentBuilder.KEY_DATA, CPigeonApiUrl.getInstance().getServer() + getString(R.string.api_user_help))
                         .startActivity();
             } else if (6 == position) {
+                //个人信息
                 IntentBuilder.Builder()
                         .putExtra(IntentBuilder.KEY_TYPE, PersonInfoFragment.TYPE_LOOK)
                         .startParentActivity(getActivity(), PersonInfoFragment.class);
