@@ -52,6 +52,8 @@ public class FootSearchFragment extends BaseMVPFragment {
 
     @Override
     public void finishCreateView(Bundle state) {
+        toolbar.setNavigationIcon(null);
+        toolbar.setNavigationOnClickListener(null);
         toolbar.getMenu().clear();
         toolbar.getMenu().add("帮助")
                 .setOnMenuItemClickListener(item -> {
