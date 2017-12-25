@@ -1,14 +1,18 @@
 package com.cpigeon.app.modular.footsearch.ui;
 
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.modular.footsearch.ui.adapter.FootSearchHelpAdapter;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.ScreenTool;
 
 /**
  * Created by Zhu TingYu on 2017/12/21.
@@ -42,8 +46,19 @@ public class FootSearchHelpFragment extends BaseMVPFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new FootSearchHelpAdapter();
         recyclerView.setAdapter(adapter);
+        initTopImg();
 
         adapter.setNewData(Lists.newArrayList("","",""));
+    }
+
+    private void initTopImg() {
+        AppCompatImageView imageView = findViewById(R.id.icon);
+
+        int w = ScreenTool.getScreenWidth(getContext());
+        int h = (int) (w * 0.46f);
+
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(w,h);
+        imageView.setLayoutParams(layoutParams);
     }
 
 

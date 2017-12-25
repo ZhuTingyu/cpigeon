@@ -2,7 +2,10 @@ package com.cpigeon.app.modular.footsearch.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -13,6 +16,7 @@ import com.cpigeon.app.modular.order.view.activity.OpenServiceActivity;
 import com.cpigeon.app.utils.DateTool;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.ScreenTool;
 
 import java.util.List;
 
@@ -93,6 +97,18 @@ public class FootSearchFragment extends BaseMVPFragment {
             IntentBuilder.Builder().startParentActivity(getActivity(), FootSearchResultFragment.class);
         });
 
+        initTopImg();
+
+    }
+
+    private void initTopImg() {
+        AppCompatImageView imageView = findViewById(R.id.icon_title);
+
+        int w = ScreenTool.getScreenWidth(getContext());
+        int h = (int) (w * 0.46f);
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(w,h);
+        imageView.setLayoutParams(layoutParams);
     }
 
     private void showPicker(){

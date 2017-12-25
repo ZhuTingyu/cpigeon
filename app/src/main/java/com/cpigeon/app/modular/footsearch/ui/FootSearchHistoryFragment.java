@@ -1,9 +1,11 @@
 package com.cpigeon.app.modular.footsearch.ui;
 
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -13,6 +15,7 @@ import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.modular.footsearch.ui.adapter.FootSearchAdapter;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.ScreenTool;
 
 /**
  * Created by Zhu TingYu on 2017/12/21.
@@ -62,5 +65,17 @@ public class FootSearchHistoryFragment extends BaseMVPFragment {
             IntentBuilder.Builder().startParentActivity(getActivity(), FootSearchResultFragment.class);
         });
 
+        initTopImg();
+
+    }
+
+    private void initTopImg() {
+        AppCompatImageView imageView = findViewById(R.id.icon);
+
+        int w = ScreenTool.getScreenWidth(getContext());
+        int h = (int) (w * 0.46f);
+
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(w,h);
+        imageView.setLayoutParams(layoutParams);
     }
 }
