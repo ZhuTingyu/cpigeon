@@ -27,7 +27,7 @@ public class OrderPayAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder holder, String item) {
-        holder.setImageResource(R.id.icon, icons.get(holder.getAdapterPosition() - 1));
+        holder.setImageResource(R.id.icon, icons.get(holder.getAdapterPosition()));
         holder.setText(R.id.title,item);
     }
 }

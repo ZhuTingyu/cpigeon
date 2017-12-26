@@ -149,9 +149,11 @@ public class CreateMessageOrderFragment extends BaseMVPFragment<MessageCreateOrd
             if(position == i){
                 Drawable drawable = getResources().getDrawable(R.drawable.ic_blue_hook);
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                textView.setTextColor(getResources().getColor(R.color.colorPrimary));
                 textView.setCompoundDrawables(drawable,null,null,null);
                 textView.setSelected(true);
             }else {
+                textView.setTextColor(getResources().getColor(R.color.text_color));
                 textView.setCompoundDrawables(null,null,null,null);
                 textView.setSelected(false);
             }

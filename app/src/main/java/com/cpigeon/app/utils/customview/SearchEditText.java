@@ -14,9 +14,9 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
 import com.cpigeon.app.R;
+import com.cpigeon.app.utils.ScreenTool;
 
 
 public class SearchEditText extends AppCompatEditText implements View.OnFocusChangeListener, View.OnKeyListener, TextWatcher {
@@ -141,6 +141,7 @@ public class SearchEditText extends AppCompatEditText implements View.OnFocusCha
                 drawableTempDel = null;
             }
             this.setCompoundDrawablesWithIntrinsicBounds(drawableSearch, null, drawableTempDel, null);
+            setCompoundDrawablePadding(ScreenTool.dip2px(8));
             super.onDraw(canvas);
         }
     }

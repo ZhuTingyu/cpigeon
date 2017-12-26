@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
+    android:background="@color/white"
     android:layout_height="match_parent">
 
     <android.support.v7.widget.AppCompatTextView
@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16dp"
-        android:layout_margin="16dp"
+        android:layout_margin="10dp"
         android:layout_marginBottom="16dp"
         tools:text="@string/string_text_create_message_order_explain" />
 
@@ -26,8 +26,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/line1"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
         android:text="短信充值条数"
         android:textSize="16dp" />
 
@@ -43,79 +43,68 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_select1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="32dp"
+            android:textColor="@color/text_color"
             android:layout_margin="5dp"
-            android:layout_marginLeft="16dp"
             android:background="@drawable/selector_gray_true_b_withe_st_blue"
             android:gravity="center"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingLeft="26dp"
-            android:paddingRight="26dp"
-
+            android:padding="5dp"
             android:text="1万条"
             android:textSize="16dp" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_select2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="32dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/selector_gray_true_b_withe_st_blue"
             android:gravity="center"
+            android:textColor="@color/text_color"
+            android:padding="6dp"
             android:layout_centerHorizontal="true"
-
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingLeft="26dp"
-            android:paddingRight="26dp"
             android:text="2万条"
             android:textSize="16dp" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_select3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="32dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/selector_gray_true_b_withe_st_blue"
             android:gravity="center"
-
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingLeft="26dp"
-            android:paddingRight="26dp"
+            android:textColor="@color/text_color"
+            android:padding="6dp"
             android:layout_alignParentRight="true"
             android:text="3万条"
             android:textSize="16dp" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_select4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="32dp"
             android:layout_margin="5dp"
             android:background="@drawable/selector_gray_true_b_withe_st_blue"
             android:gravity="center"
             android:layout_below="@+id/tv_select1"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingLeft="26dp"
-            android:paddingRight="26dp"
+            android:padding="6dp"
             android:text="4万条"
+            android:textColor="@color/text_color"
             android:textSize="16dp" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_select5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_width="100dp"
+            android:layout_height="32dp"
+            android:layout_alignBaseline="@+id/ed_count"
+            android:layout_alignBottom="@+id/ed_count"
+            android:layout_centerHorizontal="true"
             android:background="@drawable/selector_gray_true_b_withe_st_blue"
             android:gravity="center"
-            android:layout_below="@+id/tv_select1"
-            android:layout_centerHorizontal="true"
             android:padding="5dp"
+            android:textColor="@color/text_color"
             android:text="其他："
             android:textSize="16dp" />
 

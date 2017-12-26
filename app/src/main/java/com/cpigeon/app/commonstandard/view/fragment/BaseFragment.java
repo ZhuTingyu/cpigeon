@@ -181,14 +181,12 @@ public abstract class BaseFragment extends Fragment implements IView {
             switch (tipType) {
                 case Dialog:
                     dialogPrompt = new SweetAlertDialog(getActivity(), SweetAlertDialog.NORMAL_TYPE);
-                    dialogPrompt.setCancelable(false);
                     dialogPrompt.setTitleText(getString(R.string.prompt))
                             .setContentText(tip)
                             .setConfirmText(getString(R.string.confirm)).show();
                     return true;
                 case DialogSuccess:
                     dialogPrompt = new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE);
-                    dialogPrompt.setCancelable(false);
                     dialogPrompt.setTitleText("成功")
                             .setContentText(tip)
                             .setConfirmText(getString(R.string.confirm)).show();

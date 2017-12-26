@@ -79,8 +79,8 @@
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/search_edittext_height"
-        android:layout_marginLeft="@dimen/search_edittext_home_margin_h"
-        android:layout_marginRight="@dimen/search_edittext_home_margin_h"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:dropDownHeight="12dp"
         android:hint="搜索"
         android:paddingRight="@dimen/dp_10"
@@ -91,10 +91,7 @@
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeLayout"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:padding="10dp"
         android:layout_below="@id/widget_title_bar_search"
         android:layout_above="@id/ll1"
         android:layout_width="match_parent"

@@ -18,7 +18,6 @@ public class DialogUtils {
     public static void createDialog(Context context, String title, String content, String left) {
         SweetAlertDialog dialogPrompt;
         dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);
-        dialogPrompt.setCancelable(false);
         dialogPrompt.setTitleText(title)
                 .setContentText(content)
                 .setConfirmText(left).show();
@@ -28,7 +27,6 @@ public class DialogUtils {
                                     SweetAlertDialog.OnSweetClickListener rightListener) {
         SweetAlertDialog dialogPrompt;
         dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);
-        dialogPrompt.setCancelable(false);
         dialogPrompt.setTitleText(title)
                 .setConfirmClickListener(rightListener)
                 .setContentText(content)
@@ -90,7 +88,6 @@ public class DialogUtils {
 
         SweetAlertDialog dialogPrompt;
         dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);
-        dialogPrompt.setCancelable(false);
         dialogPrompt.setTitleText(title);
         if (left != null) {
             dialogPrompt.setCancelText(left);

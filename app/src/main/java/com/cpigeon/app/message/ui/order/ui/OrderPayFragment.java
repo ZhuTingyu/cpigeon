@@ -7,13 +7,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
+import com.cpigeon.app.entity.OrderInfoEntity;
 import com.cpigeon.app.entity.WeiXinPayEntity;
 import com.cpigeon.app.event.WXPayResultEvent;
 import com.cpigeon.app.message.ui.order.OderInfoViewHolder;
@@ -28,6 +31,7 @@ import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.SendWX;
+import com.cpigeon.app.utils.StringUtil;
 import com.cpigeon.app.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -48,9 +52,19 @@ public class OrderPayFragment extends BaseMVPFragment<PayOrderPre> {
 
     String type;
 
+    public TextView orderId;
+    public TextView orderContent;
+    public TextView orderTime;
+    public TextView orderPrice;
+    public LinearLayout llBottom;
+    public TextView orderPayText;
+
+    public CheckBox checkBox;
+    public TextView tvProtocol;
+
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_recyclerview_layout;
+        return R.layout.fragment_order_pay_layout;
     }
 
 
@@ -73,14 +87,14 @@ public class OrderPayFragment extends BaseMVPFragment<PayOrderPre> {
 
     protected void initView() {
         setTitle("订单支付");
+        initHeadView();
+        bindHeadData();
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new OrderPayAdapter();
         recyclerView.setAdapter(adapter);
         adapter.setNewData(Lists.newArrayList("余额支付", "微信支付"));
-        adapter.addHeaderView(initHeadView());
 
-        bindHeadData();
 
         adapter.setOnItemClickListener((adapter1, view, position) -> {
 
@@ -109,25 +123,36 @@ public class OrderPayFragment extends BaseMVPFragment<PayOrderPre> {
             }
 
         });
-
     }
 
-    private View initHeadView() {
-        View head = LayoutInflater.from(getContext()).inflate(R.layout.item_order_info_head_layout, recyclerView, false);
-        holder = new OderInfoViewHolder(head);
-        holder.visibleBottom();
+    private void initHeadView() {
 
-        holder.tvProtocol.setOnClickListener(v -> {
+        orderId = findViewById(R.id.tv_order_number_content);
+        orderContent = findViewById(R.id.tv_order_name_content);
+        orderTime = findViewById(R.id.tv_order_time_content);
+        orderPrice = findViewById(R.id.tv_order_price_content);
+        llBottom = findViewById(R.id.ll1);
+        orderPayText = findViewById(R.id.text1);
+
+        checkBox = findViewById(R.id.cb_order_protocol);
+        tvProtocol = findViewById(R.id.tv_order_protocol);
+
+        llBottom.setVisibility(View.VISIBLE);
+        orderPayText.setVisibility(View.VISIBLE);
+        tvProtocol.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), WebActivity.class);
             intent.putExtra(WebActivity.INTENT_DATA_KEY_URL, CPigeonApiUrl.getInstance().getServer() + "/APP/Protocol?type=pay");
             intent.putExtra(WebActivity.INTENT_DATA_KEY_BACKNAME, "订单支付");
             startActivity(intent);
         });
-        return holder.itemView;
     }
 
     protected void bindHeadData() {
-        holder.bindData(mPresenter.orderInfoEntity);
+        OrderInfoEntity entity = mPresenter.orderInfoEntity;
+        orderId.setText(entity.number);
+        orderContent.setText(entity.item);
+        orderTime.setText(entity.time);
+        orderPrice.setText(entity.price + "元" + "   (微信手续费)" + StringUtil.twoPoint(Double.parseDouble(entity.price) * 0.01)+"元");
     }
 
     protected void showPayDialog(String balance, String price) {

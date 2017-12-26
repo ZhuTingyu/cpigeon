@@ -22,6 +22,7 @@ import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.MultiSelectEntity;
 import com.cpigeon.app.message.adapter.CommonMessageAdapter;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
@@ -96,7 +97,7 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
         bottomText2.setOnClickListener(v -> {
             Intent intent = new Intent();
             intent.putExtra(IntentBuilder.KEY_DATA
-                    ,adapter.getItem(adapter.getSelectedPotion().get(0)).dxnr);
+                    , adapter.getItem(adapter.getSelectedPotion().get(0)).dxnr);
             getActivity().setResult(0, intent);
             finish();
         });
@@ -182,14 +183,21 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
         bottomIcon.setBackgroundResource(R.drawable.ic_message_delete);
         bottomText.setText("删除短语");
         bottomRelativeLayout.setOnClickListener(v -> {
-            mPresenter.setSelectIds(adapter);
-            mPresenter.deleteMessage(apiResponse -> {
-                if(apiResponse.status){
-                    adapter.deleteChoose();
-                }else {
-                    error(apiResponse.msg);
-                }
-            });
+            DialogUtils.createDialogWithLeft(getContext(), "是否要删除选中的短语"
+                    , sweetAlertDialog -> {
+                        sweetAlertDialog.dismiss();
+                    }
+                    , sweetAlertDialog -> {
+                        sweetAlertDialog.dismiss();
+                        mPresenter.setSelectIds(adapter);
+                        mPresenter.deleteMessage(apiResponse -> {
+                            if (apiResponse.status) {
+                                adapter.deleteChoose();
+                            } else {
+                                error(apiResponse.msg);
+                            }
+                        });
+                    });
         });
 
     }
@@ -209,10 +217,10 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
         btnRight.setOnClickListener(v -> {
             mPresenter.addCommonMessage(r -> {
                 dialogPrompt.dismiss();
-                if(r.status){
+                if (r.status) {
                     showTips("已经成功添加信息", TipType.Dialog);
                     bindData();
-                }else {
+                } else {
                     error(r.msg);
                 }
             });
@@ -223,7 +231,7 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
             dialogPrompt.dismiss();
         });
 
-        bindUi(RxUtils.textChanges(content),mPresenter.setMessageContent());
+        bindUi(RxUtils.textChanges(content), mPresenter.setMessageContent());
 
         dialogPrompt.setView(view);
         dialogPrompt.show();
@@ -248,12 +256,12 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
             mPresenter.setMessageContent(content.getText().toString());
             mPresenter.modifyMessage(apiResponse -> {
                 dialogPrompt.dismiss();
-                if(apiResponse.status){
+                if (apiResponse.status) {
                     showTips(apiResponse.msg, TipType.Dialog);
                     adapter.getItem(position).dxnr = content.getText().toString();
                     adapter.closeSwipe(position);
                     adapter.notifyItemChanged(position);
-                }else {
+                } else {
                     error(apiResponse.msg);
                 }
             });

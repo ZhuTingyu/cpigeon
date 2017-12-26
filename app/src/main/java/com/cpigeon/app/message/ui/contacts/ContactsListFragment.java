@@ -175,15 +175,22 @@ public class ContactsListFragment extends BaseMVPFragment<ContactsListPre> {
             iconLeft.setBackgroundResource(R.drawable.ic_cotants_delete);
             titleLeft.setText("删除选中");
             btnLeft.setOnClickListener(v -> {
-                mPresenter.setSelectIds(adapter);
-                mPresenter.deleteContacts(r -> {
-                    if(r.status){
-                        adapter.deleteChoose();
-                        showTips(r.msg, TipType.Dialog);
-                        EventBus.getDefault().post(new ContactsEvent());
-                    }else {
-                        error(r.msg);
-                    }
+                DialogUtils.createDialogWithLeft(getContext(), "确定删除选中联系人"
+                        ,sweetAlertDialog -> {
+                            sweetAlertDialog.dismiss();
+                        }
+                        ,sweetAlertDialog -> {
+                    mPresenter.setSelectIds(adapter);
+                    mPresenter.deleteContacts(r -> {
+                        sweetAlertDialog.dismiss();
+                        if(r.status){
+                            adapter.deleteChoose();
+                            showTips(r.msg, TipType.Dialog);
+                            EventBus.getDefault().post(new ContactsEvent());
+                        }else {
+                            error(r.msg);
+                        }
+                    });
                 });
             });
         }else {
