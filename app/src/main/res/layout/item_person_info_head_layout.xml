@@ -103,6 +103,11 @@
             android:textSize="16dp" />
     </RelativeLayout>
 
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        layout="@layout/item_line_view_layout"/>
+
     <RelativeLayout
         android:id="@+id/rl_sign"
         android:visibility="gone"
@@ -130,22 +135,21 @@
             android:maxLength="6"
             android:hint="签名为3-6位"
             android:textSize="16dp" />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            layout="@layout/item_line_view_layout"/>
     </RelativeLayout>
 
-
-
-
-    <include
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="16dp"
-        layout="@layout/item_line_view_layout"/>
 
     <TextView
         android:id="@id/text2"
         android:textSize="16dp"
         android:textColor="@color/light_red"
         android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
         android:text="身份证正反面或营业执照二选一上传即可"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

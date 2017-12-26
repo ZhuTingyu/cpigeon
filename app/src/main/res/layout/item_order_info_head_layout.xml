@@ -131,7 +131,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:background="@color/colorLayoutGray"
+            android:visibility="visible">
 
             <CheckBox
                 android:id="@+id/cb_order_protocol"
@@ -140,7 +141,6 @@
                 android:button="@drawable/checkbox_blue"
                 android:paddingLeft="@dimen/dp_5"
                 android:text="我已阅读并同意"
-                android:textColor="@color/textColor_light_black"
                 android:textSize="16dp" />
 
             <TextView
@@ -162,9 +162,10 @@
             android:paddingRight="24dp"
             android:paddingTop="@dimen/dp_10"
             android:text="支付方式"
+            android:background="@color/colorLayoutGray"
             android:textColor="@color/textColor_gray"
             android:textSize="16dp"
-            android:visibility="gone" />
+            android:visibility="visible" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

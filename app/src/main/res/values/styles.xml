@@ -22,6 +22,7 @@
         <item name="navigationIcon">@drawable/ic_back</item>
         <item name="android:windowIsTranslucent">true</item>
 
+
     </style>
 
     <style name="Toolbar" parent="@style/Widget.AppCompat.Toolbar">
@@ -308,6 +309,22 @@
         <item name="android:layout_height">40dp</item>
 
     </style>
+    <style name="TextAppearance.MaterialCalendarWidget.Header"
+        parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.MaterialCalendarWidget.Date"
+        parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/mcv_text_date_light</item>
+    </style>
+
+    <style name="TextAppearance.MaterialCalendarWidget.WeekDay"
+        parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textSize">12sp</item>
+    </style>
+
 
 
 

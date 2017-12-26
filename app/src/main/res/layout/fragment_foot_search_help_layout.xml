@@ -10,7 +10,7 @@
         android:id="@+id/rl1"
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
-        android:visibility="visible"
+        android:visibility="gone"
         android:background="@color/bgColor_alertview_alert_start"
         android:layout_height="58dp">
 

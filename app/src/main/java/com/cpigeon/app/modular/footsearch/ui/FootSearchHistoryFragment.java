@@ -56,7 +56,7 @@ public class FootSearchHistoryFragment extends BaseMVPFragment {
         btn.setVisibility(View.VISIBLE);
 
         btn.setOnClickListener(v -> {
-
+            adapter.setNewData(Lists.newArrayList());
         });
 
         adapter.setNewData(Lists.newArrayList("","",""));
