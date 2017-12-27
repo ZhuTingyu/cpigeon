@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.ArrayRes;
+import android.support.annotation.ColorInt;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -198,6 +199,15 @@ public class MaterialCalendarView extends ViewGroup {
             }
         }
     };
+
+    public void dissTopButtom(){
+        buttonPast.setVisibility(GONE);
+        buttonFuture.setVisibility(GONE);
+    }
+
+    public void setTopTitleColor(@ColorInt int id){
+        title.setTextColor(id);
+    }
 
     private final ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override

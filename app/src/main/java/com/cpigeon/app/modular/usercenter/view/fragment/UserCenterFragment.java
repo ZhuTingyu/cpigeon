@@ -33,6 +33,7 @@ import com.cpigeon.app.modular.usercenter.view.activity.MessageActivity;
 import com.cpigeon.app.modular.usercenter.view.activity.MyFollowActivity;
 import com.cpigeon.app.modular.usercenter.view.activity.ScoreActivity;
 import com.cpigeon.app.modular.usercenter.view.activity.UserInfoActivity;
+import com.cpigeon.app.sign.SignFragment;
 import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.DialogUtils;
@@ -158,6 +159,7 @@ public class UserCenterFragment extends BaseMVPFragment<UserCenterPre> {
                 //IntentBuilder.Builder(getActivity(), PigeonMessageHomeFragment.class).startActivity();
                 //getUserData();
                 IntentBuilder.Builder().startParentActivity(getActivity(), PigeonMessageHomeFragment.class);
+               // IntentBuilder.Builder().startParentActivity(getActivity(), SignFragment.class);
                 break;
             case R.id.ll_user_center_focus:
                 startActivity(new Intent(getActivity(), MyFollowActivity.class));

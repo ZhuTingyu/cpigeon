@@ -408,4 +408,9 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="dp_16">16dp</dimen>
+
+    <dimen name="dp_sign_box_size_1">20dp</dimen>
+    <dimen name="dp_sign_box_size_2">24dp</dimen>
+    <dimen name="dp_sign_box_size_3">28dp</dimen>
+    <dimen name="dp_sign_box_size_4">32dp</dimen>
 </resources>
