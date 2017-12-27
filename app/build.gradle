@@ -186,6 +186,7 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.7.0'
     compile 'com.github.stfalcon:frescoimageviewer:0.5.0'
     compile 'com.facebook.fresco:fresco:0.12.0'
+    compile 'com.github.pinguo-zhouwei:MZBannerView:v2.0.0'
 }
 
 int getCustomVersionCode() {
