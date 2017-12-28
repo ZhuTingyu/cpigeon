@@ -5,14 +5,16 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <LinearLayout
+   <!-- <LinearLayout
         android:id="@+id/bottom"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
         <RelativeLayout
+            android:id="@+id/bottom_img_1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -34,6 +36,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/bottom_img_2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -55,6 +58,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/bottom_img_3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -76,6 +80,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/bottom_img_4"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -97,38 +102,58 @@
         </RelativeLayout>
 
 
-    </LinearLayout>
+    </LinearLayout>-->
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"/>
 
-    <FrameLayout
-        android:id="@+id/top"
+    <RelativeLayout
+        android:id="@+id/rl_top"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="180dp">
 
-        <pl.droidsonroids.gif.GifImageView
+        <ImageView
             android:id="@+id/top_gif"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
             android:visibility="visible"
-            android:src="@drawable/ic_gif_sign_top" />
+            android:src="@drawable/ic_sign_top_2" />
 
         <ImageView
             android:id="@+id/top_img"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
             android:visibility="gone"
-            android:src="@drawable/ic_sign_top" />
+            android:src="@drawable/ic_sign_top_signed" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginBottom="6dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:text="点击进行签到"/>
+        <!-- android:shadowColor="@color/black"
+         android:shadowDx="5"
+         android:shadowDy="5"
+         android:shadowRadius="3"-->
 
 
-    </FrameLayout>
+    </RelativeLayout>
 
 
 
     <com.cpigeon.app.view.materialcalendarview.MaterialCalendarView
         android:id="@+id/calendar"
-        android:layout_below="@id/top"
-        android:layout_above="@id/bottom"
+        android:layout_below="@id/rl_top"
+        android:layout_above="@id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

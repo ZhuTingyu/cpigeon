@@ -10,6 +10,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 
 import com.cpigeon.app.R;
+import com.cpigeon.app.utils.ScreenTool;
 import com.cpigeon.app.view.materialcalendarview.format.DayFormatter;
 import com.cpigeon.app.view.materialcalendarview.format.WeekDayFormatter;
 
@@ -183,6 +184,7 @@ abstract class CalendarPagerView extends ViewGroup implements View.OnClickListen
                 if (result.decorator.shouldDecorate(dayView.getDate())) {
                     result.result.applyTo(facadeAccumulator);
                     dayView.setTextColor(getContext().getResources().getColor(R.color.colorPrimary));
+                    dayView.setTextSize(18);
                 }
             }
             dayView.applyFacade(facadeAccumulator);

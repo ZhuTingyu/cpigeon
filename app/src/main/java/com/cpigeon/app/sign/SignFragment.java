@@ -1,7 +1,12 @@
 package com.cpigeon.app.sign;
 
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
@@ -21,6 +26,13 @@ public class SignFragment extends BaseMVPFragment {
 
     MaterialCalendarView calendarView;
     String[] weekFormat = {"一","二","三","四","五","六","七"};
+
+    ImageView topGif;
+    ImageView topImg;
+    RelativeLayout rlTop;
+
+    GridView gridView;
+
     @Override
     protected BasePresenter initPresenter() {
         return null;
@@ -41,17 +53,27 @@ public class SignFragment extends BaseMVPFragment {
 
         setTitle("签到");
 
+        topGif = findViewById(R.id.top_gif);
+        topImg = findViewById(R.id.top_img);
+        rlTop = findViewById(R.id.rl_top);
         calendarView = findViewById(R.id.calendar);
+
+        topGif.setImageResource(R.drawable.sign_top_anim);
+        AnimationDrawable animationDrawable = (AnimationDrawable) topGif.getDrawable();
+        animationDrawable.start();
+
 
         calendarView.setShowOtherDates(MaterialCalendarView.SHOW_NONE);
 
         Calendar instance = Calendar.getInstance();
         calendarView.setSelectedDate(instance.getTime());
         calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_NONE);
-        calendarView.setHeaderTextAppearance(R.style.TextAppearance_AppCompat_Medium);
-        calendarView.setDateTextAppearance(R.style.TextAppearance_AppCompat_Medium);
-        calendarView.setWeekDayTextAppearance(R.style.TextAppearance_AppCompat_Medium);
+
+        calendarView.setHeaderTextAppearance(R.style.CalendarText);
+        calendarView.setDateTextAppearance(R.style.CalendarText);
+        calendarView.setWeekDayTextAppearance(R.style.CalendarText);
         calendarView.setWeekDayLabels(weekFormat);
+
         calendarView.setTopTitleColor(getResources().getColor(R.color.colorPrimary));
         calendarView.dissTopButtom();
         Calendar instance1 = Calendar.getInstance();
@@ -66,6 +88,12 @@ public class SignFragment extends BaseMVPFragment {
                 .commit();
 
         bindData();
+
+        rlTop.setOnClickListener(v -> {
+            topGif.setVisibility(View.GONE);
+            topImg.setVisibility(View.VISIBLE);
+        });
+
     }
 
     private void bindData() {
@@ -78,7 +106,9 @@ public class SignFragment extends BaseMVPFragment {
             calendar.add(Calendar.DATE, 5);
         }
         calendarView.addDecorator(new EventDecorator(Color.RED, dates));
+    }
 
+    private void initBottomImg(){
 
     }
 

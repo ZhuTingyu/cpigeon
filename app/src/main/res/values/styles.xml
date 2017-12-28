@@ -325,7 +325,10 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-
+    <style name="CalendarText">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">@color/gray_m</item>
+    </style>
 
 
 </resources>
