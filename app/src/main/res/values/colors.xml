@@ -30,6 +30,7 @@
     <color name="layout_background">#F0EFF5</color>
     <color name="bg_layout_gg">#008891</color>
     <color name="black_alpha_45">#71000000</color>
+    <color name="black1">#262626</color>
     <!--图标颜色-->
     <color name="svg_icon_black">#3d3d3d</color>
     <color name="svg_icon_light_black">#616161</color>

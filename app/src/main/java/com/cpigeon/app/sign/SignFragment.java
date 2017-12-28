@@ -3,6 +3,11 @@ package com.cpigeon.app.sign;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialog;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -11,12 +16,15 @@ import android.widget.RelativeLayout;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
+import com.cpigeon.app.entity.MultiSelectEntity;
+import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.view.materialcalendarview.CalendarDay;
 import com.cpigeon.app.view.materialcalendarview.EventDecorator;
 import com.cpigeon.app.view.materialcalendarview.MaterialCalendarView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by Zhu TingYu on 2017/12/27.
@@ -25,13 +33,15 @@ import java.util.Calendar;
 public class SignFragment extends BaseMVPFragment {
 
     MaterialCalendarView calendarView;
-    String[] weekFormat = {"一","二","三","四","五","六","七"};
+    String[] weekFormat = {"日","一","二","三","四","五","六"};
 
     ImageView topGif;
     ImageView topImg;
     RelativeLayout rlTop;
 
-    GridView gridView;
+    RecyclerView recyclerView;
+
+    SignBottomAdapter adapter;
 
     @Override
     protected BasePresenter initPresenter() {
@@ -53,10 +63,18 @@ public class SignFragment extends BaseMVPFragment {
 
         setTitle("签到");
 
+        toolbar.getMenu().clear();
+        toolbar.getMenu().add("规则")
+                .setOnMenuItemClickListener(item -> {
+                    showBottomDialog();
+                    return false;
+                }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
         topGif = findViewById(R.id.top_gif);
         topImg = findViewById(R.id.top_img);
         rlTop = findViewById(R.id.rl_top);
         calendarView = findViewById(R.id.calendar);
+        recyclerView = findViewById(R.id.list);
 
         topGif.setImageResource(R.drawable.sign_top_anim);
         AnimationDrawable animationDrawable = (AnimationDrawable) topGif.getDrawable();
@@ -87,13 +105,17 @@ public class SignFragment extends BaseMVPFragment {
                 .setMaximumDate(instance2.getTime())
                 .commit();
 
-        bindData();
 
         rlTop.setOnClickListener(v -> {
             topGif.setVisibility(View.GONE);
             topImg.setVisibility(View.VISIBLE);
         });
 
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),4));
+        adapter = new SignBottomAdapter();
+        adapter.bindToRecyclerView(recyclerView);
+
+        bindData();
     }
 
     private void bindData() {
@@ -106,10 +128,25 @@ public class SignFragment extends BaseMVPFragment {
             calendar.add(Calendar.DATE, 5);
         }
         calendarView.addDecorator(new EventDecorator(Color.RED, dates));
+
+        List<MultiSelectEntity> iconState = Lists.newArrayList(new MultiSelectEntity(),new MultiSelectEntity(),
+                new MultiSelectEntity(),new MultiSelectEntity());
+
+        for (int i = 0; i < 2; i++) {
+            iconState.get(i).isChoose = true;
+        }
+
+        adapter.setNewData(iconState);
     }
 
-    private void initBottomImg(){
-
+    private void showBottomDialog(){
+        BottomSheetDialog dialog = new BottomSheetDialog(getContext());
+        View view = View.inflate(getContext(),R.layout.dialog_sign_bottom_rule_layout,null);
+        findViewById(view, R.id.btn).setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+        dialog.setContentView(view);
+        dialog.show();
     }
 
 }

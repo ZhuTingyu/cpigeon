@@ -328,6 +328,7 @@
     <style name="CalendarText">
         <item name="android:textSize">16dp</item>
         <item name="android:textColor">@color/gray_m</item>
+        <!--<item name="android:layout_margin">3dp</item>-->
     </style>
 
 
