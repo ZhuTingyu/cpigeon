@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
@@ -38,10 +39,13 @@ public class SignFragment extends BaseMVPFragment {
     ImageView topGif;
     ImageView topImg;
     RelativeLayout rlTop;
+    TextView tvSign;
 
     RecyclerView recyclerView;
 
     SignBottomAdapter adapter;
+
+    AnimationDrawable animationDrawable;
 
     @Override
     protected BasePresenter initPresenter() {
@@ -75,9 +79,10 @@ public class SignFragment extends BaseMVPFragment {
         rlTop = findViewById(R.id.rl_top);
         calendarView = findViewById(R.id.calendar);
         recyclerView = findViewById(R.id.list);
+        tvSign = findViewById(R.id.text_sign);
 
         topGif.setImageResource(R.drawable.sign_top_anim);
-        AnimationDrawable animationDrawable = (AnimationDrawable) topGif.getDrawable();
+        animationDrawable = (AnimationDrawable) topGif.getDrawable();
         animationDrawable.start();
 
 
@@ -109,6 +114,7 @@ public class SignFragment extends BaseMVPFragment {
         rlTop.setOnClickListener(v -> {
             topGif.setVisibility(View.GONE);
             topImg.setVisibility(View.VISIBLE);
+            tvSign.setText("您今日已签到");
         });
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),4));
@@ -146,6 +152,15 @@ public class SignFragment extends BaseMVPFragment {
             dialog.dismiss();
         });
         dialog.setContentView(view);
+        dialog.setOnDismissListener(dialog1 -> {
+            animationDrawable.start();
+
+        });
+
+        dialog.setOnShowListener(dialog1 -> {
+            animationDrawable.selectDrawable(0);
+            animationDrawable.stop();
+        });
         dialog.show();
     }
 
