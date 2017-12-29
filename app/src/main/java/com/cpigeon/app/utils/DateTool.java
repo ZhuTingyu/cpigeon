@@ -57,6 +57,19 @@ public class DateTool {
         return dateTime;
     }
 
+    //字符串转换为日期时间
+    public static Date timeStamp2DateTime(long timeStamp) {
+        SimpleDateFormat format = new SimpleDateFormat(FORMAT_DATETIME);
+        String d = format.format(timeStamp);
+        Date date= null;
+        try {
+            date = format.parse(d);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
     //日期转换为字符串
     public static String dateToStr(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(FORMAT_DATE);

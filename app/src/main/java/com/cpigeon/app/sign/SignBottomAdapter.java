@@ -41,7 +41,6 @@ public class SignBottomAdapter extends BaseQuickAdapter<MultiSelectEntity, BaseV
     private static final int GIF_SIZE = 4;
     Animation animation;
     Activity activity;
-    private OnAnimEndListener listener;
 
     Handler handler = new Handler(msg -> {
         DialogUtils.createHintDialog(activity,activity.getString(R.string.string_hint_get_gb, String.valueOf(msg.arg1)));
@@ -129,8 +128,5 @@ public class SignBottomAdapter extends BaseQuickAdapter<MultiSelectEntity, BaseV
         }
     }
 
-    public interface OnAnimEndListener {
-        void onAnimEnd(int score);
-    }
 }
 

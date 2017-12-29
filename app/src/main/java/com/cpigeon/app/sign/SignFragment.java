@@ -18,6 +18,7 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.MultiSelectEntity;
+import com.cpigeon.app.utils.DateTool;
 import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.view.materialcalendarview.CalendarDay;
@@ -116,6 +117,8 @@ public class SignFragment extends BaseMVPFragment {
             topGif.setVisibility(View.GONE);
             topImg.setVisibility(View.VISIBLE);
             tvSign.setText("您今日已签到");
+            CalendarDay day = CalendarDay.from(DateTool.timeStamp2DateTime(System.currentTimeMillis()));
+            calendarView.addDecorator(new EventDecorator(day));
         });
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),4));
@@ -134,7 +137,7 @@ public class SignFragment extends BaseMVPFragment {
             dates.add(day);
             calendar.add(Calendar.DATE, 5);
         }
-        calendarView.addDecorator(new EventDecorator(Color.RED, dates));
+        calendarView.addDecorator(new EventDecorator(dates));
 
         List<MultiSelectEntity> iconState = Lists.newArrayList(new MultiSelectEntity(),new MultiSelectEntity(),
                 new MultiSelectEntity(),new MultiSelectEntity());

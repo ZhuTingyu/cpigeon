@@ -16,12 +16,15 @@ import java.util.HashSet;
  */
 public class EventDecorator implements DayViewDecorator {
 
-    private int color;
     private HashSet<CalendarDay> dates;
 
-    public EventDecorator(int color, Collection<CalendarDay> dates) {
-        this.color = color;
+    public EventDecorator(Collection<CalendarDay> dates) {
         this.dates = new HashSet<>(dates);
+    }
+
+    public EventDecorator(CalendarDay dates) {
+        this.dates = new HashSet<>();
+        this.dates.add(dates);
     }
 
     @Override
