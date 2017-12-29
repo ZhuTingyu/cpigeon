@@ -121,7 +121,14 @@ public class SignFragment extends BaseMVPFragment {
             calendarView.addDecorator(new EventDecorator(day));
         });
 
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),4));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),4){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+
+        recyclerView.setLayoutManager(gridLayoutManager);
         adapter = new SignBottomAdapter(getActivity());
         adapter.bindToRecyclerView(recyclerView);
 

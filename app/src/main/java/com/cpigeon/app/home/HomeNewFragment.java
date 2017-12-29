@@ -3,6 +3,7 @@ package com.cpigeon.app.home;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -10,6 +11,8 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.ToastUtil;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
@@ -39,36 +42,46 @@ public class HomeNewFragment extends BaseMVPFragment {
 
     @Override
     public void finishCreateView(Bundle state) {
-        banner = findViewById(R.id.banner);
-        
-        initBanner();
-    }
-
-    private void initBanner() {
-        banner.setPages(Lists.newArrayList(), new MZHolderCreator<BannerViewHolder>() {
-            @Override
-            public BannerViewHolder createViewHolder() {
-                return new BannerViewHolder();
-            }
+        setTitle("中鸽网");
+        toolbar.setNavigationIcon(R.mipmap.ic_home_top_my);
+        toolbar.setNavigationOnClickListener(v -> {
+            ToastUtil.showLongToast(getContext(),"home");
         });
 
+        toolbar.getMenu().clear();
+        toolbar.getMenu().add("").setIcon(R.mipmap.ic_home_top_message)
+                .setOnMenuItemClickListener(item -> {
+                    return false;
+                }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
+        banner = findViewById(R.id.banner);
+
+        banner.setPages(Lists.newArrayList("","","",""), () -> {
+            return new BannerViewHolder();
+        });
+        banner.start();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        banner.pause();
     }
 }
 
-class BannerViewHolder implements MZViewHolder<Integer> {
-    private ImageView mImageView;
+class BannerViewHolder implements MZViewHolder<String> {
+    private SimpleDraweeView mImageView;
     @Override
     public View createView(Context context) {
         // 返回页面布局
         View view = LayoutInflater.from(context).inflate(R.layout.item_banner_layou,null);
-        mImageView = view.findViewById(R.id.banner_image);
+        mImageView = view.findViewById(R.id.iamgeView);
         return view;
     }
 
     @Override
-    public void onBind(Context context, int position, Integer data) {
+    public void onBind(Context context, int position, String data) {
         // 数据绑定
-        //mImageView.setImageResource(data);
+        mImageView.setImageURI("http://img.zcool.cn/community/01e4a2577deac20000018c1bdd823a.jpg@1280w_1l_2o_100sh.jpg");
     }
 }

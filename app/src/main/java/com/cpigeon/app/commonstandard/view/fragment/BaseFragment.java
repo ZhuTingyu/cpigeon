@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cpigeon.app.R;
@@ -69,6 +70,8 @@ public abstract class BaseFragment extends Fragment implements IView {
 
     protected SwipeRefreshLayout refreshLayout;
 
+    protected TextView titleView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -100,8 +103,10 @@ public abstract class BaseFragment extends Fragment implements IView {
         super.onViewCreated(view, savedInstanceState);
         bind = ButterKnife.bind(this, view);
         toolbar = view.findViewById(R.id.toolbar);
+        titleView = view.findViewById(R.id.toolbar_title);
         if (toolbar==null){
             toolbar = getActivity().findViewById(R.id.toolbar);
+            titleView = getActivity().findViewById(R.id.toolbar_title);
             if(toolbar != null){
                 toolbar.setNavigationOnClickListener(v -> getActivity().finish());
             }
@@ -115,13 +120,19 @@ public abstract class BaseFragment extends Fragment implements IView {
     }
 
     public void setTitle(@StringRes int resId) {
-        if (null != toolbar)
-            toolbar.setTitle(resId);
+        if (null != toolbar){
+            if(titleView != null){
+                titleView.setText(resId);
+            }
+        }
     }
 
     public void setTitle(String resId) {
-        if (null != toolbar)
-            toolbar.setTitle(resId);
+        if (null != toolbar){
+            if(titleView != null){
+                titleView.setText(resId);
+            }
+        }
     }
 
     public abstract void finishCreateView(Bundle state);
