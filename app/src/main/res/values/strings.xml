@@ -121,5 +121,7 @@
     <string name="next">Go to next</string>
     <string name="calendar">Calendar</string>
 
+    <string name="string_hint_get_gb">您已经获取%1$s个鸽币，请再接再厉</string>
+
 
 </resources>

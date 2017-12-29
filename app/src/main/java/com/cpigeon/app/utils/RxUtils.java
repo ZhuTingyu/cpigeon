@@ -2,13 +2,18 @@ package com.cpigeon.app.utils;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.cpigeon.app.utils.http.RxNet;
 
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
+import io.reactivex.internal.schedulers.NewThreadScheduler;
 
 /**
  * Created by Zhu TingYu on 2017/11/20.
@@ -26,6 +31,14 @@ public class RxUtils {
             });
         });
     }
+
+    public static void delayed(int seconds,Consumer<Long> consumer) {
+        Observable.timer(seconds, TimeUnit.MILLISECONDS)
+                .observeOn(new NewThreadScheduler())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(consumer);
+    }
+
     public static Observable<String> textChanges(TextView view) {
         return Observable.create(subscriber -> {
             final TextWatcher watcher = new TextWatcher() {

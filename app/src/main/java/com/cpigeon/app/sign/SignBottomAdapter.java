@@ -1,7 +1,9 @@
 package com.cpigeon.app.sign;
 
 import android.app.Activity;
-import android.view.View;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -13,13 +15,20 @@ import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseViewHolder;
 import com.cpigeon.app.entity.MultiSelectEntity;
+import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.ScreenTool;
 import com.plattysoft.leonids.ParticleSystem;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-import pl.droidsonroids.gif.GifImageView;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.internal.schedulers.NewThreadScheduler;
+import io.reactivex.schedulers.Schedulers;
+
 
 /**
  * Created by Zhu TingYu on 2017/12/28.
@@ -32,6 +41,13 @@ public class SignBottomAdapter extends BaseQuickAdapter<MultiSelectEntity, BaseV
     private static final int GIF_SIZE = 4;
     Animation animation;
     Activity activity;
+    private OnAnimEndListener listener;
+
+    Handler handler = new Handler(msg -> {
+        DialogUtils.createHintDialog(activity,activity.getString(R.string.string_hint_get_gb, String.valueOf(msg.arg1)));
+        return false;
+    });
+
 
     public SignBottomAdapter(Activity activity) {
         super(R.layout.item_sign_bottom_layout, Lists.newArrayList());
@@ -70,8 +86,8 @@ public class SignBottomAdapter extends BaseQuickAdapter<MultiSelectEntity, BaseV
                 ImgSize = 32 + GIF_SIZE;
                 break;
         }
-        imageView.setLayoutParams(new RelativeLayout.LayoutParams(ScreenTool.dip2px(ImgSize),ScreenTool.dip2px(ImgSize)));
-        if(item.isChoose){
+        imageView.setLayoutParams(new RelativeLayout.LayoutParams(ScreenTool.dip2px(ImgSize), ScreenTool.dip2px(ImgSize)));
+        if (item.isChoose) {
             holder.setImageResource(R.id.img, imgId);
             holder.itemView.setOnClickListener(v -> {
                 imageView.startAnimation(animation);
@@ -84,9 +100,21 @@ public class SignBottomAdapter extends BaseQuickAdapter<MultiSelectEntity, BaseV
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        new ParticleSystem(activity, 100, R.drawable.star_pink, 800)
-                                .setSpeedRange(0.1f, 0.25f)
-                                .oneShot(v, 100);
+                        ParticleSystem s = new ParticleSystem(activity, 30, R.drawable.vector_ic_start, 800)
+                                .setSpeedModuleAndAngleRange(0.1f, 0.2f, 225, 315)
+                                .setRotationSpeed(180)
+                                .setAcceleration(0.00005f, 270)
+                                .setScaleRange(0.8f, 1.2f)
+                                .setFadeOut(200)
+                                .setSpeedRange(0.1f, 0.25f);
+                        s.oneShot(v, 30);
+
+
+                        RxUtils.delayed(800,aLong -> {
+                            Message message = new Message();
+                            message.arg1 = 1;
+                            handler.sendMessage(message);
+                        });
                     }
 
                     @Override
@@ -96,9 +124,13 @@ public class SignBottomAdapter extends BaseQuickAdapter<MultiSelectEntity, BaseV
                 });
 
             });
-        }else {
+        } else {
             holder.setImageResource(R.id.img, icons.get(holder.getAdapterPosition()));
         }
+    }
+
+    public interface OnAnimEndListener {
+        void onAnimEnd(int score);
     }
 }
 
