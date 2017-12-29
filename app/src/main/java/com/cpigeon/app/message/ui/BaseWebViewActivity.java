@@ -54,7 +54,7 @@ public class BaseWebViewActivity<Pre extends BasePresenter> extends BaseActivity
         title = getIntent().getStringExtra(IntentBuilder.KEY_TITLE);
 
         if(StringValid.isStringValid(title)){
-            toolbar.setTitle(title);
+            setTitle(title);
         }
 
 

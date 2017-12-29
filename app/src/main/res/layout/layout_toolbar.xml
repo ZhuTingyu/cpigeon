@@ -20,8 +20,9 @@
 
         <TextView
             android:id="@+id/toolbar_title"
-            tools:text="asdkjfal;sdjfla;jsdf"
+            tools:text="中鸽网"
             android:textSize="18dp"
+            android:textColor="@color/white"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

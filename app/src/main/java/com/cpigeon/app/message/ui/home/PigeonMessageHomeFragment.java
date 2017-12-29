@@ -117,7 +117,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
         userGXTEntity = getActivity().getIntent().getParcelableExtra(IntentBuilder.KEY_DATA);
 
 
-        toolbar.setTitle("鸽信通");
+        setTitle("鸽信通");
 
         mPresenter.userId = CpigeonData.getInstance().getUserId(getContext());
 

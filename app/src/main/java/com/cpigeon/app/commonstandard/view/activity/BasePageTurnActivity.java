@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -44,6 +45,8 @@ public abstract class BasePageTurnActivity<Pre extends BasePresenter, Adapter ex
     @BindView(R.id.empty_layout)
     CustomEmptyView mCustomEmptyView;
 
+    TextView title;
+
     boolean canLoadMore = true, isRefreshing = false, isMoreDateLoading = false;
     int pageindex = 1, pagesize = 10;
 
@@ -66,7 +69,8 @@ public abstract class BasePageTurnActivity<Pre extends BasePresenter, Adapter ex
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        toolbar.setTitle(getTitleName());
+        title = findViewById(R.id.toolbar_title);
+        title.setText(getTitleName());
         setSupportActionBar(this.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
