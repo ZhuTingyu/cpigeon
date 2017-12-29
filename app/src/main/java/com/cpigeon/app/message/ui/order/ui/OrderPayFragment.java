@@ -98,7 +98,7 @@ public class OrderPayFragment extends BaseMVPFragment<PayOrderPre> {
 
         adapter.setOnItemClickListener((adapter1, view, position) -> {
 
-            if (holder.checkBox.isChecked()) {
+            if (checkBox.isChecked()) {
                 if (position == 0) {
                     mPresenter.getUserBalance(userBalanceEntity -> {
                         showPayDialog(String.format("%.2f", userBalanceEntity.ye), mPresenter.orderInfoEntity.price);
