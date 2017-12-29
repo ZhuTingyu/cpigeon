@@ -1,5 +1,6 @@
 package com.cpigeon.app.sign;
 
+import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -14,6 +15,7 @@ import com.cpigeon.app.base.BaseViewHolder;
 import com.cpigeon.app.entity.MultiSelectEntity;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.ScreenTool;
+import com.plattysoft.leonids.ParticleSystem;
 
 import java.util.List;
 
@@ -29,8 +31,9 @@ public class SignBottomAdapter extends BaseQuickAdapter<MultiSelectEntity, BaseV
     int size;
     private static final int GIF_SIZE = 4;
     Animation animation;
+    Activity activity;
 
-    public SignBottomAdapter() {
+    public SignBottomAdapter(Activity activity) {
         super(R.layout.item_sign_bottom_layout, Lists.newArrayList());
         icons = Lists.newArrayList(R.mipmap.ic_gray_box_1
                 , R.mipmap.ic_gray_box_2
@@ -38,7 +41,7 @@ public class SignBottomAdapter extends BaseQuickAdapter<MultiSelectEntity, BaseV
                 , R.mipmap.ic_gray_box_4);
         size = ScreenTool.getScreenWidth(MyApp.getInstance().getBaseContext()) / 4;
         animation = AnimationUtils.loadAnimation(MyApp.getInstance().getBaseContext(), R.anim.anim_sign_box_rock);
-
+        this.activity = activity;
     }
 
     @Override
@@ -72,6 +75,26 @@ public class SignBottomAdapter extends BaseQuickAdapter<MultiSelectEntity, BaseV
             holder.setImageResource(R.id.img, imgId);
             holder.itemView.setOnClickListener(v -> {
                 imageView.startAnimation(animation);
+
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        new ParticleSystem(activity, 100, R.drawable.star_pink, 800)
+                                .setSpeedRange(0.1f, 0.25f)
+                                .oneShot(v, 100);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+
             });
         }else {
             holder.setImageResource(R.id.img, icons.get(holder.getAdapterPosition()));

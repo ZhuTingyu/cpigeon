@@ -147,11 +147,11 @@ public class UserCenterFragment extends BaseMVPFragment<UserCenterPre> {
                 }
                 break;
             case R.id.cv_sign:
-                /*Intent intent = new Intent(getActivity(), WebActivity.class);
+                Intent intent = new Intent(getActivity(), WebActivity.class);
                 intent.putExtra(WebActivity.INTENT_DATA_KEY_BACKNAME, "我的");
                 intent.putExtra(WebActivity.INTENT_DATA_KEY_URL, CPigeonApiUrl.getInstance().getServer() + CPigeonApiUrl.APP_SIGN_URL + "?uid=" + CpigeonData.getInstance().getUserId(getActivity()));
-                startActivity(intent);*/
-                IntentBuilder.Builder().startParentActivity(getActivity(), SignFragment.class);
+                startActivity(intent);
+                //IntentBuilder.Builder().startParentActivity(getActivity(), SignFragment.class);
                 break;
             case R.id.ll_user_center_msg:
                 startActivity(new Intent(getActivity(), MessageActivity.class));

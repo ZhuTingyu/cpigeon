@@ -118,7 +118,7 @@ public class SignFragment extends BaseMVPFragment {
         });
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),4));
-        adapter = new SignBottomAdapter();
+        adapter = new SignBottomAdapter(getActivity());
         adapter.bindToRecyclerView(recyclerView);
 
         bindData();
