@@ -1,5 +1,6 @@
 package com.cpigeon.app.utils;
 
+import android.app.Activity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -13,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.internal.schedulers.NewThreadScheduler;
 
@@ -39,6 +41,14 @@ public class RxUtils {
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(consumer);
     }
+
+    public static Disposable rollPoling(long initialDelay, long period, Consumer<Long> consumer) {
+        return Observable.interval(initialDelay,period, TimeUnit.MILLISECONDS)
+                .observeOn(new NewThreadScheduler())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(consumer);
+    }
+
     public static Observable<String> textChanges(TextView view) {
         return Observable.create(subscriber -> {
             final TextWatcher watcher = new TextWatcher() {

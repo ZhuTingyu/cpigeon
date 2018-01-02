@@ -12,18 +12,23 @@ import android.widget.ImageView;
 
 import com.cpigeon.app.MainActivity;
 import com.cpigeon.app.R;
+import com.cpigeon.app.base.BaseViewHolder;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
+import com.cpigeon.app.home.adpter.HomeAdAdapter;
 import com.cpigeon.app.home.adpter.HomeLeadAdapter;
+import com.cpigeon.app.home.adpter.HomeNewAdapter;
 import com.cpigeon.app.message.ui.home.PigeonMessageHomeFragment;
 import com.cpigeon.app.modular.matchlive.view.activity.GeCheJianKongListActicity;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.ToastUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.zhouwei.mzbanner.MZBannerView;
-import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Zhu TingYu on 2017/12/29.
@@ -31,14 +36,25 @@ import com.zhouwei.mzbanner.holder.MZViewHolder;
 
 public class HomeNewFragment extends BaseMVPFragment {
 
+    private static final int TYPE_NEWS_HEAD = 0;
+    private static final int TYPE_DYNAMIC_HEAD = 1;
+
     MZBannerView banner;
 
     RecyclerView leadList;
+    RecyclerView adList;
     RecyclerView newsList;
+    RecyclerView dynamicList;
 
     HomeLeadAdapter leadAdapter;
+    HomeAdAdapter adAdapter;
+    HomeNewAdapter newAdapter;
+
     MainActivity activity;
 
+    Disposable disposable;
+
+    int adPosition = 0;
 
 
     @Override
@@ -65,7 +81,7 @@ public class HomeNewFragment extends BaseMVPFragment {
 
         toolbar.setNavigationIcon(R.mipmap.ic_home_top_my);
         toolbar.setNavigationOnClickListener(v -> {
-            ToastUtil.showLongToast(getContext(),"home");
+            ToastUtil.showLongToast(getContext(), "home");
         });
 
         toolbar.getMenu().clear();
@@ -76,26 +92,54 @@ public class HomeNewFragment extends BaseMVPFragment {
 
         banner = findViewById(R.id.banner);
         leadList = findViewById(R.id.lead_list);
+        adList = findViewById(R.id.ad_list);
         newsList = findViewById(R.id.news_list);
 
-        banner.setPages(Lists.newArrayList("","","",""), () -> {
+        banner.setPages(Lists.newArrayList("", "", "", ""), () -> {
             return new BannerViewHolder();
         });
         banner.start();
 
         initLeadList();
+        initAdList();
         initNewList();
+        initDynamicList();
+    }
+
+    private void initDynamicList() {
 
     }
 
+    private void initAdList() {
+        adList.setLayoutManager(new LinearLayoutManager(getContext()));
+        adAdapter = new HomeAdAdapter();
+        adList.setAdapter(adAdapter);
+
+        disposable = RxUtils.rollPoling(3, 2000, aLong -> {
+
+            if (adPosition > adAdapter.getData().size() - 1) {
+                adPosition = 0;
+            }
+            adList.smoothScrollToPosition(adPosition);
+            adPosition += 1;
+
+        });
+
+        adAdapter.setNewData(Lists.newArrayList("", "", "", "", "", ""));
+    }
+
+
     private void initNewList() {
-
-
-
+        newsList.setLayoutManager(new LinearLayoutManager(getContext()));
+        newAdapter = new HomeNewAdapter();
+        newAdapter.addHeaderView(initHeadView(TYPE_NEWS_HEAD));
+        newAdapter.setNewData(Lists.newArrayList("",""));
+        newsList.setAdapter(newAdapter);
+        addItemDecorationLine(newsList);
     }
 
     private void initLeadList() {
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(),4){
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 4) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -105,12 +149,12 @@ public class HomeNewFragment extends BaseMVPFragment {
         leadAdapter = new HomeLeadAdapter();
         leadList.setAdapter(leadAdapter);
         leadAdapter.setOnItemClickListener((adapter, view, position) -> {
-            switch (position){
+            switch (position) {
                 case 0://比赛直播
                     activity.setCurrIndex(1);
                     break;
                 case 1://比赛监控
-                    IntentBuilder.Builder(getActivity(),GeCheJianKongListActicity.class).startActivity();
+                    IntentBuilder.Builder(getActivity(), GeCheJianKongListActicity.class).startActivity();
                     break;
                 case 2://鸽信通
                     IntentBuilder.Builder().startParentActivity(getActivity(), PigeonMessageHomeFragment.class);
@@ -120,6 +164,21 @@ public class HomeNewFragment extends BaseMVPFragment {
                     break;
             }
         });
+    }
+
+    private View initHeadView(int type) {
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.item_home_list_head_layout, null);
+        BaseViewHolder holder = new BaseViewHolder(view);
+        if (type == TYPE_NEWS_HEAD) {
+            holder.setImageResource(R.id.icon, R.drawable.ic_news_head);
+            holder.setText(R.id.title, "新闻资讯");
+            holder.setText(R.id.title2, "实时显示新闻资讯");
+        } else {
+            holder.setImageResource(R.id.icon, R.drawable.ic_home_dynamic);
+            holder.setText(R.id.title, "鸽友动态");
+            holder.setText(R.id.title2, "实时显示最新动态");
+        }
+        return view;
     }
 
     @Override
@@ -136,10 +195,11 @@ public class HomeNewFragment extends BaseMVPFragment {
 
 class BannerViewHolder implements MZViewHolder<String> {
     private SimpleDraweeView mImageView;
+
     @Override
     public View createView(Context context) {
         // 返回页面布局
-        View view = LayoutInflater.from(context).inflate(R.layout.item_banner_layou,null);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_banner_layou, null);
         mImageView = view.findViewById(R.id.iamgeView);
         return view;
     }

@@ -87,6 +87,28 @@ public class BaseViewHolder extends com.chad.library.adapter.base.BaseViewHolder
 
     }
 
+    public void setViewDrawableLeft(TextView view, int resId) {
+        view.setCompoundDrawablesWithIntrinsicBounds(
+                null,
+                null
+                , getDrawable(resId), null);
+
+    }
+
+    public void setViewDrawableLeft(TextView view, int res, int w, int h) {
+        Drawable drawable;
+        try {
+            drawable = AppCompatResources.getDrawable(itemView.getContext(), res);
+            DrawableUtils.fixDrawable(drawable);
+        } catch (Resources.NotFoundException e) {
+            drawable = itemView.getContext().getResources().getDrawable(res);
+        }
+        drawable.setBounds(0,0,w,h);
+        view.setCompoundDrawables(drawable,null,null,null);
+        view.setCompoundDrawablePadding(5);
+
+    }
+
     public void setTextView(TextView textView, CharSequence... text) {
         if (textView == null) return;
         CharSequence t = getArrayString(text);

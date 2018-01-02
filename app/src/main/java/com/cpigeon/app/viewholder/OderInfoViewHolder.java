@@ -1,4 +1,4 @@
-package com.cpigeon.app.message.ui.order;
+package com.cpigeon.app.viewholder;
 
 import android.view.View;
 import android.widget.CheckBox;

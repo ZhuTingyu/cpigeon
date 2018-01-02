@@ -3,7 +3,7 @@ package com.cpigeon.app.message.ui.order.adpter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.cpigeon.app.R;
 import com.cpigeon.app.entity.MessageOrderEntity;
-import com.cpigeon.app.message.ui.order.OderInfoViewHolder;
+import com.cpigeon.app.viewholder.OderInfoViewHolder;
 import com.cpigeon.app.utils.CommonTool;
 
 import java.util.List;
