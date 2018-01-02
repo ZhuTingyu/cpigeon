@@ -46,7 +46,7 @@ public class MessageActivity extends BaseActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        toolbar.setTitle("消息通知");
+        setTitle("消息通知");
         setSupportActionBar(this.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

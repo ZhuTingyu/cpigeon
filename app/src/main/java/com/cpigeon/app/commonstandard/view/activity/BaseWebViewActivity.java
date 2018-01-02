@@ -125,7 +125,7 @@ public abstract class BaseWebViewActivity extends BaseActivity {
                 super.onPageStarted(view, url, favicon);
                 Logger.i("get start url地址----------：" + url);
                 //这里可以用来判断页面加载前的url地址，等 ，也可以在这里来启动一个progressbar,用来显示正在加载。
-                setToolbarTitle("加载中");
+                setTitle("加载中");
                 updateTips(false);
                 mIsTimeout = false;
                 mHasError = false;
@@ -206,7 +206,7 @@ public abstract class BaseWebViewActivity extends BaseActivity {
     //设置toolbar标题
     public void setToolbarTitle(String title) {
         if (toolbar == null) return;
-        toolbar.setTitle(title);
+        setTitle(title);
     }
 
     @Override

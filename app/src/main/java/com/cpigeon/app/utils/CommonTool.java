@@ -8,16 +8,21 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.support.v4.content.FileProvider;
+import android.support.v7.widget.AppCompatImageView;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
 import com.cpigeon.app.utils.customview.CustomEmptyView;
 import com.orhanobut.logger.Logger;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.net.NetworkInterface;
@@ -337,4 +342,20 @@ public class CommonTool {
         emptyView.setEmptyText(message);
         adapter.setEmptyView(emptyView);
     }
+    public static void setIconView(ImageView imageView, @DrawableRes int url) {
+            Picasso.with(imageView.getContext())
+                    .load(url)
+                    .placeholder(R.mipmap.head_image_default)
+                    .error(R.mipmap.head_image_default)
+                    .into(imageView);
+    }
+
+    public static void setIconView(ImageView imageView, String url) {
+            Picasso.with(imageView.getContext())
+                    .load(url)
+                    .placeholder(R.mipmap.head_image_default)
+                    .error(R.mipmap.head_image_default)
+                    .into(imageView);
+    }
+
 }

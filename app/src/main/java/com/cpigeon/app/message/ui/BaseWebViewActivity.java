@@ -9,6 +9,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
@@ -53,9 +54,7 @@ public class BaseWebViewActivity<Pre extends BasePresenter> extends BaseActivity
 
         title = getIntent().getStringExtra(IntentBuilder.KEY_TITLE);
 
-        if(StringValid.isStringValid(title)){
-            setTitle(title);
-        }
+        setTitle(title);
 
 
         webView = findViewById(R.id.web_view);
@@ -93,11 +92,11 @@ public class BaseWebViewActivity<Pre extends BasePresenter> extends BaseActivity
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true); //支持通过JS打开新窗口
         webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
         webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
-        webView.setWebViewClient(new WebViewClient(){
+        webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                if(progressBar != null){
+                if (progressBar != null) {
                     progressBar.setVisibility(View.GONE);
                 }
             }
@@ -108,7 +107,6 @@ public class BaseWebViewActivity<Pre extends BasePresenter> extends BaseActivity
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
                 view.loadUrl(url);
-
 
 
                 //如果不需要其他对点击链接事件的处理返回true，否则返回false

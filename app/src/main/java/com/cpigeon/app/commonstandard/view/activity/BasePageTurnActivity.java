@@ -71,6 +71,7 @@ public abstract class BasePageTurnActivity<Pre extends BasePresenter, Adapter ex
     public void initView(Bundle savedInstanceState) {
         title = findViewById(R.id.toolbar_title);
         title.setText(getTitleName());
+        toolbar.setTitle("");
         setSupportActionBar(this.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

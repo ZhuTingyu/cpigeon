@@ -24,6 +24,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cpigeon.app.MyApp;
@@ -35,6 +36,7 @@ import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.EncryptionTool;
 import com.cpigeon.app.utils.SharedPreferencesTool;
 import com.cpigeon.app.utils.StatusBarSetting;
+import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.http.LogUtil;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
@@ -65,6 +67,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
 
     protected Toolbar toolbar;
+    protected TextView tvTitle;
     //AppBarLayout appBarLayout;
     /**
      * 加载中--对话框
@@ -78,6 +81,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         setContentView(getLayoutId());
         mUnbinder = ButterKnife.bind(this);
         toolbar = findViewById(R.id.toolbar);
+        tvTitle = findViewById(R.id.toolbar_title);
         setToolbar();
         mPresenter = this.initPresenter();
         initView(savedInstanceState);
@@ -87,9 +91,18 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     public void setToolbar() {
         //appBarLayout = findViewById(R.id.appbar);
         if (null != toolbar) {
+            toolbar.setTitle("");
             toolbar.setNavigationOnClickListener(v -> finish());
         }
 
+    }
+
+    protected void setTitle(String title){
+        if(StringValid.isStringValid(title)){
+            if(tvTitle != null){
+                tvTitle.setText(title);
+            }
+        }
     }
 
     //获取布局文件

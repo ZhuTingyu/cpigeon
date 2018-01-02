@@ -49,7 +49,7 @@ public class AboutActivity extends BaseActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        toolbar.setTitle("关于");
+        setTitle("关于");
         setSupportActionBar(this.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

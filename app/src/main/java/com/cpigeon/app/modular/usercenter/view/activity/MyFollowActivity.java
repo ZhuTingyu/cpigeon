@@ -44,7 +44,7 @@ public class MyFollowActivity extends BaseActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        toolbar.setTitle("我的关注");
+        setTitle("我的关注");
         setSupportActionBar(this.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

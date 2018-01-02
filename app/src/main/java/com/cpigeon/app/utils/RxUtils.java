@@ -11,6 +11,7 @@ import com.cpigeon.app.utils.http.RxNet;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.internal.schedulers.NewThreadScheduler;
@@ -32,13 +33,12 @@ public class RxUtils {
         });
     }
 
-    public static void delayed(int seconds,Consumer<Long> consumer) {
+    public static void delayed(int seconds, Consumer<Long> consumer) {
         Observable.timer(seconds, TimeUnit.MILLISECONDS)
                 .observeOn(new NewThreadScheduler())
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(consumer);
     }
-
     public static Observable<String> textChanges(TextView view) {
         return Observable.create(subscriber -> {
             final TextWatcher watcher = new TextWatcher() {
@@ -63,6 +63,7 @@ public class RxUtils {
             }
         });
     }
+
     public static Consumer<? super Boolean> enabled(final View view) {
         return b -> {
             if (view != null)

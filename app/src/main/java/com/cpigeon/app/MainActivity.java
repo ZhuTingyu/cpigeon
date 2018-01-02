@@ -419,7 +419,7 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
         setCurrIndex(position);
     }
 
-    private void setCurrIndex(int index) {
+    public void setCurrIndex(int index) {
         if (index == lastTabIndex) return;
         StatusBarTool.setWindowStatusBarColor(this, getResources().getColor(index == 4 ? R.color.user_center_header_top : R.color.colorPrimary));
         lastTabIndex = index;

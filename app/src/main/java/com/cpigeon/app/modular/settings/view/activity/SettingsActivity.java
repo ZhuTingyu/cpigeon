@@ -70,6 +70,8 @@ public class SettingsActivity extends BaseActivity {
     Button btnLogout;
     @BindView(R.id.rl_face)
     RelativeLayout rlFace;
+    @BindView(R.id.toolbar_title)
+    TextView toolbarTitle;
     private UpdateManager mUpdateManager;
     boolean mEntryInstall = false;
 
@@ -85,7 +87,8 @@ public class SettingsActivity extends BaseActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        toolbar.setTitle("设置");
+        toolbarTitle.setText("设置");
+        toolbar.setTitle("");
         setSupportActionBar(this.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
