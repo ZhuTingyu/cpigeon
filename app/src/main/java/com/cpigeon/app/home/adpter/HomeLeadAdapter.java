@@ -35,7 +35,7 @@ public class HomeLeadAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
 
         imgSize = (ScreenTool.getScreenWidth(MyApp.getInstance().getBaseContext()) / 4)
-                - ScreenTool.dip2px(32);
+                - ScreenTool.dip2px(40);
     }
 
     @Override
