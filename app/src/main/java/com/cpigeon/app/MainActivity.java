@@ -82,7 +82,7 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
     private int lastTabIndex = 0;//当前页面索引
 
     //主页
-    private HomeNewFragment homeFragment;
+    private HomeFragment homeFragment;
     //直播
     private MatchLiveFragment matchLiveFragment;
     //个人中心
@@ -140,7 +140,7 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
 
         @Override
         public void onRefreshFinished(int type, List<MatchInfo> list) {
-            //if (homeFragment != null) homeFragment.loadMatchInfo();
+            if (homeFragment != null) homeFragment.loadMatchInfo();
         }
     };
 
@@ -305,7 +305,7 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
 
     public void initView(Bundle savedInstanceState) {
         MainActivityPermissionsDispatcher.sysytemAlertWindowWithCheck(this);
-        homeFragment = new HomeNewFragment();
+        homeFragment = new HomeFragment();
         matchLiveFragment = new MatchLiveFragment();
         matchLiveFragment.setOnRefreshListener(onMatchInfoRefreshListener);
         userCenterFragment = new UserCenterFragment();
@@ -383,7 +383,7 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
         switch (position) {
             case 0:
                 if (homeFragment == null) {
-                    homeFragment = new HomeNewFragment();
+                    homeFragment = new HomeFragment();
                     transaction.add(R.id.viewpager, homeFragment);
                 } else {
                     transaction.show(homeFragment);

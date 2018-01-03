@@ -61,7 +61,7 @@ public class HomeNewFragment extends BaseMVPFragment {
 
     Disposable disposable;
 
-    int adPosition = 1;
+    int adPosition = 0;
 
 
     @Override
@@ -120,8 +120,6 @@ public class HomeNewFragment extends BaseMVPFragment {
         dynamicAdapter = new HomeDynamicAdapter();
         dynamicAdapter.addHeaderView(initHeadView(TYPE_DYNAMIC_HEAD));
         dynamicList.setAdapter(dynamicAdapter);
-        addItemDecorationLine(dynamicList);
-
         List<BaseDynamicEntity> data = Lists.newArrayList();
 
 
@@ -161,6 +159,11 @@ public class HomeNewFragment extends BaseMVPFragment {
         adAdapter = new HomeAdAdapter();
         adList.setAdapter(adAdapter);
 
+        adAdapter.setNewData(Lists.newArrayList("", "", "", "", "", ""));
+        rollPolingAdList();
+    }
+
+    private void rollPolingAdList(){
         disposable = RxUtils.rollPoling(3, 2000, aLong -> {
 
             if (adPosition > adAdapter.getData().size() - 1) {
@@ -170,8 +173,6 @@ public class HomeNewFragment extends BaseMVPFragment {
             adPosition += 1;
 
         });
-
-        adAdapter.setNewData(Lists.newArrayList("", "", "", "", "", ""));
     }
 
 
@@ -231,12 +232,19 @@ public class HomeNewFragment extends BaseMVPFragment {
     @Override
     public void onResume() {
         super.onResume();
+        if(disposable == null){
+            rollPolingAdList();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
         banner.pause();
+        if(disposable != null){
+            disposable.dispose();
+            disposable = null;
+        }
     }
 }
 

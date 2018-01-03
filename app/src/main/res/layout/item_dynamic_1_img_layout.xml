@@ -16,6 +16,14 @@
         android:layout_width="match_parent"
         android:layout_height="145dp"
         android:layout_below="@+id/head"
+        android:visibility="visible"
+        android:layout_marginBottom="10dp"
         app:roundedCornerRadius="5dp" />
+
+    <include
+        android:layout_below="@id/content_img"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        layout="@layout/item_line_view_layout"/>
 
 </RelativeLayout>

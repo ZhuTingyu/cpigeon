@@ -51,8 +51,8 @@ public class RxUtils {
 
     public static Disposable rollPoling(long initialDelay, long period, Consumer<Long> consumer) {
         return Observable.interval(initialDelay,period, TimeUnit.MILLISECONDS)
-                .observeOn(new NewThreadScheduler())
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(new NewThreadScheduler())
                 .subscribe(consumer);
     }
 

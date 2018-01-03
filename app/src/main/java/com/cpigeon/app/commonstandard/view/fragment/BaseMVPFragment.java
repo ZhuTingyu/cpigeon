@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.utils.DialogUtils;
+import com.cpigeon.app.utils.ScreenTool;
 import com.cpigeon.app.utils.ToastUtils;
 import com.cpigeon.app.utils.http.RestErrorInfo;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
@@ -96,7 +97,7 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
     }
 
     protected void addItemDecorationLine(RecyclerView recyclerView){
-        addItemDecorationLine(recyclerView, R.color.line_color,1);
+        addItemDecorationLine(recyclerView, R.color.line_color, ScreenTool.dip2px(1));
     }
 
     protected void addItemDecorationLine(RecyclerView recyclerView, @ColorRes int color, int size){

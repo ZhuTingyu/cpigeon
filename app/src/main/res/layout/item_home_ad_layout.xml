@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         tools:text="[赛事直播]12323423423423423423423423424234234234212312123"
         android:textColor="@color/black"
-        android:textSize="16dp"
+        android:textSize="@dimen/medium_text_size"
         android:singleLine="true"
         />
 
