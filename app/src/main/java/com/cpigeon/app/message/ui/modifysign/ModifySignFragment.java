@@ -80,14 +80,19 @@ public class ModifySignFragment extends BaseMVPFragment<PersonSignPre> {
     private void getData() {
         showLoading();
         mPresenter.getPersonSignInfo(r -> {
-            hideLoading();
             if(r.status){
                 entity = r.data;
-                FileTool.byte2File(entity.sfzzm,getContext().getCacheDir().getPath(),imgs.get(0));
-                FileTool.byte2File(entity.sfzbm,getContext().getCacheDir().getPath(),imgs.get(1));
-                FileTool.byte2File(entity.yyzz,getContext().getCacheDir().getPath(),imgs.get(2));
-                hideLoading();
-                bindData();
+                RxUtils.runOnNewThread(observableEmitter -> {
+                    FileTool.byte2File(entity.sfzzm,getContext().getCacheDir().getPath(),imgs.get(0));
+                    FileTool.byte2File(entity.sfzbm,getContext().getCacheDir().getPath(),imgs.get(1));
+                    FileTool.byte2File(entity.yyzz,getContext().getCacheDir().getPath(),imgs.get(2));
+                    observableEmitter.onNext(new Object());
+                    observableEmitter.onComplete();
+                },o -> {
+                    hideLoading();
+                    bindData();
+                });
+
             }else {
                 error(r.msg);
             }
@@ -104,6 +109,23 @@ public class ModifySignFragment extends BaseMVPFragment<PersonSignPre> {
         }else {
             setBtn();
             edSign.setText(entity.qianming);
+            adapter.setOnItemClickListener((adapter1, view, position) -> {
+                if (position == 0) {//身份证正面
+                    IntentBuilder.Builder(getActivity(), IdCardCameraActivity.class)
+                            .putExtra(IntentBuilder.KEY_TYPE, IdCardCameraActivity.TYPE_P)
+                            .startActivity(getActivity(), IdCardCameraActivity.CODE_ID_CARD_P);
+                } else if (position == 1) {//身份中反面
+                    IntentBuilder.Builder(getActivity(), IdCardCameraActivity.class)
+                            .putExtra(IntentBuilder.KEY_TYPE, IdCardCameraActivity.TYPE_N)
+                            .startActivity(getActivity(), IdCardCameraActivity.CODE_ID_CARD_N);
+                } else if (position == 2) {//营业执照
+                    new SaActionSheetDialog(getContext())
+                            .builder()
+                            .addSheetItem("相册选取", OnSheetItemClickListener)
+                            .addSheetItem("拍一张", OnSheetItemClickListener)
+                            .show();
+                }
+            });
         }
     }
 
@@ -122,23 +144,7 @@ public class ModifySignFragment extends BaseMVPFragment<PersonSignPre> {
         adapter.setNewData(Lists.newArrayList("", "", ""));
         recyclerView.requestFocus();
 
-        adapter.setOnItemClickListener((adapter1, view, position) -> {
-            if (position == 0) {//身份证正面
-                IntentBuilder.Builder(getActivity(), IdCardCameraActivity.class)
-                        .putExtra(IntentBuilder.KEY_TYPE, IdCardCameraActivity.TYPE_P)
-                        .startActivity(getActivity(), IdCardCameraActivity.CODE_ID_CARD_P);
-            } else if (position == 1) {//身份中反面
-                IntentBuilder.Builder(getActivity(), IdCardCameraActivity.class)
-                        .putExtra(IntentBuilder.KEY_TYPE, IdCardCameraActivity.TYPE_N)
-                        .startActivity(getActivity(), IdCardCameraActivity.CODE_ID_CARD_N);
-            } else if (position == 2) {//营业执照
-                new SaActionSheetDialog(getContext())
-                        .builder()
-                        .addSheetItem("相册选取", OnSheetItemClickListener)
-                        .addSheetItem("拍一张", OnSheetItemClickListener)
-                        .show();
-            }
-        });
+
 
     }
 

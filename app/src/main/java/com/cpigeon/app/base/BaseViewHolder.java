@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.utils.DrawableUtils;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -197,6 +198,13 @@ public class BaseViewHolder extends com.chad.library.adapter.base.BaseViewHolder
                     .placeholder(R.mipmap.head_image_default)
                     .error(R.mipmap.head_image_default)
                     .into(icon);
+        }
+    }
+
+    public void setSimpleImageView(@IdRes int resId, String url) {
+        SimpleDraweeView icon = getView(resId);
+        if (icon != null) {
+            icon.setImageURI(url);
         }
     }
 

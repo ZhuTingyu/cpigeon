@@ -1,6 +1,8 @@
 package com.cpigeon.app.commonstandard.view.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -94,8 +96,12 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
     }
 
     protected void addItemDecorationLine(RecyclerView recyclerView){
+        addItemDecorationLine(recyclerView, R.color.line_color,1);
+    }
+
+    protected void addItemDecorationLine(RecyclerView recyclerView, @ColorRes int color, int size){
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(recyclerView.getContext())
-                .colorResId(R.color.line_color).size(1)
+                .colorResId(color).size(size)
                 .showLastDivider().build());
     }
 

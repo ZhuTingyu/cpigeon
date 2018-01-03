@@ -42,11 +42,6 @@ public class SignBottomAdapter extends BaseQuickAdapter<MultiSelectEntity, BaseV
     Animation animation;
     Activity activity;
 
-    Handler handler = new Handler(msg -> {
-        DialogUtils.createHintDialog(activity,activity.getString(R.string.string_hint_get_gb, String.valueOf(msg.arg1)));
-        return false;
-    });
-
 
     public SignBottomAdapter(Activity activity) {
         super(R.layout.item_sign_bottom_layout, Lists.newArrayList());
@@ -110,9 +105,7 @@ public class SignBottomAdapter extends BaseQuickAdapter<MultiSelectEntity, BaseV
 
 
                         RxUtils.delayed(800,aLong -> {
-                            Message message = new Message();
-                            message.arg1 = 1;
-                            handler.sendMessage(message);
+                            DialogUtils.createHintDialog(activity,activity.getString(R.string.string_hint_get_gb, String.valueOf(1)));
                         });
                     }
 

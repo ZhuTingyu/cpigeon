@@ -35,10 +35,17 @@ public class RxUtils {
         });
     }
 
+    public static void runOnNewThread(ObservableOnSubscribe<Object> source, Consumer<Object> consumer) {
+        Observable.create(source)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(new NewThreadScheduler())
+                .subscribe(consumer);
+    }
+
     public static void delayed(int seconds, Consumer<Long> consumer) {
         Observable.timer(seconds, TimeUnit.MILLISECONDS)
-                .observeOn(new NewThreadScheduler())
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(new NewThreadScheduler())
                 .subscribe(consumer);
     }
 
