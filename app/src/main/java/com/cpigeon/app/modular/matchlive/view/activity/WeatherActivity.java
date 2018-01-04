@@ -92,7 +92,7 @@ public class WeatherActivity extends BaseActivity implements AMap.InfoWindowAdap
         }
         adapter = new AfterWeatherListAdapter();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("沿途天气");
+        setTitle("沿途天气");
         toolbar.setNavigationOnClickListener(v -> finish());
 
         manager = new WeatherManager(this);

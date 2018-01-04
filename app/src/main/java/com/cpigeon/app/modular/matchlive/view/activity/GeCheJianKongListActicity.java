@@ -44,7 +44,7 @@ public class GeCheJianKongListActicity extends BaseActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        toolbar.setTitle("鸽车监控");
+        setTitle("鸽车监控");
         setSupportActionBar(this.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
