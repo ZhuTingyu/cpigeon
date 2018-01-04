@@ -84,6 +84,8 @@ public class WebActivity extends BaseActivity {
     ViewStub vsTip;
     View vTips;
 
+    TextView tvTitle;
+
     private WebSettings webSettings;
     private Map<String, String> mHeaderMap;
     private boolean mIsFristLoadUrl = true;
@@ -104,6 +106,7 @@ public class WebActivity extends BaseActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
+        tvTitle = findViewById(R.id.toolbar_title);
         setSupportActionBar(this.toolbar);
         setToolbarTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -289,7 +292,7 @@ public class WebActivity extends BaseActivity {
     //设置toolbar标题
     public void setToolbarTitle(String title) {
         if (toolbar == null) return;
-        toolbar.setTitle(title);
+        tvTitle.setText(title);
     }
 
     private void updateTips(boolean isError) {
