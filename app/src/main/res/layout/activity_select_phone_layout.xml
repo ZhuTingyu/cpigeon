@@ -49,7 +49,7 @@
 
         <com.cpigeon.app.message.ui.selectPhoneNumber.widget.TouchableRecyclerView
             android:id="@+id/contact_member"
-            android:layout_above="@id/rl1"
+            android:layout_above="@+id/rl1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
