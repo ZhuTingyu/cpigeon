@@ -119,6 +119,13 @@ public abstract class BaseFragment extends Fragment implements IView {
         finishCreateView(savedInstanceState);
     }
 
+    protected void setToolbarNotBack(){
+        if(toolbar != null){
+            toolbar.setNavigationIcon(null);
+            toolbar.setNavigationOnClickListener(null);
+        }
+    }
+
     public void setTitle(@StringRes int resId) {
         if (null != toolbar){
             if(titleView != null){

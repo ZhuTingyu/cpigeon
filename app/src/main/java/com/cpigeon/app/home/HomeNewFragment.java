@@ -23,6 +23,7 @@ import com.cpigeon.app.home.adpter.HomeDynamicAdapter;
 import com.cpigeon.app.home.adpter.HomeLeadAdapter;
 import com.cpigeon.app.home.adpter.HomeNewAdapter;
 import com.cpigeon.app.message.ui.home.PigeonMessageHomeFragment;
+import com.cpigeon.app.modular.footsearch.ui.FootSearchFragment;
 import com.cpigeon.app.modular.matchlive.view.activity.GeCheJianKongListActicity;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
@@ -208,7 +209,7 @@ public class HomeNewFragment extends BaseMVPFragment {
                     IntentBuilder.Builder().startParentActivity(getActivity(), PigeonMessageHomeFragment.class);
                     break;
                 case 3://足环查询
-                    activity.setCurrIndex(2);
+                    IntentBuilder.Builder().startParentActivity(getActivity(), FootSearchFragment.class);
                     break;
             }
         });

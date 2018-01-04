@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.cpigeon.app.circle.ui.FriendCircleFragment;
 import com.cpigeon.app.commonstandard.AppManager;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
@@ -87,7 +88,7 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
     //个人中心
     private UserCenterFragment userCenterFragment;
     //足环查询
-    private FootSearchFragment footSearchFragment;
+    private FriendCircleFragment friendCircleFragment;
     //鸽友圈
     private List<Fragment> mFragments = new ArrayList<>();
     private ContentFragmentAdapter mContentFragmentAdapter;
@@ -308,13 +309,13 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
         matchLiveFragment = new MatchLiveFragment();
         matchLiveFragment.setOnRefreshListener(onMatchInfoRefreshListener);
         userCenterFragment = new UserCenterFragment();
-        footSearchFragment = new FootSearchFragment();
+        friendCircleFragment = new FriendCircleFragment();
 //        mCpigeonGroupFragment = new CpigeonGroupFragment();
         mFragments = new ArrayList<>();
         mFragments.add(homeFragment);
         mFragments.add(matchLiveFragment);
 //        mFragments.add(mCpigeonGroupFragment);
-        mFragments.add(footSearchFragment);
+        mFragments.add(friendCircleFragment);
         mFragments.add(userCenterFragment);
         mContentFragmentAdapter = new ContentFragmentAdapter(getSupportFragmentManager(), mFragments);
         //设置limit
@@ -398,11 +399,11 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
                 }
                 break;
             case 2:
-                if (footSearchFragment == null) {
-                    footSearchFragment = new FootSearchFragment();
-                    transaction.add(R.id.viewpager, footSearchFragment);
+                if (friendCircleFragment == null) {
+                    friendCircleFragment = new FriendCircleFragment();
+                    transaction.add(R.id.viewpager, friendCircleFragment);
                 } else {
-                    transaction.show(footSearchFragment);
+                    transaction.show(friendCircleFragment);
                 }
                 break;
             case 3:
