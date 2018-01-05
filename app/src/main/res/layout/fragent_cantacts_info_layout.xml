@@ -165,11 +165,11 @@
             android:id="@+id/icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
+            android:layout_alignBottom="@+id/ed4"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
             android:rotation="-90"
-            app:srcCompat="@drawable/ic_arrow_down"/>
+            app:srcCompat="@drawable/ic_arrow_down" />
 
     </RelativeLayout>
 
@@ -185,24 +185,19 @@
         android:layout_below="@+id/rl2" />
 
 
-    <RelativeLayout
-        android:id="@+id/rl1"
-        android:layout_alignParentBottom="true"
-        android:background="@color/message_button"
-        android:layout_width="match_parent"
-        android:layout_height="56dp">
 
         <TextView
             android:id="@+id/text_btn"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="56dp"
             android:gravity="center"
             android:textColor="@color/colorPrimary"
             android:visibility="visible"
+            android:layout_alignParentBottom="true"
+            android:background="@color/message_button"
             android:layout_centerInParent="true"
             android:textSize="16dp"
             android:text = "确定" />
 
-    </RelativeLayout>
 
 </RelativeLayout>

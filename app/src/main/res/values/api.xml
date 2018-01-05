@@ -20,6 +20,8 @@
     <string name="api_contact_group_add">GXT_TJFZ</string>
 
     <string name="api_contact_add">GXT_TJSJHM</string>
+    <string name="api_modify_contacts_info">GXT_XGSJHM</string>
+
 
     <string name="api_message_history_list">GXT_FSJL</string>
 
@@ -58,5 +60,6 @@
 
     <string name="api_create_GXT_message_order">CreateServicOrderByGXTCZ</string>
     <string name="api_GXT_message_order_history">GXT_CZMX</string>
+
 
 </resources>

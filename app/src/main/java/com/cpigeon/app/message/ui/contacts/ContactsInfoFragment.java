@@ -2,6 +2,7 @@ package com.cpigeon.app.message.ui.contacts;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -37,7 +38,6 @@ public class ContactsInfoFragment extends BaseMVPFragment<ContactsInfoPre> {
 
     TextView textView4;
 
-    RelativeLayout relativeLayout;
 
     TextView btn;
 
@@ -67,7 +67,7 @@ public class ContactsInfoFragment extends BaseMVPFragment<ContactsInfoPre> {
     @Override
     public void finishCreateView(Bundle state) {
         type = getActivity().getIntent().getIntExtra(IntentBuilder.KEY_TYPE,0);
-        contactsEntity = getActivity().getIntent().getParcelableExtra(IntentBuilder.KEY_DATA);
+        contactsEntity = mPresenter.contactsEntity;
         groupName = getActivity().getIntent().getStringExtra(IntentBuilder.KEY_TITLE);
         initView();
     }
@@ -80,16 +80,15 @@ public class ContactsInfoFragment extends BaseMVPFragment<ContactsInfoPre> {
 
         textView4 = findViewById(R.id.text4);
 
-        relativeLayout = findViewById(R.id.rl1);
         rlSelectGroup = findViewById(R.id.rl2);
         btn = findViewById(R.id.text_btn);
 
+        bindUi(RxUtils.textChanges(editText1), mPresenter.setName());
+        bindUi(RxUtils.textChanges(editText2), mPresenter.setPhoneNumer());
+        bindUi(RxUtils.textChanges(editText3), mPresenter.setRemarks());
 
         if(TYPE_EDIT == type){
             setTitle("添加联系人");
-            bindUi(RxUtils.textChanges(editText1), mPresenter.setName());
-            bindUi(RxUtils.textChanges(editText2), mPresenter.setPhoneNumer());
-            bindUi(RxUtils.textChanges(editText3), mPresenter.setRemarks());
 
             rlSelectGroup.setOnClickListener(v -> {
                 IntentBuilder.Builder()
@@ -113,24 +112,64 @@ public class ContactsInfoFragment extends BaseMVPFragment<ContactsInfoPre> {
         }else {
 
             setTitle("联系人详情");
-            editText1.setFocusable(false);
-            editText2.setFocusable(false);
-            editText3.setFocusable(false);
-            findViewById(R.id.icon).setVisibility(View.GONE);
-
             if(contactsEntity != null){
-
                 editText1.setText(contactsEntity.xingming);
                 editText2.setText(contactsEntity.sjhm);
                 editText3.setText(contactsEntity.beizhu);
                 editText4.setText(groupName);
             }
-
             textView4.setText("分组");
 
-            relativeLayout.setVisibility(View.GONE);
+            setToolBarEdit();
+
         }
 
+    }
+
+    private void setToolBarEdit(){
+        setUiCanEdit(false);
+        toolbar.getMenu().clear();
+        toolbar.getMenu().add("编辑").setOnMenuItemClickListener(item -> {
+            setToolBarCancel();
+            return false;
+        }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    }
+
+    private void setToolBarCancel(){
+        setUiCanEdit(true);
+        toolbar.getMenu().clear();
+        toolbar.getMenu().add("取消").setOnMenuItemClickListener(item -> {
+            setToolBarEdit();
+            return false;
+        }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    }
+
+    private void setUiCanEdit(boolean icCanEdit){
+        if(icCanEdit){
+            btn.setVisibility(View.VISIBLE);
+            findViewById(R.id.icon).setVisibility(View.VISIBLE);
+            editText1.setFocusable(true);
+            editText2.setFocusable(true);
+            editText3.setFocusable(true);
+            rlSelectGroup.setOnClickListener(v -> {
+                IntentBuilder.Builder()
+                        .putExtra(IntentBuilder.KEY_TYPE, SelectContactsFragment.TYPE_CONTACTS_ADD)
+                        .startParentActivity(getActivity(), SelectContactsFragment.class, CODE_SELECTE);
+            });
+            btn.setOnClickListener(v -> {
+                mPresenter.modifyContacts(s -> {
+                    ToastUtil.showLongToast(getContext(), s);
+                    EventBus.getDefault().post(new ContactsEvent());
+                    finish();
+                });
+            });
+        }else {
+            btn.setVisibility(View.GONE);
+            findViewById(R.id.icon).setVisibility(View.GONE);
+            editText1.setFocusable(false);
+            editText2.setFocusable(false);
+            editText3.setFocusable(false);
+        }
     }
 
     @Override

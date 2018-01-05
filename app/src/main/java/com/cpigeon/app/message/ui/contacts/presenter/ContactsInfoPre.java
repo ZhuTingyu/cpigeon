@@ -5,11 +5,14 @@ import android.app.Activity;
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.IView;
+import com.cpigeon.app.entity.ContactsEntity;
 import com.cpigeon.app.message.ui.contacts.ContactsModel;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.databean.ApiResponse;
+import com.cpigeon.app.utils.http.HttpErrorException;
 
 import io.reactivex.functions.Consumer;
 
@@ -28,12 +31,13 @@ public class ContactsInfoPre extends BasePresenter{
     String phoneNumber;
     String remarks;
 
+    public ContactsEntity contactsEntity;
 
 
     public ContactsInfoPre(Activity activity) {
         super(activity);
         userId = CpigeonData.getInstance().getUserId(activity);
-
+        contactsEntity = getActivity().getIntent().getParcelableExtra(IntentBuilder.KEY_DATA);
     }
 
     @Override
@@ -60,6 +64,30 @@ public class ContactsInfoPre extends BasePresenter{
 
         submitRequestThrowError(ContactsModel.ContactsAdd(userId,String.valueOf(groupId),phoneNumber,name,remarks).map(r -> {
             return r;
+        }),consumer);
+    }
+
+    public void modifyContacts(Consumer<String> consumer){
+
+        if(!StringValid.isStringValid(name)){
+            ToastUtil.showLongToast(getActivity(),"姓名不能为空");
+            return;
+        }
+
+        if(!StringValid.phoneNumberValid(phoneNumber)){
+            ToastUtil.showLongToast(getActivity(),"手机号码无效");
+            return;
+        }
+
+        if(groupId == 0){
+            ToastUtil.showLongToast(getActivity(),"请选择分组");
+            return;
+        }
+
+        submitRequestThrowError(ContactsModel.ContactsModify(userId,contactsEntity.id, String.valueOf(groupId),phoneNumber,name,remarks).map(r -> {
+            if(r.status){
+                return r.msg;
+            }else throw new HttpErrorException(r);
         }),consumer);
     }
 
