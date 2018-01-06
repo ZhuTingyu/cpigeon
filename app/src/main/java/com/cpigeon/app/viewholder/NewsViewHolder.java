@@ -15,39 +15,39 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 public class NewsViewHolder extends BaseViewHolder {
 
-    private TextView tvTitle;
-    private SimpleDraweeView icon;
-    private TextView tvUser;
-    private TextView tvTime;
-    private TextView tvThumb;
-    private TextView tvComment;
-    private TextView tvShare;
+    private TextView tvTitle1;
+    private SimpleDraweeView img1;
+    private TextView tvTitle2;
+    private SimpleDraweeView img2;
+    private TextView tvTitle3;
+    private SimpleDraweeView img3;
+    private TextView tvTitle4;
+    private SimpleDraweeView img4;
 
     public NewsViewHolder(View itemView) {
         super(itemView);
+        tvTitle1 = getView(R.id.text_1);
+        tvTitle2 = getView(R.id.text_2);
+        tvTitle3 = getView(R.id.text_3);
+        tvTitle4 = getView(R.id.text_4);
 
-        tvTitle = getView(R.id.title);
-        icon = getView(R.id.icon);
-        tvUser = getView(R.id.user_name);
-        tvTime = getView(R.id.time);
-        tvThumb = getView(R.id.thumb);
-        tvComment = getView(R.id.comment);
-        tvShare = getView(R.id.share);
+        img1 = getView(R.id.img_1);
+        img2 = getView(R.id.img_2);
+        img3 = getView(R.id.img_3);
+        img4 = getView(R.id.img_4);
     }
 
     public void bindData(String data) {
-        tvTitle.setText("关于信鸽白点和白色的区别及治疗方案");
-        icon.setImageURI("http://img.zcool.cn/community/01e4a2577deac20000018c1bdd823a.jpg@1280w_1l_2o_100sh.jpg");
-        tvUser.setText("大王公棚");
-        tvTime.setText("2分钟前");
 
-        tvThumb.setText("100");
-        setViewDrawableLeft(tvThumb, R.drawable.ic_thumbs_up, 32, 32);
+        tvTitle1.setText("12o38129072389745102374831230-489120-934812-0");
+        tvTitle2.setText("12o38129072389745102374831230-489120-934812-0");
+        tvTitle3.setText("12o38129072389745102374831230-489120-934812-0");
+        tvTitle4.setText("12o38129072389745102374831230-489120-934812-0");
 
-        tvComment.setText("20");
-        setViewDrawableLeft(tvComment, R.drawable.ic_comment, 40, 32);
+        img1.setImageURI("http://img.zcool.cn/community/01e4a2577deac20000018c1bdd823a.jpg@1280w_1l_2o_100sh.jpg");
+        img2.setImageURI("http://img.zcool.cn/community/01e4a2577deac20000018c1bdd823a.jpg@1280w_1l_2o_100sh.jpg");
+        img3.setImageURI("http://img.zcool.cn/community/01e4a2577deac20000018c1bdd823a.jpg@1280w_1l_2o_100sh.jpg");
+        img4.setImageURI("http://img.zcool.cn/community/01e4a2577deac20000018c1bdd823a.jpg@1280w_1l_2o_100sh.jpg");
 
-        tvShare.setText("20");
-        setViewDrawableLeft(tvShare, R.drawable.ic_share, 40, 32);
     }
 }

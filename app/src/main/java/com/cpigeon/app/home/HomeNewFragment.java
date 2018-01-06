@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.cpigeon.app.MainActivity;
 import com.cpigeon.app.R;
@@ -43,8 +44,8 @@ import io.reactivex.disposables.Disposable;
 
 public class HomeNewFragment extends BaseMVPFragment {
 
-    private static final int TYPE_NEWS_HEAD = 0;
-    private static final int TYPE_DYNAMIC_HEAD = 1;
+    private static final int TYPE_NEWS = 0;
+    private static final int TYPE_DYNAMIC = 1;
 
     MZBannerView banner;
 
@@ -119,7 +120,7 @@ public class HomeNewFragment extends BaseMVPFragment {
         dynamicList.setLayoutManager(new LinearLayoutManager(getContext()));
         dynamicList.setNestedScrollingEnabled(false);
         dynamicAdapter = new HomeDynamicAdapter();
-        dynamicAdapter.addHeaderView(initHeadView(TYPE_DYNAMIC_HEAD));
+        dynamicAdapter.addFooterView(initFootView(TYPE_DYNAMIC));
         dynamicList.setAdapter(dynamicAdapter);
         List<BaseDynamicEntity> data = Lists.newArrayList();
 
@@ -139,7 +140,7 @@ public class HomeNewFragment extends BaseMVPFragment {
 
     private void initAdList() {
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext()){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext()) {
             @Override
             public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int position) {
                 LinearSmoothScroller smoothScroller =
@@ -164,7 +165,7 @@ public class HomeNewFragment extends BaseMVPFragment {
         rollPolingAdList();
     }
 
-    private void rollPolingAdList(){
+    private void rollPolingAdList() {
         disposable = RxUtils.rollPoling(3, 2000, aLong -> {
 
             if (adPosition > adAdapter.getData().size() - 1) {
@@ -181,10 +182,9 @@ public class HomeNewFragment extends BaseMVPFragment {
         newsList.setLayoutManager(new LinearLayoutManager(getContext()));
         newsList.setNestedScrollingEnabled(false);
         newAdapter = new HomeNewAdapter();
-        newAdapter.addHeaderView(initHeadView(TYPE_NEWS_HEAD));
-        newAdapter.setNewData(Lists.newArrayList("", ""));
+        newAdapter.addFooterView(initFootView(TYPE_NEWS));
+        newAdapter.setNewData(Lists.newArrayList(""));
         newsList.setAdapter(newAdapter);
-        addItemDecorationLine(newsList);
     }
 
     private void initLeadList() {
@@ -215,17 +215,13 @@ public class HomeNewFragment extends BaseMVPFragment {
         });
     }
 
-    private View initHeadView(int type) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.item_home_list_head_layout, null);
-        BaseViewHolder holder = new BaseViewHolder(view);
-        if (type == TYPE_NEWS_HEAD) {
-            holder.setImageResource(R.id.icon, R.drawable.ic_news_head);
-            holder.setText(R.id.title, "新闻资讯");
-            holder.setText(R.id.title2, "实时显示新闻资讯");
-        } else {
-            holder.setImageResource(R.id.icon, R.drawable.ic_home_dynamic);
-            holder.setText(R.id.title, "鸽友动态");
-            holder.setText(R.id.title2, "实时显示最新动态");
+    private View initFootView(int type) {
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.item_home_list_foot_layout, null);
+        TextView textView = findViewById(view, R.id.textView);
+        if(type == TYPE_NEWS){
+            textView.setText("查看更多新闻");
+        }else {
+            textView.setText("查看更多动态");
         }
         return view;
     }
@@ -233,7 +229,7 @@ public class HomeNewFragment extends BaseMVPFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(disposable == null){
+        if (disposable == null) {
             rollPolingAdList();
         }
     }
@@ -242,7 +238,7 @@ public class HomeNewFragment extends BaseMVPFragment {
     public void onPause() {
         super.onPause();
         banner.pause();
-        if(disposable != null){
+        if (disposable != null) {
             disposable.dispose();
             disposable = null;
         }
