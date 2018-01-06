@@ -55,7 +55,7 @@ class SmartTabStrip extends LinearLayout {
     private static final float DEFAULT_DIVIDER_HEIGHT = 0.5f;
     private static final boolean DEFAULT_INDICATOR_IN_CENTER = false;
     private static final boolean DEFAULT_INDICATOR_IN_FRONT = false;
-    private static final boolean DEFAULT_INDICATOR_WITHOUT_PADDING = false;
+    private static final boolean DEFAULT_INDICATOR_WITHOUT_PADDING = true;
     private static final int DEFAULT_INDICATOR_GRAVITY = GRAVITY_BOTTOM;
     private static final boolean DEFAULT_DRAW_DECORATION_AFTER_TAB = false;
 

@@ -26,6 +26,7 @@ import com.cpigeon.app.home.adpter.HomeNewAdapter;
 import com.cpigeon.app.message.ui.home.PigeonMessageHomeFragment;
 import com.cpigeon.app.modular.footsearch.ui.FootSearchFragment;
 import com.cpigeon.app.modular.matchlive.view.activity.GeCheJianKongListActicity;
+import com.cpigeon.app.pigeonnews.ui.PigeonNewsActivity;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
@@ -182,6 +183,9 @@ public class HomeNewFragment extends BaseMVPFragment {
         newsList.setLayoutManager(new LinearLayoutManager(getContext()));
         newsList.setNestedScrollingEnabled(false);
         newAdapter = new HomeNewAdapter();
+        newAdapter.setOnItemClickListener((adapter, view, position) -> {
+            IntentBuilder.Builder(getActivity(), PigeonNewsActivity.class).startActivity();
+        });
         newAdapter.addFooterView(initFootView(TYPE_NEWS));
         newAdapter.setNewData(Lists.newArrayList(""));
         newsList.setAdapter(newAdapter);

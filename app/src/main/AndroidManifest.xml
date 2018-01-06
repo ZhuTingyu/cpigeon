@@ -307,6 +307,7 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+        <activity android:name=".pigeonnews.ui.PigeonNewsActivity" />
     </application>
 
 
