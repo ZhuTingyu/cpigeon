@@ -10,6 +10,7 @@
     <com.cpigeon.app.utils.customview.smarttab.SmartTabLayout
         android:id="@+id/tab_view"
         app:stl_dividerColor="@color/white"
+        android:background="@color/white"
         app:stl_dividerThickness="1dp"
         app:stl_customTabTextLayoutId="@layout/item_custom_tab"
         app:stl_customTabTextViewId="@+id/custom_text"

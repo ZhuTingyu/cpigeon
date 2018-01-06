@@ -8,6 +8,7 @@ import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.commonstandard.view.adapter.fragmentpager.FragmentPagerItemAdapter;
 import com.cpigeon.app.commonstandard.view.adapter.fragmentpager.FragmentPagerItems;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.customview.smarttab.SmartTabLayout;
 
 /**
@@ -35,11 +36,17 @@ public class PigeonNewsActivity extends BaseActivity {
         tabLayout = findViewById(R.id.tab_view);
         viewPager = findViewById(R.id.view_pager);
 
+        Bundle earth = new Bundle();
+        earth.putInt(IntentBuilder.KEY_TYPE, PigeonMessageFragment.TYPE_EARTH_QUAKE);
+
+        Bundle solar = new Bundle();
+        earth.putInt(IntentBuilder.KEY_TYPE, PigeonMessageFragment.TYPE_SOLAR_STORM);
+
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), FragmentPagerItems.with(this)
-                .add("新闻资讯",NewsFragment.class)
-                .add("地震信息", NewsFragment.class)
-                .add("太阳磁暴", NewsFragment.class)
+                .add("新闻资讯", NewsFragment.class)
+                .add("地震信息", PigeonMessageFragment.class, earth)
+                .add("太阳磁暴", PigeonMessageFragment.class, solar)
                 .create());
 
         viewPager.setAdapter(adapter);

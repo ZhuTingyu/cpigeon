@@ -10,19 +10,17 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cpigeon.app.MainActivity;
 import com.cpigeon.app.R;
-import com.cpigeon.app.base.BaseViewHolder;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.BaseDynamicEntity;
 import com.cpigeon.app.home.adpter.HomeAdAdapter;
-import com.cpigeon.app.home.adpter.HomeDynamicAdapter;
+import com.cpigeon.app.home.adpter.CircleDynamicAdapter;
 import com.cpigeon.app.home.adpter.HomeLeadAdapter;
-import com.cpigeon.app.home.adpter.HomeNewAdapter;
+import com.cpigeon.app.home.adpter.PigeonNewsAdapter;
 import com.cpigeon.app.message.ui.home.PigeonMessageHomeFragment;
 import com.cpigeon.app.modular.footsearch.ui.FootSearchFragment;
 import com.cpigeon.app.modular.matchlive.view.activity.GeCheJianKongListActicity;
@@ -57,8 +55,8 @@ public class HomeNewFragment extends BaseMVPFragment {
 
     HomeLeadAdapter leadAdapter;
     HomeAdAdapter adAdapter;
-    HomeNewAdapter newAdapter;
-    HomeDynamicAdapter dynamicAdapter;
+    PigeonNewsAdapter newAdapter;
+    CircleDynamicAdapter dynamicAdapter;
 
     MainActivity activity;
 
@@ -120,7 +118,7 @@ public class HomeNewFragment extends BaseMVPFragment {
     private void initDynamicList() {
         dynamicList.setLayoutManager(new LinearLayoutManager(getContext()));
         dynamicList.setNestedScrollingEnabled(false);
-        dynamicAdapter = new HomeDynamicAdapter();
+        dynamicAdapter = new CircleDynamicAdapter();
         dynamicAdapter.addFooterView(initFootView(TYPE_DYNAMIC));
         dynamicList.setAdapter(dynamicAdapter);
         List<BaseDynamicEntity> data = Lists.newArrayList();
@@ -182,7 +180,8 @@ public class HomeNewFragment extends BaseMVPFragment {
     private void initNewList() {
         newsList.setLayoutManager(new LinearLayoutManager(getContext()));
         newsList.setNestedScrollingEnabled(false);
-        newAdapter = new HomeNewAdapter();
+        newAdapter = new PigeonNewsAdapter();
+        newAdapter.setType(PigeonNewsAdapter.TYPE_HOME);
         newAdapter.setOnItemClickListener((adapter, view, position) -> {
             IntentBuilder.Builder(getActivity(), PigeonNewsActivity.class).startActivity();
         });

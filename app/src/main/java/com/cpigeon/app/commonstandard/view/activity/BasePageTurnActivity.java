@@ -70,7 +70,7 @@ public abstract class BasePageTurnActivity<Pre extends BasePresenter, Adapter ex
     @Override
     public void initView(Bundle savedInstanceState) {
         setTitle(getTitleName());
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         toolbar.setNavigationOnClickListener(v -> finish());
 

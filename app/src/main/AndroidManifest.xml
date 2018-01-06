@@ -235,12 +235,6 @@
             android:theme="@style/ToolbarTheme"/>
 
         <activity
-            android:name=".message.ui.home.PigeonMessageHomeFragment"
-            android:launchMode="singleTask"
-            android:theme="@style/ToolbarTheme"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
-
-        <activity
             android:name=".message.ui.BaseWebViewActivity"
             android:launchMode="singleTask"
             android:theme="@style/ToolbarTheme"
@@ -308,6 +302,9 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity android:name=".pigeonnews.ui.PigeonNewsActivity" />
+        <activity android:name=".pigeonnews.ui.NewsDetailsActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            />
     </application>
 
 

@@ -13,9 +13,9 @@ import com.cpigeon.app.utils.Lists;
  * Created by Zhu TingYu on 2018/1/2.
  */
 
-public class HomeDynamicAdapter extends BaseMultiItemQuickAdapter<BaseDynamicEntity, BaseViewHolder> {
+public class CircleDynamicAdapter extends BaseMultiItemQuickAdapter<BaseDynamicEntity, BaseViewHolder> {
 
-    public HomeDynamicAdapter() {
+    public CircleDynamicAdapter() {
         super(Lists.newArrayList());
         addItemType(BaseDynamicEntity.IMAGE_0, R.layout.item_dynamic_1_img_layout);
         addItemType(BaseDynamicEntity.IMAGE_1, R.layout.item_dynamic_1_img_layout);
