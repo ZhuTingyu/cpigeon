@@ -18,7 +18,7 @@
     <color name="light_green">#34A556</color>
     <color name="colorGreen">#0fa701</color>
     <!--页面背景颜色-->
-    <color name="color_default_bg">#F9F9F9</color>
+    <color name="color_default_bg">#F5F5F5</color>
     <color name="colorLayoutGray">#d8d8d9</color>
     <color name="colorLayoutGray2">#ececec</color>
     <color name="colorLayoutGray3">#E3E3E3</color>
@@ -64,6 +64,7 @@
     <color name="textColor_promptContentRight">#767676</color>
     <color name="textColor_footSearchResultTitle">#6E6E6E</color>
     <color name="textColor_footSearchResultContent">#027BFB</color>
+    <color name="color_e6e6e6">#e6e6e6</color>
     <color name="hintColor">#d1d1d6</color>
     <color name="textColor_protocolPrompt">#949494</color>
 
@@ -90,6 +91,7 @@
     <color name="color_8290AF">#8290AF</color>
     <color name="praise_item_default">#333333</color>
     <color name="praise_item_selector_default">#cccccc</color>
+    <color name="text_color_gray">#cccccc</color>
     <color name="praise_item">#73b9ff</color>
     <color name="im_line_color">#dadada</color>
     <color name="im_font_color_text_hint">#abb1b6</color>

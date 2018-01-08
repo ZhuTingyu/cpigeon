@@ -1,4 +1,4 @@
-package com.cpigeon.app.message;
+package com.cpigeon.app.utils.http;
 
 import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
@@ -12,7 +12,7 @@ import com.cpigeon.app.utils.http.HttpUtil;
  * Created by Zhu TingYu on 2017/11/23.
  */
 
-public class GXYHttpUtil<T> extends HttpUtil<T> {
+public class PigeonHttpUtil<T> extends HttpUtil<T> {
     public static <T> HttpUtil<T> build(){
         HttpUtil<T> httpUtil = HttpUtil.builder();
         httpUtil.addHeader("u", CommonTool.getUserToken(MyApp.getInstance().getBaseContext()));

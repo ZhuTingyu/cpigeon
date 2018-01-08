@@ -1,14 +1,12 @@
 package com.cpigeon.app.message.ui.order.ui;
 
-import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
 import com.cpigeon.app.entity.GXTMessagePrice;
 import com.cpigeon.app.entity.MessageOrderEntity;
 import com.cpigeon.app.entity.OrderInfoEntity;
 import com.cpigeon.app.entity.UserBalanceEntity;
 import com.cpigeon.app.entity.WeiXinPayEntity;
-import com.cpigeon.app.message.GXYHttpUtil;
-import com.cpigeon.app.utils.CommonTool;
+import com.cpigeon.app.utils.http.PigeonHttpUtil;
 import com.cpigeon.app.utils.EncryptionTool;
 import com.cpigeon.app.utils.databean.ApiResponse;
 import com.cpigeon.app.utils.http.HttpUtil;
@@ -24,7 +22,7 @@ import io.reactivex.Observable;
 
 public class OrderModel {
     public static Observable<ApiResponse<OrderInfoEntity>> greatServiceOrder(int userId) {
-        return GXYHttpUtil.<ApiResponse<OrderInfoEntity>>build()
+        return PigeonHttpUtil.<ApiResponse<OrderInfoEntity>>build()
                 .setToJsonType(new TypeToken<ApiResponse<OrderInfoEntity>>() {
                 }.getType())
                 .setType(HttpUtil.TYPE_POST)
@@ -34,7 +32,7 @@ public class OrderModel {
     }
 
     public static Observable<ApiResponse<OrderInfoEntity>> createGXTMessageOrder(int userId, int count, double money) {
-        return GXYHttpUtil.<ApiResponse<OrderInfoEntity>>build()
+        return PigeonHttpUtil.<ApiResponse<OrderInfoEntity>>build()
                 .setToJsonType(new TypeToken<ApiResponse<OrderInfoEntity>>() {
                 }.getType())
                 .setType(HttpUtil.TYPE_POST)
@@ -46,7 +44,7 @@ public class OrderModel {
     }
 
     public static Observable<ApiResponse> payOrderByBalance(int userId, String orderId, String password) {
-        return GXYHttpUtil.<ApiResponse>build()
+        return PigeonHttpUtil.<ApiResponse>build()
                 .setToJsonType(new TypeToken<ApiResponse>() {
                 }.getType())
                 .setType(HttpUtil.TYPE_POST)
@@ -58,7 +56,7 @@ public class OrderModel {
     }
 
     public static Observable<ApiResponse<UserBalanceEntity>> getUserBalance(int userId) {
-        return GXYHttpUtil.<ApiResponse<UserBalanceEntity>>build()
+        return PigeonHttpUtil.<ApiResponse<UserBalanceEntity>>build()
                 .setToJsonType(new TypeToken<ApiResponse<UserBalanceEntity>>() {
                 }.getType())
                 .setType(HttpUtil.TYPE_POST)
@@ -68,7 +66,7 @@ public class OrderModel {
     }
 
     public static Observable<ApiResponse<WeiXinPayEntity>> greatWXOrder(int userId, String orderId) {
-        return GXYHttpUtil.<ApiResponse<WeiXinPayEntity>>build()
+        return PigeonHttpUtil.<ApiResponse<WeiXinPayEntity>>build()
                 .setToJsonType(new TypeToken<ApiResponse<WeiXinPayEntity>>() {
                 }.getType())
                 .setType(HttpUtil.TYPE_POST)
@@ -79,7 +77,7 @@ public class OrderModel {
     }
 
     public static Observable<ApiResponse<GXTMessagePrice>> getMessagePrice() {
-        return GXYHttpUtil.<ApiResponse<GXTMessagePrice>>build()
+        return PigeonHttpUtil.<ApiResponse<GXTMessagePrice>>build()
                 .setToJsonType(new TypeToken<ApiResponse<GXTMessagePrice>>() {
                 }.getType())
                 .setType(HttpUtil.TYPE_POST)
@@ -89,7 +87,7 @@ public class OrderModel {
 
 
     public static Observable<ApiResponse<List<MessageOrderEntity>>> getMessageOrderHistory(int userId, String startTime, String endTime) {
-        return GXYHttpUtil.<ApiResponse<List<MessageOrderEntity>>>build()
+        return PigeonHttpUtil.<ApiResponse<List<MessageOrderEntity>>>build()
                 .setToJsonType(new TypeToken<ApiResponse<List<MessageOrderEntity>>>() {
                 }.getType())
                 .setType(HttpUtil.TYPE_POST)

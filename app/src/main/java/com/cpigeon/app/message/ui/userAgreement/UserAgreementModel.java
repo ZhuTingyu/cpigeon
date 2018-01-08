@@ -1,7 +1,7 @@
 package com.cpigeon.app.message.ui.userAgreement;
 
 import com.cpigeon.app.R;
-import com.cpigeon.app.message.GXYHttpUtil;
+import com.cpigeon.app.utils.http.PigeonHttpUtil;
 import com.cpigeon.app.utils.databean.ApiResponse;
 import com.cpigeon.app.utils.http.HttpUtil;
 import com.google.gson.reflect.TypeToken;
@@ -15,7 +15,7 @@ import io.reactivex.Observable;
 public class UserAgreementModel {
 
     public static Observable<ApiResponse> setUserAgreement(int userId) {
-        return GXYHttpUtil.<ApiResponse>build()
+        return PigeonHttpUtil.<ApiResponse>build()
                 .setToJsonType(new TypeToken<ApiResponse>() {
                 }.getType())
                 .setType(HttpUtil.TYPE_POST)

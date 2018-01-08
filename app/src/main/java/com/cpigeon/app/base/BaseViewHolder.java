@@ -110,6 +110,15 @@ public class BaseViewHolder extends com.chad.library.adapter.base.BaseViewHolder
 
     }
 
+    public void setViewDrawableLeftWithPadding(TextView view, int res) {
+        view.setCompoundDrawablePadding(5);
+        view.setCompoundDrawablesWithIntrinsicBounds(
+                null,
+                null
+                , getDrawable(res), null);
+
+    }
+
     public void setTextView(TextView textView, CharSequence... text) {
         if (textView == null) return;
         CharSequence t = getArrayString(text);

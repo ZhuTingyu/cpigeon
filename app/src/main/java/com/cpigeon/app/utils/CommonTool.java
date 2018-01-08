@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
@@ -357,5 +359,22 @@ public class CommonTool {
                     .error(R.mipmap.head_image_default)
                     .into(imageView);
     }
+    /**
+     * 判断是否有网络连接
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isNetworkConnected(Context context) {
+        if (context != null) {
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            if (mNetworkInfo != null && mNetworkInfo.isAvailable()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }

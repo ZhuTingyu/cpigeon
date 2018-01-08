@@ -4,7 +4,7 @@ package com.cpigeon.app.message.ui.modifysign;
 import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
 import com.cpigeon.app.entity.PersonInfoEntity;
-import com.cpigeon.app.message.GXYHttpUtil;
+import com.cpigeon.app.utils.http.PigeonHttpUtil;
 import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.StringValid;
@@ -31,7 +31,7 @@ import okhttp3.RequestBody;
 public class PersonSignModel {
 
     public static Observable<ApiResponse<PersonInfoEntity>> personSignInfo(int userId){
-        return GXYHttpUtil.<ApiResponse<PersonInfoEntity>>build()
+        return PigeonHttpUtil.<ApiResponse<PersonInfoEntity>>build()
                 .setToJsonType(new TypeToken<ApiResponse<PersonInfoEntity>>() {
                 }.getType())
                 .setType(HttpUtil.TYPE_POST)
@@ -41,7 +41,7 @@ public class PersonSignModel {
     }
 
     public static Observable<ApiResponse<PersonInfoEntity>> personInfo(int userId){
-        return GXYHttpUtil.<ApiResponse<PersonInfoEntity>>build()
+        return PigeonHttpUtil.<ApiResponse<PersonInfoEntity>>build()
                 .setToJsonType(new TypeToken<ApiResponse<PersonInfoEntity>>() {
                 }.getType())
                 .setType(HttpUtil.TYPE_POST)
