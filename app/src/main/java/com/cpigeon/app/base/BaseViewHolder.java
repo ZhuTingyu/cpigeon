@@ -90,9 +90,9 @@ public class BaseViewHolder extends com.chad.library.adapter.base.BaseViewHolder
 
     public void setViewDrawableLeft(TextView view, int resId) {
         view.setCompoundDrawablesWithIntrinsicBounds(
-                null,
+                getDrawable(resId),
                 null
-                , getDrawable(resId), null);
+                , null, null);
 
     }
 

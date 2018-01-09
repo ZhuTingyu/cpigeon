@@ -13,6 +13,7 @@
     <color name="home_bottom_color">#616161</color>
     <color name="user_center_header_top">#85C2FE</color>
     <color name="textColor_gray">#777777</color>
+    <color name="line_gray">#a3a3a3</color>
     <color name="light_red">#ff2f32</color>
     <color name="svg_icon_gray">#7A7E83</color>
     <color name="light_green">#34A556</color>

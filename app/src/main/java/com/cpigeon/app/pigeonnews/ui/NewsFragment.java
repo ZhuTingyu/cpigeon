@@ -9,6 +9,7 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.home.adpter.PigeonNewsAdapter;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 
 /**
@@ -40,6 +41,9 @@ public class NewsFragment extends BaseMVPFragment {
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new PigeonNewsAdapter();
+        adapter.setOnItemClickListener((adapter1, view, position) -> {
+            IntentBuilder.Builder(getActivity(), NewsDetailsActivity.class).startActivity();
+        });
         recyclerView.setAdapter(adapter);
         adapter.setNewData(Lists.newArrayList("","",""));
     }

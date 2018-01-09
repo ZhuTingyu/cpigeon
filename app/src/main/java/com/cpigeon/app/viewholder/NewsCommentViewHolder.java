@@ -2,7 +2,9 @@ package com.cpigeon.app.viewholder;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
@@ -15,28 +17,35 @@ import com.cpigeon.app.pigeonnews.ui.InputCommentDialog;
 
 public class NewsCommentViewHolder extends BaseViewHolder {
 
+    Activity activity;
+
     TextView input;
     TextView thumb;
     TextView comment;
-    TextView anonymous;
+    ImageView anonymous;
 
     public boolean isAnonymous = false;
 
     private OnViewClickListener listener;
 
 
-    public NewsCommentViewHolder(View itemView, Activity activity) {
+    public NewsCommentViewHolder(View itemView,Activity activity) {
         super(itemView);
         input = getView(R.id.input);
         thumb = getView(R.id.thumb);
         comment = getView(R.id.comment);
         anonymous = getView(R.id.anonymous);
+        this.activity = activity;
         bindUi();
     }
 
     private void bindUi() {
         input.setOnClickListener(v -> {
-            listener.inputClick();
+            InputCommentDialog dialog = new InputCommentDialog();
+            dialog.setListener(content -> {
+                listener.commentPushClick(content);
+            });
+            dialog.show(activity.getFragmentManager(),"InputComment");
         });
 
         thumb.setOnClickListener(v -> {
@@ -49,12 +58,11 @@ public class NewsCommentViewHolder extends BaseViewHolder {
 
         anonymous.setOnClickListener(v -> {
             isAnonymous = !isAnonymous;
-            setViewDrawableLeft(anonymous, isAnonymous ? R.drawable.ic_anonymous_selected : R.drawable.ic_anonymous);
-            listener.anonymousClick();
+            anonymous.setImageResource(isAnonymous ? R.drawable.ic_anonymous_selected : R.drawable.ic_anonymous);
         });
     }
 
-    private void bindData() {
+    public void bindData() {
         thumb.setText("32");
         comment.setText("0");
 
@@ -68,14 +76,20 @@ public class NewsCommentViewHolder extends BaseViewHolder {
 
     }
 
+    public void onlyComment(){
+        thumb.setVisibility(View.GONE);
+        comment.setVisibility(View.GONE);
+    }
+
     public interface OnViewClickListener {
-        void inputClick();
+        void commentPushClick(String content);
 
         void thumbClick();
 
         void commentClick();
-
-        void anonymousClick();
     }
 
+    public void setListener(OnViewClickListener listener) {
+        this.listener = listener;
+    }
 }

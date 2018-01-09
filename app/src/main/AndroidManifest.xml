@@ -303,7 +303,6 @@
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity android:name=".pigeonnews.ui.PigeonNewsActivity" />
         <activity android:name=".pigeonnews.ui.NewsDetailsActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize"
             />
     </application>
 

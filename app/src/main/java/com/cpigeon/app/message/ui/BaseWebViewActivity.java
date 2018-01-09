@@ -50,11 +50,17 @@ public class BaseWebViewActivity<Pre extends BasePresenter> extends BaseActivity
     @Override
     public void initView(Bundle savedInstanceState) {
 
-        url = getIntent().getStringExtra(IntentBuilder.KEY_DATA);
+        String temp = getIntent().getStringExtra(IntentBuilder.KEY_DATA);
+
+        if(StringValid.isStringValid(temp)){
+            url = temp;
+        }
 
         title = getIntent().getStringExtra(IntentBuilder.KEY_TITLE);
 
-        setTitle(title);
+        if(StringValid.isStringValid(title)){
+            setTitle(title);
+        }
 
 
         webView = findViewById(R.id.web_view);

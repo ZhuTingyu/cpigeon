@@ -232,6 +232,9 @@ public class HomeNewFragment extends BaseMVPFragment {
     @Override
     public void onResume() {
         super.onResume();
+        if(banner != null){
+            banner.start();
+        }
         if (disposable == null) {
             rollPolingAdList();
         }
