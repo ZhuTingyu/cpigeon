@@ -46,7 +46,7 @@ public class NewsCommentFragment extends BaseMVPFragment {
         adapter = new NewsCommentAdapter();
         recyclerView.setAdapter(adapter);
 
-        adapter.setNewData(Lists.newArrayList("","",""));
+        adapter.setNewData(Lists.newArrayList("","","","","","","",""));
 
 
         NewsCommentViewHolder holder = new NewsCommentViewHolder(findViewById(R.id.bottom_comment),getActivity());

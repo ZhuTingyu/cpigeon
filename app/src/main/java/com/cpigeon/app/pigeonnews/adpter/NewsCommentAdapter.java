@@ -41,8 +41,10 @@ public class NewsCommentAdapter extends BaseQuickAdapter<String, BaseViewHolder>
         LinearLayoutForRecyclerView list = holder.getView(R.id.reply_list);
 
         if(replyAdapter == null){
-            replyAdapter = new ReplyAdapter(mContext,Lists.newArrayList("123rtasdfjadfjaskl;fj", "adfadfad"));
+            replyAdapter = new ReplyAdapter(mContext);
         }
+
+        replyAdapter.setData(Lists.newArrayList("123112323412", "12314123124"));
 
         list.setAdapter(replyAdapter);
 

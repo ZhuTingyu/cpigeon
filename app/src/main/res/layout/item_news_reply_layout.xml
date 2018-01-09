@@ -13,7 +13,7 @@
 
     <TextView
         android:id="@+id/reply"
-        tools:text="adlfkjal;dfjl;asdjkfal;skdj"
+        tools:text="adlfkjal;dfjl;a33333333333333333333333333333333333333333333333333333sdjkfq1231231231al;skdj"
         android:textColor="@color/black"
         android:textSize="@dimen/medium_text_size"
         android:layout_marginTop="@dimen/large_vertical_margin"

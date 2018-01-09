@@ -86,9 +86,11 @@
 
     <com.cpigeon.app.view.LinearLayoutForRecyclerView
         android:id="@+id/reply_list"
+        android:orientation="vertical"
         android:layout_marginTop="@dimen/large_vertical_margin"
         android:layout_marginLeft="43dp"
         android:layout_below="@id/content"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

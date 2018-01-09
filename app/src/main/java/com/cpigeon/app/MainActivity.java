@@ -36,12 +36,15 @@ import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
 import com.cpigeon.app.modular.matchlive.view.activity.GeCheJianKongListActicity;
 import com.cpigeon.app.modular.matchlive.view.fragment.MatchLiveFragment;
 import com.cpigeon.app.modular.matchlive.view.fragment.MatchLiveSubFragment;
+import com.cpigeon.app.modular.usercenter.view.activity.LoginActivity;
 import com.cpigeon.app.modular.usercenter.view.activity.MyFollowActivity;
 import com.cpigeon.app.modular.usercenter.view.fragment.UserCenterFragment;
 import com.cpigeon.app.service.MainActivityService;
 import com.cpigeon.app.service.databean.UseDevInfo;
 import com.cpigeon.app.utils.Const;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.DialogUtils;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.PermissionTool;
 import com.cpigeon.app.utils.SharedPreferencesTool;
 import com.cpigeon.app.utils.StatusBarTool;
@@ -104,6 +107,8 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
             isExit = false;
         }
     };
+
+    SweetAlertDialog dialogPrompt;
     MainActivityService mainActivityService;
     MainActivityService.OnDeviceLoginCheckListener onDeviceLoginCheckListener = new MainActivityService.OnDeviceLoginCheckListener() {
         SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
@@ -320,7 +325,7 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
         mFragments.add(userCenterFragment);
         mContentFragmentAdapter = new ContentFragmentAdapter(getSupportFragmentManager(), mFragments);
         //设置limit
-        mViewPager.setOffscreenPageLimit(2);
+        mViewPager.setOffscreenPageLimit(4);
         mViewPager.setAdapter(mContentFragmentAdapter);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -332,6 +337,10 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
             public void onPageSelected(int position) {
                 if (lastTabIndex == position) return;
                 mBottomNavigationBar.selectTab(position);
+                if(!checkLogin()){
+                    hintLogin();
+                }
+
             }
 
             @Override
@@ -380,6 +389,32 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
         setCurrIndex(selectIndex);
     }
 
+    private void hintLogin() {
+        if(dialogPrompt == null) {
+            dialogPrompt = new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE);
+            dialogPrompt.setCanceledOnTouchOutside(false);
+            dialogPrompt.setCancelable(false);
+            dialogPrompt.setTitleText("提示")
+                    .setCancelText("取消")
+                    .setCancelClickListener(sweetAlertDialog -> {
+                        sweetAlertDialog.dismiss();
+                        setCurrIndex(0);
+                        mBottomNavigationBar.selectTab(0);
+                    })
+                    .setConfirmClickListener(sweetAlertDialog -> {
+                        IntentBuilder.Builder(this, LoginActivity.class).startActivity();
+                    })
+                    .setContentText("您还没有登录，请登录!")
+                    .setConfirmText("确定");
+        }
+
+        if(!dialogPrompt.isShowing()){
+            dialogPrompt.show();
+        }
+
+
+    }
+
 //
 
 
@@ -406,6 +441,10 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
                 } else {
                     transaction.show(matchLiveFragment);
                 }
+                if(!checkLogin()){
+                    hintLogin();
+                }
+
                 break;
             case 2:
                 if (friendCircleFragment == null) {
@@ -413,6 +452,9 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
                     transaction.add(R.id.viewpager, friendCircleFragment);
                 } else {
                     transaction.show(friendCircleFragment);
+                }
+                if(!checkLogin()){
+                    hintLogin();
                 }
                 break;
             case 3:
@@ -422,7 +464,11 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
                 } else {
                     transaction.show(userCenterFragment);
                 }
+                if(!checkLogin()){
+                    hintLogin();
+                }
                 break;
+
         }
         transaction.commitAllowingStateLoss();
         setCurrIndex(position);
@@ -434,7 +480,11 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
         lastTabIndex = index;
         mViewPager.setCurrentItem(index);
         mBottomNavigationBar.selectTab(index);
-        SharedPreferencesTool.Save(MyApp.getInstance(), APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(MyApp.getInstance()), index, SharedPreferencesTool.SP_FILE_APPSTATE);
+        if(checkLogin()){
+            SharedPreferencesTool.Save(MyApp.getInstance(), APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(MyApp.getInstance()), index, SharedPreferencesTool.SP_FILE_APPSTATE);
+        }else {
+            SharedPreferencesTool.Save(MyApp.getInstance(), APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(MyApp.getInstance()), 0, SharedPreferencesTool.SP_FILE_APPSTATE);
+        }
         onTabSelected(index);
     }
 

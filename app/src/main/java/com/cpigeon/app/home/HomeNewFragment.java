@@ -17,12 +17,14 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.BaseDynamicEntity;
+import com.cpigeon.app.entity.HomeAdEntity;
 import com.cpigeon.app.home.adpter.HomeAdAdapter;
 import com.cpigeon.app.home.adpter.CircleDynamicAdapter;
 import com.cpigeon.app.home.adpter.HomeLeadAdapter;
 import com.cpigeon.app.home.adpter.PigeonNewsAdapter;
 import com.cpigeon.app.message.ui.home.PigeonMessageHomeFragment;
 import com.cpigeon.app.modular.footsearch.ui.FootSearchFragment;
+import com.cpigeon.app.modular.home.model.bean.HomeAd;
 import com.cpigeon.app.modular.matchlive.view.activity.GeCheJianKongListActicity;
 import com.cpigeon.app.pigeonnews.ui.PigeonNewsActivity;
 import com.cpigeon.app.utils.IntentBuilder;
@@ -41,7 +43,7 @@ import io.reactivex.disposables.Disposable;
  * Created by Zhu TingYu on 2017/12/29.
  */
 
-public class HomeNewFragment extends BaseMVPFragment {
+public class HomeNewFragment extends BaseMVPFragment<HomePre> {
 
     private static final int TYPE_NEWS = 0;
     private static final int TYPE_DYNAMIC = 1;
@@ -66,8 +68,8 @@ public class HomeNewFragment extends BaseMVPFragment {
 
 
     @Override
-    protected BasePresenter initPresenter() {
-        return null;
+    protected HomePre initPresenter() {
+        return new HomePre(getActivity());
     }
 
     @Override
@@ -104,15 +106,28 @@ public class HomeNewFragment extends BaseMVPFragment {
         newsList = findViewById(R.id.news_list);
         dynamicList = findViewById(R.id.dynamic_list);
 
-        banner.setPages(Lists.newArrayList("", "", "", ""), () -> {
-            return new BannerViewHolder();
-        });
-        banner.start();
+
+
 
         initLeadList();
         initAdList();
         initNewList();
         initDynamicList();
+
+        initData();
+    }
+
+    private void initData() {
+        mPresenter.getHomeAd(data -> {
+            banner.setPages(data, () -> {
+                return new BannerViewHolder();
+            });
+            banner.start();
+        });
+
+        mPresenter.getHomeSpeedNews(data -> {
+            adAdapter.setNewData(data);
+        });
     }
 
     private void initDynamicList() {
@@ -160,7 +175,6 @@ public class HomeNewFragment extends BaseMVPFragment {
         adAdapter = new HomeAdAdapter();
         adList.setAdapter(adAdapter);
 
-        adAdapter.setNewData(Lists.newArrayList("", "", "", "", "", ""));
         rollPolingAdList();
     }
 
@@ -230,11 +244,13 @@ public class HomeNewFragment extends BaseMVPFragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-        if(banner != null){
-            banner.start();
-        }
         if (disposable == null) {
             rollPolingAdList();
         }
@@ -251,7 +267,7 @@ public class HomeNewFragment extends BaseMVPFragment {
     }
 }
 
-class BannerViewHolder implements MZViewHolder<String> {
+class BannerViewHolder implements MZViewHolder<HomeAd> {
     private SimpleDraweeView mImageView;
 
     @Override
@@ -263,8 +279,8 @@ class BannerViewHolder implements MZViewHolder<String> {
     }
 
     @Override
-    public void onBind(Context context, int position, String data) {
+    public void onBind(Context context, int position, HomeAd data) {
         // 数据绑定
-        mImageView.setImageURI("http://img.zcool.cn/community/01e4a2577deac20000018c1bdd823a.jpg@1280w_1l_2o_100sh.jpg");
+        mImageView.setImageURI(data.getAdImageUrl());
     }
 }

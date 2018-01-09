@@ -20,8 +20,7 @@ public class ReplyAdapter extends BaseAdapter {
     List<String> data;
     LayoutInflater inflater;
 
-    public ReplyAdapter(Context context, List<String> data){
-        this.data = data;
+    public ReplyAdapter(Context context){
         inflater = LayoutInflater.from(context);
     }
 
@@ -44,7 +43,7 @@ public class ReplyAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if(convertView == null){
-            convertView = inflater.inflate(R.layout.item_news_reply_layout,parent,false);
+            convertView = inflater.inflate(R.layout.item_news_reply_layout,null);
             holder = new ViewHolder();
             holder.textView = convertView.findViewById(R.id.reply);
             convertView.setTag(holder);
@@ -55,6 +54,10 @@ public class ReplyAdapter extends BaseAdapter {
         holder.textView.setText(data.get(position));
 
         return convertView;
+    }
+
+    public void setData(List<String> data) {
+        this.data = data;
     }
 }
 

@@ -97,7 +97,7 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
     }
 
     protected void addItemDecorationLine(RecyclerView recyclerView){
-        addItemDecorationLine(recyclerView, R.color.line_color, ScreenTool.dip2px(1));
+        addItemDecorationLine(recyclerView, R.color.color_line, ScreenTool.dip2px(0.5f));
     }
 
     protected void addItemDecorationLine(RecyclerView recyclerView, @ColorRes int color, int size){
