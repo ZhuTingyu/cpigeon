@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseViewHolder;
+import com.cpigeon.app.entity.NewsDetailsEntity;
 import com.cpigeon.app.pigeonnews.ui.InputCommentDialog;
 
 /**
@@ -62,9 +63,9 @@ public class NewsCommentViewHolder extends BaseViewHolder {
         });
     }
 
-    public void bindData() {
-        thumb.setText("32");
-        comment.setText("0");
+    public void bindData(NewsDetailsEntity entity) {
+        thumb.setText(entity.priase);
+        comment.setText("3");
 
         if(Integer.valueOf(thumb.getText().toString()) != 0){
             setViewDrawableLeft(thumb, R.mipmap.ic_thumbs_up);

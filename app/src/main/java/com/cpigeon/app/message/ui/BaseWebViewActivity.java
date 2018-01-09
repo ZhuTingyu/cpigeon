@@ -30,10 +30,11 @@ import static android.view.KeyEvent.KEYCODE_BACK;
 
 public class BaseWebViewActivity<Pre extends BasePresenter> extends BaseActivity<Pre> {
 
-    WebView webView;
+    protected WebView webView;
     String url;
     String title;
     ProgressBar progressBar;
+    Map<String, String> mHeaderMap;
 
 
     @Override
@@ -121,11 +122,14 @@ public class BaseWebViewActivity<Pre extends BasePresenter> extends BaseActivity
 
             }
         });
-        //webView.loadDataWithBaseURL(null, url, "text/html", "utf-8", null);
-        Map<String, String> mHeaderMap = new HashMap<>();
+        mHeaderMap = new HashMap<>();
         mHeaderMap.put("u", CommonTool.getUserToken(this));
         webView.loadUrl(url, mHeaderMap);
 
+    }
+
+    protected void loadWebByHtml(String url){
+        webView.loadDataWithBaseURL(null, url, "text/html", "utf-8", null);
     }
 
     @Override

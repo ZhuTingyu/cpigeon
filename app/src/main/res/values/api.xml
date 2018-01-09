@@ -63,5 +63,6 @@
     <string name="api_home_ad">Ad</string>
 
     <string name="api_home_speed_news">ZhongGeKuaiBao</string>
+    <string name="api_news_details">NewsDetial</string>
 
 </resources>

@@ -1,12 +1,16 @@
 package com.cpigeon.app.home;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +22,7 @@ import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.BaseDynamicEntity;
 import com.cpigeon.app.entity.HomeAdEntity;
+import com.cpigeon.app.entity.NewsEntity;
 import com.cpigeon.app.home.adpter.HomeAdAdapter;
 import com.cpigeon.app.home.adpter.CircleDynamicAdapter;
 import com.cpigeon.app.home.adpter.HomeLeadAdapter;
@@ -25,14 +30,19 @@ import com.cpigeon.app.home.adpter.PigeonNewsAdapter;
 import com.cpigeon.app.message.ui.home.PigeonMessageHomeFragment;
 import com.cpigeon.app.modular.footsearch.ui.FootSearchFragment;
 import com.cpigeon.app.modular.home.model.bean.HomeAd;
+import com.cpigeon.app.modular.home.view.activity.WebActivity;
 import com.cpigeon.app.modular.matchlive.view.activity.GeCheJianKongListActicity;
+import com.cpigeon.app.pigeonnews.ui.NewsCommentFragment;
 import com.cpigeon.app.pigeonnews.ui.PigeonNewsActivity;
+import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.ToastUtil;
+import com.cpigeon.app.utils.customview.SaActionSheetDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.zhouwei.mzbanner.MZBannerView;
+import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
 import java.util.List;
@@ -106,7 +116,7 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
         newsList = findViewById(R.id.news_list);
         dynamicList = findViewById(R.id.dynamic_list);
 
-
+        initBanner();
 
 
         initLeadList();
@@ -117,13 +127,104 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
         initData();
     }
 
-    private void initData() {
+    private void initBanner() {
         mPresenter.getHomeAd(data -> {
+
+            banner.setBannerPageClickListener((view, position) -> {
+
+                if (data != null && position > 0 && position <= data.size()) {
+                    //点击广告
+                    String url = data.get(position).getAdUrl();
+                    //判断是不是网站URL
+                    if (CommonTool.Compile(url, CommonTool.PATTERN_WEB_URL)) {
+                        Intent intent = new Intent(getActivity(), WebActivity.class);
+                        intent.putExtra(WebActivity.INTENT_DATA_KEY_URL, url);
+                        intent.putExtra(WebActivity.INTENT_DATA_KEY_BACKNAME, "首页");
+                        startActivity(intent);
+                    } else {
+                        try {
+                            Uri uri = Uri.parse(url);
+                            SaActionSheetDialog dialog = new SaActionSheetDialog(getActivity()).builder();
+
+                            if (uri.getScheme().equalsIgnoreCase("cpigeon")
+                                    && uri.getHost().equalsIgnoreCase("ad")
+                                    ) {
+
+                                final String phone = uri.getQueryParameter("tel");
+                                if (uri.getQueryParameter("call") != null && uri.getQueryParameter("call").equals("1")) {
+                                    dialog.addSheetItem("拨打电话", new SaActionSheetDialog.OnSheetItemClickListener() {
+                                        @Override
+                                        public void onClick(int which) {
+                                            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
+                                            try {
+                                                startActivity(intent);
+                                            } catch (Exception ex) {
+                                                ex.printStackTrace();
+                                                showTips("拨号失败", TipType.ToastShort);
+                                            }
+                                        }
+                                    });
+
+                                }
+                                if (uri.getQueryParameter("sms") != null && uri.getQueryParameter("sms").equals("1")) {
+                                    dialog.addSheetItem("发送短信", new SaActionSheetDialog.OnSheetItemClickListener() {
+                                        @Override
+                                        public void onClick(int which) {
+                                            //发送短信
+                                            Uri uri = Uri.parse("smsto:" + phone);
+                                            Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+                                            //intent.putExtra("sms_body", "测试发送短信");
+                                            try {
+                                                startActivity(intent);
+                                            } catch (Exception ex) {
+                                                ex.printStackTrace();
+                                                showTips("打开失败", TipType.ToastShort);
+                                            }
+                                        }
+                                    });
+
+                                }
+                                if (uri.getQueryParameter("url") != null && !uri.getQueryParameter("url").equals("")) {
+                                    final String u = uri.getQueryParameter("url");
+                                    dialog.addSheetItem("打开网页", new SaActionSheetDialog.OnSheetItemClickListener() {
+                                        @Override
+                                        public void onClick(int which) {
+                                            Intent intent = new Intent(getActivity(), WebActivity.class);
+                                            intent.putExtra(WebActivity.INTENT_DATA_KEY_URL, u);
+                                            intent.putExtra(WebActivity.INTENT_DATA_KEY_BACKNAME, "首页");
+                                            startActivity(intent);
+                                        }
+                                    });
+
+
+                                }
+                            }
+//                                                                dialog.builder();
+                            dialog.getDialog().setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialog) {
+                                    banner.start();
+                                }
+                            });
+                            dialog.show();
+                            banner.pause();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+            });
+
             banner.setPages(data, () -> {
                 return new BannerViewHolder();
             });
             banner.start();
         });
+
+
+    }
+
+    private void initData() {
 
         mPresenter.getHomeSpeedNews(data -> {
             adAdapter.setNewData(data);
@@ -154,6 +255,10 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
 
     private void initAdList() {
 
+        findViewById(R.id.speed_news).setOnClickListener(v -> {
+            IntentBuilder.Builder(getActivity(), PigeonNewsActivity.class).startActivity();
+        });
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext()) {
             @Override
             public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int position) {
@@ -173,8 +278,16 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
 
         adList.setLayoutManager(linearLayoutManager);
         adAdapter = new HomeAdAdapter();
+        adAdapter.setOnItemClickListener((adapter, view, position) -> {
+            switch (adAdapter.getItem(position).getType()){
+                case NewsEntity.TYPE_LIVE:
+                    ((MainActivity)getActivity()).setCurrIndex(1);
+                    break;
+                case NewsEntity.TYPE_DZCB:
+                    break;
+            }
+        });
         adList.setAdapter(adAdapter);
-
         rollPolingAdList();
     }
 
@@ -248,6 +361,7 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
         super.onStart();
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
@@ -259,7 +373,6 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
     @Override
     public void onPause() {
         super.onPause();
-        banner.pause();
         if (disposable != null) {
             disposable.dispose();
             disposable = null;

@@ -8,6 +8,7 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.message.ui.BaseWebViewActivity;
+import com.cpigeon.app.pigeonnews.presenter.NewsDetailsPre;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.viewholder.NewsCommentViewHolder;
@@ -16,9 +17,8 @@ import com.cpigeon.app.viewholder.NewsCommentViewHolder;
  * Created by Zhu TingYu on 2018/1/6.
  */
 
-public class NewsDetailsActivity extends BaseWebViewActivity{
+public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
 
-    private String newsId;
 
     TextView title;
     TextView introduce;
@@ -30,12 +30,17 @@ public class NewsDetailsActivity extends BaseWebViewActivity{
     }
 
     @Override
+    public NewsDetailsPre initPresenter() {
+        return new NewsDetailsPre(this);
+    }
+
+    @Override
     public void initView(Bundle savedInstanceState) {
         setTitle("新闻详情");
-        newsId = getIntent().getStringExtra(IntentBuilder.KEY_DATA);
         title = findViewById(R.id.title);
         introduce = findViewById(R.id.introduce);
         initBottomToolbar();
+        super.initView(savedInstanceState);
         bindData(savedInstanceState);
     }
 
@@ -66,7 +71,10 @@ public class NewsDetailsActivity extends BaseWebViewActivity{
     private void bindData(Bundle savedInstanceState) {
         title.setText("aldjf;alsfjasl;");
         introduce.setText("`1231231"+"  "+"`1231231"+"  "+"`1231231");
-        viewHolder.bindData();
-        super.initView(savedInstanceState);
+
+        mPresenter.getNewsDetails(newsDetailsEntity -> {
+            viewHolder.bindData(newsDetailsEntity);
+            loadWebByHtml(newsDetailsEntity.content);
+        });
     }
 }
