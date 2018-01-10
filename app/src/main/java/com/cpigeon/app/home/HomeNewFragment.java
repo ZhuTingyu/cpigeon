@@ -22,6 +22,7 @@ import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.BaseDynamicEntity;
 import com.cpigeon.app.entity.HomeAdEntity;
+import com.cpigeon.app.entity.HomeNewsEntity;
 import com.cpigeon.app.entity.NewsEntity;
 import com.cpigeon.app.home.adpter.HomeAdAdapter;
 import com.cpigeon.app.home.adpter.CircleDynamicAdapter;
@@ -35,11 +36,13 @@ import com.cpigeon.app.modular.matchlive.view.activity.GeCheJianKongListActicity
 import com.cpigeon.app.pigeonnews.ui.NewsCommentFragment;
 import com.cpigeon.app.pigeonnews.ui.PigeonNewsActivity;
 import com.cpigeon.app.utils.CommonTool;
+import com.cpigeon.app.utils.ContactsUtil;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.customview.SaActionSheetDialog;
+import com.cpigeon.app.utils.http.LogUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
@@ -72,7 +75,7 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
 
     MainActivity activity;
 
-    Disposable disposable;
+    Disposable AdListDisposable;
 
     int adPosition = 0;
 
@@ -229,14 +232,20 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
         mPresenter.getHomeSpeedNews(data -> {
             adAdapter.setNewData(data);
         });
+
+        mPresenter.getHomeNews(data -> {
+            newAdapter.setNewData(HomeNewsEntity.get(data, HomeNewsEntity.TYPE_ONE));
+            newAdapter.addFooterView(initFootView(TYPE_NEWS));
+
+        });
     }
 
     private void initDynamicList() {
         dynamicList.setLayoutManager(new LinearLayoutManager(getContext()));
         dynamicList.setNestedScrollingEnabled(false);
         dynamicAdapter = new CircleDynamicAdapter();
-        dynamicAdapter.addFooterView(initFootView(TYPE_DYNAMIC));
         dynamicList.setAdapter(dynamicAdapter);
+        dynamicAdapter.addFooterView(initFootView(TYPE_DYNAMIC));
         List<BaseDynamicEntity> data = Lists.newArrayList();
 
 
@@ -254,7 +263,7 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
     }
 
     private void initAdList() {
-
+        ContactsUtil.setRecyclerViewNestedSlide(adList);
         findViewById(R.id.speed_news).setOnClickListener(v -> {
             IntentBuilder.Builder(getActivity(), PigeonNewsActivity.class).startActivity();
         });
@@ -284,15 +293,28 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
                     ((MainActivity)getActivity()).setCurrIndex(1);
                     break;
                 case NewsEntity.TYPE_DZCB:
+                    IntentBuilder.Builder(getActivity(), PigeonNewsActivity.class)
+                            .putExtra(IntentBuilder.KEY_DATA, 1)
+                            .startActivity();
                     break;
+
+                case NewsEntity.TYPE_NEWS:
+                    IntentBuilder.Builder(getActivity(), PigeonNewsActivity.class).startActivity();
             }
         });
         adList.setAdapter(adAdapter);
+
+        adList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                LogUtil.print("newState: " + newState);
+            }
+        });
         rollPolingAdList();
     }
 
     private void rollPolingAdList() {
-        disposable = RxUtils.rollPoling(3, 2000, aLong -> {
+        AdListDisposable = RxUtils.rollPoling(3, 4000, aLong -> {
 
             if (adPosition > adAdapter.getData().size() - 1) {
                 adPosition = 0;
@@ -301,6 +323,13 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
             adPosition += 1;
 
         });
+    }
+
+    private void stopRollPolingAdList(){
+        if (AdListDisposable != null) {
+            AdListDisposable.dispose();
+            AdListDisposable = null;
+        }
     }
 
 
@@ -312,8 +341,6 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
         newAdapter.setOnItemClickListener((adapter, view, position) -> {
             IntentBuilder.Builder(getActivity(), PigeonNewsActivity.class).startActivity();
         });
-        newAdapter.addFooterView(initFootView(TYPE_NEWS));
-        newAdapter.setNewData(Lists.newArrayList(""));
         newsList.setAdapter(newAdapter);
     }
 
@@ -350,6 +377,9 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
         TextView textView = findViewById(view, R.id.textView);
         if(type == TYPE_NEWS){
             textView.setText("查看更多新闻");
+            view.setOnClickListener(v -> {
+                IntentBuilder.Builder(getActivity(), PigeonNewsActivity.class).startActivity();
+            });
         }else {
             textView.setText("查看更多动态");
         }
@@ -365,7 +395,7 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
     @Override
     public void onResume() {
         super.onResume();
-        if (disposable == null) {
+        if (AdListDisposable == null) {
             rollPolingAdList();
         }
     }
@@ -373,10 +403,7 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
     @Override
     public void onPause() {
         super.onPause();
-        if (disposable != null) {
-            disposable.dispose();
-            disposable = null;
-        }
+        stopRollPolingAdList();
     }
 }
 

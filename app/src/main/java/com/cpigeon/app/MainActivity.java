@@ -340,12 +340,13 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
                 if(!checkLogin()){
                     hintLogin();
                 }
-
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                if(!checkLogin()){
+                    hintLogin();
+                }
             }
         });
         mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
@@ -390,7 +391,7 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
     }
 
     private void hintLogin() {
-        if(dialogPrompt == null) {
+        /*if(dialogPrompt == null) {
             dialogPrompt = new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE);
             dialogPrompt.setCanceledOnTouchOutside(false);
             dialogPrompt.setCancelable(false);
@@ -410,8 +411,8 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
 
         if(!dialogPrompt.isShowing()){
             dialogPrompt.show();
-        }
-
+        }*/
+        IntentBuilder.Builder(this, LoginActivity.class).startActivity();
 
     }
 
@@ -420,6 +421,10 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
 
     @Override
     public void onTabSelected(int position) {
+        if(!checkLogin()){
+            hintLogin();
+            return;
+        }
         laseSelectedPosition = position;
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();

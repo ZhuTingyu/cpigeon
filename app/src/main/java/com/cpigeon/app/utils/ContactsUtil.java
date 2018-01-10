@@ -18,7 +18,9 @@ import android.provider.ContactsContract.CommonDataKinds.StructuredPostal;
 import android.provider.ContactsContract.CommonDataKinds.Website;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Data;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 
 import com.cpigeon.app.message.ui.selectPhoneNumber.pinyin.CharacterParser;
 import com.cpigeon.app.message.ui.selectPhoneNumber.pinyin.PinyinComparator;
@@ -405,6 +407,38 @@ public class ContactsUtil {
                 contactData.remove(i);
             }else contactData = new JSONArray(new ArrayList<String>());
         }
+    }
+
+    public static void setRecyclerViewNestedSlide(RecyclerView recyclerView){
+        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    // 当手指触摸listview时，让父控件交出ontouch权限,不能滚动
+                    case MotionEvent.ACTION_DOWN:
+                        recyclerView.getParent().requestDisallowInterceptTouchEvent(true);
+                    case MotionEvent.ACTION_MOVE:
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 当手指松开时，让父控件重新获取onTouch权限
+                        recyclerView.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+
+                }
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean b) {
+
+            }
+        });
     }
 
 

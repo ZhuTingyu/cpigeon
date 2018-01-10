@@ -44,4 +44,12 @@ public class HomePre extends BasePresenter {
         }),consumer);
     }
 
+    public void getHomeNews(Consumer<List<NewsEntity>> consumer){
+        submitRequestThrowError(HomeModel.homeNewsList().map(r -> {
+            if(r.status){
+                return r.data;
+            }else throw new HttpErrorException(r);
+        }),consumer);
+    }
+
 }

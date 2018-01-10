@@ -24,6 +24,10 @@ public class RxRequest {
             for (String key : body.keySet()) {
                 builder.addFormDataPart(key, body.get(key));
             }
+
+            if(body.isEmpty()){
+                builder.addFormDataPart("empty","empty");
+            }
             Call<ResponseBody> call;
 
             if(rxRequest.isCache){

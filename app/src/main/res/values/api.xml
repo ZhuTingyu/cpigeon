@@ -65,4 +65,6 @@
     <string name="api_home_speed_news">ZhongGeKuaiBao</string>
     <string name="api_news_details">NewsDetial</string>
 
+    <string name="api_home_news">NewsListForIndex</string>
+
 </resources>

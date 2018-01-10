@@ -19,6 +19,7 @@ public class PigeonNewsActivity extends BaseActivity {
 
     SmartTabLayout tabLayout;
     ViewPager viewPager;
+    int position;
 
     @Override
     public int getLayoutId() {
@@ -32,6 +33,9 @@ public class PigeonNewsActivity extends BaseActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
+
+        position = getIntent().getIntExtra(IntentBuilder.KEY_DATA,0);
+
         setTitle("中鸽快报");
         tabLayout = findViewById(R.id.tab_view);
         viewPager = findViewById(R.id.view_pager);
@@ -53,5 +57,6 @@ public class PigeonNewsActivity extends BaseActivity {
 
         tabLayout.setViewPager(viewPager);
 
+        viewPager.setCurrentItem(position);
     }
 }

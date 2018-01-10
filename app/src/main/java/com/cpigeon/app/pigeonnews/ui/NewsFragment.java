@@ -45,6 +45,6 @@ public class NewsFragment extends BaseMVPFragment {
             IntentBuilder.Builder(getActivity(), NewsDetailsActivity.class).startActivity();
         });
         recyclerView.setAdapter(adapter);
-        adapter.setNewData(Lists.newArrayList("","",""));
+        //adapter.setNewData(Lists.newArrayList("","",""));
     }
 }

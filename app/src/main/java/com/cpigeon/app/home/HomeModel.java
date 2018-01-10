@@ -10,6 +10,7 @@ import com.cpigeon.app.utils.databean.ApiResponse;
 import com.cpigeon.app.utils.http.CPAPIHttpUtil;
 import com.cpigeon.app.utils.http.HttpUtil;
 import com.cpigeon.app.utils.http.PigeonHttpUtil;
+import com.cpigeon.app.utils.http.RHttpUtil;
 import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
 
@@ -72,4 +73,12 @@ public class HomeModel {
                 .url(R.string.api_home_speed_news)
                 .request();
     }
+
+    static Observable<ApiResponse<List<NewsEntity>>> homeNewsList(){
+        return RHttpUtil.<ApiResponse<List<NewsEntity>>>build()
+                .setToJsonType(new TypeToken<ApiResponse<List<NewsEntity>>>(){}.getType())
+                .url(R.string.api_home_news)
+                .request();
+    }
+
 }

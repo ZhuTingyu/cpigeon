@@ -1,7 +1,10 @@
 package com.cpigeon.app.utils.http;
 
 
+import android.support.annotation.StringRes;
+
 import com.cpigeon.app.MyApp;
+import com.cpigeon.app.utils.CallAPI;
 import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.databean.ApiResponse;
 import com.google.gson.Gson;
@@ -65,7 +68,7 @@ public class RequestUtil<T> {
     }
 
     public RequestUtil<T> addHead(String key, String value) {
-        bodyParameter.put(key, value);
+        headParameter.put(key, value);
         return this;
     }
 
@@ -78,6 +81,11 @@ public class RequestUtil<T> {
         this.url = url;
         return this;
     }
+    public RequestUtil<T> url(@StringRes int url) {
+        this.url = MyApp.getInstance().getBaseContext().getString(url);
+        return this;
+    }
+
 
     public RequestUtil<T> setToJsonType(Type toJsonType) {
         this.toJsonType = toJsonType;
@@ -158,8 +166,7 @@ public class RequestUtil<T> {
     }
 
     String getSign() {
-        //TODO 计算签名
-        return "";
+        return CallAPI.getApiSign(bodyParameter);
     }
 
     public String getUrl() {
