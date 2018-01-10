@@ -55,7 +55,7 @@ public class HomePre extends BasePresenter {
     }
 
     public void getHomeDynamic(Consumer<List<DynamicEntity>> consumer){
-        submitRequestThrowError(HomeModel.homeDynamicList(2).map(r -> {
+        submitRequestThrowError(HomeModel.homeDynamicList(1).map(r -> {
             if(r.status){
                 List<DynamicEntity> data = r.data;
                 for (DynamicEntity entity : data) {

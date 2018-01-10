@@ -1,5 +1,6 @@
 package com.cpigeon.app.base;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
@@ -15,8 +16,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.cpigeon.app.R;
 import com.cpigeon.app.utils.DrawableUtils;
+import com.cpigeon.app.utils.http.GlideRoundTransform;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.picasso.Picasso;
 
@@ -222,6 +225,12 @@ public class BaseViewHolder extends com.chad.library.adapter.base.BaseViewHolder
         if (view != null) {
             view.setVisibility(visible);
         }
+    }
+
+    public void setGlideImageView(Context context, @IdRes int resId , String string){
+        Glide.with(context).load(string)
+                .transform(new GlideRoundTransform(context, 3))
+                .into((ImageView) getView(resId)) ;
     }
 
 }

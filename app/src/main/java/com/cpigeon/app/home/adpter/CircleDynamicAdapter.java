@@ -1,6 +1,7 @@
 package com.cpigeon.app.home.adpter;
 
 import android.view.View;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -11,6 +12,7 @@ import com.cpigeon.app.entity.BaseDynamicEntity;
 import com.cpigeon.app.entity.DynamicEntity;
 import com.cpigeon.app.entity.ImageEntity;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.http.GlideRoundTransform;
 
 import java.util.List;
 
@@ -36,26 +38,25 @@ public class CircleDynamicAdapter extends BaseMultiItemQuickAdapter<DynamicEntit
         holder.setImageResource(R.id.icon, item.guanzhu ? R.mipmap.ic_home_followed : R.mipmap.ic_home_follow);
         holder.setSimpleImageView(R.id.user_icon, item.headurl);
         List<ImageEntity> list = item.imglist;
-        holder.setSimpleImageView(R.id.content_img, list.get(0).imgurl);
 
-        Glide.with(mContext).load(list.get(0).imgurl).into()
-        /*switch (holder.getItemViewType()){
+
+        switch (holder.getItemViewType()){
             case BaseDynamicEntity.IMAGE_0:
                 holder.setViewVisible(R.id.content_img, View.GONE);
                 break;
             case BaseDynamicEntity.IMAGE_1:
-                holder.setSimpleImageView(R.id.content_img, list.get(0).imgurl);
+                holder.setGlideImageView(mContext,R.id.content_img, list.get(0).imgurl);
                 break;
             case BaseDynamicEntity.IMAGE_2:
-                holder.setSimpleImageView(R.id.content_img1, list.get(0).imgurl);
-                holder.setSimpleImageView(R.id.content_img2, list.get(1).imgurl);
+                holder.setGlideImageView(mContext,R.id.content_img1, list.get(0).imgurl);
+                holder.setGlideImageView(mContext,R.id.content_img2, list.get(1).imgurl);
                 break;
             case BaseDynamicEntity.IMAGE_3:
-                holder.setSimpleImageView(R.id.content_img1, list.get(0).imgurl);
-                holder.setSimpleImageView(R.id.content_img2, list.get(1).imgurl);
-                holder.setSimpleImageView(R.id.content_img3, list.get(2).imgurl);
+                holder.setGlideImageView(mContext,R.id.content_img1, list.get(0).imgurl);
+                holder.setGlideImageView(mContext,R.id.content_img2, list.get(1).imgurl);
+                holder.setGlideImageView(mContext,R.id.content_img3, list.get(2).imgurl);
                 break;
 
-        }*/
+        }
     }
 }
