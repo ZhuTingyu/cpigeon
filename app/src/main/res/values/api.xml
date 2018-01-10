@@ -66,5 +66,6 @@
     <string name="api_news_details">NewsDetial</string>
 
     <string name="api_home_news">NewsListForIndex</string>
+    <string name="api_home_circle">GeMiQuanForIndex</string>
 
 </resources>

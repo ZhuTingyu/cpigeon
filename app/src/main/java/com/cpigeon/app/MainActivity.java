@@ -337,16 +337,10 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
             public void onPageSelected(int position) {
                 if (lastTabIndex == position) return;
                 mBottomNavigationBar.selectTab(position);
-                if(!checkLogin()){
-                    hintLogin();
-                }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                if(!checkLogin()){
-                    hintLogin();
-                }
             }
         });
         mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
@@ -412,7 +406,12 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
         if(!dialogPrompt.isShowing()){
             dialogPrompt.show();
         }*/
-        IntentBuilder.Builder(this, LoginActivity.class).startActivity();
+        if(laseSelectedPosition != 0){
+            mViewPager.setCurrentItem(0);
+            mBottomNavigationBar.selectTab(0);
+            laseSelectedPosition = 0;
+        }
+        startActivity(LoginActivity.class);
 
     }
 
@@ -421,11 +420,11 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
 
     @Override
     public void onTabSelected(int position) {
-        if(!checkLogin()){
+        laseSelectedPosition = position;
+        if (!checkLogin()) {
             hintLogin();
             return;
         }
-        laseSelectedPosition = position;
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 //        hideFragment(transaction);
@@ -446,9 +445,6 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
                 } else {
                     transaction.show(matchLiveFragment);
                 }
-                if(!checkLogin()){
-                    hintLogin();
-                }
 
                 break;
             case 2:
@@ -458,9 +454,6 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
                 } else {
                     transaction.show(friendCircleFragment);
                 }
-                if(!checkLogin()){
-                    hintLogin();
-                }
                 break;
             case 3:
                 if (userCenterFragment == null) {
@@ -468,9 +461,6 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
                     transaction.add(R.id.viewpager, userCenterFragment);
                 } else {
                     transaction.show(userCenterFragment);
-                }
-                if(!checkLogin()){
-                    hintLogin();
                 }
                 break;
 
@@ -485,9 +475,9 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
         lastTabIndex = index;
         mViewPager.setCurrentItem(index);
         mBottomNavigationBar.selectTab(index);
-        if(checkLogin()){
+        if (checkLogin()) {
             SharedPreferencesTool.Save(MyApp.getInstance(), APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(MyApp.getInstance()), index, SharedPreferencesTool.SP_FILE_APPSTATE);
-        }else {
+        } else {
             SharedPreferencesTool.Save(MyApp.getInstance(), APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(MyApp.getInstance()), 0, SharedPreferencesTool.SP_FILE_APPSTATE);
         }
         onTabSelected(index);

@@ -6,8 +6,13 @@
     android:layout_height="match_parent"
     android:background="@color/colorLayoutGray4">
 
+    <include
+        android:id="@+id/top_toolbar"
+        layout="@layout/layout_toolbar"/>
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/civ_user_head_img"
+        android:layout_below="@+id/top_toolbar"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"
@@ -18,7 +23,8 @@
         android:id="@+id/activity_login_layout_01"
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_login_input_layout_height"
-        android:layout_marginTop="160dp"
+        android:layout_below="@id/civ_user_head_img"
+        android:layout_marginTop="48dp"
         android:background="@color/colorWhite">
 
         <android.support.v7.widget.AppCompatImageView

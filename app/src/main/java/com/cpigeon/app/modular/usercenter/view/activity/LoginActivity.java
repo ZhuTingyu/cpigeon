@@ -29,6 +29,7 @@ import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.modular.usercenter.presenter.LoginPresenter;
 import com.cpigeon.app.modular.usercenter.view.activity.viewdao.ILoginView;
 import com.cpigeon.app.utils.CommonTool;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.NetUtils;
 import com.cpigeon.app.utils.PermissionTool;
 import com.cpigeon.app.utils.SharedPreferencesTool;
@@ -53,6 +54,7 @@ import permissions.dispatcher.RuntimePermissions;
 public class LoginActivity extends BaseActivity<LoginPresenter> implements ILoginView {
 
     private static boolean isExit = false;
+    private boolean isLoginOut = false;
     @BindView(R.id.civ_user_head_img)
     CircleImageView civUserHeadImg;
     @BindView(R.id.iv_icon_user)
@@ -147,6 +149,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         LoginActivityPermissionsDispatcher.AlertWindowWithCheck(this);
+        setTitle("登录");
         super.onCreate(savedInstanceState);
     }
 
@@ -189,7 +192,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     @Override
     public void initView(Bundle savedInstanceState) {
         clearLoginInfo();
-        AppManager.getAppManager().killAllToLoginActivity(LoginActivity.class);
+        isLoginOut = getIntent().getBooleanExtra(IntentBuilder.KEY_BOOLEAN, false);
+        if(isLoginOut){
+            AppManager.getAppManager().killAllToLoginActivity(LoginActivity.class);
+        }
         etUsername.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -282,15 +288,18 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
 
 
     public void onBackPressed() {
-
-        if (!isExit) {
-            isExit = true;
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.Then_click_one_exit_procedure),
-                    Toast.LENGTH_SHORT).show();
-            // 利用handler延迟发送更改状态信息
-            mHandler.sendEmptyMessageDelayed(0, 2000);
-        } else {
-            AppManager.getAppManager().AppExit(mContext);
+        if(isLoginOut){
+            if (!isExit) {
+                isExit = true;
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.Then_click_one_exit_procedure),
+                        Toast.LENGTH_SHORT).show();
+                // 利用handler延迟发送更改状态信息
+                mHandler.sendEmptyMessageDelayed(0, 2000);
+            } else {
+                AppManager.getAppManager().AppExit(mContext);
+            }
+        }else {
+            finish();
         }
 
 

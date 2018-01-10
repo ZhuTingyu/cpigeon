@@ -66,7 +66,7 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.TransparentStatusBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
