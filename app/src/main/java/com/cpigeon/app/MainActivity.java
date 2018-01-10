@@ -421,7 +421,7 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
     @Override
     public void onTabSelected(int position) {
         laseSelectedPosition = position;
-        if (!checkLogin()) {
+        if (!checkLogin() && laseSelectedPosition != 0) {
             hintLogin();
             return;
         }

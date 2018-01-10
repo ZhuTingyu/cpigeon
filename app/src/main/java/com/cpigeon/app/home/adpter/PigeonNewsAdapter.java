@@ -40,6 +40,7 @@ public class PigeonNewsAdapter extends BaseQuickAdapter<HomeNewsEntity, NewsView
                     ,ScreenTool.dip2px(mContext.getResources().getDimension(R.dimen.small_horizontal_margin)));
         }
         holder.bindData(item);
+        holder.setListener(mContext);
     }
 
     public void setType(int type) {

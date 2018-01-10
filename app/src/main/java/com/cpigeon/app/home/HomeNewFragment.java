@@ -34,6 +34,7 @@ import com.cpigeon.app.modular.home.model.bean.HomeAd;
 import com.cpigeon.app.modular.home.view.activity.WebActivity;
 import com.cpigeon.app.modular.matchlive.view.activity.GeCheJianKongListActicity;
 import com.cpigeon.app.pigeonnews.ui.NewsCommentFragment;
+import com.cpigeon.app.pigeonnews.ui.NewsDetailsActivity;
 import com.cpigeon.app.pigeonnews.ui.PigeonNewsActivity;
 import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.ContactsUtil;
@@ -234,9 +235,14 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
         });
 
         mPresenter.getHomeNews(data -> {
-            newAdapter.setNewData(HomeNewsEntity.get(data, HomeNewsEntity.TYPE_ONE));
+            newAdapter.setNewData(HomeNewsEntity.get(data, HomeNewsEntity.TYPE_ALL));
             newAdapter.addFooterView(initFootView(TYPE_NEWS));
 
+        });
+
+        mPresenter.getHomeDynamic(data -> {
+            dynamicAdapter.setNewData(data);
+            dynamicAdapter.addFooterView(initFootView(TYPE_DYNAMIC));
         });
     }
 
@@ -245,21 +251,6 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
         dynamicList.setNestedScrollingEnabled(false);
         dynamicAdapter = new CircleDynamicAdapter();
         dynamicList.setAdapter(dynamicAdapter);
-        dynamicAdapter.addFooterView(initFootView(TYPE_DYNAMIC));
-        List<BaseDynamicEntity> data = Lists.newArrayList();
-
-
-        for (int i = 0; i < 4; i++) {
-            BaseDynamicEntity dynamicEntity = new BaseDynamicEntity();
-            data.add(dynamicEntity);
-        }
-
-        data.get(0).setType(BaseDynamicEntity.IMAGE_0);
-        data.get(1).setType(BaseDynamicEntity.IMAGE_1);
-        data.get(2).setType(BaseDynamicEntity.IMAGE_2);
-        data.get(3).setType(BaseDynamicEntity.IMAGE_3);
-
-        dynamicAdapter.setNewData(data);
     }
 
     private void initAdList() {
@@ -338,9 +329,6 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
         newsList.setNestedScrollingEnabled(false);
         newAdapter = new PigeonNewsAdapter();
         newAdapter.setType(PigeonNewsAdapter.TYPE_HOME);
-        newAdapter.setOnItemClickListener((adapter, view, position) -> {
-            IntentBuilder.Builder(getActivity(), PigeonNewsActivity.class).startActivity();
-        });
         newsList.setAdapter(newAdapter);
     }
 

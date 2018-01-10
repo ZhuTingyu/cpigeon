@@ -149,8 +149,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         LoginActivityPermissionsDispatcher.AlertWindowWithCheck(this);
-        setTitle("登录");
         super.onCreate(savedInstanceState);
+        setTitle("登录");
     }
 
     private void showRequest(final PermissionRequest request) {

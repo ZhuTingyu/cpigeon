@@ -2,6 +2,7 @@ package com.cpigeon.app.home;
 
 import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
+import com.cpigeon.app.entity.DynamicEntity;
 import com.cpigeon.app.entity.HomeAdEntity;
 import com.cpigeon.app.entity.NewsEntity;
 import com.cpigeon.app.modular.home.model.bean.HomeAd;
@@ -74,10 +75,19 @@ public class HomeModel {
                 .request();
     }
 
-    static Observable<ApiResponse<List<NewsEntity>>> homeNewsList(){
+    static Observable<ApiResponse<List<NewsEntity>>> homeNewsList(int top){
         return RHttpUtil.<ApiResponse<List<NewsEntity>>>build()
                 .setToJsonType(new TypeToken<ApiResponse<List<NewsEntity>>>(){}.getType())
                 .url(R.string.api_home_news)
+                .addBody("top", String.valueOf(top))
+                .request();
+    }
+
+    static Observable<ApiResponse<List<DynamicEntity>>> homeDynamicList(int top){
+        return RHttpUtil.<ApiResponse<List<DynamicEntity>>>build()
+                .setToJsonType(new TypeToken<ApiResponse<List<DynamicEntity>>>(){}.getType())
+                .url(R.string.api_home_circle_dynamic)
+                .addBody("top", String.valueOf(top))
                 .request();
     }
 

@@ -30,7 +30,7 @@ public class NewsDetailsPre extends BasePresenter {
     }
 
     public void getNewsDetails(Consumer<NewsDetailsEntity> consumer){
-        submitRequestThrowError(NewsModel.newsDetails("9378").map(r -> {
+        submitRequestThrowError(NewsModel.newsDetails(newsId).map(r -> {
             if(r.status){
                 return r.data;
             }else throw new HttpErrorException(r);

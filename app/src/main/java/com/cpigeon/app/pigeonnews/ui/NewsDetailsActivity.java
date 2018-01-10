@@ -69,10 +69,9 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
     }
 
     private void bindData(Bundle savedInstanceState) {
-        title.setText("aldjf;alsfjasl;");
-        introduce.setText("`1231231"+"  "+"`1231231"+"  "+"`1231231");
-
         mPresenter.getNewsDetails(newsDetailsEntity -> {
+            title.setText(newsDetailsEntity.title);
+            introduce.setText(newsDetailsEntity.author+"  "+newsDetailsEntity.time+"  "+newsDetailsEntity.hits);
             viewHolder.bindData(newsDetailsEntity);
             loadWebByHtml(newsDetailsEntity.content);
         });

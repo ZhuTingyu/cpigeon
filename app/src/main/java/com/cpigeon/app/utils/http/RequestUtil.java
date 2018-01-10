@@ -3,6 +3,7 @@ package com.cpigeon.app.utils.http;
 
 import android.support.annotation.StringRes;
 
+import com.alibaba.fastjson.JSON;
 import com.cpigeon.app.MyApp;
 import com.cpigeon.app.utils.CallAPI;
 import com.cpigeon.app.utils.CommonTool;
@@ -142,7 +143,11 @@ public class RequestUtil<T> {
 
         Observable<T> observable = RxRequest.getRxHttp(this)
                 .map(s -> {
-                    return GsonUtil.fromJson(s, toJsonType);
+                    try {
+                        return GsonUtil.fromJson(s, toJsonType);
+                    }catch (Exception e){
+                        return JSON.parseObject(s, toJsonType);
+                    }
                 });
 
         observable = observable.map(e -> {

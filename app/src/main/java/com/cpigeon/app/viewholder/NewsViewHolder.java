@@ -1,5 +1,6 @@
 package com.cpigeon.app.viewholder;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
@@ -9,6 +10,9 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseViewHolder;
 import com.cpigeon.app.entity.HomeNewsEntity;
 import com.cpigeon.app.entity.NewsEntity;
+import com.cpigeon.app.pigeonnews.ui.NewsDetailsActivity;
+import com.cpigeon.app.utils.IntentBuilder;
+import com.cpigeon.app.utils.Lists;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -19,6 +23,8 @@ import java.util.List;
 
 public class NewsViewHolder extends BaseViewHolder {
 
+    List<Integer> newsIds = Lists.newArrayList(R.id.rl1,R.id.rl2,R.id.rl3,R.id.rl4);
+
     private TextView tvTitle1;
     private SimpleDraweeView img1;
     private TextView tvTitle2;
@@ -27,7 +33,7 @@ public class NewsViewHolder extends BaseViewHolder {
     private SimpleDraweeView img3;
     private TextView tvTitle4;
     private SimpleDraweeView img4;
-
+    List<NewsEntity> newList;
     public NewsViewHolder(View itemView) {
         super(itemView);
         tvTitle1 = getView(R.id.text_1);
@@ -43,7 +49,7 @@ public class NewsViewHolder extends BaseViewHolder {
 
     public void bindData(HomeNewsEntity entity) {
 
-        List<NewsEntity> newList = entity.newList;
+        newList = entity.newList;
 
         for (int i = 0, len = newList.size(); i < len; i++) {
             NewsEntity  newsEntity = newList.get(i);
@@ -66,16 +72,16 @@ public class NewsViewHolder extends BaseViewHolder {
                     break;
             }
         }
+    }
 
-//        tvTitle1.setText(entity.newList.get(0).title);
-//        tvTitle2.setText(entity.newList.get(1).title);
-//        tvTitle3.setText(entity.newList.get(2).title);
-//        tvTitle4.setText(entity.newList.get(3).title);
-//
-//        img1.setImageURI("http://img.zcool.cn/community/01e4a2577deac20000018c1bdd823a.jpg@1280w_1l_2o_100sh.jpg");
-//        img2.setImageURI("http://img.zcool.cn/community/01e4a2577deac20000018c1bdd823a.jpg@1280w_1l_2o_100sh.jpg");
-//        img3.setImageURI("http://img.zcool.cn/community/01e4a2577deac20000018c1bdd823a.jpg@1280w_1l_2o_100sh.jpg");
-//        img4.setImageURI("http://img.zcool.cn/community/01e4a2577deac20000018c1bdd823a.jpg@1280w_1l_2o_100sh.jpg");
-
+    public void setListener(Context context){
+        for (int i = 0, len = newsIds.size(); i < len; i++) {
+            int finalI = i;
+            findViewById(newsIds.get(i)).setOnClickListener(v -> {
+                IntentBuilder.Builder(context, NewsDetailsActivity.class)
+                        .putExtra(IntentBuilder.KEY_DATA, newList.get(finalI).nid)
+                        .startActivity();
+            });
+        }
     }
 }
