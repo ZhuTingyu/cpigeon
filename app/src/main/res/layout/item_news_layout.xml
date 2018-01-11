@@ -21,7 +21,7 @@
             android:layout_height="150dp"
             android:layout_alignBottom="@+id/text_1"
             android:layout_alignParentStart="true"
-            app:roundedCornerRadius="5dp" />
+            app:roundedCornerRadius="2.5dp" />
 
         <TextView
             android:id="@+id/text_1"
@@ -57,7 +57,7 @@
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_2"
             android:layout_width="80dp"
-            app:roundedCornerRadius="5dp"
+            app:roundedCornerRadius="2.5dp"
             android:layout_marginLeft="@dimen/large_horizontal_margin"
             android:layout_alignParentRight="true"
             android:layout_height="match_parent" />
@@ -78,12 +78,10 @@
 
     </RelativeLayout>
 
-    <include
-        layout="@layout/item_line_view_layout"
+    <View
+        android:background="@color/line_color_f2f2f2"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_height="0.5dp"/>
 
     <RelativeLayout
         android:id="@+id/rl3"
@@ -96,7 +94,7 @@
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_3"
             android:layout_width="80dp"
-            app:roundedCornerRadius="5dp"
+            app:roundedCornerRadius="2.5dp"
             android:layout_marginLeft="@dimen/large_horizontal_margin"
             android:layout_alignParentRight="true"
             android:layout_height="match_parent" />
@@ -117,12 +115,10 @@
 
     </RelativeLayout>
 
-    <include
-        layout="@layout/item_line_view_layout"
+    <View
+        android:background="@color/line_color_f2f2f2"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_height="0.5dp"/>
 
     <RelativeLayout
         android:id="@+id/rl4"
@@ -135,7 +131,7 @@
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_4"
             android:layout_width="80dp"
-            app:roundedCornerRadius="5dp"
+            app:roundedCornerRadius="2.5dp"
             android:layout_marginLeft="@dimen/large_horizontal_margin"
             android:layout_alignParentRight="true"
             android:layout_height="match_parent" />
@@ -156,12 +152,10 @@
 
     </RelativeLayout>
 
-    <include
-        layout="@layout/item_line_view_layout"
+    <View
+        android:background="@color/line_color_f2f2f2"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_height="0.5dp"/>
 
 
 </LinearLayout>

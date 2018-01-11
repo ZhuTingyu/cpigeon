@@ -232,10 +232,11 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <activity android:name=".base.FragmentParentActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/ToolbarTheme"/>
 
         <activity
-            android:name=".message.ui.BaseWebViewActivity"
+            android:name=".base.BaseWebViewActivity"
             android:launchMode="singleTask"
             android:theme="@style/ToolbarTheme"
             android:windowSoftInputMode="adjustPan|stateHidden" />
@@ -303,7 +304,7 @@
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity android:name=".pigeonnews.ui.PigeonNewsActivity" />
         <activity android:name=".pigeonnews.ui.NewsDetailsActivity"
-            />
+            android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>
 
 

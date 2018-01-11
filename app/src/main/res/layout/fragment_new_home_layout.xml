@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -21,10 +21,11 @@
 
             <com.zhouwei.mzbanner.MZBannerView
                 android:id="@+id/banner"
+                android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="170dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
                 app:canLoop="true"
                 app:indicatorAlign="center"
                 app:middle_page_cover="false"
@@ -33,17 +34,24 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/lead_list"
+                android:background="@color/white"
+                android:paddingBottom="14dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
 
+            <View
+                android:background="@color/line_color_f2f2f2"
+                android:layout_width="match_parent"
+                android:layout_marginStart="@dimen/large_horizontal_margin"
+                android:layout_marginEnd="@dimen/large_horizontal_margin"
+                android:layout_height="0.5dp"/>
+
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:layout_marginLeft="@dimen/medium_horizontal_margin"
-                android:layout_marginRight="@dimen/medium_horizontal_margin"
+                android:layout_height="80dp"
                 android:orientation="horizontal"
-                android:layout_marginTop="16dp"
                 android:background="@color/white">
 
                 <LinearLayout
@@ -62,39 +70,43 @@
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="16dp"
-                    android:background="@color/line_color" />
 
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/ad_list"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
+                    android:paddingEnd="@dimen/big_large_horizontal_margin"
+                    android:layout_gravity="center_vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="72dp" />
 
 
             </LinearLayout>
+
+            <View
+                android:background="@color/color_default_bg"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/big_large_vertical_margin"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/news_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:layout_margin="10dp"
                 android:padding="10dp" />
+
+            <View
+                android:background="@color/color_default_bg"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/big_large_vertical_margin"/>
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/dynamic_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:layout_margin="10dp"
                 android:padding="10dp" />
 
         </LinearLayout>

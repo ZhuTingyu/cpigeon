@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
-import com.cpigeon.app.message.ui.BaseWebViewActivity;
+import com.cpigeon.app.base.BaseWebViewActivity;
 import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;

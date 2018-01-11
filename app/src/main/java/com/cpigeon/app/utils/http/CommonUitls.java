@@ -776,6 +776,38 @@ public class CommonUitls {
         }
         return false;
     }
+
+    public static void showKeyBoard(Activity activity, EditText view){
+        /*InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        //显示软键盘
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);*/
+        /*//切换软键盘的显示与隐藏
+        imm.toggleSoftInputFromWindow(view.getWindowToken(), 0, InputMethodManager.HIDE_NOT_ALWAYS);*/
+
+        InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(view,InputMethodManager.SHOW_FORCED);
+
+        /*InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);*/
+
+
+    }
+
+    public static void showKeyBoard(Activity activity){
+        /*InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        //显示软键盘
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);*/
+        /*//切换软键盘的显示与隐藏
+        imm.toggleSoftInputFromWindow(view.getWindowToken(), 0, InputMethodManager.HIDE_NOT_ALWAYS);*/
+
+        /*InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(view,InputMethodManager.SHOW_FORCED);*/
+
+        InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+
+
+    }
 }
 
 

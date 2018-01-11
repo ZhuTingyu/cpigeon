@@ -3,9 +3,11 @@ package com.cpigeon.app.pigeonnews;
 import com.cpigeon.app.R;
 import com.cpigeon.app.entity.NewsDetailsEntity;
 import com.cpigeon.app.entity.NewsEntity;
+import com.cpigeon.app.entity.NewsMessageEntity;
 import com.cpigeon.app.utils.databean.ApiResponse;
 import com.cpigeon.app.utils.http.CPAPIHttpUtil;
 import com.cpigeon.app.utils.http.HttpUtil;
+import com.cpigeon.app.utils.http.PigeonHttpUtil;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
@@ -23,6 +25,13 @@ public class NewsModel {
                 .setType(HttpUtil.TYPE_POST)
                 .url(R.string.api_news_details)
                 .addBody("nid",newsId)
+                .request();
+    }
+
+    public static Observable<ApiResponse<List<NewsMessageEntity>>> newsMessage(){
+        return PigeonHttpUtil.<ApiResponse<List<NewsMessageEntity>>>build()
+                .setToJsonType(new TypeToken<ApiResponse<List<NewsMessageEntity>>>(){}.getType())
+                .url(R.string.api_news_GetDiZhenCiBao)
                 .request();
     }
 }

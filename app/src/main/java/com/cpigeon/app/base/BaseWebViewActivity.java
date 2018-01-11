@@ -1,4 +1,4 @@
-package com.cpigeon.app.message.ui;
+package com.cpigeon.app.base;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -31,6 +31,7 @@ import static android.view.KeyEvent.KEYCODE_BACK;
 public class BaseWebViewActivity<Pre extends BasePresenter> extends BaseActivity<Pre> {
 
     protected WebView webView;
+    protected WebSettings webSettings;
     String url;
     String title;
     ProgressBar progressBar;
@@ -86,7 +87,7 @@ public class BaseWebViewActivity<Pre extends BasePresenter> extends BaseActivity
             }
         });
 
-        WebSettings webSettings = webView.getSettings();
+        webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setUseWideViewPort(true); //将图片调整到适合webview的大小
         webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小

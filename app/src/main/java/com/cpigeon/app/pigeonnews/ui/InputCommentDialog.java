@@ -3,6 +3,7 @@ package com.cpigeon.app.pigeonnews.ui;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Window;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
+import com.cpigeon.app.utils.http.CommonUitls;
 
 /**
  * Created by Zhu TingYu on 2018/1/8.
@@ -19,9 +21,12 @@ import com.cpigeon.app.R;
 public class InputCommentDialog extends DialogFragment {
 
     TextView btn;
-    EditText content;
+    public EditText content;
 
     private OnPushClickListener listener;
+    private OnDialogInitListener showedListener;
+
+    public Dialog dialog;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -40,7 +45,9 @@ public class InputCommentDialog extends DialogFragment {
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
         initView(dialog);
-
+        dialog.setOnShowListener(dialog1 -> {
+            CommonUitls.showKeyBoard(getActivity(), content);
+        });
         return dialog;
     }
 
@@ -50,13 +57,24 @@ public class InputCommentDialog extends DialogFragment {
         btn.setOnClickListener(v -> {
             listener.click(content.getText().toString());
         });
+        if(showedListener != null){
+            showedListener.inited(content);
+        }
     }
 
     public interface OnPushClickListener{
         void click(String content);
     }
 
-    public void setListener(OnPushClickListener listener) {
+    public interface OnDialogInitListener{
+        void inited(EditText editText);
+    }
+
+    public void setPushClickListener(OnPushClickListener listener) {
         this.listener = listener;
+    }
+
+    public void setInitedListener(OnDialogInitListener showedListener) {
+        this.showedListener = showedListener;
     }
 }

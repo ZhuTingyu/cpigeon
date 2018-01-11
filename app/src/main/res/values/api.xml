@@ -68,4 +68,6 @@
     <string name="api_home_news">NewsListForIndex</string>
     <string name="api_home_circle_dynamic">GeMiQuanForIndex</string>
 
+    <string name="api_news_GetDiZhenCiBao">GetDiZhenCiBao</string>
+
 </resources>

@@ -235,7 +235,7 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
         });
 
         mPresenter.getHomeNews(data -> {
-            newAdapter.setNewData(HomeNewsEntity.get(data, HomeNewsEntity.TYPE_ALL));
+            newAdapter.setNewData(HomeNewsEntity.get(data, HomeNewsEntity.TYPE_ONE));
             newAdapter.addFooterView(initFootView(TYPE_NEWS));
 
         });
@@ -345,7 +345,7 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
         leadAdapter.setOnItemClickListener((adapter, view, position) -> {
             switch (position) {
                 case 0://比赛直播
-                    activity.setCurrIndex(1);
+
                     break;
                 case 1://比赛监控
                     IntentBuilder.Builder(getActivity(), GeCheJianKongListActicity.class).startActivity();

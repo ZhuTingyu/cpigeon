@@ -10,7 +10,7 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.UserGXTEntity;
 import com.cpigeon.app.message.adapter.PigeonMessageHomeAdapter;
-import com.cpigeon.app.message.ui.BaseWebViewActivity;
+import com.cpigeon.app.base.BaseWebViewActivity;
 import com.cpigeon.app.message.ui.order.ui.CreateMessageOrderFragment;
 import com.cpigeon.app.message.ui.order.ui.OrderPayFragment;
 import com.cpigeon.app.message.ui.userAgreement.UserAgreementActivity;
@@ -20,15 +20,11 @@ import com.cpigeon.app.message.ui.history.MessageHistoryFragment;
 import com.cpigeon.app.message.ui.modifysign.ModifySignFragment;
 import com.cpigeon.app.message.ui.person.PersonInfoFragment;
 import com.cpigeon.app.message.ui.sendmessage.SendMessageFragment;
-import com.cpigeon.app.modular.order.presenter.OrderPre;
 import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
-import com.cpigeon.app.utils.databean.ApiResponse;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 

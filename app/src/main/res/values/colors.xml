@@ -138,6 +138,7 @@
     <color name="edit_bg">#EFEFF4</color>
 
     <color name="darker_gray">#9b9b9b</color>
+    <color name="line_color_f2f2f2">#f2f2f2</color>
 
 
 </resources>

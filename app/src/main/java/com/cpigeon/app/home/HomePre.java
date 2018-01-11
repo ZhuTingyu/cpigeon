@@ -47,7 +47,7 @@ public class HomePre extends BasePresenter {
     }
 
     public void getHomeNews(Consumer<List<NewsEntity>> consumer){
-        submitRequestThrowError(HomeModel.homeNewsList(8).map(r -> {
+        submitRequestThrowError(HomeModel.homeNewsList(4).map(r -> {
             if(r.status){
                 return r.data;
             }else throw new HttpErrorException(r);

@@ -2,15 +2,18 @@ package com.cpigeon.app.pigeonnews.ui;
 
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
-import com.cpigeon.app.commonstandard.presenter.BasePresenter;
-import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
-import com.cpigeon.app.message.ui.BaseWebViewActivity;
+import com.cpigeon.app.base.BaseWebViewActivity;
 import com.cpigeon.app.pigeonnews.presenter.NewsDetailsPre;
+import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.ToastUtil;
+import com.cpigeon.app.utils.http.CommonUitls;
 import com.cpigeon.app.viewholder.NewsCommentViewHolder;
 
 /**
@@ -41,6 +44,20 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
         introduce = findViewById(R.id.introduce);
         initBottomToolbar();
         super.initView(savedInstanceState);
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                webView.loadUrl("javascript:(function(){" +
+                        "var objs = document.getElementsByTagName('img'); " +
+                        "for(var i=0;i<objs.length;i++)  " +
+                        "{"
+                        + "var img = objs[i];   " +
+                        " img.style.maxWidth = '100%';img.style.height='auto';" +
+                        "}" +
+                        "})()");
+            }
+        });
         bindData(savedInstanceState);
     }
 
@@ -73,7 +90,9 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
             title.setText(newsDetailsEntity.title);
             introduce.setText(newsDetailsEntity.author+"  "+newsDetailsEntity.time+"  "+newsDetailsEntity.hits);
             viewHolder.bindData(newsDetailsEntity);
-            loadWebByHtml(newsDetailsEntity.content);
+            String css = "<style type=\"text/css\"> </style>";
+            String html = "<html><header><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no>"+css+"</header>"+"<body>"+newsDetailsEntity.content+"</body>"+"</html>";
+            loadWebByHtml(html);
         });
     }
 }

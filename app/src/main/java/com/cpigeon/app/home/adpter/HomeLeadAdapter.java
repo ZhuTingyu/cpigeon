@@ -20,7 +20,7 @@ import java.util.List;
 
 public class HomeLeadAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
-    List<Integer> icons = Lists.newArrayList(R.drawable.ic_match_live,
+    List<Integer> icons = Lists.newArrayList(R.drawable.ic_home_pigeon_match_t,
             R.drawable.ic_match_control,
             R.drawable.ic_pigeon_message,
             R.drawable.ic_foot_search);
@@ -30,7 +30,7 @@ public class HomeLeadAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
     public HomeLeadAdapter() {
         super(R.layout.item_pigeon_message_home_layout
-                , Lists.newArrayList("比赛直播", "比赛监控", "鸽信通", "足环查询")
+                , Lists.newArrayList("赛鸽通", "比赛监控", "鸽信通", "足环查询")
         );
 
 
@@ -41,8 +41,8 @@ public class HomeLeadAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder holder, String item) {
         TextView title = holder.getView(R.id.title);
-        title.setTextSize(14);
-        title.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+        title.setTextSize(12);
+        title.setTextColor(mContext.getResources().getColor(R.color.black));
 
         holder.setText(R.id.title, item);
 
