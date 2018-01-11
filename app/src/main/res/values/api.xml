@@ -69,5 +69,7 @@
     <string name="api_home_circle_dynamic">GeMiQuanForIndex</string>
 
     <string name="api_news_GetDiZhenCiBao">GetDiZhenCiBao</string>
+    <string name="api_news_comments">GetCommentsForNews</string>
+    <string name="api_add_news_comment">AddCommentForNews</string>
 
 </resources>

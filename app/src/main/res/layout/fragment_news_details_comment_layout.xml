@@ -4,14 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list"
-        android:layout_above="@+id/bottom_comment"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@id/swipeLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:padding="@dimen/medium_horizontal_margin" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_above="@+id/bottom_comment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:padding="@dimen/medium_horizontal_margin" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
     <include
         android:id="@+id/bottom_comment"

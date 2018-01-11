@@ -31,6 +31,7 @@ public class NewsCommentViewHolder extends BaseViewHolder {
     TextView comment;
 
     private OnViewClickListener listener;
+    InputCommentDialog dialog;
 
 
     public NewsCommentViewHolder(View itemView, Activity activity) {
@@ -45,7 +46,7 @@ public class NewsCommentViewHolder extends BaseViewHolder {
     private void bindUi() {
         input.setOnClickListener(v -> {
 
-            InputCommentDialog dialog = new InputCommentDialog();
+            dialog = new InputCommentDialog();
             dialog.setPushClickListener(content -> {
                 listener.commentPushClick(content);
             });
@@ -76,13 +77,19 @@ public class NewsCommentViewHolder extends BaseViewHolder {
 
     }
 
+    public void closeDialog(){
+        if(dialog != null){
+            dialog.dismiss();
+        }
+    }
+
     public void onlyComment() {
         thumb.setVisibility(View.GONE);
         comment.setVisibility(View.GONE);
     }
 
     public interface OnViewClickListener {
-        void commentPushClick(String content);
+        void commentPushClick(EditText content);
 
         void thumbClick();
 

@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseWebViewActivity;
 import com.cpigeon.app.pigeonnews.presenter.NewsDetailsPre;
-import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.http.CommonUitls;
@@ -67,8 +66,15 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
         viewHolder = new NewsCommentViewHolder(view, this);
         viewHolder.setListener(new NewsCommentViewHolder.OnViewClickListener() {
             @Override
-            public void commentPushClick(String content) {
-                ToastUtil.showShortToast(getApplicationContext(), content);
+            public void commentPushClick(EditText editText) {
+                mPresenter.content = editText.getText().toString();
+                mPresenter.addNewsComment(msg -> {
+                    viewHolder.closeDialog();
+                    hideSoftInput();
+                    HideSoftInput(editText.getWindowToken());
+                    ToastUtil.showShortToast(getActivity(),msg);
+                });
+
             }
 
             @Override
@@ -78,7 +84,9 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
 
             @Override
             public void commentClick() {
-                IntentBuilder.Builder().startParentActivity(getActivity(), NewsCommentFragment.class);
+                IntentBuilder.Builder()
+                        .putExtra(IntentBuilder.KEY_DATA, mPresenter.newsId)
+                        .startParentActivity(getActivity(), NewsCommentsFragment.class);
             }
         });
 

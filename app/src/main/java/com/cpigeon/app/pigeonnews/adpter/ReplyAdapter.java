@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
+import com.cpigeon.app.entity.CommentEntity;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class ReplyAdapter extends BaseAdapter {
 
-    List<String> data;
+    List<CommentEntity> data;
     LayoutInflater inflater;
 
     public ReplyAdapter(Context context){
@@ -30,7 +31,7 @@ public class ReplyAdapter extends BaseAdapter {
     }
 
     @Override
-    public String getItem(int position) {
+    public CommentEntity getItem(int position) {
         return data.get(position);
     }
 
@@ -51,12 +52,12 @@ public class ReplyAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.textView.setText(data.get(position));
+        holder.textView.setText(data.get(position).nicheng +": "+ data.get(position).content);
 
         return convertView;
     }
 
-    public void setData(List<String> data) {
+    public void setData(List<CommentEntity> data) {
         this.data = data;
     }
 }

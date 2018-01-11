@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,10 +17,7 @@ import android.widget.TextView;
 
 import com.cpigeon.app.MainActivity;
 import com.cpigeon.app.R;
-import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
-import com.cpigeon.app.entity.BaseDynamicEntity;
-import com.cpigeon.app.entity.HomeAdEntity;
 import com.cpigeon.app.entity.HomeNewsEntity;
 import com.cpigeon.app.entity.NewsEntity;
 import com.cpigeon.app.home.adpter.HomeAdAdapter;
@@ -33,23 +29,17 @@ import com.cpigeon.app.modular.footsearch.ui.FootSearchFragment;
 import com.cpigeon.app.modular.home.model.bean.HomeAd;
 import com.cpigeon.app.modular.home.view.activity.WebActivity;
 import com.cpigeon.app.modular.matchlive.view.activity.GeCheJianKongListActicity;
-import com.cpigeon.app.pigeonnews.ui.NewsCommentFragment;
-import com.cpigeon.app.pigeonnews.ui.NewsDetailsActivity;
 import com.cpigeon.app.pigeonnews.ui.PigeonNewsActivity;
 import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.ContactsUtil;
 import com.cpigeon.app.utils.IntentBuilder;
-import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.customview.SaActionSheetDialog;
 import com.cpigeon.app.utils.http.LogUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.zhouwei.mzbanner.MZBannerView;
-import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
-
-import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 

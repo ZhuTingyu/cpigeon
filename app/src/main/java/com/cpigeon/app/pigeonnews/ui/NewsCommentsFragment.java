@@ -9,6 +9,7 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.pigeonnews.adpter.NewsCommentAdapter;
+import com.cpigeon.app.pigeonnews.presenter.NewsCommentsPre;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.viewholder.NewsCommentViewHolder;
@@ -17,14 +18,14 @@ import com.cpigeon.app.viewholder.NewsCommentViewHolder;
  * Created by Zhu TingYu on 2018/1/9.
  */
 
-public class NewsCommentFragment extends BaseMVPFragment {
+public class NewsCommentsFragment extends BaseMVPFragment<NewsCommentsPre> {
 
     RecyclerView recyclerView;
     NewsCommentAdapter adapter;
 
     @Override
-    protected BasePresenter initPresenter() {
-        return null;
+    protected NewsCommentsPre initPresenter() {
+        return new NewsCommentsPre(getActivity());
     }
 
     @Override
@@ -45,18 +46,30 @@ public class NewsCommentFragment extends BaseMVPFragment {
         addItemDecorationLine(recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new NewsCommentAdapter();
+        adapter.setOnLoadMoreListener(() ->{
+            mPresenter.page++;
+            mPresenter.getNewsComments(data -> {
+                if(data.isEmpty()){
+                    adapter.loadMoreEnd();
+                }else {
+                    adapter.addData(data);
+                    adapter.loadMoreComplete();
+                }
+            });
+        },recyclerView);
         recyclerView.setAdapter(adapter);
 
-        adapter.setNewData(Lists.newArrayList("","","","","","","",""));
 
+
+        bindData();
 
         NewsCommentViewHolder holder = new NewsCommentViewHolder(findViewById(R.id.bottom_comment),getActivity());
         holder.onlyComment();
 
         holder.setListener(new NewsCommentViewHolder.OnViewClickListener() {
             @Override
-            public void commentPushClick(String content) {
-                ToastUtil.showShortToast(getContext(),content);
+            public void commentPushClick(EditText content) {
+                ToastUtil.showShortToast(getContext(),content.getText().toString());
             }
 
             @Override
@@ -70,5 +83,13 @@ public class NewsCommentFragment extends BaseMVPFragment {
             }
         });
 
+    }
+
+    private void bindData() {
+        showLoading();
+        mPresenter.getNewsComments(data -> {
+            hideLoading();
+            adapter.setNewData(data);
+        });
     }
 }

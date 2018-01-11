@@ -1,6 +1,7 @@
 package com.cpigeon.app.pigeonnews;
 
 import com.cpigeon.app.R;
+import com.cpigeon.app.entity.CommentEntity;
 import com.cpigeon.app.entity.NewsDetailsEntity;
 import com.cpigeon.app.entity.NewsEntity;
 import com.cpigeon.app.entity.NewsMessageEntity;
@@ -29,9 +30,31 @@ public class NewsModel {
     }
 
     public static Observable<ApiResponse<List<NewsMessageEntity>>> newsMessage(){
-        return PigeonHttpUtil.<ApiResponse<List<NewsMessageEntity>>>build()
+        return CPAPIHttpUtil.<ApiResponse<List<NewsMessageEntity>>>build()
                 .setToJsonType(new TypeToken<ApiResponse<List<NewsMessageEntity>>>(){}.getType())
+                .setType(HttpUtil.TYPE_POST)
                 .url(R.string.api_news_GetDiZhenCiBao)
+                .request();
+    }
+
+    public static Observable<ApiResponse<List<CommentEntity>>> getNewsComments(String newsId, int page){
+        return CPAPIHttpUtil.<ApiResponse<List<CommentEntity>>>build()
+                .setToJsonType(new TypeToken<ApiResponse<List<CommentEntity>>>(){}.getType())
+                .url(R.string.api_news_comments)
+                .setType(HttpUtil.TYPE_POST)
+                .addBody("nid", newsId)
+                .addBody("pi", String.valueOf(page))
+                .addBody("ps", String.valueOf(6))
+                .request();
+    }
+
+    public static Observable<ApiResponse> addNewsComments (String newsId, String cotent){
+        return CPAPIHttpUtil.<ApiResponse>build()
+                .setToJsonType(new TypeToken<ApiResponse>(){}.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_add_news_comment)
+                .addBody("nid", newsId)
+                .addBody("c", cotent)
                 .request();
     }
 }

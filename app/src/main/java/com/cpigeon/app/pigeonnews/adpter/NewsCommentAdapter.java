@@ -2,19 +2,19 @@ package com.cpigeon.app.pigeonnews.adpter;
 
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.cpigeon.app.R;
+import com.cpigeon.app.base.BaseQuickAdapter;
 import com.cpigeon.app.base.BaseViewHolder;
+import com.cpigeon.app.entity.CommentEntity;
+import com.cpigeon.app.utils.DateTool;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.view.LinearLayoutForRecyclerView;
-
-import java.util.List;
 
 /**
  * Created by Zhu TingYu on 2018/1/9.
  */
 
-public class NewsCommentAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+public class NewsCommentAdapter extends BaseQuickAdapter<CommentEntity, BaseViewHolder> {
 
     ReplyAdapter replyAdapter;
 
@@ -23,20 +23,21 @@ public class NewsCommentAdapter extends BaseQuickAdapter<String, BaseViewHolder>
     }
 
     @Override
-    protected void convert(BaseViewHolder holder, String item) {
-        holder.setSimpleImageView(R.id.icon, "http://img0.imgtn.bdimg.com/it/u=1018364764,1223529536&fm=27&gp=0.jpg");
-        holder.setText(R.id.name, "小朱");
-        holder.setText(R.id.time, "2分钟之前");
+    protected void convert(BaseViewHolder holder, CommentEntity item) {
+        holder.setSimpleImageView(R.id.icon, item.headurl);
+        holder.setText(R.id.name, item.nicheng);
+        holder.setText(R.id.time, DateTool.format(item.time, DateTool.FORMAT_DATETIME));
 
         TextView comment = holder.getView(R.id.comment);
         TextView thumb = holder.getView(R.id.thumb);
 
-        comment.setText("20");
-        thumb.setText("0");
+        comment.setText(item.replycount);
+        thumb.setText(item.dianzan);
 
-        holder.setViewDrawableLeft(comment, R.mipmap.ic_new_comment_select);
+        holder.setViewDrawableLeft(thumb, Integer.valueOf(item.dianzan) == 0 ? R.mipmap.ic_thumbs_not_up : R.mipmap.ic_thumbs_up);
+        holder.setViewDrawableLeft(comment,Integer.valueOf(item.replycount) == 0 ? R.mipmap.ic_new_comment : R.mipmap.ic_new_comment_select);
 
-        holder.setText(R.id.content, "al;sdkfjasdkl;fasdjklasdfjkasdf");
+        holder.setText(R.id.content, item.content);
 
         LinearLayoutForRecyclerView list = holder.getView(R.id.reply_list);
 
@@ -44,9 +45,15 @@ public class NewsCommentAdapter extends BaseQuickAdapter<String, BaseViewHolder>
             replyAdapter = new ReplyAdapter(mContext);
         }
 
-        replyAdapter.setData(Lists.newArrayList("123112323412", "12314123124"));
+        if(item.reply != null && !item.reply.isEmpty()){
+            replyAdapter.setData(item.reply);
+            list.setAdapter(replyAdapter);
+        }
 
-        list.setAdapter(replyAdapter);
+    }
 
+    @Override
+    protected String getEmptyViewText() {
+        return "暂时没有评论";
     }
 }

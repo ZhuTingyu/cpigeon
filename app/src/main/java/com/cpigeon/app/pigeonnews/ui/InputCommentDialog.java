@@ -48,6 +48,9 @@ public class InputCommentDialog extends DialogFragment {
         dialog.setOnShowListener(dialog1 -> {
             CommonUitls.showKeyBoard(getActivity(), content);
         });
+        /*dialog.setOnDismissListener(dialog1 -> {
+            CommonUitls.showKeyBoard(getActivity());
+        });*/
         return dialog;
     }
 
@@ -55,7 +58,7 @@ public class InputCommentDialog extends DialogFragment {
         btn = dialog.findViewById(R.id.text_btn);
         content = dialog.findViewById(R.id.content);
         btn.setOnClickListener(v -> {
-            listener.click(content.getText().toString());
+            listener.click(content);
         });
         if(showedListener != null){
             showedListener.inited(content);
@@ -63,7 +66,7 @@ public class InputCommentDialog extends DialogFragment {
     }
 
     public interface OnPushClickListener{
-        void click(String content);
+        void click(EditText editText);
     }
 
     public interface OnDialogInitListener{

@@ -17,7 +17,8 @@ import io.reactivex.functions.Consumer;
 
 public class NewsDetailsPre extends BasePresenter {
 
-    String newsId;
+    public String newsId;
+    public String content;
 
     public NewsDetailsPre(Activity activity) {
         super(activity);
@@ -33,6 +34,14 @@ public class NewsDetailsPre extends BasePresenter {
         submitRequestThrowError(NewsModel.newsDetails(newsId).map(r -> {
             if(r.status){
                 return r.data;
+            }else throw new HttpErrorException(r);
+        }),consumer);
+    }
+
+    public void addNewsComment(Consumer<String> consumer){
+        submitRequestThrowError(NewsModel.addNewsComments(newsId, content).map(r -> {
+            if(r.status){
+                return r.msg;
             }else throw new HttpErrorException(r);
         }),consumer);
     }

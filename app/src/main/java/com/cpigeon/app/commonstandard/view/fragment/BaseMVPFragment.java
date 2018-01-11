@@ -57,8 +57,6 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
                     error(error.code,error.message);
                 }
             });
-
-            /**/
         }
 
     }
@@ -94,6 +92,7 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
         super.onDestroyView();
         if (isCanDettach() && mPresenter != null && mPresenter.isAttached())
             mPresenter.detach();
+        composite.clear();
     }
 
     protected void addItemDecorationLine(RecyclerView recyclerView){
