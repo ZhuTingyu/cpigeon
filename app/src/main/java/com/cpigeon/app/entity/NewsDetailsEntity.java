@@ -5,7 +5,7 @@ package com.cpigeon.app.entity;
  */
 
 public class NewsDetailsEntity {
-    public String count;
+    public int count;
     public String editor;
     public String priase;
     public String pic;//www.cpigeon.com/20171226/20171226184001.jpg",

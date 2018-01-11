@@ -19,6 +19,7 @@ public class NewsDetailsPre extends BasePresenter {
 
     public String newsId;
     public String content;
+    public NewsDetailsEntity newsDetailsEntity;
 
     public NewsDetailsPre(Activity activity) {
         super(activity);
@@ -33,7 +34,8 @@ public class NewsDetailsPre extends BasePresenter {
     public void getNewsDetails(Consumer<NewsDetailsEntity> consumer){
         submitRequestThrowError(NewsModel.newsDetails(newsId).map(r -> {
             if(r.status){
-                return r.data;
+                newsDetailsEntity = r.data;
+                return newsDetailsEntity;
             }else throw new HttpErrorException(r);
         }),consumer);
     }

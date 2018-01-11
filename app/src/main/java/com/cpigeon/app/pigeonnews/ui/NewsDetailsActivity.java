@@ -57,7 +57,7 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
                         "})()");
             }
         });
-        bindData(savedInstanceState);
+        bindData();
     }
 
     private void initBottomToolbar() {
@@ -69,10 +69,10 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
             public void commentPushClick(EditText editText) {
                 mPresenter.content = editText.getText().toString();
                 mPresenter.addNewsComment(msg -> {
-                    viewHolder.closeDialog();
-                    hideSoftInput();
-                    HideSoftInput(editText.getWindowToken());
                     ToastUtil.showShortToast(getActivity(),msg);
+                    viewHolder.dialog.closeDialog();
+                    mPresenter.newsDetailsEntity.content += 1;
+                    viewHolder.bindData(mPresenter.newsDetailsEntity);
                 });
 
             }
@@ -93,7 +93,7 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
 
     }
 
-    private void bindData(Bundle savedInstanceState) {
+    private void bindData() {
         mPresenter.getNewsDetails(newsDetailsEntity -> {
             title.setText(newsDetailsEntity.title);
             introduce.setText(newsDetailsEntity.author+"  "+newsDetailsEntity.time+"  "+newsDetailsEntity.hits);

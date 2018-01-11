@@ -6,7 +6,7 @@
 
     <EditText
         android:id="@+id/content"
-        android:background="@color/white"
+        android:background="@drawable/shape_solid_white_radius_0_stroke_cccccc"
         android:maxLines="6"
         android:minLines="6"
         android:gravity="left"
@@ -29,7 +29,7 @@
         android:paddingBottom="@dimen/small_vertical_margin"
         android:paddingLeft="@dimen/big_large_horizontal_margin"
         android:paddingRight="@dimen/big_large_horizontal_margin"
-        android:background="@drawable/shape_solid_white_radius_100_stroke_gray"
+        android:background="@drawable/shape_solid_white_radius_100_stroke_cccccc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

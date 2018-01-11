@@ -31,7 +31,7 @@ public class NewsCommentViewHolder extends BaseViewHolder {
     TextView comment;
 
     private OnViewClickListener listener;
-    InputCommentDialog dialog;
+    public InputCommentDialog dialog;
 
 
     public NewsCommentViewHolder(View itemView, Activity activity) {
@@ -65,7 +65,7 @@ public class NewsCommentViewHolder extends BaseViewHolder {
 
     public void bindData(NewsDetailsEntity entity) {
         thumb.setText(entity.priase);
-        comment.setText(entity.count);
+        comment.setText(String.valueOf(entity.count));
 
         if (Integer.valueOf(thumb.getText().toString()) != 0) {
             setViewDrawableLeft(thumb, R.mipmap.ic_thumbs_up);
@@ -77,11 +77,6 @@ public class NewsCommentViewHolder extends BaseViewHolder {
 
     }
 
-    public void closeDialog(){
-        if(dialog != null){
-            dialog.dismiss();
-        }
-    }
 
     public void onlyComment() {
         thumb.setVisibility(View.GONE);

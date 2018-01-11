@@ -360,11 +360,9 @@ public abstract class BaseFragment extends Fragment implements IView {
 
     // 隐藏软键盘
     protected void hideSoftInput(IBinder token) {
-        if (token != null) {
             InputMethodManager manager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             manager.hideSoftInputFromWindow(token,
                     InputMethodManager.HIDE_NOT_ALWAYS);
-        }
     }
     //edittext默认不显示软键盘，只有edittext被点击时，软键盘才弹出
 

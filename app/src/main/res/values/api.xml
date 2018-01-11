@@ -71,5 +71,6 @@
     <string name="api_news_GetDiZhenCiBao">GetDiZhenCiBao</string>
     <string name="api_news_comments">GetCommentsForNews</string>
     <string name="api_add_news_comment">AddCommentForNews</string>
+    <string name="api_add_reply_for_news">AddReplyForNews</string>
 
 </resources>

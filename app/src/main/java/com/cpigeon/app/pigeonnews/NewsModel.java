@@ -48,13 +48,24 @@ public class NewsModel {
                 .request();
     }
 
-    public static Observable<ApiResponse> addNewsComments (String newsId, String cotent){
+    public static Observable<ApiResponse> addNewsComments (String newsId, String content){
         return CPAPIHttpUtil.<ApiResponse>build()
                 .setToJsonType(new TypeToken<ApiResponse>(){}.getType())
                 .setType(HttpUtil.TYPE_POST)
                 .url(R.string.api_add_news_comment)
                 .addBody("nid", newsId)
-                .addBody("c", cotent)
+                .addBody("c", content)
+                .request();
+    }
+
+    public static Observable<ApiResponse> addReplyForNews (String newsId,String commentId, String content){
+        return CPAPIHttpUtil.<ApiResponse>build()
+                .setToJsonType(new TypeToken<ApiResponse>(){}.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_add_reply_for_news)
+                .addBody("nid", newsId)
+                .addBody("cid", commentId)
+                .addBody("c", content)
                 .request();
     }
 }

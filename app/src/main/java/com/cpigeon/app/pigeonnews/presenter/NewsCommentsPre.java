@@ -20,12 +20,14 @@ import io.reactivex.functions.Consumer;
 
 public class NewsCommentsPre extends BasePresenter {
 
-    String newId;
+    String newsId;
     public int page = 1;
+    public String commentId;
+    public String content;
 
     public NewsCommentsPre(Activity activity) {
         super(activity);
-        newId = activity.getIntent().getStringExtra(IntentBuilder.KEY_DATA);
+        newsId = activity.getIntent().getStringExtra(IntentBuilder.KEY_DATA);
     }
 
     @Override
@@ -34,11 +36,27 @@ public class NewsCommentsPre extends BasePresenter {
     }
 
     public void getNewsComments(Consumer<List<CommentEntity>> consumer) {
-        submitRequestThrowError(NewsModel.getNewsComments(newId,page).map(r -> {
+        submitRequestThrowError(NewsModel.getNewsComments(newsId,page).map(r -> {
             if(r.isOk()){
                 if(r.status){
                     return r.data;
                 }else return Lists.newArrayList();
+            }else throw new HttpErrorException(r);
+        }),consumer);
+    }
+
+    public void replyComment(Consumer<String> consumer){
+        submitRequestThrowError(NewsModel.addReplyForNews(newsId,commentId,content).map(r -> {
+            if(r.status){
+                return r.msg;
+            }else throw new HttpErrorException(r);
+        }),consumer);
+    }
+
+    public void addNewsComment(Consumer<String> consumer){
+        submitRequestThrowError(NewsModel.addNewsComments(newsId, content).map(r -> {
+            if(r.status){
+                return r.msg;
             }else throw new HttpErrorException(r);
         }),consumer);
     }

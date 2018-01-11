@@ -60,16 +60,21 @@ public class InputCommentDialog extends DialogFragment {
         btn.setOnClickListener(v -> {
             listener.click(content);
         });
-        if(showedListener != null){
+        if (showedListener != null) {
             showedListener.inited(content);
         }
     }
 
-    public interface OnPushClickListener{
+    public void closeDialog() {
+        CommonUitls.hideSoftInput(getActivity(), content);
+        dismiss();
+    }
+
+    public interface OnPushClickListener {
         void click(EditText editText);
     }
 
-    public interface OnDialogInitListener{
+    public interface OnDialogInitListener {
         void inited(EditText editText);
     }
 
