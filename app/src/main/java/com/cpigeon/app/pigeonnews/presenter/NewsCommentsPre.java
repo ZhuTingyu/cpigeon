@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.entity.CommentEntity;
+import com.cpigeon.app.entity.ThumbAndCommentEntity;
 import com.cpigeon.app.pigeonnews.NewsModel;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
@@ -57,6 +58,14 @@ public class NewsCommentsPre extends BasePresenter {
         submitRequestThrowError(NewsModel.addNewsComments(newsId, content).map(r -> {
             if(r.status){
                 return r.msg;
+            }else throw new HttpErrorException(r);
+        }),consumer);
+    }
+
+    public void thumbNewsComment(Consumer<ThumbAndCommentEntity> consumer){
+        submitRequestThrowError(NewsModel.newsCommentThumb(newsId).map(r -> {
+            if(r.status){
+                return r.data;
             }else throw new HttpErrorException(r);
         }),consumer);
     }

@@ -793,37 +793,15 @@ public class CommonUitls {
 
     }
 
-    public static void showKeyBoard(Activity activity){
-        /*InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        //显示软键盘
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);*/
-        /*//切换软键盘的显示与隐藏
-        imm.toggleSoftInputFromWindow(view.getWindowToken(), 0, InputMethodManager.HIDE_NOT_ALWAYS);*/
-
-        /*InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(view,InputMethodManager.SHOW_FORCED);*/
-
-        InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-    }
-
-    public static void hideKeyBoard(Activity activity){
-        /*InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        //显示软键盘
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);*/
-        /*//切换软键盘的显示与隐藏
-        imm.toggleSoftInputFromWindow(view.getWindowToken(), 0, InputMethodManager.HIDE_NOT_ALWAYS);*/
-
-        /*InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(view,InputMethodManager.SHOW_FORCED);*/
-
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-    }
-
     public static void hideSoftInput(Activity activity, View view){
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏键盘
+    }
+
+    public static void toggleInput(Context context){
+        InputMethodManager inputMethodManager =
+                (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }
 

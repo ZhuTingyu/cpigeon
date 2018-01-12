@@ -1,5 +1,6 @@
 package com.cpigeon.app.pigeonnews.adpter;
 
+import android.view.View;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
@@ -41,14 +42,14 @@ public class NewsCommentAdapter extends BaseQuickAdapter<CommentEntity, BaseView
             listener.thumb(item, holder.getAdapterPosition());
         });
 
-        comment.setText(item.replycount);
-        thumb.setText(item.dianzan);
+        comment.setText(String.valueOf(item.replycount));
+        thumb.setText(String.valueOf(item.dianzan));
 
-        holder.setViewDrawableLeft(thumb, Integer.valueOf(item.dianzan) == 0 ? R.mipmap.ic_thumbs_not_up : R.mipmap.ic_thumbs_up);
-        holder.setViewDrawableLeft(comment,Integer.valueOf(item.replycount) == 0 ? R.mipmap.ic_new_comment : R.mipmap.ic_new_comment_select);
+        holder.setViewDrawableLeft(thumb, item.dianzan == 0 ? R.mipmap.ic_thumbs_not_up : R.mipmap.ic_thumbs_up);
+        holder.setViewDrawableLeft(comment,item.replycount == 0 ? R.mipmap.ic_new_comment : R.mipmap.ic_new_comment_select);
 
-        comment.setTextColor(Integer.valueOf(item.replycount) == 0 ? mContext.getResources().getColor(R.color.text_color_4d4d4d) : mContext.getResources().getColor(R.color.colorPrimary));
-        thumb.setTextColor(Integer.valueOf(item.dianzan) == 0 ? mContext.getResources().getColor(R.color.text_color_4d4d4d) : mContext.getResources().getColor(R.color.colorPrimary));
+        comment.setTextColor(item.replycount == 0 ? mContext.getResources().getColor(R.color.text_color_4d4d4d) : mContext.getResources().getColor(R.color.colorPrimary));
+        thumb.setTextColor(item.dianzan == 0 ? mContext.getResources().getColor(R.color.text_color_4d4d4d) : mContext.getResources().getColor(R.color.colorPrimary));
 
         holder.setText(R.id.content, item.content);
 
@@ -59,8 +60,11 @@ public class NewsCommentAdapter extends BaseQuickAdapter<CommentEntity, BaseView
         }
 
         if(item.reply != null && !item.reply.isEmpty()){
+            list.setVisibility(View.VISIBLE);
             replyAdapter.setData(item.reply);
             list.setAdapter(replyAdapter);
+        }else {
+            list.setVisibility(View.GONE);
         }
 
     }

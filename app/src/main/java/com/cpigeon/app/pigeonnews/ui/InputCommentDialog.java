@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Window;
@@ -13,6 +14,9 @@ import android.widget.TextView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.utils.http.CommonUitls;
+
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
 /**
  * Created by Zhu TingYu on 2018/1/8.
@@ -28,8 +32,15 @@ public class InputCommentDialog extends DialogFragment {
 
     public Dialog dialog;
 
+    boolean keyboardIsOpen = false;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        KeyboardVisibilityEvent.setEventListener(
+                getActivity(), b -> {
+                    keyboardIsOpen = b;
+                });
         // 使用不带Theme的构造器, 获得的dialog边框距离屏幕仍有几毫米的缝隙。
         Dialog dialog = new Dialog(getActivity(), R.style.BottomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // 设置Content前设定
@@ -46,11 +57,10 @@ public class InputCommentDialog extends DialogFragment {
         window.setAttributes(lp);
         initView(dialog);
         dialog.setOnShowListener(dialog1 -> {
-            CommonUitls.showKeyBoard(getActivity(), content);
+            if(!keyboardIsOpen){
+                CommonUitls.toggleInput(getActivity());
+            }
         });
-        /*dialog.setOnDismissListener(dialog1 -> {
-            CommonUitls.showKeyBoard(getActivity());
-        });*/
         return dialog;
     }
 
@@ -66,7 +76,7 @@ public class InputCommentDialog extends DialogFragment {
     }
 
     public void closeDialog() {
-        CommonUitls.hideSoftInput(getActivity(), content);
+        //CommonUitls.hideSoftInput(getActivity(), content);
         dismiss();
     }
 
@@ -84,5 +94,13 @@ public class InputCommentDialog extends DialogFragment {
 
     public void setInitedListener(OnDialogInitListener showedListener) {
         this.showedListener = showedListener;
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        if(keyboardIsOpen){
+            CommonUitls.toggleInput(getActivity());
+        }
+        super.onDismiss(dialog);
     }
 }

@@ -30,6 +30,7 @@ public class NewsCommentViewHolder extends BaseViewHolder {
     TextView thumb;
     TextView comment;
 
+
     private OnViewClickListener listener;
     public InputCommentDialog dialog;
 
@@ -64,16 +65,21 @@ public class NewsCommentViewHolder extends BaseViewHolder {
     }
 
     public void bindData(NewsDetailsEntity entity) {
-        thumb.setText(entity.priase);
+        thumb.setText(String.valueOf(entity.priase));
         comment.setText(String.valueOf(entity.count));
-
-        if (Integer.valueOf(thumb.getText().toString()) != 0) {
-            setViewDrawableLeft(thumb, R.mipmap.ic_thumbs_up);
-        }
 
         if (Integer.valueOf(comment.getText().toString()) != 0) {
             setViewDrawableLeft(comment, R.mipmap.ic_new_comment_select);
         }
+
+        if(entity.isThumb()){
+            setViewDrawableLeft(thumb, R.mipmap.ic_thumbs_up);
+            thumb.setTextColor(activity.getResources().getColor(R.color.colorPrimary));
+        }else {
+            thumb.setTextColor(activity.getResources().getColor(R.color.text_color_4d4d4d));
+            setViewDrawableLeft(thumb, R.mipmap.ic_thumbs_not_up);
+        }
+
 
     }
 

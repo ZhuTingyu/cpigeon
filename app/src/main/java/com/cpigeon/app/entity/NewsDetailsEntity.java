@@ -4,10 +4,10 @@ package com.cpigeon.app.entity;
  * Created by Zhu TingYu on 2018/1/9.
  */
 
-public class NewsDetailsEntity {
+public class NewsDetailsEntity extends ThumbAndCommentEntity {
     public int count;
     public String editor;
-    public String priase;
+    public int priase; //点赞
     public String pic;//www.cpigeon.com/20171226/20171226184001.jpg",
     public String title;//2017年四川省信鸽协会工作会在西昌圆满召开",
     public String id;//":9378,

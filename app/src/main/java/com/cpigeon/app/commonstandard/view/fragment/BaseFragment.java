@@ -371,4 +371,6 @@ public abstract class BaseFragment extends Fragment implements IView {
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
+
+
 }

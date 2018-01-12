@@ -47,8 +47,10 @@ public class NewsCommentsFragment extends BaseMVPFragment<NewsCommentsPre> {
         viewHolder.setListener(new NewsCommentViewHolder.OnViewClickListener() {
             @Override
             public void commentPushClick(EditText editText) {
+                showLoading();
                 mPresenter.content = editText.getText().toString();
                 mPresenter.addNewsComment(msg -> {
+                    hideLoading();
                     ToastUtil.showShortToast(getActivity(),msg);
                     viewHolder.dialog.closeDialog();
                     bindData();
@@ -73,7 +75,18 @@ public class NewsCommentsFragment extends BaseMVPFragment<NewsCommentsPre> {
         adapter.setListener(new NewsCommentAdapter.OnCommunicationListener() {
             @Override
             public void thumb(CommentEntity entity, int position) {
-
+                showLoading();
+                mPresenter.thumbNewsComment(data -> {
+                    hideLoading();
+                    if(data.isThumb()){
+                        entity.dianzan += 1;
+                        entity.setThumb();
+                    }else {
+                        entity.dianzan -=1;
+                        entity.setCancelThumb();
+                    }
+                    adapter.notifyItemChanged(position);
+                });
             }
 
             @Override

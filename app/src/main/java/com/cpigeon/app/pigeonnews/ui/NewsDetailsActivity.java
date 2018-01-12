@@ -71,7 +71,7 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
                 mPresenter.addNewsComment(msg -> {
                     ToastUtil.showShortToast(getActivity(),msg);
                     viewHolder.dialog.closeDialog();
-                    mPresenter.newsDetailsEntity.content += 1;
+                    mPresenter.newsDetailsEntity.count += 1;
                     viewHolder.bindData(mPresenter.newsDetailsEntity);
                 });
 
@@ -79,7 +79,20 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
 
             @Override
             public void thumbClick() {
-
+                showLoading();
+                mPresenter.thumbNews(data -> {
+                    hideLoading();
+                    if(data.isThumb()){
+                        ToastUtil.showShortToast(getActivity(), "点赞成功");
+                        mPresenter.newsDetailsEntity.priase += 1;
+                        mPresenter.newsDetailsEntity.setThumb();
+                    }else {
+                        ToastUtil.showShortToast(getActivity(), "取消点赞");
+                        mPresenter.newsDetailsEntity.priase -= 1;
+                        mPresenter.newsDetailsEntity.setCancelThumb();
+                    }
+                    viewHolder.bindData(mPresenter.newsDetailsEntity);
+                });
             }
 
             @Override

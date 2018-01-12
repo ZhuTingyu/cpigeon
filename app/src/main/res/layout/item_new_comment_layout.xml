@@ -33,11 +33,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/anonymous"
         android:layout_marginRight="@dimen/big_large_horizontal_margin"
         android:layout_alignParentRight="true"
         android:drawableLeft="@mipmap/ic_new_comment"
         android:drawablePadding="@dimen/small_horizontal_margin"
+        android:textColor="@color/text_color_4d4d4d"
         android:textSize="14dp"
         tools:text="20" />
 
@@ -50,6 +50,7 @@
         android:layout_toLeftOf="@+id/comment"
         android:layout_marginRight="@dimen/big_large_horizontal_margin"
         android:drawableLeft="@mipmap/ic_thumbs_not_up"
+        android:textColor="@color/text_color_4d4d4d"
         android:drawablePadding="@dimen/small_horizontal_margin"
         android:textSize="14dp"
         tools:text="20" />

@@ -73,4 +73,7 @@
     <string name="api_add_news_comment">AddCommentForNews</string>
     <string name="api_add_reply_for_news">AddReplyForNews</string>
 
+    <string name="api_thumb_news">News_DianZan</string>
+    <string name="api_thumb_news_comment">Comment_DianZan</string>
+
 </resources>

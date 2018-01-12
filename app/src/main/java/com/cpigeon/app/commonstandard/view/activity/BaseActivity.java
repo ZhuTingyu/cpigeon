@@ -401,7 +401,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
 
     protected void showLoading(){
-        showTips("正在拼命加载", TipType.LoadingShow);
+        showTips("请稍后...", TipType.LoadingShow);
     }
 
     protected void hideLoading(){
