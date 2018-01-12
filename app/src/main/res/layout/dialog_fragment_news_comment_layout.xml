@@ -12,7 +12,6 @@
         android:gravity="left"
         android:padding="@dimen/medium_vertical_margin"
         android:textSize="@dimen/medium_text_size"
-        android:hint="我的评论更精彩!"
         android:layout_margin="@dimen/big_large_horizontal_margin"
         android:focusable="true"
         android:focusableInTouchMode="true"

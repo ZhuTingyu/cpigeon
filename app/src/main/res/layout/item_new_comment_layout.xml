@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/comment"
-        android:layout_marginRight="@dimen/big_large_horizontal_margin"
+        android:layout_marginRight="32dp"
         android:drawableLeft="@mipmap/ic_thumbs_not_up"
         android:textColor="@color/text_color_4d4d4d"
         android:drawablePadding="@dimen/small_horizontal_margin"

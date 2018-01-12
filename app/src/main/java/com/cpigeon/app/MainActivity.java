@@ -382,6 +382,10 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
         bindService(new Intent(MyApp.getInstance(), MainActivityService.class), conn, Context.BIND_AUTO_CREATE);
         int selectIndex = SharedPreferencesTool.Get(mContext, APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(mContext), 0, SharedPreferencesTool.SP_FILE_APPSTATE);
         setCurrIndex(selectIndex);
+
+        if(CpigeonData.getInstance().getUserInfo() == null){
+            CpigeonData.DataHelper.getInstance().updateUserInfo(null);
+        }
     }
 
     private void hintLogin() {

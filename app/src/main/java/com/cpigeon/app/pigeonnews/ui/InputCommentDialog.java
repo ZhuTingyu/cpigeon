@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.http.CommonUitls;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
@@ -28,15 +29,18 @@ public class InputCommentDialog extends DialogFragment {
     public EditText content;
 
     private OnPushClickListener listener;
-    private OnDialogInitListener showedListener;
 
     public Dialog dialog;
 
     boolean keyboardIsOpen = false;
 
+    String hint;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
+        if(getArguments() != null){
+            hint = getArguments().getString(IntentBuilder.KEY_DATA);
+        }
         KeyboardVisibilityEvent.setEventListener(
                 getActivity(), b -> {
                     keyboardIsOpen = b;
@@ -67,12 +71,10 @@ public class InputCommentDialog extends DialogFragment {
     private void initView(Dialog dialog) {
         btn = dialog.findViewById(R.id.text_btn);
         content = dialog.findViewById(R.id.content);
+        content.setHint(hint);
         btn.setOnClickListener(v -> {
             listener.click(content);
         });
-        if (showedListener != null) {
-            showedListener.inited(content);
-        }
     }
 
     public void closeDialog() {
@@ -80,20 +82,18 @@ public class InputCommentDialog extends DialogFragment {
         dismiss();
     }
 
+    public void setHint(String hint){
+        Bundle bundle = new Bundle();
+        bundle.putString(IntentBuilder.KEY_DATA,hint);
+        setArguments(bundle);
+    }
+
     public interface OnPushClickListener {
         void click(EditText editText);
     }
 
-    public interface OnDialogInitListener {
-        void inited(EditText editText);
-    }
-
     public void setPushClickListener(OnPushClickListener listener) {
         this.listener = listener;
-    }
-
-    public void setInitedListener(OnDialogInitListener showedListener) {
-        this.showedListener = showedListener;
     }
 
     @Override

@@ -4,9 +4,10 @@ import android.app.Activity;
 
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
-import com.cpigeon.app.entity.CommentEntity;
-import com.cpigeon.app.entity.ThumbAndCommentEntity;
+import com.cpigeon.app.entity.NewsCommentEntity;
+import com.cpigeon.app.entity.ThumbEntity;
 import com.cpigeon.app.pigeonnews.NewsModel;
+import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.http.HttpErrorException;
@@ -21,10 +22,11 @@ import io.reactivex.functions.Consumer;
 
 public class NewsCommentsPre extends BasePresenter {
 
-    String newsId;
+    public String newsId;
     public int page = 1;
     public String commentId;
     public String content;
+    public String replyId;
 
     public NewsCommentsPre(Activity activity) {
         super(activity);
@@ -36,7 +38,7 @@ public class NewsCommentsPre extends BasePresenter {
         return null;
     }
 
-    public void getNewsComments(Consumer<List<CommentEntity>> consumer) {
+    public void getNewsComments(Consumer<List<NewsCommentEntity>> consumer) {
         submitRequestThrowError(NewsModel.getNewsComments(newsId,page).map(r -> {
             if(r.isOk()){
                 if(r.status){
@@ -47,23 +49,25 @@ public class NewsCommentsPre extends BasePresenter {
     }
 
     public void replyComment(Consumer<String> consumer){
-        submitRequestThrowError(NewsModel.addReplyForNews(newsId,commentId,content).map(r -> {
+        submitRequestThrowError(NewsModel.addReplyForNews(commentId,replyId,content).map(r -> {
             if(r.status){
                 return r.msg;
             }else throw new HttpErrorException(r);
         }),consumer);
     }
 
-    public void addNewsComment(Consumer<String> consumer){
+    public void addNewsComment(Consumer<NewsCommentEntity> consumer){
         submitRequestThrowError(NewsModel.addNewsComments(newsId, content).map(r -> {
             if(r.status){
-                return r.msg;
+                NewsCommentEntity replyEntity = r.data;
+                replyEntity.nicheng = CpigeonData.getInstance().getUserInfo().getNickname();
+                return replyEntity;
             }else throw new HttpErrorException(r);
         }),consumer);
     }
 
-    public void thumbNewsComment(Consumer<ThumbAndCommentEntity> consumer){
-        submitRequestThrowError(NewsModel.newsCommentThumb(newsId).map(r -> {
+    public void thumbNewsComment(Consumer<ThumbEntity> consumer){
+        submitRequestThrowError(NewsModel.newsCommentThumb(commentId).map(r -> {
             if(r.status){
                 return r.data;
             }else throw new HttpErrorException(r);

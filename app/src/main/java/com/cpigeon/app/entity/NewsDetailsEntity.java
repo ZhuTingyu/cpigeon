@@ -4,7 +4,7 @@ package com.cpigeon.app.entity;
  * Created by Zhu TingYu on 2018/1/9.
  */
 
-public class NewsDetailsEntity extends ThumbAndCommentEntity {
+public class NewsDetailsEntity extends ThumbEntity {
     public int count;
     public String editor;
     public int priase; //点赞
@@ -19,5 +19,6 @@ public class NewsDetailsEntity extends ThumbAndCommentEntity {
     public String original;//":"原创",
     public String hits;//:301,
     public String time;//":"2017/12/26 18:06:12"
+    public boolean ispl;//是否评论
 
 }

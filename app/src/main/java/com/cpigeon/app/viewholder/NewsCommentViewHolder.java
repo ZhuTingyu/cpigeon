@@ -3,6 +3,7 @@ package com.cpigeon.app.viewholder;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.Image;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import com.cpigeon.app.base.BaseViewHolder;
 import com.cpigeon.app.entity.NewsDetailsEntity;
 import com.cpigeon.app.pigeonnews.ui.InputCommentDialog;
 import com.cpigeon.app.utils.CommonTool;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.http.CommonUitls;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
@@ -46,8 +48,8 @@ public class NewsCommentViewHolder extends BaseViewHolder {
 
     private void bindUi() {
         input.setOnClickListener(v -> {
-
             dialog = new InputCommentDialog();
+            dialog.setHint("我的评论更精彩！");
             dialog.setPushClickListener(content -> {
                 listener.commentPushClick(content);
             });
@@ -68,13 +70,17 @@ public class NewsCommentViewHolder extends BaseViewHolder {
         thumb.setText(String.valueOf(entity.priase));
         comment.setText(String.valueOf(entity.count));
 
-        if (Integer.valueOf(comment.getText().toString()) != 0) {
+        if (entity.ispl) {
             setViewDrawableLeft(comment, R.mipmap.ic_new_comment_select);
+            comment.setTextColor(activity.getResources().getColor(R.color.colorPrimary));
+        }else {
+            setViewDrawableLeft(comment, R.mipmap.ic_new_comment);
+            comment.setTextColor(activity.getResources().getColor(R.color.text_color_4d4d4d));
         }
 
         if(entity.isThumb()){
-            setViewDrawableLeft(thumb, R.mipmap.ic_thumbs_up);
             thumb.setTextColor(activity.getResources().getColor(R.color.colorPrimary));
+            setViewDrawableLeft(thumb, R.mipmap.ic_thumbs_up);
         }else {
             thumb.setTextColor(activity.getResources().getColor(R.color.text_color_4d4d4d));
             setViewDrawableLeft(thumb, R.mipmap.ic_thumbs_not_up);

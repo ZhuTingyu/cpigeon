@@ -6,12 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.EditText;
 
 import com.cpigeon.app.R;
-import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
-import com.cpigeon.app.entity.CommentEntity;
+import com.cpigeon.app.entity.NewsCommentEntity;
+import com.cpigeon.app.modular.usercenter.model.bean.UserInfo;
 import com.cpigeon.app.pigeonnews.adpter.NewsCommentAdapter;
 import com.cpigeon.app.pigeonnews.presenter.NewsCommentsPre;
-import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.viewholder.NewsCommentViewHolder;
 
@@ -23,6 +24,7 @@ public class NewsCommentsFragment extends BaseMVPFragment<NewsCommentsPre> {
 
     RecyclerView recyclerView;
     NewsCommentAdapter adapter;
+    String usersNickName;
 
     @Override
     protected NewsCommentsPre initPresenter() {
@@ -41,6 +43,7 @@ public class NewsCommentsFragment extends BaseMVPFragment<NewsCommentsPre> {
 
     @Override
     public void finishCreateView(Bundle state) {
+        getNickName();
         setTitle("全部评论");
         NewsCommentViewHolder viewHolder = new NewsCommentViewHolder(findViewById(R.id.bottom_comment), getActivity());
         viewHolder.onlyComment();
@@ -49,11 +52,11 @@ public class NewsCommentsFragment extends BaseMVPFragment<NewsCommentsPre> {
             public void commentPushClick(EditText editText) {
                 showLoading();
                 mPresenter.content = editText.getText().toString();
-                mPresenter.addNewsComment(msg -> {
+                mPresenter.addNewsComment(data -> {
+                    adapter.addData(0, data);
+                    recyclerView.smoothScrollToPosition(0);
                     hideLoading();
-                    ToastUtil.showShortToast(getActivity(),msg);
                     viewHolder.dialog.closeDialog();
-                    bindData();
                 });
             }
 
@@ -71,11 +74,33 @@ public class NewsCommentsFragment extends BaseMVPFragment<NewsCommentsPre> {
         recyclerView = findViewById(R.id.list);
         addItemDecorationLine(recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsCommentAdapter();
+        adapter = new NewsCommentAdapter(mPresenter);
+        adapter.setOnItemClickListener((adapter1, view, position) -> {
+            NewsCommentEntity entity = adapter.getItem(position);
+            InputCommentDialog dialog = new InputCommentDialog();
+            dialog.setHint("回复 " + entity.nicheng+ ":");
+            dialog.setPushClickListener(content -> {
+                mPresenter.content = content.getText().toString();
+                mPresenter.commentId = entity.id;
+                mPresenter.replyId = entity.id;
+                mPresenter.replyComment(s -> {
+                    NewsCommentEntity reply = new NewsCommentEntity();
+                    reply.nicheng = usersNickName;
+                    reply.content = mPresenter.content;
+                    entity.reply.add(reply);
+                    entity.replycount += 1;
+                    entity.isreply = true;
+                    adapter.notifyItemChanged(position);
+                    dialog.closeDialog();
+                });
+            });
+            dialog.show(getActivity().getFragmentManager(), "InputComment");
+        });
         adapter.setListener(new NewsCommentAdapter.OnCommunicationListener() {
             @Override
-            public void thumb(CommentEntity entity, int position) {
+            public void thumb(NewsCommentEntity entity, int position) {
                 showLoading();
+                mPresenter.commentId = entity.id;
                 mPresenter.thumbNewsComment(data -> {
                     hideLoading();
                     if(data.isThumb()){
@@ -90,17 +115,7 @@ public class NewsCommentsFragment extends BaseMVPFragment<NewsCommentsPre> {
             }
 
             @Override
-            public void comment(CommentEntity entity, int position) {
-                mPresenter.commentId = entity.id;
-                InputCommentDialog dialog = new InputCommentDialog();
-                dialog.setPushClickListener(content -> {
-                    mPresenter.content = content.getText().toString();
-                    mPresenter.replyComment(s -> {
-                        bindData();
-                        dialog.closeDialog();
-                    });
-                });
-                dialog.show(getActivity().getFragmentManager(), "InputComment");
+            public void comment(NewsCommentEntity entity, int position) {
             }
         });
         adapter.setOnLoadMoreListener(() -> {
@@ -118,6 +133,26 @@ public class NewsCommentsFragment extends BaseMVPFragment<NewsCommentsPre> {
 
 
         bindData();
+    }
+
+    private void getNickName() {
+
+        usersNickName = CpigeonData.getInstance().getUserInfo().getNickname();
+
+        if(!StringValid.isStringValid(usersNickName)){
+            CpigeonData.DataHelper.getInstance().updateUserInfo(new CpigeonData.DataHelper.OnDataHelperUpdateLisenter<UserInfo.DataBean>() {
+                @Override
+                public void onUpdated(UserInfo.DataBean data) {
+                    usersNickName = data.getNickname();
+                }
+
+                @Override
+                public void onError(int errortype, String msg) {
+
+                }
+            });
+        }
+
     }
 
     private void bindData() {

@@ -109,7 +109,8 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
     private void bindData() {
         mPresenter.getNewsDetails(newsDetailsEntity -> {
             title.setText(newsDetailsEntity.title);
-            introduce.setText(newsDetailsEntity.author+"  "+newsDetailsEntity.time+"  "+newsDetailsEntity.hits);
+            introduce.setText(newsDetailsEntity.author+"  "+newsDetailsEntity.time+"  "+
+                    "浏览"+newsDetailsEntity.hits+"次");
             viewHolder.bindData(newsDetailsEntity);
             String css = "<style type=\"text/css\"> </style>";
             String html = "<html><header><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no>"+css+"</header>"+"<body>"+newsDetailsEntity.content+"</body>"+"</html>";

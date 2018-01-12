@@ -5,7 +5,7 @@ import android.app.Activity;
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.entity.NewsDetailsEntity;
-import com.cpigeon.app.entity.ThumbAndCommentEntity;
+import com.cpigeon.app.entity.ThumbEntity;
 import com.cpigeon.app.pigeonnews.NewsModel;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.http.HttpErrorException;
@@ -50,7 +50,7 @@ public class NewsDetailsPre extends BasePresenter {
         }),consumer);
     }
 
-    public void thumbNews(Consumer<ThumbAndCommentEntity> consumer){
+    public void thumbNews(Consumer<ThumbEntity> consumer){
         submitRequestThrowError(NewsModel.newsThumb(newsId).map(r -> {
             if(r.status){
                 return r.data;
