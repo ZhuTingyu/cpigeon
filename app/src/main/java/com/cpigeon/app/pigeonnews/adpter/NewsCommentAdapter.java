@@ -1,16 +1,23 @@
 package com.cpigeon.app.pigeonnews.adpter;
 
+import android.content.Context;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseQuickAdapter;
 import com.cpigeon.app.base.BaseViewHolder;
 import com.cpigeon.app.entity.NewsCommentEntity;
+import com.cpigeon.app.entity.NewsEntity;
 import com.cpigeon.app.pigeonnews.presenter.NewsCommentsPre;
 import com.cpigeon.app.utils.DateTool;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.view.LinearLayoutForRecyclerView;
+
+import java.util.List;
 
 /**
  * Created by Zhu TingYu on 2018/1/9.
@@ -22,10 +29,14 @@ public class NewsCommentAdapter extends BaseQuickAdapter<NewsCommentEntity, Base
     private OnCommunicationListener listener;
 
     NewsCommentsPre mPresenter;
+    TextView textExpand;
+    Context context;
 
-    public NewsCommentAdapter(NewsCommentsPre commentsPre) {
+    public NewsCommentAdapter(Context context, NewsCommentsPre commentsPre) {
         super(R.layout.item_news_comment_layout, Lists.newArrayList());
         mPresenter = commentsPre;
+        this.context = context;
+        initExpandView(context);
     }
 
     @Override
@@ -72,8 +83,8 @@ public class NewsCommentAdapter extends BaseQuickAdapter<NewsCommentEntity, Base
 
         if(item.reply != null && !item.reply.isEmpty()){
             holder.setViewVisible(R.id.img1,View.VISIBLE);
-            list.setVisibility(View.VISIBLE);
-            replyAdapter.setData(item.reply);
+            holder.getView(R.id.reply_list).setVisibility(View.VISIBLE);
+            replyAdapter.setData(item.isExpand ? item.reply : getTopX(item.reply));
             replyAdapter.setOnItemReplyClickListenerListener((entity, position, content,dialog) -> {
                 mPresenter.commentId = item.id;
                 mPresenter.content = content;
@@ -85,12 +96,38 @@ public class NewsCommentAdapter extends BaseQuickAdapter<NewsCommentEntity, Base
                     notifyItemChanged(holder.getAdapterPosition());
                 });
             });
+            textExpand.setOnClickListener(v -> {
+                item.isExpand = !item.isExpand;
+                textExpand.setText(item.isExpand ? "展开查看更多" : "收起更多评论");
+                notifyItemChanged(holder.getAdapterPosition());
+            });
             list.setAdapter(replyAdapter);
+            list.addView(textExpand);
         }else {
             holder.setViewVisible(R.id.img1,View.GONE);
-            list.setVisibility(View.GONE);
+            holder.setViewVisible(R.id.reply_list, View.GONE);
         }
 
+    }
+
+    private List<NewsCommentEntity> getTopX(List<NewsCommentEntity> data){
+
+        List<NewsCommentEntity> rdata;
+
+        if(data.size() > 3){
+            rdata = data.subList(0,2);
+        }else {
+            rdata = data.subList(0, data.size());
+        }
+        return rdata;
+    }
+
+    public void initExpandView(Context context){
+        textExpand = new TextView(context);
+        textExpand.setTextSize(context.getResources().getDimension(R.dimen.small_text_size));
+        textExpand.setTextColor(context.getResources().getColor(R.color.gray_m));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.CENTER;
     }
 
     @Override

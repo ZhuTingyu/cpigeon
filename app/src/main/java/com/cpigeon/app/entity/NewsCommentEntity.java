@@ -22,6 +22,7 @@ public class NewsCommentEntity extends ThumbEntity {
     public int replycount;//回复次数
     public String headurl;
     public boolean isreply;
+    public boolean isExpand;
 
     public boolean icCanComment(Context context){
         return Integer.valueOf(userid).equals(CpigeonData.getInstance().getUserId(context));

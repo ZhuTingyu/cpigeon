@@ -74,7 +74,7 @@ public class NewsCommentsFragment extends BaseMVPFragment<NewsCommentsPre> {
         recyclerView = findViewById(R.id.list);
         addItemDecorationLine(recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsCommentAdapter(mPresenter);
+        adapter = new NewsCommentAdapter(getContext(),mPresenter);
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             NewsCommentEntity entity = adapter.getItem(position);
             InputCommentDialog dialog = new InputCommentDialog();

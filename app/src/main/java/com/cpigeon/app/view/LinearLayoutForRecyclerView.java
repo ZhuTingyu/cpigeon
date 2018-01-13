@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 
 /**
@@ -41,6 +42,10 @@ public class LinearLayoutForRecyclerView extends LinearLayout {
             View view = adapter.getView(i, null, this);
             addView(view);
         }
+    }
+
+    public void addFootView(View view){
+        addView(view);
     }
 
 }
