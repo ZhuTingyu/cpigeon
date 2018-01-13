@@ -2,6 +2,7 @@ package com.cpigeon.app.utils;
 
 import android.support.annotation.Nullable;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,6 +32,10 @@ public class StringUtil {
 
     public static String twoPoint(double price){
         return String.format("%.2f", price);
+    }
+
+    public static List<String> splitString(String string, String split){
+         return Lists.newArrayList(string.split(split));
     }
 
 }

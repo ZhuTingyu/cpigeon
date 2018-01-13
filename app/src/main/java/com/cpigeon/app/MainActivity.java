@@ -30,6 +30,7 @@ import com.cpigeon.app.commonstandard.AppManager;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.commonstandard.view.adapter.ContentFragmentAdapter;
+import com.cpigeon.app.commonstandard.view.adapter.fragmentpager.FragmentPagerItemAdapter;
 import com.cpigeon.app.home.HomeNewFragment;
 import com.cpigeon.app.modular.footsearch.ui.FootSearchFragment;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
@@ -311,6 +312,10 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
 
     public void initView(Bundle savedInstanceState) {
         MainActivityPermissionsDispatcher.sysytemAlertWindowWithCheck(this);
+
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(IntentBuilder.KEY_BOOLEAN, false);
+
         homeFragment = new HomeNewFragment();
         matchLiveFragment = new MatchLiveFragment();
         matchLiveFragment.setOnRefreshListener(onMatchInfoRefreshListener);
@@ -318,14 +323,20 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
         friendCircleFragment = new FriendCircleFragment();
 //        mCpigeonGroupFragment = new CpigeonGroupFragment();
         mFragments = new ArrayList<>();
+        matchLiveFragment.setArguments(bundle);
+        friendCircleFragment.setArguments(bundle);
+        userCenterFragment.setArguments(bundle);
+
         mFragments.add(homeFragment);
         mFragments.add(matchLiveFragment);
 //        mFragments.add(mCpigeonGroupFragment);
         mFragments.add(friendCircleFragment);
         mFragments.add(userCenterFragment);
+
         mContentFragmentAdapter = new ContentFragmentAdapter(getSupportFragmentManager(), mFragments);
+
         //设置limit
-        mViewPager.setOffscreenPageLimit(4);
+        mViewPager.setOffscreenPageLimit(5);
         mViewPager.setAdapter(mContentFragmentAdapter);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

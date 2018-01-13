@@ -13,6 +13,7 @@ import com.cpigeon.app.modular.home.view.activity.SearchActivity;
 import com.cpigeon.app.modular.home.view.activity.WebActivity;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
 import com.cpigeon.app.utils.Const;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.customview.SearchEditText;
 
 import java.util.Collections;
@@ -47,13 +48,18 @@ public class MatchLiveFragment extends BaseFragment {
     @Override
     public void finishCreateView(Bundle state) {
 
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(IntentBuilder.KEY_BOOLEAN, false);
+
         currMatchType = Const.MATCHLIVE_TYPE_XH;
         matchLiveSubFragment_GP = new MatchLiveSubFragment();
         matchLiveSubFragment_GP.setMatchType(Const.MATCHLIVE_TYPE_GP);
         matchLiveSubFragment_GP.setOnRefreshListener(onSubRefreshListener);
+        matchLiveSubFragment_GP.setArguments(bundle);
         matchLiveSubFragment_XH = new MatchLiveSubFragment();
         matchLiveSubFragment_XH.setMatchType(Const.MATCHLIVE_TYPE_XH);
         matchLiveSubFragment_XH.setOnRefreshListener(onSubRefreshListener);
+        matchLiveSubFragment_XH.setArguments(bundle);
         currMatchLiveSubFragment = matchLiveSubFragment_XH;
 
         mContentFragmentAdapter = new ContentFragmentAdapter(getFragmentManager());

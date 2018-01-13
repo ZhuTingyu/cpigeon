@@ -38,7 +38,7 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        setTitle("新闻详情");
+        setTitle("中鸽网");
         title = findViewById(R.id.title);
         introduce = findViewById(R.id.introduce);
         initBottomToolbar();

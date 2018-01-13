@@ -12,6 +12,7 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.entity.NewsCommentEntity;
 import com.cpigeon.app.pigeonnews.ui.InputCommentDialog;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.StringUtil;
 
 import java.util.List;
 
@@ -63,7 +64,7 @@ public class ReplyAdapter extends BaseAdapter {
         convertView.setOnClickListener(v -> {
             InputCommentDialog dialog = new InputCommentDialog();
             dialog.setHint(CpigeonData.getInstance().getUserInfo().getNickname()
-                    +" 回复 "+ data.get(position).nicheng+"：");
+                    +" 回复 "+ getNickName(data.get(position).nicheng)+"：");
             dialog.setPushClickListener(editText -> {
                 listener.reply(data.get(position),position, editText.getText().toString(),dialog);
             });
@@ -89,10 +90,15 @@ public class ReplyAdapter extends BaseAdapter {
     public NewsCommentEntity getNewEntity(int position, String content){
         NewsCommentEntity entity = new NewsCommentEntity();
         entity.nicheng = CpigeonData.getInstance().getUserInfo().getNickname()
-                +" 回复 "+ data.get(position).nicheng;
+                +" 回复 "+ getNickName(data.get(position).nicheng);
         entity.userid = String.valueOf(CpigeonData.getInstance().getUserId(context));
         entity.content = content;
         return entity;
+    }
+
+    public String getNickName(String s){
+        s =  StringUtil.removeAllSpace(s);
+        return StringUtil.splitString(s,"回复").get(0);
     }
 }
 

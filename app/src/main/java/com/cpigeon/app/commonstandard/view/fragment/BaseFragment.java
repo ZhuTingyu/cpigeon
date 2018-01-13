@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.activity.IView;
 import com.cpigeon.app.utils.EncryptionTool;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.SharedPreferencesTool;
 import com.cpigeon.app.utils.ToastUtils;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
@@ -72,6 +73,10 @@ public abstract class BaseFragment extends Fragment implements IView {
 
     protected TextView titleView;
 
+    protected boolean isBack = true;
+
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -101,42 +106,48 @@ public abstract class BaseFragment extends Fragment implements IView {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if(getArguments() != null){
+            isBack  = getArguments().getBoolean(IntentBuilder.KEY_BOOLEAN,true);
+        }
         bind = ButterKnife.bind(this, view);
         toolbar = view.findViewById(R.id.toolbar);
         titleView = view.findViewById(R.id.toolbar_title);
-        if (toolbar==null){
+        if (toolbar == null) {
             toolbar = getActivity().findViewById(R.id.toolbar);
             titleView = getActivity().findViewById(R.id.toolbar_title);
-            if(toolbar != null){
-                toolbar.setNavigationOnClickListener(v -> getActivity().finish());
-            }
+        }
+        if (toolbar != null && isBack) {
+            toolbar.setNavigationOnClickListener(v -> {
+                getActivity().finish();
+            });
         }
         refreshLayout = view.findViewById(R.id.swipeLayout);
-        if(refreshLayout != null){
+        if (refreshLayout != null) {
             refreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
             refreshLayout.setEnabled(false);
         }
+
         finishCreateView(savedInstanceState);
     }
 
-    protected void setToolbarNotBack(){
-        if(toolbar != null){
+    protected void setToolbarNotBack() {
+        if (toolbar != null) {
             toolbar.setNavigationIcon(null);
             toolbar.setNavigationOnClickListener(null);
         }
     }
 
     public void setTitle(@StringRes int resId) {
-        if (null != toolbar){
-            if(titleView != null){
+        if (null != toolbar) {
+            if (titleView != null) {
                 titleView.setText(resId);
             }
         }
     }
 
     public void setTitle(String resId) {
-        if (null != toolbar){
-            if(titleView != null){
+        if (null != toolbar) {
+            if (titleView != null) {
                 titleView.setText(resId);
             }
         }
@@ -172,13 +183,16 @@ public abstract class BaseFragment extends Fragment implements IView {
         lazyLoad();
     }
 
-    protected void lazyLoad() {}
+    protected void lazyLoad() {
+    }
 
 
-    protected void onInvisible() {}
+    protected void onInvisible() {
+    }
 
 
-    protected void loadData() {}
+    protected void loadData() {
+    }
 
 
     //获取布局文件
@@ -194,7 +208,7 @@ public abstract class BaseFragment extends Fragment implements IView {
 
     @Override
     public boolean showTips(String tip, TipType tipType) {
-        if(!getActivity().isFinishing()){
+        if (!getActivity().isFinishing()) {
             SweetAlertDialog dialogPrompt;
             switch (tipType) {
                 case Dialog:
@@ -311,7 +325,7 @@ public abstract class BaseFragment extends Fragment implements IView {
         return super.getActivity();
     }
 
-    protected void addItemDecorationLine(RecyclerView recyclerView){
+    protected void addItemDecorationLine(RecyclerView recyclerView) {
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(recyclerView.getContext())
                 .colorResId(R.color.line_color).size(1)
                 .showLastDivider().build());
@@ -325,33 +339,33 @@ public abstract class BaseFragment extends Fragment implements IView {
                 ));
     }
 
-    protected void showLoading(){
-        if(refreshLayout != null){
+    protected void showLoading() {
+        if (refreshLayout != null) {
             refreshLayout.setRefreshing(true);
-        }else {
+        } else {
             showLoading("请稍后...");
         }
     }
 
-    protected void showLoading(String message){
+    protected void showLoading(String message) {
         showTips(message, TipType.LoadingShow);
     }
 
-    protected void hideLoading(){
+    protected void hideLoading() {
 
         showTips("", TipType.LoadingHide);
 
-        if(refreshLayout != null){
+        if (refreshLayout != null) {
             refreshLayout.setRefreshing(false);
         }
     }
 
-    protected void finish(){
+    protected void finish() {
         getActivity().finish();
     }
 
-    protected void setRefreshListener(SwipeRefreshLayout.OnRefreshListener listener){
-        if(refreshLayout != null){
+    protected void setRefreshListener(SwipeRefreshLayout.OnRefreshListener listener) {
+        if (refreshLayout != null) {
             refreshLayout.setEnabled(true);
             refreshLayout.setOnRefreshListener(listener);
         }
@@ -360,17 +374,16 @@ public abstract class BaseFragment extends Fragment implements IView {
 
     // 隐藏软键盘
     protected void hideSoftInput(IBinder token) {
-            InputMethodManager manager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            manager.hideSoftInputFromWindow(token,
-                    InputMethodManager.HIDE_NOT_ALWAYS);
+        InputMethodManager manager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        manager.hideSoftInputFromWindow(token,
+                InputMethodManager.HIDE_NOT_ALWAYS);
     }
     //edittext默认不显示软键盘，只有edittext被点击时，软键盘才弹出
 
-    protected void hideSoftInput(){
+    protected void hideSoftInput() {
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
-
 
 
 }

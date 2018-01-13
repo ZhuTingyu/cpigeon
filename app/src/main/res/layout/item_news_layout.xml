@@ -40,10 +40,10 @@
 
     </RelativeLayout>
 
-    <include
+    <View
+        android:background="@color/line_color_f2f2f2"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        layout="@layout/item_line_view_layout"/>
+        android:layout_height="0.5dp"/>
 
 
     <RelativeLayout

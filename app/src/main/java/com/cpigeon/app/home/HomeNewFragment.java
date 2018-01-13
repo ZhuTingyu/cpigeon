@@ -94,6 +94,7 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
         setTitle("中鸽网");
 
         toolbar.setNavigationIcon(R.mipmap.ic_home_top_my);
+        toolbar.setNavigationOnClickListener(null);
         toolbar.setNavigationOnClickListener(v -> {
             ToastUtil.showLongToast(getContext(), "home");
         });
