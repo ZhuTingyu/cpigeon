@@ -2,6 +2,11 @@ package com.cpigeon.app.pigeonnews.adpter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.TextPaint;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,12 +64,11 @@ public class ReplyAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.textView.setText(data.get(position).nicheng +": "+ data.get(position).content);
+        holder.textView.setText(setColor(data.get(position).nicheng +":"+ data.get(position).content));
 
         convertView.setOnClickListener(v -> {
             InputCommentDialog dialog = new InputCommentDialog();
-            dialog.setHint(CpigeonData.getInstance().getUserInfo().getNickname()
-                    +" 回复 "+ getNickName(data.get(position).nicheng)+"：");
+            dialog.setHint("回复 "+ getNickName(data.get(position).nicheng)+"：");
             dialog.setPushClickListener(editText -> {
                 listener.reply(data.get(position),position, editText.getText().toString(),dialog);
             });
@@ -99,6 +103,30 @@ public class ReplyAdapter extends BaseAdapter {
     public String getNickName(String s){
         s =  StringUtil.removeAllSpace(s);
         return StringUtil.splitString(s,"回复").get(0);
+    }
+
+    private String setColor(String s){
+        SpannableStringBuilder spanStr = new SpannableStringBuilder(s);
+        List<String> list = StringUtil.splitString(s," 回复 ");
+        for (int i = 0,len = list.size(); i < len; i++) {
+            String name = list.get(i);
+            int start = s.indexOf(name);
+            spanStr.setSpan(new ClickableSpan() {
+                @Override
+                public void onClick(View widget) {
+
+                }
+
+                @Override
+                public void updateDrawState(TextPaint ds) {
+                    super.updateDrawState(ds);
+                    ds.setColor(Color.BLUE);
+                    ds.setUnderlineText(false);
+                }
+            },start,start + name.length(),0);
+        }
+
+        return spanStr.toString();
     }
 }
 

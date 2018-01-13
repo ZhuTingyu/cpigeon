@@ -191,7 +191,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        clearLoginInfo();
         isLoginOut = getIntent().getBooleanExtra(IntentBuilder.KEY_BOOLEAN, false);
         if(isLoginOut){
             AppManager.getAppManager().killAllToLoginActivity(LoginActivity.class);

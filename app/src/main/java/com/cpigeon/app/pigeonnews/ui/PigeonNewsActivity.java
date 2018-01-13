@@ -48,7 +48,7 @@ public class PigeonNewsActivity extends BaseActivity {
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), FragmentPagerItems.with(this)
-                .add("新闻资讯", NewsFragment.class)
+                .add("新闻资讯", NewsListFragment.class)
                 .add("地震信息", PigeonMessageFragment.class, earth)
                 .add("太阳磁暴", PigeonMessageFragment.class, solar)
                 .create());

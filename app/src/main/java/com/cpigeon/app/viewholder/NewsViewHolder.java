@@ -13,6 +13,7 @@ import com.cpigeon.app.entity.NewsEntity;
 import com.cpigeon.app.pigeonnews.ui.NewsDetailsActivity;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.StringValid;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -52,26 +53,42 @@ public class NewsViewHolder extends BaseViewHolder {
         newList = entity.newList;
 
         for (int i = 0, len = newList.size(); i < len; i++) {
-            NewsEntity  newsEntity = newList.get(i);
+            NewsEntity newsEntity = newList.get(i);
             switch (i){
                 case 0:
                     tvTitle1.setText(newsEntity.title);
-                    img1.setImageURI(newsEntity.imgurl);
+                    if(isHaveImg(newsEntity)){
+                        img1.setVisibility(View.VISIBLE);
+                        img1.setImageURI(StringValid.isStringValid(newsEntity.imgurl) ? newsEntity.imgurl : newsEntity.pic);
+                    }else img1.setVisibility(View.GONE);
                     break;
                 case 1:
                     tvTitle2.setText(newsEntity.title);
-                    img2.setImageURI(newsEntity.imgurl);
+                    if(isHaveImg(newsEntity)){
+                        img2.setVisibility(View.VISIBLE);
+                        img2.setImageURI(StringValid.isStringValid(newsEntity.imgurl) ? newsEntity.imgurl : newsEntity.pic);
+                    }else img2.setVisibility(View.GONE);
                     break;
                 case 2:
                     tvTitle3.setText(newsEntity.title);
-                    img3.setImageURI(newsEntity.imgurl);
+                    if(isHaveImg(newsEntity)){
+                        img3.setVisibility(View.VISIBLE);
+                        img3.setImageURI(StringValid.isStringValid(newsEntity.imgurl) ? newsEntity.imgurl : newsEntity.pic);
+                    }else img3.setVisibility(View.GONE);
                     break;
                 case 3:
                     tvTitle4.setText(newsEntity.title);
-                    img4.setImageURI(newsEntity.imgurl);
+                    if(isHaveImg(newsEntity)){
+                        img4.setVisibility(View.VISIBLE);
+                        img4.setImageURI(StringValid.isStringValid(newsEntity.imgurl) ? newsEntity.imgurl : newsEntity.pic);
+                    }else img4.setVisibility(View.GONE);
                     break;
             }
         }
+    }
+
+    private boolean isHaveImg(NewsEntity newsEntity){
+        return StringValid.isStringValid(newsEntity.imgurl) || StringValid.isStringValid(newsEntity.pic);
     }
 
     public void setListener(Context context){

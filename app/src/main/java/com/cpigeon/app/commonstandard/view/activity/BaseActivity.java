@@ -394,6 +394,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         map.put("nicheng", "");
         map.put("logined", false);
         map.put("sltoken", "");
+        map.put("userid",0);
         SharedPreferencesTool.Save(mContext, map, SharedPreferencesTool.SP_FILE_LOGIN);
         CpigeonData.getInstance().initialization();
     }

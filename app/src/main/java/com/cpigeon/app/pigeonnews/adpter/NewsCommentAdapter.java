@@ -81,6 +81,7 @@ public class NewsCommentAdapter extends BaseQuickAdapter<NewsCommentEntity, Base
                 mPresenter.replyComment(s -> {
                     item.reply.add(position + 1, replyAdapter.getNewEntity(position, content));
                     dialog.closeDialog();
+                    item.replycount += 1;
                     notifyItemChanged(holder.getAdapterPosition());
                 });
             });

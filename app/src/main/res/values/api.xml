@@ -76,4 +76,6 @@
     <string name="api_thumb_news">News_DianZan</string>
     <string name="api_thumb_news_comment">Comment_DianZan</string>
 
+    <string name="api_news_list">NewsList</string>
+
 </resources>

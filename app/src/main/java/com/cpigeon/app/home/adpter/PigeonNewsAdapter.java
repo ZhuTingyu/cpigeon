@@ -30,15 +30,6 @@ public class PigeonNewsAdapter extends BaseQuickAdapter<HomeNewsEntity, NewsView
 
     @Override
     protected void convert(NewsViewHolder holder, HomeNewsEntity item) {
-        if (type != TYPE_HOME){
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.setMargins(10,16,10,32);
-            holder.itemView.setLayoutParams(params);
-            holder.itemView.setPadding(ScreenTool.dip2px(mContext.getResources().getDimension(R.dimen.small_horizontal_margin))
-                    ,ScreenTool.dip2px(mContext.getResources().getDimension(R.dimen.small_horizontal_margin))
-                    ,ScreenTool.dip2px(mContext.getResources().getDimension(R.dimen.small_horizontal_margin))
-                    ,ScreenTool.dip2px(mContext.getResources().getDimension(R.dimen.small_horizontal_margin)));
-        }
         holder.bindData(item);
         holder.setListener(mContext);
     }

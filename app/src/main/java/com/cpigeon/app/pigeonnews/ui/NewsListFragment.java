@@ -8,22 +8,26 @@ import android.support.v7.widget.RecyclerView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
+import com.cpigeon.app.entity.HomeNewsEntity;
+import com.cpigeon.app.entity.NewsEntity;
 import com.cpigeon.app.home.adpter.PigeonNewsAdapter;
+import com.cpigeon.app.pigeonnews.presenter.NewsListPre;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.ScreenTool;
 
 /**
  * Created by Zhu TingYu on 2018/1/6.
  */
 
-public class NewsFragment extends BaseMVPFragment {
+public class NewsListFragment extends BaseMVPFragment<NewsListPre>{
 
     RecyclerView recyclerView;
     PigeonNewsAdapter adapter;
 
     @Override
-    protected BasePresenter initPresenter() {
-        return null;
+    protected NewsListPre initPresenter() {
+        return new NewsListPre(getActivity());
     }
 
     @Override
@@ -40,11 +44,21 @@ public class NewsFragment extends BaseMVPFragment {
     public void finishCreateView(Bundle state) {
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setPadding(0,0,0,0);
         adapter = new PigeonNewsAdapter();
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             IntentBuilder.Builder(getActivity(), NewsDetailsActivity.class).startActivity();
         });
         recyclerView.setAdapter(adapter);
-        //adapter.setNewData(Lists.newArrayList("","",""));
+
+        bindData();
     }
+
+    private void bindData() {
+        mPresenter.newsList(data -> {
+            adapter.setNewData(HomeNewsEntity.get(data, HomeNewsEntity.TYPE_ALL));
+        });
+    }
+
+
 }

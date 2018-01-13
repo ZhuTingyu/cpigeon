@@ -15,8 +15,8 @@ import com.cpigeon.app.utils.IntentBuilder;
 
 public class PigeonMessageFragment extends BaseMVPFragment {
 
-    public static final int TYPE_EARTH_QUAKE = 0;
-    public static final int TYPE_SOLAR_STORM = 1;
+    public static final int TYPE_EARTH_QUAKE = 1;
+    public static final int TYPE_SOLAR_STORM = 2;
 
     int type;
 

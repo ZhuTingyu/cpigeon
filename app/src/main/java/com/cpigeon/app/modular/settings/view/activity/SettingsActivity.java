@@ -179,6 +179,7 @@ public class SettingsActivity extends BaseActivity {
                             showTips("退出登录成功", TipType.ToastShort);
                             MyApp.clearJPushAlias();
                             dialog.dismiss();
+                            clearLoginInfo();
                             Intent intent = new Intent(mContext, LoginActivity.class);
                             intent.putExtra(IntentBuilder.KEY_BOOLEAN, true);
                             startActivity(intent);

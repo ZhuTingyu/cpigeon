@@ -1,8 +1,11 @@
 package com.cpigeon.app.pigeonnews;
 
+import android.support.annotation.Nullable;
+
 import com.cpigeon.app.R;
 import com.cpigeon.app.entity.NewsCommentEntity;
 import com.cpigeon.app.entity.NewsDetailsEntity;
+import com.cpigeon.app.entity.NewsEntity;
 import com.cpigeon.app.entity.NewsMessageEntity;
 import com.cpigeon.app.entity.ThumbEntity;
 import com.cpigeon.app.utils.databean.ApiResponse;
@@ -84,5 +87,20 @@ public class NewsModel {
                 .url(R.string.api_thumb_news_comment)
                 .addBody("cid", newsCommentId)
                 .request();
+    }
+
+    public static Observable<ApiResponse<List<NewsEntity>>> newsList(int page, int count, @Nullable String type){
+        return CPAPIHttpUtil.<ApiResponse<List<NewsEntity>>>build()
+                .setToJsonType(new TypeToken<ApiResponse<List<NewsEntity>>>(){}.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_news_list)
+                .addBody("pi", String.valueOf(page))
+                .addBody("ps", String.valueOf(count))
+                .addBody("t", type)
+                .request();
+    }
+
+    public static Observable<ApiResponse<List<NewsEntity>>> newsList(int page, int count){
+        return newsList(page, count,null);
     }
 }

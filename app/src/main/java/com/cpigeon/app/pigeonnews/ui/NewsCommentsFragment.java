@@ -137,7 +137,11 @@ public class NewsCommentsFragment extends BaseMVPFragment<NewsCommentsPre> {
 
     private void getNickName() {
 
-        usersNickName = CpigeonData.getInstance().getUserInfo().getNickname();
+        if(CpigeonData.getInstance().getUserInfo() != null){
+
+            usersNickName = CpigeonData.getInstance().getUserInfo().getNickname();
+        }
+
 
         if(!StringValid.isStringValid(usersNickName)){
             CpigeonData.DataHelper.getInstance().updateUserInfo(new CpigeonData.DataHelper.OnDataHelperUpdateLisenter<UserInfo.DataBean>() {

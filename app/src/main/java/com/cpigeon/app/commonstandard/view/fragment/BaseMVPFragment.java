@@ -101,8 +101,7 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
 
     protected void addItemDecorationLine(RecyclerView recyclerView, @ColorRes int color, int size){
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(recyclerView.getContext())
-                .colorResId(color).size(size)
-                .showLastDivider().build());
+                .colorResId(color).size(size).build());
     }
 
     public <T> void bindData(Observable<T> observable, Consumer<? super T> onNext) {
