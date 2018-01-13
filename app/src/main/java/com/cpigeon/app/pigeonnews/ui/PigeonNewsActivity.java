@@ -44,7 +44,7 @@ public class PigeonNewsActivity extends BaseActivity {
         earth.putInt(IntentBuilder.KEY_TYPE, PigeonMessageFragment.TYPE_EARTH_QUAKE);
 
         Bundle solar = new Bundle();
-        earth.putInt(IntentBuilder.KEY_TYPE, PigeonMessageFragment.TYPE_SOLAR_STORM);
+        solar.putInt(IntentBuilder.KEY_TYPE, PigeonMessageFragment.TYPE_SOLAR_STORM);
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), FragmentPagerItems.with(this)

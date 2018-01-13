@@ -5,6 +5,6 @@ package com.cpigeon.app.entity;
  */
 
 public class NewsMessageEntity {
-    public String  type;//1为地震信息；2为太阳磁暴信息
+    public int  type;//1为地震信息；2为太阳磁暴信息
     public String content;//内容"
 }

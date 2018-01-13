@@ -17,6 +17,8 @@ public abstract class BaseQuickAdapter<T,K extends BaseViewHolder> extends com.c
         super(layoutResId, data);
     }
 
+
+
     public void setLoadMore(boolean isEnd) {
         if (isEnd) this.loadMoreEnd();
         else

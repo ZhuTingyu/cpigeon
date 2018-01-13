@@ -20,7 +20,7 @@ import com.cpigeon.app.utils.ScreenTool;
  * Created by Zhu TingYu on 2018/1/6.
  */
 
-public class NewsListFragment extends BaseMVPFragment<NewsListPre>{
+public class NewsListFragment extends BaseMVPFragment<NewsListPre> {
 
     RecyclerView recyclerView;
     PigeonNewsAdapter adapter;
@@ -44,11 +44,22 @@ public class NewsListFragment extends BaseMVPFragment<NewsListPre>{
     public void finishCreateView(Bundle state) {
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setPadding(0,0,0,0);
+        recyclerView.setPadding(0, 0, 0, 0);
         adapter = new PigeonNewsAdapter();
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             IntentBuilder.Builder(getActivity(), NewsDetailsActivity.class).startActivity();
         });
+        adapter.setOnLoadMoreListener(() -> {
+            mPresenter.page++;
+            mPresenter.newsList(data -> {
+                if(data.isEmpty()){
+                    adapter.setLoadMore(false);
+                }else {
+                    adapter.setLoadMore(true);
+                    adapter.addData(HomeNewsEntity.get(data, HomeNewsEntity.TYPE_ALL));
+                }
+            });
+        }, recyclerView);
         recyclerView.setAdapter(adapter);
 
         bindData();

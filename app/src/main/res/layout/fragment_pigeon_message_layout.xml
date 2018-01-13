@@ -17,6 +17,7 @@
     <TextView
         android:id="@+id/content"
         android:textSize="@dimen/medium_text_size"
+        android:padding="@dimen/small_horizontal_margin"
         android:layout_below="@id/icon"
         android:background="@color/white"
         android:text="1238450234852-3458923-90458230-45892-3045820-458203-458230-58203-45230-845230-458023-5823-58230-58230-58"
