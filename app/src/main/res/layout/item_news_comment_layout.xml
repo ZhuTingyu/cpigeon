@@ -81,29 +81,50 @@
         android:layout_marginTop="@dimen/big_large_vertical_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
     <ImageView
         android:id="@+id/img1"
-        android:layout_below="@id/content"
         android:layout_marginTop="@dimen/big_large_vertical_margin"
+        android:layout_below="@id/content"
+        android:layout_marginLeft="60dp"
         android:layout_width="10dp"
         android:layout_height="10dp"
-        android:layout_marginLeft="56dp"
         android:src="@mipmap/ic_triangle"/>
 
-
-    <com.cpigeon.app.view.LinearLayoutForRecyclerView
-        android:id="@+id/reply_list"
-        android:orientation="vertical"
+    <RelativeLayout
+        android:id="@+id/rl_reply_list"
         android:layout_marginLeft="43dp"
-        android:layout_below="@id/img1"
-        android:paddingTop="@dimen/small_vertical_margin"
-        android:paddingBottom="@dimen/small_vertical_margin"
-        android:paddingLeft="@dimen/big_large_horizontal_margin"
-        android:paddingRight="@dimen/big_large_horizontal_margin"
         android:background="@drawable/shape_color_default_radius_2"
-        android:visibility="visible"
+        android:layout_below="@id/img1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+
+
+
+        <com.cpigeon.app.view.LinearLayoutForRecyclerView
+            android:id="@+id/reply_list"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/small_vertical_margin"
+            android:paddingBottom="@dimen/small_vertical_margin"
+            android:paddingLeft="@dimen/big_large_horizontal_margin"
+            android:paddingRight="@dimen/big_large_horizontal_margin"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/expand"
+            android:textSize="@dimen/medium_text_size"
+            android:textColor="@color/gray_m"
+            android:gravity="center"
+            android:text="展开查看更多"
+            android:layout_marginBottom="@dimen/small_vertical_margin"
+            android:layout_below="@id/reply_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </RelativeLayout>
+
+
 
 </RelativeLayout>

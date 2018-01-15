@@ -54,10 +54,12 @@ public class NewsListFragment extends BaseMVPFragment<NewsListPre> {
             mPresenter.page++;
             mPresenter.newsList(data -> {
                 if(data.isEmpty()){
-                    adapter.loadMoreComplete();
+                    adapter.loadMoreEnd();
+                    adapter.setLoadMore(true);
                 }else {
                     adapter.addData(HomeNewsEntity.get(data, HomeNewsEntity.TYPE_ALL));
-                    adapter.loadMoreEnd();
+                    adapter.setLoadMore(false);
+
                 }
             });
         }, recyclerView);

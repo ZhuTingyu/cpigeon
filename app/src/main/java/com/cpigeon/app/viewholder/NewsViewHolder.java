@@ -94,9 +94,10 @@ public class NewsViewHolder extends BaseViewHolder {
     public void setListener(Context context){
         for (int i = 0, len = newsIds.size(); i < len; i++) {
             int finalI = i;
+            NewsEntity entity = newList.get(finalI);
             findViewById(newsIds.get(i)).setOnClickListener(v -> {
                 IntentBuilder.Builder(context, NewsDetailsActivity.class)
-                        .putExtra(IntentBuilder.KEY_DATA, newList.get(finalI).nid)
+                        .putExtra(IntentBuilder.KEY_DATA, StringValid.isStringValid(entity.nid) ? entity.nid : entity.id)
                         .startActivity();
             });
         }

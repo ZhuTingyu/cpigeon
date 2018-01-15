@@ -29,14 +29,12 @@ public class NewsCommentAdapter extends BaseQuickAdapter<NewsCommentEntity, Base
     private OnCommunicationListener listener;
 
     NewsCommentsPre mPresenter;
-    TextView textExpand;
     Context context;
 
     public NewsCommentAdapter(Context context, NewsCommentsPre commentsPre) {
         super(R.layout.item_news_comment_layout, Lists.newArrayList());
         mPresenter = commentsPre;
         this.context = context;
-        initExpandView(context);
     }
 
     @Override
@@ -78,12 +76,25 @@ public class NewsCommentAdapter extends BaseQuickAdapter<NewsCommentEntity, Base
         holder.setText(R.id.content, item.content);
 
         LinearLayoutForRecyclerView list = holder.getView(R.id.reply_list);
+        TextView textExpand = holder.getView(R.id.expand);
 
         ReplyAdapter replyAdapter = new ReplyAdapter(mContext);
 
         if(item.reply != null && !item.reply.isEmpty()){
             holder.setViewVisible(R.id.img1,View.VISIBLE);
-            holder.getView(R.id.reply_list).setVisibility(View.VISIBLE);
+            holder.getView(R.id.rl_reply_list).setVisibility(View.VISIBLE);
+
+            if(item.reply.size() > 4){
+                textExpand.setVisibility(View.VISIBLE);
+                textExpand.setOnClickListener(v -> {
+                    item.isExpand = !item.isExpand;
+                    textExpand.setText(item.isExpand ? "展开查看更多" : "收起更多评论");
+                    notifyItemChanged(holder.getAdapterPosition());
+                });
+            }else {
+                textExpand.setVisibility(View.GONE);
+            }
+
             replyAdapter.setData(item.isExpand ? item.reply : getTopX(item.reply));
             replyAdapter.setOnItemReplyClickListenerListener((entity, position, content,dialog) -> {
                 mPresenter.commentId = item.id;
@@ -96,38 +107,23 @@ public class NewsCommentAdapter extends BaseQuickAdapter<NewsCommentEntity, Base
                     notifyItemChanged(holder.getAdapterPosition());
                 });
             });
-            textExpand.setOnClickListener(v -> {
-                item.isExpand = !item.isExpand;
-                textExpand.setText(item.isExpand ? "展开查看更多" : "收起更多评论");
-                notifyItemChanged(holder.getAdapterPosition());
-            });
+
             list.setAdapter(replyAdapter);
-            list.addView(textExpand);
         }else {
             holder.setViewVisible(R.id.img1,View.GONE);
-            holder.setViewVisible(R.id.reply_list, View.GONE);
+            holder.setViewVisible(R.id.rl_reply_list, View.GONE);
         }
 
     }
 
     private List<NewsCommentEntity> getTopX(List<NewsCommentEntity> data){
 
-        List<NewsCommentEntity> rdata;
+        List<NewsCommentEntity> rdata = data;
 
-        if(data.size() > 3){
-            rdata = data.subList(0,2);
-        }else {
-            rdata = data.subList(0, data.size());
+        if(data.size() > 4){
+            rdata = data.subList(0, 3);
         }
         return rdata;
-    }
-
-    public void initExpandView(Context context){
-        textExpand = new TextView(context);
-        textExpand.setTextSize(context.getResources().getDimension(R.dimen.small_text_size));
-        textExpand.setTextColor(context.getResources().getColor(R.color.gray_m));
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.gravity = Gravity.CENTER;
     }
 
     @Override
