@@ -9,11 +9,11 @@
 
     <TextView
         android:id="@+id/content"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="[赛事直播]12323423423423423423423423424234234234212312123"
+        tools:text="[赛事直播]123234f23423423423423423423424234234234212312123"
         android:textColor="@color/black"
-        android:textSize="@dimen/medium_text_size"
+        android:textSize="@dimen/small_text_size"
         android:singleLine="true"
         />
 

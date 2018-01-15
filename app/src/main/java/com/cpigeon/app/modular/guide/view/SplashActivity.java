@@ -122,10 +122,9 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements ISp
         String version = CommonTool.getVersionName(this);
         if (!guide_version.equals(version)) {
             intent = new Intent(SplashActivity.this, WelcomeActivity.class);
-        } else if (checkLogin())
+        } else
             intent = new Intent(SplashActivity.this, MainActivity.class);
-        else
-            intent = new Intent(SplashActivity.this, LoginActivity.class);
+
 
         startActivity(intent);
         isEntry = true;

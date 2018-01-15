@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
     <com.cpigeon.app.utils.customview.SearchTitleBar
         app:search_hint_text="搜索"
+        app:title_background_color="@color/colorPrimary"
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"/>

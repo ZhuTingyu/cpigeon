@@ -39,6 +39,8 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
 
+        <meta-data android:name="android.max_aspect" android:value="2.1" />
+
         <!-- UMeng 配置 -->
         <meta-data
             android:name="UMENG_CHANNEL"
@@ -66,7 +68,7 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.TransparentStatusBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
@@ -232,16 +234,11 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <activity android:name=".base.FragmentParentActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/ToolbarTheme"/>
 
         <activity
-            android:name=".message.ui.home.PigeonMessageHomeFragment"
-            android:launchMode="singleTask"
-            android:theme="@style/ToolbarTheme"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
-
-        <activity
-            android:name=".message.ui.BaseWebViewActivity"
+            android:name=".base.BaseWebViewActivity"
             android:launchMode="singleTask"
             android:theme="@style/ToolbarTheme"
             android:windowSoftInputMode="adjustPan|stateHidden" />
@@ -307,6 +304,9 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+        <activity android:name=".pigeonnews.ui.PigeonNewsActivity" />
+        <activity android:name=".pigeonnews.ui.NewsDetailsActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>
 
 

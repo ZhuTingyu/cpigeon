@@ -86,7 +86,7 @@ public class SelectPhoneActivity extends BaseActivity<SelectPhonePre> {
             getNetData(TYPE_SEACH_NUMBER, keyword);
         });
 
-        findViewById(R.id.rl1).setOnClickListener(v -> {
+        findViewById(R.id.text_btn).setOnClickListener(v -> {
             if(!mAdapter.getPhoneString().isEmpty()){
                 showLoading();
                 mPresenter.phoneString = mAdapter.getPhoneString();

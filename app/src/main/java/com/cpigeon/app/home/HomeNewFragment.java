@@ -1,6 +1,9 @@
 package com.cpigeon.app.home;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,29 +13,33 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.cpigeon.app.MainActivity;
 import com.cpigeon.app.R;
-import com.cpigeon.app.base.BaseViewHolder;
-import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
-import com.cpigeon.app.entity.BaseDynamicEntity;
+import com.cpigeon.app.entity.HomeNewsEntity;
+import com.cpigeon.app.entity.NewsEntity;
 import com.cpigeon.app.home.adpter.HomeAdAdapter;
-import com.cpigeon.app.home.adpter.HomeDynamicAdapter;
+import com.cpigeon.app.home.adpter.CircleDynamicAdapter;
 import com.cpigeon.app.home.adpter.HomeLeadAdapter;
-import com.cpigeon.app.home.adpter.HomeNewAdapter;
+import com.cpigeon.app.home.adpter.PigeonNewsAdapter;
 import com.cpigeon.app.message.ui.home.PigeonMessageHomeFragment;
+import com.cpigeon.app.modular.footsearch.ui.FootSearchFragment;
+import com.cpigeon.app.modular.home.model.bean.HomeAd;
+import com.cpigeon.app.modular.home.view.activity.WebActivity;
 import com.cpigeon.app.modular.matchlive.view.activity.GeCheJianKongListActicity;
+import com.cpigeon.app.pigeonnews.ui.PigeonNewsActivity;
+import com.cpigeon.app.utils.CommonTool;
+import com.cpigeon.app.utils.ContactsUtil;
 import com.cpigeon.app.utils.IntentBuilder;
-import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.ToastUtil;
+import com.cpigeon.app.utils.customview.SaActionSheetDialog;
+import com.cpigeon.app.utils.http.LogUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
-
-import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 
@@ -40,10 +47,10 @@ import io.reactivex.disposables.Disposable;
  * Created by Zhu TingYu on 2017/12/29.
  */
 
-public class HomeNewFragment extends BaseMVPFragment {
+public class HomeNewFragment extends BaseMVPFragment<HomePre> {
 
-    private static final int TYPE_NEWS_HEAD = 0;
-    private static final int TYPE_DYNAMIC_HEAD = 1;
+    private static final int TYPE_NEWS = 0;
+    private static final int TYPE_DYNAMIC = 1;
 
     MZBannerView banner;
 
@@ -54,19 +61,19 @@ public class HomeNewFragment extends BaseMVPFragment {
 
     HomeLeadAdapter leadAdapter;
     HomeAdAdapter adAdapter;
-    HomeNewAdapter newAdapter;
-    HomeDynamicAdapter dynamicAdapter;
+    PigeonNewsAdapter newAdapter;
+    CircleDynamicAdapter dynamicAdapter;
 
     MainActivity activity;
 
-    Disposable disposable;
+    Disposable AdListDisposable;
 
     int adPosition = 0;
 
 
     @Override
-    protected BasePresenter initPresenter() {
-        return null;
+    protected HomePre initPresenter() {
+        return new HomePre(getActivity());
     }
 
     @Override
@@ -103,42 +110,146 @@ public class HomeNewFragment extends BaseMVPFragment {
         newsList = findViewById(R.id.news_list);
         dynamicList = findViewById(R.id.dynamic_list);
 
-        banner.setPages(Lists.newArrayList("", "", "", ""), () -> {
-            return new BannerViewHolder();
-        });
-        banner.start();
+        initBanner();
+
 
         initLeadList();
         initAdList();
         initNewList();
         initDynamicList();
+
+        initData();
+    }
+
+    private void initBanner() {
+        mPresenter.getHomeAd(data -> {
+
+            banner.setBannerPageClickListener((view, position) -> {
+
+                if (data != null && position > 0 && position <= data.size()) {
+                    //点击广告
+                    String url = data.get(position).getAdUrl();
+                    //判断是不是网站URL
+                    if (CommonTool.Compile(url, CommonTool.PATTERN_WEB_URL)) {
+                        Intent intent = new Intent(getActivity(), WebActivity.class);
+                        intent.putExtra(WebActivity.INTENT_DATA_KEY_URL, url);
+                        intent.putExtra(WebActivity.INTENT_DATA_KEY_BACKNAME, "首页");
+                        startActivity(intent);
+                    } else {
+                        try {
+                            Uri uri = Uri.parse(url);
+                            SaActionSheetDialog dialog = new SaActionSheetDialog(getActivity()).builder();
+
+                            if (uri.getScheme().equalsIgnoreCase("cpigeon")
+                                    && uri.getHost().equalsIgnoreCase("ad")
+                                    ) {
+
+                                final String phone = uri.getQueryParameter("tel");
+                                if (uri.getQueryParameter("call") != null && uri.getQueryParameter("call").equals("1")) {
+                                    dialog.addSheetItem("拨打电话", new SaActionSheetDialog.OnSheetItemClickListener() {
+                                        @Override
+                                        public void onClick(int which) {
+                                            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
+                                            try {
+                                                startActivity(intent);
+                                            } catch (Exception ex) {
+                                                ex.printStackTrace();
+                                                showTips("拨号失败", TipType.ToastShort);
+                                            }
+                                        }
+                                    });
+
+                                }
+                                if (uri.getQueryParameter("sms") != null && uri.getQueryParameter("sms").equals("1")) {
+                                    dialog.addSheetItem("发送短信", new SaActionSheetDialog.OnSheetItemClickListener() {
+                                        @Override
+                                        public void onClick(int which) {
+                                            //发送短信
+                                            Uri uri = Uri.parse("smsto:" + phone);
+                                            Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+                                            //intent.putExtra("sms_body", "测试发送短信");
+                                            try {
+                                                startActivity(intent);
+                                            } catch (Exception ex) {
+                                                ex.printStackTrace();
+                                                showTips("打开失败", TipType.ToastShort);
+                                            }
+                                        }
+                                    });
+
+                                }
+                                if (uri.getQueryParameter("url") != null && !uri.getQueryParameter("url").equals("")) {
+                                    final String u = uri.getQueryParameter("url");
+                                    dialog.addSheetItem("打开网页", new SaActionSheetDialog.OnSheetItemClickListener() {
+                                        @Override
+                                        public void onClick(int which) {
+                                            Intent intent = new Intent(getActivity(), WebActivity.class);
+                                            intent.putExtra(WebActivity.INTENT_DATA_KEY_URL, u);
+                                            intent.putExtra(WebActivity.INTENT_DATA_KEY_BACKNAME, "首页");
+                                            startActivity(intent);
+                                        }
+                                    });
+
+
+                                }
+                            }
+//                                                                dialog.builder();
+                            dialog.getDialog().setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialog) {
+                                    banner.start();
+                                }
+                            });
+                            dialog.show();
+                            banner.pause();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+            });
+
+            banner.setPages(data, () -> {
+                return new BannerViewHolder();
+            });
+            banner.start();
+        });
+
+
+    }
+
+    private void initData() {
+
+        mPresenter.getHomeSpeedNews(data -> {
+            adAdapter.setNewData(data);
+        });
+
+        mPresenter.getHomeNews(data -> {
+            newAdapter.setNewData(HomeNewsEntity.get(data, HomeNewsEntity.TYPE_ONE));
+            newAdapter.addFooterView(initFootView(TYPE_NEWS));
+
+        });
+
+        mPresenter.getHomeDynamic(data -> {
+            dynamicAdapter.setNewData(data);
+            dynamicAdapter.addFooterView(initFootView(TYPE_DYNAMIC));
+        });
     }
 
     private void initDynamicList() {
         dynamicList.setLayoutManager(new LinearLayoutManager(getContext()));
         dynamicList.setNestedScrollingEnabled(false);
-        dynamicAdapter = new HomeDynamicAdapter();
-        dynamicAdapter.addHeaderView(initHeadView(TYPE_DYNAMIC_HEAD));
+        dynamicAdapter = new CircleDynamicAdapter();
         dynamicList.setAdapter(dynamicAdapter);
-        List<BaseDynamicEntity> data = Lists.newArrayList();
-
-
-        for (int i = 0; i < 4; i++) {
-            BaseDynamicEntity dynamicEntity = new BaseDynamicEntity();
-            data.add(dynamicEntity);
-        }
-
-        data.get(0).setType(BaseDynamicEntity.IMAGE_0);
-        data.get(1).setType(BaseDynamicEntity.IMAGE_1);
-        data.get(2).setType(BaseDynamicEntity.IMAGE_2);
-        data.get(3).setType(BaseDynamicEntity.IMAGE_3);
-
-        dynamicAdapter.setNewData(data);
     }
 
     private void initAdList() {
+        ContactsUtil.setRecyclerViewNestedSlide(adList);
+        findViewById(R.id.speed_news).setOnClickListener(v -> {
+            IntentBuilder.Builder(getActivity(), PigeonNewsActivity.class).startActivity();
+        });
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext()){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext()) {
             @Override
             public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int position) {
                 LinearSmoothScroller smoothScroller =
@@ -157,14 +268,34 @@ public class HomeNewFragment extends BaseMVPFragment {
 
         adList.setLayoutManager(linearLayoutManager);
         adAdapter = new HomeAdAdapter();
+        adAdapter.setOnItemClickListener((adapter, view, position) -> {
+            switch (adAdapter.getItem(position).getType()){
+                case NewsEntity.TYPE_LIVE:
+                    ((MainActivity)getActivity()).setCurrIndex(1);
+                    break;
+                case NewsEntity.TYPE_DZCB:
+                    IntentBuilder.Builder(getActivity(), PigeonNewsActivity.class)
+                            .putExtra(IntentBuilder.KEY_DATA, 1)
+                            .startActivity();
+                    break;
+
+                case NewsEntity.TYPE_NEWS:
+                    IntentBuilder.Builder(getActivity(), PigeonNewsActivity.class).startActivity();
+            }
+        });
         adList.setAdapter(adAdapter);
 
-        adAdapter.setNewData(Lists.newArrayList("", "", "", "", "", ""));
+        adList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                LogUtil.print("newState: " + newState);
+            }
+        });
         rollPolingAdList();
     }
 
-    private void rollPolingAdList(){
-        disposable = RxUtils.rollPoling(3, 2000, aLong -> {
+    private void rollPolingAdList() {
+        AdListDisposable = RxUtils.rollPoling(3, 4000, aLong -> {
 
             if (adPosition > adAdapter.getData().size() - 1) {
                 adPosition = 0;
@@ -175,15 +306,20 @@ public class HomeNewFragment extends BaseMVPFragment {
         });
     }
 
+    private void stopRollPolingAdList(){
+        if (AdListDisposable != null) {
+            AdListDisposable.dispose();
+            AdListDisposable = null;
+        }
+    }
+
 
     private void initNewList() {
         newsList.setLayoutManager(new LinearLayoutManager(getContext()));
         newsList.setNestedScrollingEnabled(false);
-        newAdapter = new HomeNewAdapter();
-        newAdapter.addHeaderView(initHeadView(TYPE_NEWS_HEAD));
-        newAdapter.setNewData(Lists.newArrayList("", ""));
+        newAdapter = new PigeonNewsAdapter();
+        newAdapter.setType(PigeonNewsAdapter.TYPE_HOME);
         newsList.setAdapter(newAdapter);
-        addItemDecorationLine(newsList);
     }
 
     private void initLeadList() {
@@ -199,7 +335,7 @@ public class HomeNewFragment extends BaseMVPFragment {
         leadAdapter.setOnItemClickListener((adapter, view, position) -> {
             switch (position) {
                 case 0://比赛直播
-                    activity.setCurrIndex(1);
+
                     break;
                 case 1://比赛监控
                     IntentBuilder.Builder(getActivity(), GeCheJianKongListActicity.class).startActivity();
@@ -208,31 +344,36 @@ public class HomeNewFragment extends BaseMVPFragment {
                     IntentBuilder.Builder().startParentActivity(getActivity(), PigeonMessageHomeFragment.class);
                     break;
                 case 3://足环查询
-                    activity.setCurrIndex(2);
+                    IntentBuilder.Builder().startParentActivity(getActivity(), FootSearchFragment.class);
                     break;
             }
         });
     }
 
-    private View initHeadView(int type) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.item_home_list_head_layout, null);
-        BaseViewHolder holder = new BaseViewHolder(view);
-        if (type == TYPE_NEWS_HEAD) {
-            holder.setImageResource(R.id.icon, R.drawable.ic_news_head);
-            holder.setText(R.id.title, "新闻资讯");
-            holder.setText(R.id.title2, "实时显示新闻资讯");
-        } else {
-            holder.setImageResource(R.id.icon, R.drawable.ic_home_dynamic);
-            holder.setText(R.id.title, "鸽友动态");
-            holder.setText(R.id.title2, "实时显示最新动态");
+    private View initFootView(int type) {
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.item_home_list_foot_layout, null);
+        TextView textView = findViewById(view, R.id.textView);
+        if(type == TYPE_NEWS){
+            textView.setText("查看更多新闻");
+            view.setOnClickListener(v -> {
+                IntentBuilder.Builder(getActivity(), PigeonNewsActivity.class).startActivity();
+            });
+        }else {
+            textView.setText("查看更多动态");
         }
         return view;
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+
+    @Override
     public void onResume() {
         super.onResume();
-        if(disposable == null){
+        if (AdListDisposable == null) {
             rollPolingAdList();
         }
     }
@@ -240,15 +381,11 @@ public class HomeNewFragment extends BaseMVPFragment {
     @Override
     public void onPause() {
         super.onPause();
-        banner.pause();
-        if(disposable != null){
-            disposable.dispose();
-            disposable = null;
-        }
+        stopRollPolingAdList();
     }
 }
 
-class BannerViewHolder implements MZViewHolder<String> {
+class BannerViewHolder implements MZViewHolder<HomeAd> {
     private SimpleDraweeView mImageView;
 
     @Override
@@ -260,8 +397,8 @@ class BannerViewHolder implements MZViewHolder<String> {
     }
 
     @Override
-    public void onBind(Context context, int position, String data) {
+    public void onBind(Context context, int position, HomeAd data) {
         // 数据绑定
-        mImageView.setImageURI("http://img.zcool.cn/community/01e4a2577deac20000018c1bdd823a.jpg@1280w_1l_2o_100sh.jpg");
+        mImageView.setImageURI(data.getAdImageUrl());
     }
 }

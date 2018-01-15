@@ -1,4 +1,4 @@
-package com.cpigeon.app.message.ui;
+package com.cpigeon.app.base;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -30,10 +30,12 @@ import static android.view.KeyEvent.KEYCODE_BACK;
 
 public class BaseWebViewActivity<Pre extends BasePresenter> extends BaseActivity<Pre> {
 
-    WebView webView;
+    protected WebView webView;
+    protected WebSettings webSettings;
     String url;
     String title;
     ProgressBar progressBar;
+    Map<String, String> mHeaderMap;
 
 
     @Override
@@ -50,11 +52,17 @@ public class BaseWebViewActivity<Pre extends BasePresenter> extends BaseActivity
     @Override
     public void initView(Bundle savedInstanceState) {
 
-        url = getIntent().getStringExtra(IntentBuilder.KEY_DATA);
+        String temp = getIntent().getStringExtra(IntentBuilder.KEY_DATA);
+
+        if(StringValid.isStringValid(temp)){
+            url = temp;
+        }
 
         title = getIntent().getStringExtra(IntentBuilder.KEY_TITLE);
 
-        setTitle(title);
+        if(StringValid.isStringValid(title)){
+            setTitle(title);
+        }
 
 
         webView = findViewById(R.id.web_view);
@@ -79,7 +87,7 @@ public class BaseWebViewActivity<Pre extends BasePresenter> extends BaseActivity
             }
         });
 
-        WebSettings webSettings = webView.getSettings();
+        webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setUseWideViewPort(true); //将图片调整到适合webview的大小
         webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
@@ -115,11 +123,14 @@ public class BaseWebViewActivity<Pre extends BasePresenter> extends BaseActivity
 
             }
         });
-        //webView.loadDataWithBaseURL(null, url, "text/html", "utf-8", null);
-        Map<String, String> mHeaderMap = new HashMap<>();
+        mHeaderMap = new HashMap<>();
         mHeaderMap.put("u", CommonTool.getUserToken(this));
         webView.loadUrl(url, mHeaderMap);
 
+    }
+
+    protected void loadWebByHtml(String url){
+        webView.loadDataWithBaseURL(null, url, "text/html", "utf-8", null);
     }
 
     @Override

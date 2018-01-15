@@ -4814,6 +4814,30 @@ public class CallAPI {
     }
 
     /**
+     * 自动计算并添加API签名信息
+     *
+     * @param map
+     * @return
+     */
+    public static String getApiSign(Map<String ,String> map) {
+
+        for (String key :map.keySet()) {
+            if (StringValid.isStringValid(map.get(key))) {
+                map.put("post_" + key, map.get(key));
+            }
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String key : map.keySet()) {
+            stringBuilder.append(key + "=" + map.get(key) + "&");
+        }
+        stringBuilder.append("key=" + Const.KEY_API_SIGN);
+        String result = stringBuilder.toString();
+        Logger.d(result);
+        result = EncryptionTool.MD5(result);
+        return result;
+    }
+
+    /**
      * 计算签名
      *
      * @param urlParams  url参数集合

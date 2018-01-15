@@ -57,8 +57,6 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
                     error(error.code,error.message);
                 }
             });
-
-            /**/
         }
 
     }
@@ -94,16 +92,16 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
         super.onDestroyView();
         if (isCanDettach() && mPresenter != null && mPresenter.isAttached())
             mPresenter.detach();
+        composite.clear();
     }
 
     protected void addItemDecorationLine(RecyclerView recyclerView){
-        addItemDecorationLine(recyclerView, R.color.line_color, ScreenTool.dip2px(1));
+        addItemDecorationLine(recyclerView, R.color.color_line, ScreenTool.dip2px(0.5f));
     }
 
     protected void addItemDecorationLine(RecyclerView recyclerView, @ColorRes int color, int size){
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(recyclerView.getContext())
-                .colorResId(color).size(size)
-                .showLastDivider().build());
+                .colorResId(color).size(size).build());
     }
 
     public <T> void bindData(Observable<T> observable, Consumer<? super T> onNext) {

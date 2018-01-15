@@ -112,7 +112,9 @@ public class EncryptionTool {
      * @return
      */
     public static String decryptAES(String input) {
-        return decryptAES(input, AESKey_de);
+        if(StringValid.isStringValid(input)){
+            return decryptAES(input, AESKey_de);
+        }else return "";
     }
 
     /**
@@ -151,7 +153,6 @@ public class EncryptionTool {
             cipher.init(Cipher.DECRYPT_MODE, skey);
             output = cipher.doFinal(Base64.decodeBase64(input.getBytes("utf-8")));
         } catch (Exception e) {
-            e.printStackTrace();
             return "";
         }
         return new String(output);

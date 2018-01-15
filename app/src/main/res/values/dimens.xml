@@ -13,6 +13,17 @@
     <dimen name="button_guide_experience">19sp</dimen>
     <dimen name="default_edittext_height">35dp</dimen>
 
+    <dimen name="small_vertical_margin">5dp</dimen>
+    <dimen name="medium_vertical_margin">8dp</dimen>
+    <dimen name="large_vertical_margin">10dp</dimen>
+    <dimen name="big_large_vertical_margin">16dp</dimen>
+
+    <dimen name="small_horizontal_margin">5dp</dimen>
+    <dimen name="medium_horizontal_margin">8dp</dimen>
+    <dimen name="large_horizontal_margin">10dp</dimen>
+    <dimen name="big_large_horizontal_margin">16dp</dimen>
+
+
     <!--layout common-->
     <dimen name="actionbar_height">50dp</dimen>
     <dimen name="layout_actionbar_height">50dp</dimen>

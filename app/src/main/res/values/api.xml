@@ -2,6 +2,7 @@
 <resources>
     <string name="api_head_url">/CPAPI/V1/</string>
     <string name="api_public_head_url">/GAPI/V1/</string>
+    <string name="api_CHAPI_head_url">/CHAPI/V1/</string>
 
 
     <string name="api_user_agreement">/APP/Protocol?type=gxt</string>
@@ -61,5 +62,26 @@
     <string name="api_create_GXT_message_order">CreateServicOrderByGXTCZ</string>
     <string name="api_GXT_message_order_history">GXT_CZMX</string>
 
+
+    <string name="api_home_ad">Ad</string>
+
+    <string name="api_home_speed_news">ZhongGeKuaiBao</string>
+    <string name="api_news_details">NewsDetial</string>
+
+    <string name="api_home_news">NewsListForIndex</string>
+    <string name="api_home_circle_dynamic">GeMiQuanForIndex</string>
+
+    <string name="api_news_GetDiZhenCiBao">GetDiZhenCiBao</string>
+    <string name="api_news_comments">GetCommentsForNews</string>
+    <string name="api_add_news_comment">AddCommentForNews</string>
+    <string name="api_add_reply_for_news">AddReplyForNews</string>
+
+    <string name="api_thumb_news">News_DianZan</string>
+    <string name="api_thumb_news_comment">Comment_DianZan</string>
+
+    <string name="api_news_list">NewsList</string>
+
+    <string name="api_news_related">RelatedNewsList</string>
+>>>>>>> new_version
 
 </resources>

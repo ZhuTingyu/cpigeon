@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="@drawable/background_user_center_header"
+
+    android:layout_width="match_parent"
+    android:layout_height="256dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/head_img"
+        android:src="@mipmap/head_image_default"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:textSize="@dimen/sp_16"
+        android:textColor="@color/colorWhite"
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/head_img"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="17dp" />
+    <View
+        android:id="@+id/view_line"
+        android:layout_marginBottom="24dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorWhite"
+        android:layout_width="@dimen/dp_1"
+        android:layout_height="18dp"
+        android:layout_centerHorizontal="true" />
+    <TextView
+        android:id="@+id/tv_fans"
+        android:layout_marginLeft="16dp"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/colorWhite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/view_line"
+        android:layout_below="@id/user_name"
+        android:layout_marginTop="11dp" />
+
+    <TextView
+        android:id="@+id/tv_focus"
+        android:layout_marginRight="16dp"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/colorWhite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:layout_toLeftOf="@id/view_line"
+        android:layout_below="@+id/user_name"
+/>
+
+
+</RelativeLayout>

@@ -1,9 +1,8 @@
 package com.cpigeon.app.message.ui.history;
 
 import com.cpigeon.app.R;
-import com.cpigeon.app.entity.ContactsGroupEntity;
 import com.cpigeon.app.entity.MessageEntity;
-import com.cpigeon.app.message.GXYHttpUtil;
+import com.cpigeon.app.utils.http.PigeonHttpUtil;
 import com.cpigeon.app.utils.databean.ApiResponse;
 import com.cpigeon.app.utils.http.HttpUtil;
 import com.google.gson.reflect.TypeToken;
@@ -19,7 +18,7 @@ import io.reactivex.Observable;
 public class MessageHistoryModel {
 
     public static Observable<ApiResponse<List<MessageEntity>>> MessageHistory(int userId, int date) {
-        return GXYHttpUtil.<ApiResponse<List<MessageEntity>>>build()
+        return PigeonHttpUtil.<ApiResponse<List<MessageEntity>>>build()
                 .setToJsonType(new TypeToken<ApiResponse<List<MessageEntity>>>() {
                 }.getType())
                 .setType(HttpUtil.TYPE_POST)

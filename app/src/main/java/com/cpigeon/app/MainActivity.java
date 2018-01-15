@@ -25,23 +25,24 @@ import android.widget.Toast;
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.cpigeon.app.circle.ui.CircleFragment;
 import com.cpigeon.app.commonstandard.AppManager;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.commonstandard.view.adapter.ContentFragmentAdapter;
 import com.cpigeon.app.home.HomeNewFragment;
-import com.cpigeon.app.modular.footsearch.ui.FootSearchFragment;
-import com.cpigeon.app.modular.home.view.fragment.HomeFragment;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
 import com.cpigeon.app.modular.matchlive.view.activity.GeCheJianKongListActicity;
 import com.cpigeon.app.modular.matchlive.view.fragment.MatchLiveFragment;
 import com.cpigeon.app.modular.matchlive.view.fragment.MatchLiveSubFragment;
+import com.cpigeon.app.modular.usercenter.view.activity.LoginActivity;
 import com.cpigeon.app.modular.usercenter.view.activity.MyFollowActivity;
 import com.cpigeon.app.modular.usercenter.view.fragment.UserCenterFragment;
 import com.cpigeon.app.service.MainActivityService;
 import com.cpigeon.app.service.databean.UseDevInfo;
 import com.cpigeon.app.utils.Const;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.PermissionTool;
 import com.cpigeon.app.utils.SharedPreferencesTool;
 import com.cpigeon.app.utils.StatusBarTool;
@@ -66,6 +67,7 @@ import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
 public class
+
 MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
 
     public final static String APP_STATE_KEY_VIEWPAGER_SELECT_INDEX = "MainActivity.SelectItemIndex.";
@@ -82,13 +84,13 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
     private int lastTabIndex = 0;//当前页面索引
 
     //主页
-    private HomeFragment homeFragment;
+    private HomeNewFragment homeFragment;
     //直播
     private MatchLiveFragment matchLiveFragment;
     //个人中心
     private UserCenterFragment userCenterFragment;
     //足环查询
-    private FootSearchFragment footSearchFragment;
+    private CircleFragment friendCircleFragment;
     //鸽友圈
     private List<Fragment> mFragments = new ArrayList<>();
     private ContentFragmentAdapter mContentFragmentAdapter;
@@ -103,6 +105,8 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
             isExit = false;
         }
     };
+
+    SweetAlertDialog dialogPrompt;
     MainActivityService mainActivityService;
     MainActivityService.OnDeviceLoginCheckListener onDeviceLoginCheckListener = new MainActivityService.OnDeviceLoginCheckListener() {
         SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
@@ -140,7 +144,7 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
 
         @Override
         public void onRefreshFinished(int type, List<MatchInfo> list) {
-            if (homeFragment != null) homeFragment.loadMatchInfo();
+            //if (homeFragment != null) homeFragment.loadMatchInfo();
         }
     };
 
@@ -305,21 +309,32 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
 
     public void initView(Bundle savedInstanceState) {
         MainActivityPermissionsDispatcher.sysytemAlertWindowWithCheck(this);
-        homeFragment = new HomeFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(IntentBuilder.KEY_BOOLEAN, false);
+
+        homeFragment = new HomeNewFragment();
         matchLiveFragment = new MatchLiveFragment();
         matchLiveFragment.setOnRefreshListener(onMatchInfoRefreshListener);
         userCenterFragment = new UserCenterFragment();
-        footSearchFragment = new FootSearchFragment();
+        friendCircleFragment = new CircleFragment();
 //        mCpigeonGroupFragment = new CpigeonGroupFragment();
         mFragments = new ArrayList<>();
+        homeFragment.setArguments(bundle);
+        matchLiveFragment.setArguments(bundle);
+        friendCircleFragment.setArguments(bundle);
+        userCenterFragment.setArguments(bundle);
+
         mFragments.add(homeFragment);
         mFragments.add(matchLiveFragment);
 //        mFragments.add(mCpigeonGroupFragment);
-        mFragments.add(footSearchFragment);
+        mFragments.add(friendCircleFragment);
         mFragments.add(userCenterFragment);
+
         mContentFragmentAdapter = new ContentFragmentAdapter(getSupportFragmentManager(), mFragments);
+
         //设置limit
-        mViewPager.setOffscreenPageLimit(2);
+        mViewPager.setOffscreenPageLimit(5);
         mViewPager.setAdapter(mContentFragmentAdapter);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -335,24 +350,31 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
         mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mBottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.svg_ic_menu_home_stroke, "首页").setActiveColorResource(R.color.colorPrimary).setBadgeItem(numberBadgeItem))
-                    .addItem(new BottomNavigationItem(R.drawable.svg_ic_menu_racelive_stroke, "直播").setActiveColorResource(R.color.colorPrimary))
-//                    .addItem(new BottomNavigationItem(R.drawable.svg_ic_cpigeon_group, "微鸽圈").setActiveColorResource(R.color.colorPrimary))
-                    .addItem(new BottomNavigationItem(R.drawable.svg_ic_menu_search_stroke, "查询").setActiveColorResource(R.color.colorPrimary))
-                    .addItem(new BottomNavigationItem(R.drawable.svg_ic_menu_user_stroke, "我的").setActiveColorResource(R.color.colorPrimary))
+            /*mBottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.ic_home_home, "首页").setActiveColorResource(R.color.colorPrimary).setBadgeItem(numberBadgeItem))
+                    .addItem(new BottomNavigationItem(R.drawable.ic_home_live, "直播").setActiveColorResource(R.color.colorPrimary))
+//                    .addItem(new BottomNavigationItem(R.drawable.svg_ic_cpigeon_group).setActiveColorResource(R.color.colorPrimary))
+                    .addItem(new BottomNavigationItem(R.drawable.ic_home_circle, "鸽迷圈").setActiveColorResource(R.color.colorPrimary))
+                    .addItem(new BottomNavigationItem(R.drawable.ic_home_my, "我的").setActiveColorResource(R.color.colorPrimary))
+                    .setFirstSelectedPosition(laseSelectedPosition > 4 ? 4 : laseSelectedPosition)
+                    .initialise();*/
+
+            mBottomNavigationBar
+                    .addItem(new BottomNavigationItem(R.drawable.ic_home_home_selected, "首页").setActiveColorResource(R.color.colorPrimary).setBadgeItem(numberBadgeItem))
+                    .addItem(new BottomNavigationItem(R.drawable.ic_home_live_selected, "直播").setActiveColorResource(R.color.colorPrimary))
+                    .addItem(new BottomNavigationItem(R.drawable.ic_home_circle_selected, "鸽迷圈").setActiveColorResource(R.color.colorPrimary))
+                    .addItem(new BottomNavigationItem(R.drawable.ic_home_my_selected, "我的").setActiveColorResource(R.color.colorPrimary))
                     .setFirstSelectedPosition(laseSelectedPosition > 4 ? 4 : laseSelectedPosition)
                     .initialise();
         } else {
             mBottomNavigationBar
-                    .addItem(new BottomNavigationItem(R.mipmap.ic_home_selected, "首页").setBadgeItem(numberBadgeItem))
-                    .addItem(new BottomNavigationItem(R.mipmap.ic_matchlive_selected, "直播"))
-                    .addItem(new BottomNavigationItem(R.mipmap.ic_search_selected, "查询"))
-                    .addItem(new BottomNavigationItem(R.mipmap.ic_user_selected, "我的"))
+                    .addItem(new BottomNavigationItem(R.drawable.ic_home_home_selected, "首页").setBadgeItem(numberBadgeItem))
+                    .addItem(new BottomNavigationItem(R.drawable.ic_home_live_selected, "直播"))
+                    .addItem(new BottomNavigationItem(R.drawable.ic_home_circle_selected, "鸽迷圈"))
+                    .addItem(new BottomNavigationItem(R.drawable.ic_home_my_selected, "我的"))
                     .setFirstSelectedPosition(laseSelectedPosition > 4 ? 4 : laseSelectedPosition)
                     .initialise();
         }
@@ -369,6 +391,41 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
         bindService(new Intent(MyApp.getInstance(), MainActivityService.class), conn, Context.BIND_AUTO_CREATE);
         int selectIndex = SharedPreferencesTool.Get(mContext, APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(mContext), 0, SharedPreferencesTool.SP_FILE_APPSTATE);
         setCurrIndex(selectIndex);
+
+        if(CpigeonData.getInstance().getUserInfo() == null){
+            CpigeonData.DataHelper.getInstance().updateUserInfo(null);
+        }
+    }
+
+    private void hintLogin() {
+        /*if(dialogPrompt == null) {
+            dialogPrompt = new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE);
+            dialogPrompt.setCanceledOnTouchOutside(false);
+            dialogPrompt.setCancelable(false);
+            dialogPrompt.setTitleText("提示")
+                    .setCancelText("取消")
+                    .setCancelClickListener(sweetAlertDialog -> {
+                        sweetAlertDialog.dismiss();
+                        setCurrIndex(0);
+                        mBottomNavigationBar.selectTab(0);
+                    })
+                    .setConfirmClickListener(sweetAlertDialog -> {
+                        IntentBuilder.Builder(this, LoginActivity.class).startActivity();
+                    })
+                    .setContentText("您还没有登录，请登录!")
+                    .setConfirmText("确定");
+        }
+
+        if(!dialogPrompt.isShowing()){
+            dialogPrompt.show();
+        }*/
+        if(laseSelectedPosition != 0){
+            mViewPager.setCurrentItem(0);
+            mBottomNavigationBar.selectTab(0);
+            laseSelectedPosition = 0;
+        }
+        startActivity(LoginActivity.class);
+
     }
 
 //
@@ -377,13 +434,17 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
     @Override
     public void onTabSelected(int position) {
         laseSelectedPosition = position;
+        if (!checkLogin() && laseSelectedPosition != 0) {
+            hintLogin();
+            return;
+        }
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 //        hideFragment(transaction);
         switch (position) {
             case 0:
                 if (homeFragment == null) {
-                    homeFragment = new HomeFragment();
+                    homeFragment = new HomeNewFragment();
                     transaction.add(R.id.viewpager, homeFragment);
                 } else {
                     transaction.show(homeFragment);
@@ -397,13 +458,14 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
                 } else {
                     transaction.show(matchLiveFragment);
                 }
+
                 break;
             case 2:
-                if (footSearchFragment == null) {
-                    footSearchFragment = new FootSearchFragment();
-                    transaction.add(R.id.viewpager, footSearchFragment);
+                if (friendCircleFragment == null) {
+                    friendCircleFragment = new CircleFragment();
+                    transaction.add(R.id.viewpager, friendCircleFragment);
                 } else {
-                    transaction.show(footSearchFragment);
+                    transaction.show(friendCircleFragment);
                 }
                 break;
             case 3:
@@ -414,6 +476,7 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
                     transaction.show(userCenterFragment);
                 }
                 break;
+
         }
         transaction.commitAllowingStateLoss();
         setCurrIndex(position);
@@ -425,7 +488,11 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
         lastTabIndex = index;
         mViewPager.setCurrentItem(index);
         mBottomNavigationBar.selectTab(index);
-        SharedPreferencesTool.Save(MyApp.getInstance(), APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(MyApp.getInstance()), index, SharedPreferencesTool.SP_FILE_APPSTATE);
+        if (checkLogin()) {
+            SharedPreferencesTool.Save(MyApp.getInstance(), APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(MyApp.getInstance()), index, SharedPreferencesTool.SP_FILE_APPSTATE);
+        } else {
+            SharedPreferencesTool.Save(MyApp.getInstance(), APP_STATE_KEY_VIEWPAGER_SELECT_INDEX + CpigeonData.getInstance().getUserId(MyApp.getInstance()), 0, SharedPreferencesTool.SP_FILE_APPSTATE);
+        }
         onTabSelected(index);
     }
 

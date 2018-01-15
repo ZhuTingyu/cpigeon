@@ -134,7 +134,9 @@ public class HttpUtil<T> {
     }
 
     public HttpUtil<T> setUserId(String name, int value) {
-        requestParams.addQueryStringParameter(name, String.valueOf(value));
+        if(value != 0){
+            requestParams.addQueryStringParameter(name, String.valueOf(value));
+        }
         return this;
     }
 

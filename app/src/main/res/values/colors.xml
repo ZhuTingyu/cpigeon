@@ -13,12 +13,14 @@
     <color name="home_bottom_color">#616161</color>
     <color name="user_center_header_top">#85C2FE</color>
     <color name="textColor_gray">#777777</color>
+    <color name="line_gray">#a3a3a3</color>
     <color name="light_red">#ff2f32</color>
     <color name="svg_icon_gray">#7A7E83</color>
     <color name="light_green">#34A556</color>
     <color name="colorGreen">#0fa701</color>
     <!--页面背景颜色-->
-    <color name="color_default_bg">#F9F9F9</color>
+    <color name="color_default_bg">#F5F5F5</color>
+    <color name="color_line">#e5e5e5</color>
     <color name="colorLayoutGray">#d8d8d9</color>
     <color name="colorLayoutGray2">#ececec</color>
     <color name="colorLayoutGray3">#E3E3E3</color>
@@ -31,6 +33,7 @@
     <color name="bg_layout_gg">#008891</color>
     <color name="black_alpha_45">#71000000</color>
     <color name="black1">#262626</color>
+    <color name="black_alpha_30">#1e000000</color>
     <!--图标颜色-->
     <color name="svg_icon_black">#3d3d3d</color>
     <color name="svg_icon_light_black">#616161</color>
@@ -63,6 +66,7 @@
     <color name="textColor_promptContentRight">#767676</color>
     <color name="textColor_footSearchResultTitle">#6E6E6E</color>
     <color name="textColor_footSearchResultContent">#027BFB</color>
+    <color name="color_e6e6e6">#e6e6e6</color>
     <color name="hintColor">#d1d1d6</color>
     <color name="textColor_protocolPrompt">#949494</color>
 
@@ -89,6 +93,7 @@
     <color name="color_8290AF">#8290AF</color>
     <color name="praise_item_default">#333333</color>
     <color name="praise_item_selector_default">#cccccc</color>
+    <color name="text_color_gray">#cccccc</color>
     <color name="praise_item">#73b9ff</color>
     <color name="im_line_color">#dadada</color>
     <color name="im_font_color_text_hint">#abb1b6</color>
@@ -133,6 +138,9 @@
     <color name="edit_bg">#EFEFF4</color>
 
     <color name="darker_gray">#9b9b9b</color>
+    <color name="line_color_f2f2f2">#f2f2f2</color>
+    <color name="text_color_4d4d4d">#4d4d4d</color>
+    <color name="bg_color_fafafa">#fafafa</color>
 
 
 </resources>

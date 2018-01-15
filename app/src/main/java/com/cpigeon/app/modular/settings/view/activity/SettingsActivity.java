@@ -21,6 +21,7 @@ import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.CpigeonConfig;
 import com.cpigeon.app.utils.DateTool;
 import com.cpigeon.app.utils.FileTool;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.UpdateManager;
 import com.cpigeon.app.utils.cache.CacheManager;
@@ -178,7 +179,9 @@ public class SettingsActivity extends BaseActivity {
                             showTips("退出登录成功", TipType.ToastShort);
                             MyApp.clearJPushAlias();
                             dialog.dismiss();
+                            clearLoginInfo();
                             Intent intent = new Intent(mContext, LoginActivity.class);
+                            intent.putExtra(IntentBuilder.KEY_BOOLEAN, true);
                             startActivity(intent);
                         }
                     })
