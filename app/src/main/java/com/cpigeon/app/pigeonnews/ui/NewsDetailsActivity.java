@@ -1,6 +1,8 @@
 package com.cpigeon.app.pigeonnews.ui;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseWebViewActivity;
+import com.cpigeon.app.pigeonnews.adpter.NewsRelatedAdapter;
 import com.cpigeon.app.pigeonnews.presenter.NewsDetailsPre;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.ToastUtil;
@@ -25,6 +28,9 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
     TextView title;
     TextView introduce;
     NewsCommentViewHolder viewHolder;
+
+    RecyclerView recyclerView;
+    NewsRelatedAdapter adapter;
 
     @Override
     public int getLayoutId() {
@@ -57,6 +63,20 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
                         "})()");
             }
         });
+
+        recyclerView = findViewById(R.id.list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        recyclerView.setNestedScrollingEnabled(false);
+        addItemDecorationLine(recyclerView, R.color.color_e6e6e6, 0.5f);
+        adapter = new NewsRelatedAdapter();
+        adapter.setOnItemClickListener((adapter1, view, position) -> {
+             IntentBuilder.Builder(getActivity(), NewsDetailsActivity.class)
+                    .putExtra(IntentBuilder.KEY_DATA, adapter.getItem(position).nid)
+                    .startActivity();
+            finish();
+        });
+        recyclerView.setAdapter(adapter);
+
         bindData();
     }
 
@@ -107,14 +127,20 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
     }
 
     private void bindData() {
-        mPresenter.getNewsDetails(newsDetailsEntity -> {
-            title.setText(newsDetailsEntity.title);
-            introduce.setText(newsDetailsEntity.author+"  "+newsDetailsEntity.time+"  "+
-                    "浏览"+newsDetailsEntity.hits+"次");
-            viewHolder.bindData(newsDetailsEntity);
-            String css = "<style type=\"text/css\"> </style>";
-            String html = "<html><header><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no>"+css+"</header>"+"<body>"+newsDetailsEntity.content+"</body>"+"</html>";
-            loadWebByHtml(html);
+
+        mPresenter.getRelatedNews(data -> {
+            adapter.setNewData(data);
+            mPresenter.getNewsDetails(newsDetailsEntity -> {
+                title.setText(newsDetailsEntity.title);
+                introduce.setText(newsDetailsEntity.author+"  "+newsDetailsEntity.time+"  "+
+                        "浏览"+newsDetailsEntity.hits+"次");
+                viewHolder.bindData(newsDetailsEntity);
+                String css = "<style type=\"text/css\"></style>";
+                String html = "<html><header><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no>"+css+"</header>"+"<body>"+newsDetailsEntity.content+"</body>"+"</html>";
+                loadWebByHtml(html);
+
+            });
         });
+
     }
 }

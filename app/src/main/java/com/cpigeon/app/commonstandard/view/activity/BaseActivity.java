@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.PersistableBundle;
+import android.support.annotation.ColorRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -36,6 +37,7 @@ import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.EncryptionTool;
+import com.cpigeon.app.utils.ScreenTool;
 import com.cpigeon.app.utils.SharedPreferencesTool;
 import com.cpigeon.app.utils.StatusBarSetting;
 import com.cpigeon.app.utils.StringValid;
@@ -139,7 +141,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     }
 
     public void setToolbar() {
-        //appBarLayout = findViewById(R.id.appbar);
         if (null != toolbar) {
             toolbar.setTitle("");
             toolbar.setNavigationOnClickListener(v -> finish());
@@ -416,6 +417,12 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected void addItemDecorationLine(RecyclerView recyclerView){
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(recyclerView.getContext())
                 .colorResId(R.color.line_color).size(1)
+                .showLastDivider().build());
+    }
+
+    protected void addItemDecorationLine(RecyclerView recyclerView, @ColorRes int colorId, float size){
+        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(recyclerView.getContext())
+                .colorResId(colorId).size(ScreenTool.dip2px(size))
                 .showLastDivider().build());
     }
 }

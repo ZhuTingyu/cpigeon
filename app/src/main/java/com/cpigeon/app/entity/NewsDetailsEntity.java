@@ -11,7 +11,7 @@ public class NewsDetailsEntity extends ThumbEntity {
     public String pic;//www.cpigeon.com/20171226/20171226184001.jpg",
     public String title;//2017年四川省信鸽协会工作会在西昌圆满召开",
     public String id;//":9378,
-    public String iscomment;
+    public boolean iscomment;
     public String type;//":"国内鸽闻",
     public String step;//:0,
     public String content;//2017年的工作会已圆满结束，我们也在此预祝2018年的四川信鸽行业发展更好！实力强！",

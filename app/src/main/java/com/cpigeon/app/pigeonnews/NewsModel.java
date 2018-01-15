@@ -103,4 +103,13 @@ public class NewsModel {
     public static Observable<ApiResponse<List<NewsEntity>>> newsList(int page, int count){
         return newsList(page, count,null);
     }
+
+    public static Observable<ApiResponse<List<NewsEntity>>> newsRelated(String newsId){
+        return CPAPIHttpUtil.<ApiResponse<List<NewsEntity>>>build()
+                .setToJsonType(new TypeToken<ApiResponse<List<NewsEntity>>>(){}.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_news_related)
+                .addBody("nid", newsId)
+                .request();
+    }
 }

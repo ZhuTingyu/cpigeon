@@ -1,6 +1,9 @@
 package com.cpigeon.app.base;
 
 
+import android.graphics.Color;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
 import android.view.View;
 
 import com.cpigeon.app.utils.CommonTool;
@@ -38,4 +41,13 @@ public abstract class BaseQuickAdapter<T,K extends BaseViewHolder> extends com.c
     protected  String getEmptyViewText(){
         return "";
     }
+
+    protected int getColor(@ColorRes int resId){
+       return mContext.getResources().getColor(resId);
+    }
+
+    protected float getDimension(@DimenRes int resId){
+        return mContext.getResources().getDimension(resId);
+    }
 }
+

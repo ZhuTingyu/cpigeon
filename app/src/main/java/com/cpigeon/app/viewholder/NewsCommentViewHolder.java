@@ -86,6 +86,10 @@ public class NewsCommentViewHolder extends BaseViewHolder {
             setViewDrawableLeft(thumb, R.mipmap.ic_thumbs_not_up);
         }
 
+        if(!entity.iscomment){
+            onlyComment();
+        }
+
 
     }
 

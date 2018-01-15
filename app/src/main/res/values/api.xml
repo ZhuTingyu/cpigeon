@@ -78,4 +78,6 @@
 
     <string name="api_news_list">NewsList</string>
 
+    <string name="api_news_related">RelatedNewsList</string>
+
 </resources>
