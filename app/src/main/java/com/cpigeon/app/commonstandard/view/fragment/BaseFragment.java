@@ -107,7 +107,7 @@ public abstract class BaseFragment extends Fragment implements IView {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(getArguments() != null){
-            isBack  = getArguments().getBoolean(IntentBuilder.KEY_BOOLEAN,true);
+            isBack  = getArguments().getBoolean(IntentBuilder.KEY_BOOLEAN);
         }
         bind = ButterKnife.bind(this, view);
         toolbar = view.findViewById(R.id.toolbar);
