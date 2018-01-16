@@ -135,7 +135,7 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> {
     private List<String> getDates() {
         List<String> date = Lists.newArrayList();
         int len =  Integer.valueOf(DateTool.format(System.currentTimeMillis(),DateTool.FORMAT_YYYY));
-        for(int i = 2016; i <= len; i++){
+        for(int i = 2010; i <= len; i++){
             date.add(String.valueOf(i));
         }
         return date;

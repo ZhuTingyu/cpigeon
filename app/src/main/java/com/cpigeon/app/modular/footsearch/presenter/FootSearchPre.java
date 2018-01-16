@@ -11,6 +11,7 @@ import com.cpigeon.app.modular.footsearch.view.fragment.IFootSearchView;
 import com.cpigeon.app.modular.footsearch.model.dao.ICpigeonServicesInfo;
 import com.cpigeon.app.modular.footsearch.model.daoimpl.CpigeonServicesInfoImpl;
 import com.cpigeon.app.modular.usercenter.model.bean.CpigeonUserServiceInfo;
+import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.http.HttpErrorException;
 
 import java.util.Map;
@@ -25,10 +26,12 @@ public class FootSearchPre extends BasePresenter {
 
     String keyWord;
     public String year;
+    int userId;
 
 
     public FootSearchPre(Activity activity) {
         super(activity);
+        userId = CpigeonData.getInstance().getUserId(activity);
     }
 
     @Override
@@ -37,8 +40,8 @@ public class FootSearchPre extends BasePresenter {
     }
 
     public void searchFoot(Consumer<String> consumer){
-        submitRequestThrowError(FootSearchModel.searchFood(keyWord,year).map(r -> {
-            if(r.status || !r.data.isEmpty()){
+        submitRequestThrowError(FootSearchModel.searchFoot(keyWord,year,userId).map(r -> {
+            if(r.status){
                 return r.data;
             }else throw new HttpErrorException(r);
         }),consumer);

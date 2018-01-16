@@ -84,5 +84,6 @@
     <string name="api_news_related">RelatedNewsList</string>
 
     <string name="api_get_search_foot">FootSearch</string>
+    <string name="api_search_foot_history">ZHCX_GetHistoryRecordList</string>
 
 </resources>

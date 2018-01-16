@@ -21,6 +21,6 @@ public class DynamicEntity extends BaseDynamicEntity {
     public List<ImageEntity> imglist;
 
     public void setType() {
-        super.setType(imglist.size());
+        super.setType(imglist.size() > 3 ? 3 : imglist.size());
     }
 }
