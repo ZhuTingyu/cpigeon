@@ -8,9 +8,12 @@ import android.view.MenuItem;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
+import com.cpigeon.app.entity.FootInfoEntity;
 import com.cpigeon.app.modular.footsearch.ui.adapter.FootSearchResultAdapter;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
+
+import java.util.List;
 
 /**
  * Created by Zhu TingYu on 2017/12/22.
@@ -20,6 +23,8 @@ public class FootSearchResultFragment extends BaseMVPFragment{
 
     RecyclerView recyclerView;
     FootSearchResultAdapter adapter;
+
+    List<FootInfoEntity> data;
 
     @Override
     protected BasePresenter initPresenter() {
@@ -33,11 +38,13 @@ public class FootSearchResultFragment extends BaseMVPFragment{
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_recyclerview_layout;
+        return R.layout.fragment_recyclerview_not_white_layout;
     }
 
     @Override
     public void finishCreateView(Bundle state) {
+
+        data = getActivity().getIntent().getParcelableArrayListExtra(IntentBuilder.KEY_DATA);
 
         setTitle("足环查询结果");
 
@@ -52,7 +59,7 @@ public class FootSearchResultFragment extends BaseMVPFragment{
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new FootSearchResultAdapter();
         recyclerView.setAdapter(adapter);
-        adapter.setNewData(Lists.newArrayList("","",""));
+        adapter.setNewData(data);
 
     }
 }

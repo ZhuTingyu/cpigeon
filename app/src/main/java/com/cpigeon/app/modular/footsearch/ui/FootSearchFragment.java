@@ -2,6 +2,7 @@ package com.cpigeon.app.modular.footsearch.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.ScreenTool;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.qqtheme.framework.picker.OptionPicker;
@@ -96,7 +98,9 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> {
 
         searchBtn.setOnClickListener(v -> {
             mPresenter.searchFoot(s -> {
-
+                IntentBuilder.Builder()
+                        .putParcelableArrayListExtra(IntentBuilder.KEY_DATA, (ArrayList<? extends Parcelable>) s)
+                        .startParentActivity(getActivity(), FootSearchResultFragment.class);
             });
         });
 
