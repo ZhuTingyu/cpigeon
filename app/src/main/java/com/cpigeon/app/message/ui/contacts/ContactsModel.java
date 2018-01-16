@@ -39,7 +39,7 @@ public class ContactsModel {
     }
 
     public static Observable<ApiResponse> ContactsAdd(int userId, String groupId, String phoneNumber, String name, String remarks) {
-        return GXYHttpUtil.<ApiResponse>build()
+        return PigeonHttpUtil.<ApiResponse>build()
                 .setToJsonType(new TypeToken<ApiResponse>() {
                 }.getType())
                 .setType(HttpUtil.TYPE_POST)

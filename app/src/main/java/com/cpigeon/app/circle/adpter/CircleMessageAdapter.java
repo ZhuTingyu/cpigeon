@@ -1,6 +1,7 @@
 package com.cpigeon.app.circle.adpter;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +25,11 @@ import cn.jzvd.JZVideoPlayerStandard;
  */
 
 public class CircleMessageAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+
+    List<String> imgsData = Lists.newArrayList("http://imgsrc.baidu.com/imgad/pic/item/6d81800a19d8bc3e3bad2adf888ba61ea8d34579.jpg"
+            ,"http://img0.imgtn.bdimg.com/it/u=3069472720,3661376600&fm=214&gp=0.jpg"
+            , "http://imgsrc.baidu.com/imgad/pic/item/7c1ed21b0ef41bd5af9a14e85bda81cb38db3de4.jpg"
+            ,"http://imgsrc.baidu.com/imgad/pic/item/5bafa40f4bfbfbed57e3ef5673f0f736afc31f65.jpg");
 
     public CircleMessageAdapter() {
         super(R.layout.item_pigeon_circle_message_layout, Lists.newArrayList());
@@ -59,14 +65,12 @@ public class CircleMessageAdapter extends BaseQuickAdapter<String, BaseViewHolde
                 }
             });
             CircleMessageImgsAdpter adpter = new CircleMessageImgsAdpter();
-            adpter.setNewData(Lists.newArrayList("", "",""));
+            adpter.setNewData(imgsData);
             adpter.setOnItemClickListener((adapter, view, position) -> {
-                showImageDialog(mContext, Lists.newArrayList("http://e.hiphotos.baidu.com/image/h%3D300/sign=8d3a9ea62c7f9e2f6f351b082f31e962/500fd9f9d72a6059099ccd5a2334349b023bbae5.jpg",
-                        "http://e.hiphotos.baidu.com/image/h%3D300/sign=8d3a9ea62c7f9e2f6f351b082f31e962/500fd9f9d72a6059099ccd5a2334349b023bbae5.jpg",
-                        "http://e.hiphotos.baidu.com/image/h%3D300/sign=8d3a9ea62c7f9e2f6f351b082f31e962/500fd9f9d72a6059099ccd5a2334349b023bbae5.jpg"),position);
+                showImageDialog(mContext, imgsData,position);
             });
             imgs.setAdapter(adpter);
-
+            imgs.setFocusableInTouchMode(false);
         }else {
             content.setVisibility(View.GONE);
             imgs.setVisibility(View.GONE);
