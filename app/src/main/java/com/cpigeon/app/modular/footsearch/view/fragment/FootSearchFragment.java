@@ -1,3 +1,4 @@
+/*
 package com.cpigeon.app.modular.footsearch.view.fragment;
 
 import android.content.Intent;
@@ -31,9 +32,11 @@ import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
+*/
 /**
  * Created by Administrator on 2017/4/5.
- */
+ *//*
+
 
 public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> implements IFootSearchView {
 
@@ -245,3 +248,4 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> implement
         return true;
     }
 }
+*/

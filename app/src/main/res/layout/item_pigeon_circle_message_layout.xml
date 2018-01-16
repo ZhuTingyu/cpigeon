@@ -103,9 +103,7 @@
                     android:padding="8dp"
                     android:id="@+id/comments"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:item_color="@color/praise_item" />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
             <TextView
                 android:gravity="center"

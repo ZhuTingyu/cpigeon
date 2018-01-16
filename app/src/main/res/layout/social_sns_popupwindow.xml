@@ -3,6 +3,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:layout_margin="8dp"
+	android:id="@+id/social_sns"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:gravity="center_vertical"
 	android:orientation="vertical">
@@ -43,14 +44,16 @@
 
 			android:id="@+id/comment"
 			android:layout_toLeftOf="@id/share"
-			app:srcCompat="@drawable/vector_comment"
+			app:srcCompat="@mipmap/ic_new_comment"
+			android:layout_centerVertical="true"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content" />
 		<android.support.v7.widget.AppCompatImageView
 			android:layout_marginRight="32dp"
 			android:id="@+id/thumb"
+			android:layout_centerVertical="true"
 			android:layout_toLeftOf="@id/comment"
-			app:srcCompat="@drawable/vector_not_thumb_up"
+			app:srcCompat="@mipmap/ic_thumbs_not_up"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content" />
 	</RelativeLayout>
@@ -62,8 +65,4 @@
 		android:layout_height="1dp"
 		android:background="@color/colorLayoutGray2"
 		/>
-
-
-
-
 </LinearLayout>

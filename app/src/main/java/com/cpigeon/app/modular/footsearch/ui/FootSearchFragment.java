@@ -12,10 +12,12 @@ import android.widget.TextView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
+import com.cpigeon.app.modular.footsearch.presenter.FootSearchPre;
 import com.cpigeon.app.modular.order.view.activity.OpenServiceActivity;
 import com.cpigeon.app.utils.DateTool;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.ScreenTool;
 
 import java.util.List;
@@ -27,7 +29,7 @@ import cn.qqtheme.framework.widget.WheelView;
  * Created by Zhu TingYu on 2017/12/21.
  */
 
-public class FootSearchFragment extends BaseMVPFragment {
+public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> {
 
     private TextView year;
     private TextView searchContent;
@@ -40,8 +42,8 @@ public class FootSearchFragment extends BaseMVPFragment {
     RelativeLayout cotent;
 
     @Override
-    protected BasePresenter initPresenter() {
-        return null;
+    protected FootSearchPre initPresenter() {
+        return new FootSearchPre(getActivity());
     }
 
     @Override
@@ -74,6 +76,7 @@ public class FootSearchFragment extends BaseMVPFragment {
         open = findViewById(R.id.tv_open);
         cotent = findViewById(R.id.rl_content);
 
+        bindUi(RxUtils.textChanges(searchContent), mPresenter.setKeyWord());
 
         year.setOnClickListener(v -> {
             showPicker();
@@ -92,7 +95,9 @@ public class FootSearchFragment extends BaseMVPFragment {
         });
 
         searchBtn.setOnClickListener(v -> {
-            IntentBuilder.Builder().startParentActivity(getActivity(), FootSearchResultFragment.class);
+            mPresenter.searchFoot(s -> {
+
+            });
         });
 
         initTopImg();
@@ -121,6 +126,7 @@ public class FootSearchFragment extends BaseMVPFragment {
             public void onOptionPicked(int index, String item) {
                 year.setText(item);
                 datePosition = index;
+                mPresenter.year = item;
             }
         });
         picker.show();

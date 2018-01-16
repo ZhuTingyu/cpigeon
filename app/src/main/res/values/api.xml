@@ -82,6 +82,7 @@
     <string name="api_news_list">NewsList</string>
 
     <string name="api_news_related">RelatedNewsList</string>
->>>>>>> new_version
+
+    <string name="api_get_search_foot">FootSearch</string>
 
 </resources>
