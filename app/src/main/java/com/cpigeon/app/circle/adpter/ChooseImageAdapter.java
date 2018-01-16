@@ -28,5 +28,11 @@ public class ChooseImageAdapter extends BaseQuickAdapter<String ,BaseViewHolder>
 
         });
     }
+
+    @Override
+    public void setNewData(List<String> data) {
+        super.setNewData(data);
+
+    }
 }
 
