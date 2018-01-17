@@ -21,5 +21,6 @@ public class FootSearchHelpAdapter extends BaseQuickAdapter<String, BaseViewHold
     @Override
     protected void convert(BaseViewHolder holder, String item) {
         holder.setText(R.id.content,item);
+        holder.setText(R.id.order, "0" + (holder.getAdapterPosition()+1));
     }
 }

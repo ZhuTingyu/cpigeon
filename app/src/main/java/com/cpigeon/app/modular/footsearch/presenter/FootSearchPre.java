@@ -7,6 +7,7 @@ import android.widget.EditText;
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.IView;
+import com.cpigeon.app.commonstandard.view.fragment.BaseFragment;
 import com.cpigeon.app.entity.FootInfoEntity;
 import com.cpigeon.app.entity.FootSearchServiceInfoEntity;
 import com.cpigeon.app.modular.footsearch.FootSearchModel;
@@ -35,9 +36,9 @@ public class FootSearchPre extends BasePresenter {
     int userId;
 
 
-    public FootSearchPre(Activity activity) {
-        super(activity);
-        userId = CpigeonData.getInstance().getUserId(activity);
+    public FootSearchPre(BaseFragment baseFragment) {
+        super(baseFragment);
+        userId = CpigeonData.getInstance().getUserId(baseFragment.getActivity());
     }
 
     @Override
@@ -48,12 +49,16 @@ public class FootSearchPre extends BasePresenter {
     public void searchFoot(Consumer<List<FootInfoEntity>> consumer){
 
         if(!StringValid.isStringValid(year)){
-            ToastUtil.showLongToast(getActivity(),"请选择年份");
+            ToastUtil.showLongToast(getBaseFragment().getActivity(),"请选择年份");
+            return;
         }
 
         if(!StringValid.isStringValid(keyWord)){
-            ToastUtil.showLongToast(getActivity(),"请输入关键字");
+            ToastUtil.showLongToast(getBaseFragment().getActivity(),"请输入关键字");
+            return;
         }
+
+        getBaseFragment().showLoading();
 
         submitRequestThrowError(FootSearchModel.searchFoot(keyWord,year,userId).map(r -> {
             if(r.status){

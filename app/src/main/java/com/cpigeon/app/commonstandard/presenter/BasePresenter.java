@@ -49,6 +49,8 @@ public abstract class BasePresenter<TView extends IView, TDao extends IBaseDao> 
 
     Activity activity;
 
+    BaseFragment baseFragment;
+
     public BasePresenter(TView mView) {
         onAttach();
         this.mView = mView;
@@ -66,6 +68,16 @@ public abstract class BasePresenter<TView extends IView, TDao extends IBaseDao> 
         this.mHandler = new WeakHandler();
         mDao = initDao();
         this.activity = activity;
+    }
+
+    public BasePresenter(BaseFragment baseFragment) {
+        onAttach();
+        this.mView = mView;
+        onAttached();
+        mCancelableWeakHashMap = new WeakHashMap<>();
+        this.mHandler = new WeakHandler();
+        mDao = initDao();
+        this.baseFragment = baseFragment;
     }
 
     protected abstract TDao initDao();
@@ -246,5 +258,9 @@ public abstract class BasePresenter<TView extends IView, TDao extends IBaseDao> 
 
     public Activity getActivity() {
         return activity;
+    }
+
+    public BaseFragment getBaseFragment() {
+        return baseFragment;
     }
 }

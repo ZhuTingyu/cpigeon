@@ -47,7 +47,7 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> {
 
     @Override
     protected FootSearchPre initPresenter() {
-        return new FootSearchPre(getActivity());
+        return new FootSearchPre(this);
     }
 
     @Override
@@ -107,7 +107,6 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> {
         });
 
         searchBtn.setOnClickListener(v -> {
-            showLoading();
             mPresenter.searchFoot(s -> {
                 hideLoading();
                 IntentBuilder.Builder()

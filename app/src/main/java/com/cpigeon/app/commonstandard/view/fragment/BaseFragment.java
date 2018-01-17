@@ -338,7 +338,7 @@ public abstract class BaseFragment extends Fragment implements IView {
                 ));
     }
 
-    protected void showLoading() {
+    public void showLoading() {
         if (refreshLayout != null) {
             refreshLayout.setRefreshing(true);
         } else {
@@ -350,7 +350,7 @@ public abstract class BaseFragment extends Fragment implements IView {
         showTips(message, TipType.LoadingShow);
     }
 
-    protected void hideLoading() {
+    public void hideLoading() {
 
         showTips("", TipType.LoadingHide);
 
