@@ -3,8 +3,10 @@ package com.cpigeon.app.circle.adpter;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
@@ -27,7 +29,7 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
 
     private int maxChoose = 9;
 
-    public static final int TYPE_CAMERA = 1;
+    public static final int TYPE_VIDEO = 1;
     public static final int TYPE_PICTURE = 2;
 
     int type;
@@ -45,8 +47,12 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
                 if (item != null) {
                     if (item.getText().equals("选择图片")) {
                         ChooseImageManager.showChooseImage(activity, PictureMimeType.ofImage(), maxChoose - getImgs().size());
+                        setType(TYPE_PICTURE);
+                        maxChoose = 9;
                     } else {
-
+                        ChooseImageManager.showChooseImage(activity, PictureMimeType.ofVideo(), maxChoose - getImgs().size());
+                        setType(TYPE_VIDEO);
+                        maxChoose = 1;
                     }
                     dialog.dismiss();
 
@@ -71,7 +77,13 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
         switch (holder.getItemViewType()) {
 
             case ChooseImageEntity.TYPE_IMG:
-                holder.setGlideImageView(mContext,R.id.image, item.url);
+
+                if(type == TYPE_PICTURE){
+                    holder.setGlideImageView(mContext,R.id.image, item.url);
+                }else {
+                    Glide.with(mContext).load(item.url).thumbnail(0.5f).into((ImageView) holder.getView(R.id.image));
+                }
+
                 holder.getView(R.id.ll_del).setOnClickListener(v -> {
                     remove(holder.getAdapterPosition());
                     if(mData.get(mData.size() - 1).getItemType() != ChooseImageEntity.TYPE_ADD){

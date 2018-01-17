@@ -10,14 +10,14 @@ import com.amap.api.location.AMapLocationListener;
  * Created by Zhu TingYu on 2018/1/17.
  */
 
-class LocationManager {
+public class LocationManager {
 
     AMapLocationClient mLocationClient;
     AMapLocationClientOption mLocationOption;
 
     AMapLocationListener locationListener;
 
-    LocationManager(Context context) {
+    public LocationManager(Context context) {
 
         mLocationClient = new AMapLocationClient(context);
         //设置定位回调监听
@@ -57,7 +57,8 @@ class LocationManager {
         mLocationClient.startLocation();
     }
 
-    public void setLocationListener(AMapLocationListener locationListener) {
+    public LocationManager setLocationListener(AMapLocationListener locationListener) {
         this.locationListener = locationListener;
+        return this;
     }
 }

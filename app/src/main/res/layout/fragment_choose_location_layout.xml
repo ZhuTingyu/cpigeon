@@ -6,7 +6,7 @@
 
     <TextView
         android:id="@+id/no_visible"
-        android:textSize="@dimen/big_text_size"
+        android:textSize="18dp"
         android:text="不显示"
         android:padding="@dimen/large_horizontal_margin"
         android:textColor="@color/black"
