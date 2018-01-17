@@ -11,8 +11,6 @@ import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.adapter.fragmentpager.FragmentPagerItemAdapter;
 import com.cpigeon.app.commonstandard.view.adapter.fragmentpager.FragmentPagerItems;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
-import com.cpigeon.app.pigeonnews.ui.PigeonMessageFragment;
-import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.customview.smarttab.SmartTabLayout;
@@ -58,7 +56,7 @@ public class CircleFragment extends BaseMVPFragment{
         toolbar.getMenu().clear();
         toolbar.getMenu().add("").setIcon(R.drawable.vector_push_pigeon_circle)
                 .setOnMenuItemClickListener(item -> {
-                    ToastUtil.showShortToast(getContext(),"push");
+                    IntentBuilder.Builder().startParentActivity(getActivity(), PushCircleMessageFragment.class);
                     return false;
                 }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 

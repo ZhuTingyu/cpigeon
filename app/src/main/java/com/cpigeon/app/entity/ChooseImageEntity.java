@@ -12,6 +12,7 @@ public class ChooseImageEntity implements MultiItemEntity {
     public static final int TYPE_ADD = 4;
 
     int type;
+    public String url;
 
     @Override
     public int getItemType() {

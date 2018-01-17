@@ -138,10 +138,7 @@ public class WelcomeActivity extends BaseActivity {
 
     private void endTutorial() {
         Intent intent;
-        if (checkLogin())
             intent = new Intent(this, MainActivity.class);
-        else
-            intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
         SharedPreferencesTool.Save(mContext, "guide_version", CommonTool.getVersionName(mContext));

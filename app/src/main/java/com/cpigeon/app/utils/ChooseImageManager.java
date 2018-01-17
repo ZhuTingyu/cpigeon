@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
 import com.cpigeon.app.R;
+import com.luck.picture.lib.PictureSelectionModel;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -16,7 +17,7 @@ import java.util.List;
  * Created by Zhu TingYu on 2018/1/16.
  */
 
-public class ImageManager {
+public class ChooseImageManager {
 
     public static void showImageDialog(Context context, List<String> list, int startPosition) {
         new ImageViewer.Builder<String>(context, list)
@@ -40,10 +41,10 @@ public class ImageManager {
                 .show();
     }
 
-    public static void showChooseImage(Activity activity, int type){
-        PictureSelector.create(activity)
+    public static void showChooseImage(Activity activity, int type, int count) {
+        PictureSelectionModel model = PictureSelector.create(activity)
                 .openGallery(type)//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-                .maxSelectNum(9)// 最大图片选择数量 int
+                .maxSelectNum(count)// 最大图片选择数量 int
                 .minSelectNum(1)// 最小选择数量 int
                 .imageSpanCount(4)// 每行显示个数 int
                 .selectionMode(PictureConfig.MULTIPLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
@@ -77,8 +78,13 @@ public class ImageManager {
                 .videoQuality(0)// 视频录制质量 0 or 1 int
                 //.videoMaxSecond(15)// 显示多少秒以内的视频or音频也可适用 int
                 //.videoMinSecond(10)// 显示多少秒以内的视频or音频也可适用 int
-                .recordVideoSecond(300)//视频秒数录制 默认60s int
-                .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
+                .recordVideoSecond(300);//视频秒数录制 默认60s int;//结果回调onActivityResult code
+
+        if (type == PictureMimeType.ofVideo()) {
+            model.selectionMode(PictureConfig.SINGLE);// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
+        }
+
+        model.forResult(type);
     }
 
 }
