@@ -63,7 +63,7 @@
             android:layout_height="36dp" />
 
         <TextView
-            android:id="@+id/text1"
+            android:id="@+id/remark"
             android:layout_below="@id/tv_year"
             android:textSize="12dp"
             android:layout_marginLeft="16dp"
@@ -80,7 +80,7 @@
             android:layout_marginTop="48dp"
             android:background="@drawable/background_blue"
             android:drawableLeft="@mipmap/ic_foot_search_history"
-            android:layout_below="@+id/text1"
+            android:layout_below="@+id/remark"
             android:gravity="center"
             android:padding="6dp"
             android:drawablePadding="8dp"
@@ -95,7 +95,7 @@
             android:layout_marginTop="48dp"
             android:background="@drawable/button_primary_bg"
             android:drawableLeft="@mipmap/ic_foot_search_open"
-            android:layout_below="@+id/text1"
+            android:layout_below="@+id/remark"
             android:gravity="center"
             android:padding="6dp"
             android:textColor="@color/white"

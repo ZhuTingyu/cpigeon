@@ -33,9 +33,13 @@ public abstract class BaseQuickAdapter<T,K extends BaseViewHolder> extends com.c
         super.setNewData(data);
         if(data.isEmpty()){
             if(!getEmptyViewText().isEmpty()){
-                CommonTool.setEmptyView(this,getEmptyViewText());
+               setEmptyView();
             }
         }
+    }
+
+    public void setEmptyView(){
+        CommonTool.setEmptyView(this,getEmptyViewText());
     }
 
     protected  String getEmptyViewText(){

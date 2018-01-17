@@ -14,6 +14,8 @@ import com.cpigeon.app.modular.footsearch.ui.adapter.FootSearchHelpAdapter;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.ScreenTool;
 
+import java.util.List;
+
 /**
  * Created by Zhu TingYu on 2017/12/21.
  */
@@ -22,6 +24,7 @@ public class FootSearchHelpFragment extends BaseMVPFragment {
 
     RecyclerView recyclerView;
     FootSearchHelpAdapter adapter;
+    List<String> help;
 
     @Override
     protected BasePresenter initPresenter() {
@@ -40,6 +43,9 @@ public class FootSearchHelpFragment extends BaseMVPFragment {
 
     @Override
     public void finishCreateView(Bundle state) {
+        help = Lists.newArrayList(getString(R.string.string_foot_search_help1)
+                ,getString(R.string.string_foot_search_help2)
+                ,getString(R.string.string_foot_search_help3));
         setTitle("足环查询规则");
 
         recyclerView = findViewById(R.id.list);
@@ -48,7 +54,7 @@ public class FootSearchHelpFragment extends BaseMVPFragment {
         recyclerView.setAdapter(adapter);
         initTopImg();
 
-        adapter.setNewData(Lists.newArrayList("","",""));
+        adapter.setNewData(help);
     }
 
     private void initTopImg() {

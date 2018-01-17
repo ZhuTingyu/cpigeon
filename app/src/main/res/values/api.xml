@@ -85,5 +85,9 @@
 
     <string name="api_get_search_foot">FootSearch</string>
     <string name="api_search_foot_history">ZHCX_GetHistoryRecordList</string>
+    <string name="api_search_foot_details">ZHCX_GetHistoryRecorDetails</string>
+    <string name="api_search_foot_clean_histroy">ZHCX_CleanHistoryRecor</string>
+
+    <string name="api_get_user_service_info">GetUserService</string>
 
 </resources>

@@ -20,6 +20,7 @@ import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.ScreenTool;
+import com.cpigeon.app.utils.StringValid;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,7 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> {
     private TextView searchBtn;
     private TextView lookHistroy;
     private TextView open;
+    private TextView remark;
 
     private int datePosition;
 
@@ -68,6 +70,12 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> {
                 }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         setTitle("足环查询");
         initView();
+
+        mPresenter.getUserServiceInfo(entity -> {
+            if(StringValid.isStringValid(entity.brief)){
+                remark.setText(getString(R.string.string_foot_search_remark,entity.packageX,entity.brief,String.valueOf(entity.numbers) ));
+            }
+        });
     }
 
     private void initView(){
@@ -77,6 +85,8 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> {
         lookHistroy = findViewById(R.id.tv_look_history);
         open = findViewById(R.id.tv_open);
         cotent = findViewById(R.id.rl_content);
+        remark = findViewById(R.id.remark);
+
 
         bindUi(RxUtils.textChanges(searchContent), mPresenter.setKeyWord());
 
@@ -97,7 +107,9 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> {
         });
 
         searchBtn.setOnClickListener(v -> {
+            showLoading();
             mPresenter.searchFoot(s -> {
+                hideLoading();
                 IntentBuilder.Builder()
                         .putParcelableArrayListExtra(IntentBuilder.KEY_DATA, (ArrayList<? extends Parcelable>) s)
                         .startParentActivity(getActivity(), FootSearchResultFragment.class);
@@ -142,6 +154,7 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> {
         for(int i = 2010; i <= len; i++){
             date.add(String.valueOf(i));
         }
+        datePosition = date.size() - 1;
         return date;
     }
 
