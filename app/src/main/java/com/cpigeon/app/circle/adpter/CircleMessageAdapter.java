@@ -13,7 +13,9 @@ import android.widget.EditText;
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseQuickAdapter;
 import com.cpigeon.app.base.BaseViewHolder;
+import com.cpigeon.app.circle.ui.CircleMessageDetailsFragment;
 import com.cpigeon.app.entity.ThumbEntity;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.view.ExpandTextView;
@@ -115,6 +117,11 @@ public class CircleMessageAdapter extends BaseQuickAdapter<ThumbEntity, BaseView
         });
 
         ((PraiseListView) holder.getView(R.id.thumbs)).setDatas(Lists.newArrayList("","","",""));
+
+        holder.getView(R.id.tv_details).setOnClickListener(v -> {
+            IntentBuilder.Builder()
+                    .startParentActivity((Activity) mContext, CircleMessageDetailsFragment.class);
+        });
     }
 
     public static void showImageDialog(Context context, List<String> list, int startPosition) {

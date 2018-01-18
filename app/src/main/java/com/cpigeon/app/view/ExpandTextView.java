@@ -133,5 +133,8 @@ public class ExpandTextView extends LinearLayout {
         void statusChange(boolean isExpand);
     }
 
+    public void setShowLines(int showLines) {
+        this.showLines = showLines;
+    }
 }
 

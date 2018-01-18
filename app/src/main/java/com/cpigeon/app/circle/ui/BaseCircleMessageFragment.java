@@ -9,6 +9,7 @@ import com.cpigeon.app.circle.adpter.CircleMessageAdapter;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.ThumbEntity;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.ScreenTool;
 import com.wx.goodview.GoodView;
@@ -42,8 +43,8 @@ public class BaseCircleMessageFragment extends BaseMVPFragment {
     public void finishCreateView(Bundle state) {
         goodView = new GoodView(getContext());
         recyclerView = findViewById(R.id.list);
-        adapter = new CircleMessageAdapter(getActivity(),goodView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new CircleMessageAdapter(getActivity(),goodView);
         adapter.bindToRecyclerView(recyclerView);
         addItemDecorationLine(recyclerView, R.color.color_default_bg, ScreenTool.dip2px(getContext().getResources().getDimension(R.dimen.large_vertical_margin)));
 
