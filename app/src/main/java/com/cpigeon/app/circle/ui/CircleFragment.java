@@ -51,7 +51,7 @@ public class CircleFragment extends BaseMVPFragment{
         setTitle("鸽迷圈");
         toolbar.setNavigationIcon(R.drawable.vector_pigeon_friends);
         toolbar.setNavigationOnClickListener(v -> {
-            ToastUtil.showShortToast(getContext(),"friends");
+            IntentBuilder.Builder().startParentActivity(getActivity(), CircleFriendFragment.class);
         });
         toolbar.getMenu().clear();
         toolbar.getMenu().add("").setIcon(R.drawable.vector_push_pigeon_circle)
