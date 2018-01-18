@@ -220,7 +220,8 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.ACCESS_NETWORK_STATE,
             Manifest.permission.CAMERA,
-            Manifest.permission.READ_CONTACTS})
+            Manifest.permission.READ_CONTACTS
+            ,Manifest.permission.ACCESS_COARSE_LOCATION})
     void sysytemAlertWindow() {
 
     }
@@ -230,7 +231,8 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.CAMERA,
             Manifest.permission.ACCESS_NETWORK_STATE,
-            Manifest.permission.READ_CONTACTS})
+            Manifest.permission.READ_CONTACTS
+            ,Manifest.permission.ACCESS_COARSE_LOCATION})
     void systemAlertWindowOnShowRationale(final PermissionRequest request) {
         showRequest(request);
     }
@@ -265,7 +267,8 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.ACCESS_NETWORK_STATE,
             Manifest.permission.CAMERA,
-            Manifest.permission.READ_CONTACTS})
+            Manifest.permission.READ_CONTACTS
+            ,Manifest.permission.ACCESS_COARSE_LOCATION})
     void systemAlertWindowOnPermissionDenied() {
 //        showTips("权限被拒绝了", TipType.ToastShort);
         ToastUtil.showToast(MyApp.getInstance(), "权限已被拒绝，程序即将退出", Toast.LENGTH_SHORT);
@@ -284,7 +287,8 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_NETWORK_STATE,
             Manifest.permission.CAMERA,
-            Manifest.permission.READ_CONTACTS})
+            Manifest.permission.READ_CONTACTS
+            ,Manifest.permission.ACCESS_COARSE_LOCATION})
     void systemAlertWindowOnNeverAskAgain() {
         SweetAlertDialog dialog = new SweetAlertDialog(this)
                 .setCancelText("退出程序")

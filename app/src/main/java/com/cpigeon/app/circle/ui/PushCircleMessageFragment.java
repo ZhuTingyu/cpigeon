@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
@@ -57,6 +58,12 @@ public class PushCircleMessageFragment extends BaseMVPFragment {
 
         setTitle("说说");
 
+        toolbar.getMenu().clear();
+        toolbar.getMenu().add("发表")
+                .setOnMenuItemClickListener(item -> {
+                    return false;
+                }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
         tvLocation = findViewById(R.id.tv_user_location);
         tvUserVisibility = findViewById(R.id.tv_user_visibility);
 
@@ -107,7 +114,7 @@ public class PushCircleMessageFragment extends BaseMVPFragment {
             }else if(requestCode == PictureMimeType.ofVideo()){
                 for (LocalMedia localMedia : selectList) {
                     ChooseImageEntity entity = new ChooseImageEntity();
-                    entity.url = localMedia.getCompressPath();
+                    entity.url = localMedia.getPath();
                     entities.add(entity);
                 }
                 adapter.addData(entities);
@@ -115,7 +122,7 @@ public class PushCircleMessageFragment extends BaseMVPFragment {
 
         }
         if(requestCode == CODE_CHOOSE_LOCATION){
-            if(data.hasExtra(IntentBuilder.KEY_DATA)){
+            if(data != null && data.hasExtra(IntentBuilder.KEY_DATA)){
                 tvLocation.setText(data.getStringExtra(IntentBuilder.KEY_DATA));
             }
         }

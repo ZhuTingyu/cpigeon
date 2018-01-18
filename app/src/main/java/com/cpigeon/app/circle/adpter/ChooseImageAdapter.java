@@ -2,6 +2,9 @@ package com.cpigeon.app.circle.adpter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -19,6 +22,7 @@ import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.view.SingleSelectCenterDialog;
 import com.luck.picture.lib.config.PictureMimeType;
 
+import java.lang.ref.SoftReference;
 import java.util.List;
 
 /**
@@ -81,14 +85,21 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
                 if(type == TYPE_PICTURE){
                     holder.setGlideImageView(mContext,R.id.image, item.url);
                 }else {
-                    Glide.with(mContext).load(item.url).thumbnail(0.5f).into((ImageView) holder.getView(R.id.image));
+                    SoftReference<Bitmap> bitmapSoftReference = new SoftReference<Bitmap>(ThumbnailUtils.createVideoThumbnail(item.url,  MediaStore.Images.Thumbnails.MICRO_KIND) );
+                    ImageView imageView = holder.getView(R.id.image);
+                    imageView.setImageBitmap(bitmapSoftReference.get());
                 }
 
                 holder.getView(R.id.ll_del).setOnClickListener(v -> {
                     remove(holder.getAdapterPosition());
-                    if(mData.get(mData.size() - 1).getItemType() != ChooseImageEntity.TYPE_ADD){
+                    if(type == TYPE_PICTURE){
+                        if(mData.get(mData.size() - 1).getItemType() != ChooseImageEntity.TYPE_ADD){
+                            setAddImage();
+                        }
+                    }else {
                         setAddImage();
                     }
+
                 });
                 break;
 

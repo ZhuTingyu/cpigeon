@@ -39,6 +39,17 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
 
+
+        <provider
+            android:name=".utils.MyFileProvider"
+            android:authorities="com.cpigeon.app.provider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <meta-data android:name="android.max_aspect" android:value="2.1" />
 
         <!-- UMeng 配置 -->

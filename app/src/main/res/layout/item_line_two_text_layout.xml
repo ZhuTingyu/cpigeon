@@ -20,6 +20,7 @@
         android:textSize="@dimen/medium_text_size"
         tools:text="1231231231"
         android:layout_toRightOf="@id/img"
+
         android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -29,6 +30,7 @@
         android:id="@+id/content"
         android:textSize="@dimen/medium_text_size"
         tools:text="1231231231"
+        android:gravity="center"
         android:layout_alignParentRight="true"
         android:drawableRight="@drawable/vector_arrow_right"
         android:layout_width="wrap_content"

@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
+import com.cpigeon.app.MainActivity;
 import com.cpigeon.app.R;
 import com.luck.picture.lib.PictureSelectionModel;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.tools.PictureFileUtils;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 
 import java.util.List;
@@ -60,7 +62,7 @@ public class ChooseImageManager {
                 //.glideOverride()// int glide 加载宽高，越小图片列表越流畅，但会影响列表图片浏览的清晰度
                 //.withAspectRatio()// int 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
                 .hideBottomControls(false)// 是否显示uCrop工具栏，默认不显示 true or false
-                .isGif(false)// 是否显示gif图片 true or false
+                .isGif(true)// 是否显示gif图片 true or false
                 //.compressSavePath(getPath())//压缩图片保存地址
                 .freeStyleCropEnabled(false)// 裁剪框是否可拖拽 true or false
                 .circleDimmedLayer(false)// 是否圆形裁剪 true or false
@@ -75,7 +77,7 @@ public class ChooseImageManager {
                 //.cropWH()// 裁剪宽高比，设置如果大于图片本身宽高则无效 int
                 //.rotateEnabled() // 裁剪是否可旋转图片 true or false
                 //.scaleEnabled()// 裁剪是否可放大缩小图片 true or false
-                .videoQuality(0)// 视频录制质量 0 or 1 int
+                .videoQuality(1)// 视频录制质量 0 or 1 int
                 //.videoMaxSecond(15)// 显示多少秒以内的视频or音频也可适用 int
                 //.videoMinSecond(10)// 显示多少秒以内的视频or音频也可适用 int
                 .recordVideoSecond(300);//视频秒数录制 默认60s int;//结果回调onActivityResult code
@@ -85,6 +87,14 @@ public class ChooseImageManager {
         }
 
         model.forResult(type);
+    }
+
+    public void cleanCache(Activity activity){
+        PictureFileUtils.deleteCacheDirFile(activity);
+    }
+
+    public void showVedios(Activity activity, String path){
+        PictureSelector.create(activity).externalPictureVideo(path);
     }
 
 }
