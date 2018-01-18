@@ -92,7 +92,7 @@
                     android:gravity="center_vertical"
                     android:textColor="@color/praise_item"
                     app:item_color="@color/praise_item" />
-                <com.cpigeon.app.view.LinearLayoutForRecyclerView
+                <android.support.v7.widget.RecyclerView
                     android:padding="8dp"
                     android:id="@+id/comments"
                     android:layout_width="match_parent"

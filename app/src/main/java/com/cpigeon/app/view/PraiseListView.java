@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
+import com.cpigeon.app.entity.CircleMessageEntity;
 import com.cpigeon.app.utils.CircleMovementMethod;
 import com.cpigeon.app.utils.SpannableClickable;
 
@@ -29,7 +30,7 @@ public class PraiseListView extends TextView {
 
     private int itemColor;
     private int itemSelectorColor;
-    private List<String> datas;
+    private List<CircleMessageEntity.PraiseListBean> datas;
     private OnItemClickListener onItemClickListener;
 
     public OnItemClickListener getOnItemClickListener() {
@@ -66,10 +67,10 @@ public class PraiseListView extends TextView {
         }
     }
 
-    public List<String> getDatas() {
+    public List<CircleMessageEntity.PraiseListBean> getDatas() {
         return datas;
     }
-    public void setDatas(List<String> datas) {
+    public void setDatas(List<CircleMessageEntity.PraiseListBean> datas) {
         if(datas == null ){
             datas = new ArrayList<>();
         }
@@ -84,11 +85,11 @@ public class PraiseListView extends TextView {
         if(datas != null && datas.size() > 0){
             //添加点赞图标
             builder.append(setImageSpan());
-            String item = null;
+            CircleMessageEntity.PraiseListBean item = null;
             for (int i=0; i<datas.size(); i++){
                 item = datas.get(i);
                 if(item != null){
-                    builder.append(setClickableSpan("123123", i));
+                    builder.append(setClickableSpan(item.getNickname(), i));
                     if(i != datas.size()-1){
                         builder.append(", ");
                     }

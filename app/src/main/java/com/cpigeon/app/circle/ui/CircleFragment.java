@@ -15,6 +15,7 @@ import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.customview.smarttab.SmartTabLayout;
 
+import cn.jzvd.JZVideoPlayer;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -69,16 +70,43 @@ public class CircleFragment extends BaseMVPFragment{
         viewPager = findViewById(R.id.view_pager);
         viewPager.setOffscreenPageLimit(3);
 
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                JZVideoPlayer.releaseAllVideos();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
+
         initHeadView();
 
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(IntentBuilder.KEY_BOOLEAN, false);
+        Bundle all = new Bundle();
+        Bundle follow = new Bundle();
+        Bundle my = new Bundle();
+
+        all.putString(IntentBuilder.KEY_TYPE, BaseCircleMessageFragment.TYPE_ALL);
+        all.putBoolean(IntentBuilder.KEY_BOOLEAN, false);
+
+        follow.putString(IntentBuilder.KEY_TYPE, BaseCircleMessageFragment.TYPE_FOLLOW);
+        follow.putBoolean(IntentBuilder.KEY_BOOLEAN, false);
+
+        my.putString(IntentBuilder.KEY_TYPE, BaseCircleMessageFragment.TYPE_MY);
+        my.putBoolean(IntentBuilder.KEY_BOOLEAN, false);
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getActivity().getSupportFragmentManager(), FragmentPagerItems.with(getContext())
-                .add("全部动态", BaseCircleMessageFragment.class, bundle)
-                .add("我的关注", BaseCircleMessageFragment.class, bundle)
-                .add("我的发布", BaseCircleMessageFragment.class, bundle)
+                .add("全部动态", BaseCircleMessageFragment.class, all)
+                .add("我的关注", BaseCircleMessageFragment.class, follow)
+                .add("我的发布", BaseCircleMessageFragment.class, my)
                 .create());
 
         viewPager.setAdapter(adapter);
@@ -95,4 +123,6 @@ public class CircleFragment extends BaseMVPFragment{
         tvFocus.setText(String.format("关注:%s","1323"));
 
     }
+
+
 }

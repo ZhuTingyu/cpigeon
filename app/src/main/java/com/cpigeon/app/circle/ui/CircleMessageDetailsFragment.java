@@ -9,7 +9,7 @@ import android.widget.EditText;
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseViewHolder;
 import com.cpigeon.app.circle.adpter.CircleMessageDetailsCommentsAdapter;
-import com.cpigeon.app.circle.adpter.CircleMessageImgsAdpter;
+import com.cpigeon.app.circle.adpter.CircleMessageImagesAdapter;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.ThumbEntity;
@@ -21,7 +21,6 @@ import com.cpigeon.app.view.PraiseListView;
 import com.cpigeon.app.viewholder.SocialSnsViewHolder;
 import com.wx.goodview.GoodView;
 
-import cn.carbs.android.expandabletextview.library.ExpandableTextView;
 import cn.jzvd.JZVideoPlayerStandard;
 
 /**
@@ -113,7 +112,7 @@ public class CircleMessageDetailsFragment extends BaseMVPFragment {
                     return false;
                 }
             });
-            CircleMessageImgsAdpter adpter = new CircleMessageImgsAdpter();
+            CircleMessageImagesAdapter adpter = new CircleMessageImagesAdapter();
             /*adpter.setNewData(imgsData);
             adpter.setOnItemClickListener((adapter, view, position) -> {
                 ChooseImageManager.showImageDialog(getContext(),imgsData, position);
@@ -149,6 +148,6 @@ public class CircleMessageDetailsFragment extends BaseMVPFragment {
             }
         });
 
-        ((PraiseListView) holder.getView(R.id.thumbs)).setDatas(Lists.newArrayList("","","",""));
+       // ((PraiseListView) holder.getView(R.id.thumbs)).setDatas(Lists.newArrayList("","","",""));
     }
 }

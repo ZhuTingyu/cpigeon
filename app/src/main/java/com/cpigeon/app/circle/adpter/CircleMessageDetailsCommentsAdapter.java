@@ -43,7 +43,7 @@ public class CircleMessageDetailsCommentsAdapter extends BaseQuickAdapter<String
             recyclerView.setAdapter(adapter);
         }
 
-        adapter.setNewData(Lists.newArrayList("","","",""));
+
 
     }
 }

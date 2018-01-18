@@ -90,4 +90,6 @@
 
     <string name="api_get_user_service_info">GetUserService</string>
 
+    <string name="api_circle_message_list">GetCircleMessageList</string>
+
 </resources>

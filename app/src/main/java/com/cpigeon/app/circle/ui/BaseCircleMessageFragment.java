@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.circle.adpter.CircleMessageAdapter;
+import com.cpigeon.app.circle.presenter.CircleMessageListPre;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.ThumbEntity;
@@ -18,7 +19,11 @@ import com.wx.goodview.GoodView;
  * Created by Zhu TingYu on 2018/1/15.
  */
 
-public class BaseCircleMessageFragment extends BaseMVPFragment {
+public class BaseCircleMessageFragment extends BaseMVPFragment<CircleMessageListPre> {
+
+    public static final String TYPE_ALL = "gclb";
+    public static final String TYPE_FOLLOW = "gzlb";
+    public static final String TYPE_MY = "wdfb";
 
     RecyclerView recyclerView;
     CircleMessageAdapter adapter;
@@ -30,8 +35,8 @@ public class BaseCircleMessageFragment extends BaseMVPFragment {
     }
 
     @Override
-    protected BasePresenter initPresenter() {
-        return null;
+    protected CircleMessageListPre initPresenter() {
+        return new CircleMessageListPre(this);
     }
 
     @Override
@@ -48,8 +53,12 @@ public class BaseCircleMessageFragment extends BaseMVPFragment {
         adapter.bindToRecyclerView(recyclerView);
         addItemDecorationLine(recyclerView, R.color.color_default_bg, ScreenTool.dip2px(getContext().getResources().getDimension(R.dimen.large_vertical_margin)));
 
-        adapter.setNewData(Lists.newArrayList(new ThumbEntity(),new ThumbEntity(), new ThumbEntity()));
+        //adapter.setNewData(Lists.newArrayList(new ThumbEntity(),new ThumbEntity(), new ThumbEntity()));
 
         recyclerView.requestFocus();
+
+        mPresenter.getMessageList(s -> {
+            adapter.setNewData(s);
+        });
     }
 }

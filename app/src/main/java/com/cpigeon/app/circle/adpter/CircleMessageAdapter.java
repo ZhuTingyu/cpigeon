@@ -2,10 +2,9 @@ package com.cpigeon.app.circle.adpter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
 import android.support.annotation.DrawableRes;
-import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
@@ -14,32 +13,28 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseQuickAdapter;
 import com.cpigeon.app.base.BaseViewHolder;
 import com.cpigeon.app.circle.ui.CircleMessageDetailsFragment;
-import com.cpigeon.app.entity.ThumbEntity;
+import com.cpigeon.app.entity.CircleMessageEntity;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.view.ExpandTextView;
-import com.cpigeon.app.view.LinearLayoutForRecyclerView;
 import com.cpigeon.app.view.PraiseListView;
 import com.cpigeon.app.viewholder.SocialSnsViewHolder;
-import com.orhanobut.logger.Logger;
+import com.squareup.picasso.Picasso;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 import com.wx.goodview.GoodView;
 
 import java.util.List;
 
+import cn.jzvd.JZVideoPlayer;
 import cn.jzvd.JZVideoPlayerStandard;
 
 /**
  * Created by Zhu TingYu on 2018/1/15.
  */
 
-public class CircleMessageAdapter extends BaseQuickAdapter<ThumbEntity, BaseViewHolder> {
-
-    List<String> imgsData = Lists.newArrayList("http://imgsrc.baidu.com/imgad/pic/item/6d81800a19d8bc3e3bad2adf888ba61ea8d34579.jpg"
-            ,"http://img0.imgtn.bdimg.com/it/u=3069472720,3661376600&fm=214&gp=0.jpg"
-            , "http://imgsrc.baidu.com/imgad/pic/item/7c1ed21b0ef41bd5af9a14e85bda81cb38db3de4.jpg"
-            ,"http://imgsrc.baidu.com/imgad/pic/item/5bafa40f4bfbfbed57e3ef5673f0f736afc31f65.jpg");
+public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, BaseViewHolder> {
     GoodView goodView;
     Activity activity;
 
@@ -50,58 +45,28 @@ public class CircleMessageAdapter extends BaseQuickAdapter<ThumbEntity, BaseView
     }
 
     @Override
-    protected void convert(BaseViewHolder holder, ThumbEntity item) {
-        holder.setGlideImageView(mContext, R.id.head_img, "http://img3.imgtn.bdimg.com/it/u=1611505379,380489200&fm=27&gp=0.jpg");
-        holder.setText(R.id.user_name, "小朱");
-        holder.setText(R.id.time,"1231-23-32");
+    protected void convert(BaseViewHolder holder, CircleMessageEntity item) {
+        holder.setGlideImageView(mContext, R.id.head_img, item.getUserinfo().getHeadimgurl());
+        holder.setText(R.id.user_name, item.getUserinfo().getNickname());
+        holder.setText(R.id.time,item.getTime());
 
         ExpandTextView content = holder.getView(R.id.content_text);
-        RecyclerView imgs = holder.getView(R.id.imgsList);
-        LinearLayoutForRecyclerView layoutForRecyclerView = holder.getView(R.id.comments);
-        JZVideoPlayerStandard videoPlayer = holder.getView(R.id.videoplayer);
+        content.setText(item.getMsg());
 
-        if(holder.getAdapterPosition() == 0){
-            content.setVisibility(View.VISIBLE);
-            imgs.setVisibility(View.GONE);
-            videoPlayer.setVisibility(View.GONE);
-
-            content.setText("12312312312312312312q123123123" +
-                    "123123123123" +
-                    "12312312333333333333333333333333333333333333333333333333333");
-        }else if(holder.getAdapterPosition() == 1){
-            content.setVisibility(View.GONE);
-            imgs.setVisibility(View.VISIBLE);
-            videoPlayer.setVisibility(View.GONE);
-
-            imgs.setLayoutManager(new GridLayoutManager(mContext, 3){
-                @Override
-                public boolean canScrollVertically() {
-                    return false;
-                }
-            });
-            CircleMessageImgsAdpter adpter = new CircleMessageImgsAdpter();
-            adpter.setNewData(imgsData);
-            adpter.setOnItemClickListener((adapter, view, position) -> {
-                showImageDialog(mContext, imgsData,position);
-            });
-            imgs.setAdapter(adpter);
-            imgs.setFocusableInTouchMode(false);
+        //地址
+        if(StringValid.isStringValid(item.getLoabs())){
+            holder.getView(R.id.ll_loaction).setVisibility(View.VISIBLE);
+            holder.setText(R.id.tv_message_location,item.getLoabs());
         }else {
-            content.setVisibility(View.GONE);
-            imgs.setVisibility(View.GONE);
-            videoPlayer.setVisibility(View.VISIBLE);
+            holder.getView(R.id.ll_loaction).setVisibility(View.GONE);
         }
+
+        //TODO 点赞评论
 
         SocialSnsViewHolder socialSnsviewHolder = new SocialSnsViewHolder(activity,holder.getView(R.id.social_sns),goodView,"回复：小朱");
         socialSnsviewHolder.setOnSocialListener(new SocialSnsViewHolder.OnSocialListener() {
             @Override
             public void thumb(View view) {
-                if(item.isThumb()){
-                    item.setCancelThumb();
-                }else {
-                    item.setThumb();
-                }
-                socialSnsviewHolder.setThumb(item.isThumb());
 
             }
 
@@ -115,8 +80,77 @@ public class CircleMessageAdapter extends BaseQuickAdapter<ThumbEntity, BaseView
 
             }
         });
+        //图片
+        RecyclerView imgs = holder.getView(R.id.imgsList);
+        imgs.setLayoutManager(new GridLayoutManager(mContext, 3){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+        CircleMessageImagesAdapter adapter;
+        if(!item.getPicture().isEmpty()){
+            imgs.setVisibility(View.VISIBLE);
+            if(imgs.getAdapter() == null){
+                adapter = new CircleMessageImagesAdapter();
+            }else adapter = (CircleMessageImagesAdapter) imgs.getAdapter();
+            adapter.setNewData(item.getPicture());
+            adapter.setOnItemClickListener((adapter1, view, position) -> {
+                showImageDialog(mContext, adapter.getImagesUrl(),position);
+            });
+            imgs.setAdapter(adapter);
+            imgs.setFocusableInTouchMode(false);
 
-        ((PraiseListView) holder.getView(R.id.thumbs)).setDatas(Lists.newArrayList("","","",""));
+        }else {
+            imgs.setVisibility(View.GONE);
+        }
+
+        //视频
+        /*JZVideoPlayerStandard videoPlayer = holder.getView(R.id.videoplayer);
+        if(!item.getVideo().isEmpty()){
+            videoPlayer.setVisibility(View.VISIBLE);
+            videoPlayer.setUp(item.getVideo().get(0).getUrl(), JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, "");
+            Picasso.with(mContext).load(item.getVideo().get(0).getThumburl())
+                    .into(((JZVideoPlayerStandard)holder.getView(R.id.videoplayer)).thumbImageView);
+            JZVideoPlayer.clearSavedProgress(mContext,item.getVideo().get(0).getUrl());
+        }else {
+            videoPlayer.setVisibility(View.GONE);
+        }*/
+        PraiseListView praiseListView = holder.getView(R.id.thumbs);
+        //点赞
+        if(!item.getPraiseList().isEmpty()){
+            praiseListView.setVisibility(View.VISIBLE);
+            praiseListView.setDatas(item.getPraiseList());
+
+        }else praiseListView.setVisibility(View.GONE);
+
+        //评论
+
+        RecyclerView comments = holder.getView(R.id.comments);
+        comments.setLayoutManager(new LinearLayoutManager(mContext){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+        if(!item.getCommentList().isEmpty()){
+            comments.setVisibility(View.VISIBLE);
+            MessageDetailsReplayAdapter replayAdapter;
+            if(comments.getAdapter() != null){
+                replayAdapter = (MessageDetailsReplayAdapter) comments.getAdapter();
+            }else replayAdapter = new MessageDetailsReplayAdapter();
+            comments.setAdapter(replayAdapter);
+            replayAdapter.setOnItemClickListener((adapter1, view, position) -> {
+                //TODO 回复
+            });
+            replayAdapter.setNewData(item.getCommentList());
+            comments.setFocusableInTouchMode(false);
+        }else {
+            comments.setVisibility(View.GONE);
+        }
+
+
+
 
         holder.getView(R.id.tv_details).setOnClickListener(v -> {
             IntentBuilder.Builder()

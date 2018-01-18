@@ -57,6 +57,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import cn.jzvd.JZVideoPlayer;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
@@ -348,6 +349,7 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
 
             @Override
             public void onPageSelected(int position) {
+                JZVideoPlayer.releaseAllVideos();
                 if (lastTabIndex == position) return;
                 mBottomNavigationBar.selectTab(position);
             }
@@ -592,7 +594,16 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        JZVideoPlayer.releaseAllVideos();
+    }
+
+    @Override
     public void onBackPressed() {
+        if (JZVideoPlayer.backPress()) {
+            return;
+        }
         if (lastTabIndex != 0) {
             onTabReselected(0);
             setCurrIndex(0);
