@@ -6,13 +6,14 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseQuickAdapter;
 import com.cpigeon.app.base.BaseViewHolder;
 import com.cpigeon.app.circle.ui.ShieldFriendFragment;
+import com.cpigeon.app.entity.CircleFriendEntity;
 import com.cpigeon.app.utils.Lists;
 
 /**
  * Created by Zhu TingYu on 2018/1/18.
  */
 
-public class ShieldFriendAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+public class ShieldFriendAdapter extends BaseQuickAdapter<CircleFriendEntity, BaseViewHolder> {
 
     String type;
 
@@ -22,9 +23,9 @@ public class ShieldFriendAdapter extends BaseQuickAdapter<String, BaseViewHolder
     }
 
     @Override
-    protected void convert(BaseViewHolder holder, String item) {
-        holder.setGlideImageView(mContext,R.id.head_img, "http://img2.imgtn.bdimg.com/it/u=8232468,2916696848&fm=27&gp=0.jpg");
-        holder.setText(R.id.user_name, "小朱");
+    protected void convert(BaseViewHolder holder, CircleFriendEntity item) {
+        holder.setGlideImageView(mContext,R.id.head_img, item.getUserinfo().getHeadimgurl());
+        holder.setText(R.id.user_name, item.getUserinfo().getNickname());
         TextView statue = holder.getView(R.id.state);
 
         if(type == ShieldFriendFragment.TYPE_SHIELD){

@@ -123,4 +123,39 @@ public class CircleModel {
                 .request();
     }
 
+    public static Observable<ApiResponse<List<CircleFriendEntity>>> hideFriendList(int userId, int page, int count){
+        return PigeonHttpUtil.<ApiResponse<List<CircleFriendEntity>>>build()
+                .setToJsonType(new TypeToken<ApiResponse<List<CircleFriendEntity>>>(){}.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_get_hide_user_list)
+                .addBody("u", String.valueOf(userId))
+                .addBody("pi", String.valueOf(page))
+                .addBody("ps", String.valueOf(count))
+                .request();
+    }
+
+    public static Observable<ApiResponse<List<CircleFriendEntity>>> blackList(int userId, int page, int count){
+        return PigeonHttpUtil.<ApiResponse<List<CircleFriendEntity>>>build()
+                .setToJsonType(new TypeToken<ApiResponse<List<CircleFriendEntity>>>(){}.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_get_user_black_list)
+                .addBody("u", String.valueOf(userId))
+                .addBody("pi", String.valueOf(page))
+                .addBody("ps", String.valueOf(count))
+                .request();
+    }
+
+    public static Observable<ApiResponse<List<String>>> hideMessageList(int userId, int page, int count){
+        return PigeonHttpUtil.<ApiResponse<List<String>>>build()
+                .setToJsonType(new TypeToken<ApiResponse<List<String>>>(){}.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_get_hide_message_list)
+                .addBody("u", String.valueOf(userId))
+                .addBody("pi", String.valueOf(page))
+                .addBody("ps", String.valueOf(count))
+                .request();
+    }
+
+
+
 }

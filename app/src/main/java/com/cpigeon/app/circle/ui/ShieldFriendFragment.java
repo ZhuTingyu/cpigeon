@@ -1,11 +1,13 @@
 package com.cpigeon.app.circle.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.circle.adpter.ShieldFriendAdapter;
+import com.cpigeon.app.circle.presenter.HideFriendPre;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.utils.IntentBuilder;
@@ -15,7 +17,7 @@ import com.cpigeon.app.utils.Lists;
  * Created by Zhu TingYu on 2018/1/18.
  */
 
-public class ShieldFriendFragment extends BaseMVPFragment{
+public class ShieldFriendFragment extends BaseMVPFragment<HideFriendPre>{
 
     public static final String TYPE_SHIELD = "TYPE_SHIELD";
     public static final String TYPE_BLACKLIST = "TYPE_BLACKLIST";
@@ -31,8 +33,8 @@ public class ShieldFriendFragment extends BaseMVPFragment{
     }
 
     @Override
-    protected BasePresenter initPresenter() {
-        return null;
+    protected HideFriendPre initPresenter() {
+        return new HideFriendPre(getActivity());
     }
 
     @Override
@@ -48,6 +50,16 @@ public class ShieldFriendFragment extends BaseMVPFragment{
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ShieldFriendAdapter(type);
         recyclerView.setAdapter(adapter);
-        adapter.setNewData(Lists.newArrayList("", "", ""));
+
+        if(type.equals(TYPE_SHIELD)){
+            mPresenter.getHideList(list -> {
+                adapter.setNewData(list);
+            });
+        }else {
+            mPresenter.getBlackList(list -> {
+                adapter.setNewData(list);
+            });
+        }
+
     }
 }
