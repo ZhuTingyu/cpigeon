@@ -7,7 +7,7 @@ import com.cpigeon.app.entity.NewsCommentEntity;
 import com.cpigeon.app.entity.NewsDetailsEntity;
 import com.cpigeon.app.entity.NewsEntity;
 import com.cpigeon.app.entity.NewsMessageEntity;
-import com.cpigeon.app.entity.ThumbEntity;
+import com.cpigeon.app.entity.SnsEntity;
 import com.cpigeon.app.utils.databean.ApiResponse;
 import com.cpigeon.app.utils.http.CPAPIHttpUtil;
 import com.cpigeon.app.utils.http.HttpUtil;
@@ -71,18 +71,18 @@ public class NewsModel {
                 .request();
     }
 
-    public static Observable<ApiResponse<ThumbEntity>> newsThumb (String newsId){
-        return CPAPIHttpUtil.<ApiResponse<ThumbEntity>>build()
-                .setToJsonType(new TypeToken<ApiResponse<ThumbEntity>>(){}.getType())
+    public static Observable<ApiResponse<SnsEntity>> newsThumb (String newsId){
+        return CPAPIHttpUtil.<ApiResponse<SnsEntity>>build()
+                .setToJsonType(new TypeToken<ApiResponse<SnsEntity>>(){}.getType())
                 .setType(HttpUtil.TYPE_POST)
                 .url(R.string.api_thumb_news)
                 .addBody("nid", newsId)
                 .request();
     }
 
-    public static Observable<ApiResponse<ThumbEntity>> newsCommentThumb (String newsCommentId){
-        return CPAPIHttpUtil.<ApiResponse<ThumbEntity>>build()
-                .setToJsonType(new TypeToken<ApiResponse<ThumbEntity>>(){}.getType())
+    public static Observable<ApiResponse<SnsEntity>> newsCommentThumb (String newsCommentId){
+        return CPAPIHttpUtil.<ApiResponse<SnsEntity>>build()
+                .setToJsonType(new TypeToken<ApiResponse<SnsEntity>>(){}.getType())
                 .setType(HttpUtil.TYPE_POST)
                 .url(R.string.api_thumb_news_comment)
                 .addBody("cid", newsCommentId)

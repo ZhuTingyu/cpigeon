@@ -6,12 +6,8 @@ import android.support.v7.widget.RecyclerView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.circle.adpter.CircleMessageAdapter;
-import com.cpigeon.app.circle.presenter.CircleMessageListPre;
-import com.cpigeon.app.commonstandard.presenter.BasePresenter;
+import com.cpigeon.app.circle.presenter.CircleMessagePre;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
-import com.cpigeon.app.entity.ThumbEntity;
-import com.cpigeon.app.utils.IntentBuilder;
-import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.ScreenTool;
 import com.wx.goodview.GoodView;
 
@@ -19,7 +15,7 @@ import com.wx.goodview.GoodView;
  * Created by Zhu TingYu on 2018/1/15.
  */
 
-public class BaseCircleMessageFragment extends BaseMVPFragment<CircleMessageListPre> {
+public class BaseCircleMessageFragment extends BaseMVPFragment<CircleMessagePre> {
 
     public static final String TYPE_ALL = "gclb";
     public static final String TYPE_FOLLOW = "gzlb";
@@ -35,8 +31,8 @@ public class BaseCircleMessageFragment extends BaseMVPFragment<CircleMessageList
     }
 
     @Override
-    protected CircleMessageListPre initPresenter() {
-        return new CircleMessageListPre(this);
+    protected CircleMessagePre initPresenter() {
+        return new CircleMessagePre(this);
     }
 
     @Override
@@ -50,15 +46,23 @@ public class BaseCircleMessageFragment extends BaseMVPFragment<CircleMessageList
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new CircleMessageAdapter(getActivity(),goodView);
+        adapter.setmPre(mPresenter);
         adapter.bindToRecyclerView(recyclerView);
         addItemDecorationLine(recyclerView, R.color.color_default_bg, ScreenTool.dip2px(getContext().getResources().getDimension(R.dimen.large_vertical_margin)));
 
-        //adapter.setNewData(Lists.newArrayList(new ThumbEntity(),new ThumbEntity(), new ThumbEntity()));
-
         recyclerView.requestFocus();
 
+        bindData();
+
+        setRefreshListener(() -> {
+            bindData();
+        });
+    }
+
+    private void bindData(){
         mPresenter.getMessageList(s -> {
             adapter.setNewData(s);
+            hideLoading();
         });
     }
 }

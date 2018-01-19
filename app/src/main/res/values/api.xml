@@ -89,7 +89,9 @@
     <string name="api_search_foot_clean_histroy">ZHCX_CleanHistoryRecor</string>
 
     <string name="api_get_user_service_info">GetUserService</string>
-
+    <string name="api_get_circle_user_info">GetUserCircleInfo</string>
     <string name="api_circle_message_list">GetCircleMessageList</string>
+    <string name="api_circle_user_follow">AttentionCircleUser</string>
+    <string name="api_circle_thumb_message">PraiseCircleMessage</string>
 
 </resources>

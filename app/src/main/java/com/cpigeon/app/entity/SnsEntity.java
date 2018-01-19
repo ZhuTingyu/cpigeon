@@ -4,7 +4,7 @@ package com.cpigeon.app.entity;
  * Created by Zhu TingYu on 2018/1/12.
  */
 
-public class ThumbEntity {
+public class SnsEntity {
 
     /**
      * 当前用户是否对该信息进行点赞

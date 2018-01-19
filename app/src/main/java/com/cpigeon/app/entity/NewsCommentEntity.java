@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Zhu TingYu on 2018/1/11.
  */
 
-public class NewsCommentEntity extends ThumbEntity {
+public class NewsCommentEntity extends SnsEntity {
     public String cid;//回复id
     public String id;//评论ID
     public String userid;//评论者会员ID

@@ -6,7 +6,7 @@ import java.util.List;
  * Created by Zhu TingYu on 2018/1/15.
  */
 
-public class CircleMessageEntity {
+public class CircleMessageEntity extends SnsEntity {
 
     /**
      * st : 1

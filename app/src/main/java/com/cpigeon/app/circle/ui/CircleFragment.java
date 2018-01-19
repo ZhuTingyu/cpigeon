@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.cpigeon.app.R;
+import com.cpigeon.app.circle.presenter.CirclePre;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.adapter.fragmentpager.FragmentPagerItemAdapter;
 import com.cpigeon.app.commonstandard.view.adapter.fragmentpager.FragmentPagerItems;
@@ -22,7 +23,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by Zhu TingYu on 2018/1/4.
  */
 
-public class CircleFragment extends BaseMVPFragment{
+public class CircleFragment extends BaseMVPFragment<CirclePre>{
 
     CircleImageView imgHeadIcon;
     TextView tvUserName;
@@ -33,8 +34,8 @@ public class CircleFragment extends BaseMVPFragment{
     ViewPager viewPager;
 
     @Override
-    protected BasePresenter initPresenter() {
-        return null;
+    protected CirclePre initPresenter() {
+        return new CirclePre(getActivity());
     }
 
     @Override
@@ -115,13 +116,14 @@ public class CircleFragment extends BaseMVPFragment{
     }
 
     private void initHeadView() {
-        Glide.with(getContext())
-                .load("http://img3.imgtn.bdimg.com/it/u=1611505379,380489200&fm=27&gp=0.jpg")
-                .into(imgHeadIcon);
-        tvUserName.setText("小朱");
-        tvFans.setText(String.format("粉丝:%s","12"));
-        tvFocus.setText(String.format("关注:%s","1323"));
-
+        mPresenter.getUserInfo(data -> {
+            Glide.with(getContext())
+                    .load(data.headimgurl)
+                    .into(imgHeadIcon);
+            tvUserName.setText(data.username);
+            tvFans.setText(String.format("粉丝:%s",String.valueOf(data.fsCount)));
+            tvFocus.setText(String.format("关注:%s",String.valueOf(data.gzCount)));
+        });
     }
 
 

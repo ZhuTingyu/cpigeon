@@ -21,13 +21,15 @@ import io.reactivex.functions.Consumer;
  * Created by Zhu TingYu on 2018/1/18.
  */
 
-public class CircleMessageListPre extends BasePresenter {
+public class CircleMessagePre extends BasePresenter {
 
     int userId;
     int page = 1;
     String type;
+    public int followId;
+    private int isFollow; //1关注，0取消关注
 
-    public CircleMessageListPre(BaseFragment fragment) {
+    public CircleMessagePre(BaseFragment fragment) {
         super(fragment);
         userId = CpigeonData.getInstance().getUserId(fragment.getActivity());
         type = fragment.getArguments().getString(IntentBuilder.KEY_TYPE);
@@ -46,5 +48,17 @@ public class CircleMessageListPre extends BasePresenter {
                 }else return Lists.newArrayList();
             }else throw new HttpErrorException(r);
         }),consumer);
+    }
+
+    public void setFollow(Consumer<String> consumer){
+        submitRequestThrowError(CircleModel.circleFollow(userId, followId, isFollow).map(r -> {
+            if(r.status){
+                return r.msg;
+            }else throw new HttpErrorException(r);
+        }),consumer);
+    }
+
+    public void setIsFollow(boolean isFollow) {
+        this.isFollow = isFollow ? 1 : 0;
     }
 }

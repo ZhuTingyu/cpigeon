@@ -3,17 +3,22 @@ package com.cpigeon.app.circle.adpter;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.DrawableRes;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseQuickAdapter;
 import com.cpigeon.app.base.BaseViewHolder;
+import com.cpigeon.app.circle.presenter.CircleMessagePre;
 import com.cpigeon.app.circle.ui.CircleMessageDetailsFragment;
 import com.cpigeon.app.entity.CircleMessageEntity;
+import com.cpigeon.app.modular.cpigeongroup.model.bean.Message;
+import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.StringValid;
@@ -21,6 +26,7 @@ import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.view.ExpandTextView;
 import com.cpigeon.app.view.PraiseListView;
 import com.cpigeon.app.viewholder.SocialSnsViewHolder;
+import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 import com.wx.goodview.GoodView;
@@ -37,6 +43,7 @@ import cn.jzvd.JZVideoPlayerStandard;
 public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, BaseViewHolder> {
     GoodView goodView;
     Activity activity;
+    CircleMessagePre mPre;
 
     public CircleMessageAdapter(Activity activity, GoodView goodView) {
         super(R.layout.item_pigeon_circle_message_layout, Lists.newArrayList());
@@ -61,7 +68,36 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
             holder.getView(R.id.ll_loaction).setVisibility(View.GONE);
         }
 
+        //关注
+        ImageView follow = holder.getView(R.id.follow);
+        if(item.isIsAttention() || item.getUserinfo().getUid() == CpigeonData.getInstance().getUserId(mContext)){
+            follow.setVisibility(View.GONE);
+
+        }else {
+            follow.setVisibility(View.VISIBLE);
+            follow.setOnClickListener(v -> {
+                mPre.followId = item.getUserinfo().getUid();
+                mPre.setIsFollow(true);
+                mPre.setFollow(s -> {
+                    item.setIsAttention(true);
+                    notifyItemChanged(holder.getAdapterPosition());
+                    ToastUtil.showLongToast(mContext, s);
+                });
+            });
+        }
+
         //TODO 点赞评论
+
+        if (item.getPraiseList() != null && item.getPraiseList().size() > 0) {
+            for (CircleMessageEntity.PraiseListBean praiseListBean : item.getPraiseList()) {
+
+                if (praiseListBean.getUid() == CpigeonData.getInstance().getUserId(mContext) && praiseListBean.getIsPraise() == 1) {
+                    holder.setImageResource(R.id.thumb, R.mipmap.ic_thumbs_up);
+                } else {
+                    holder.setImageResource(R.id.thumb, R.mipmap.ic_thumbs_not_up);
+                }
+            }
+        }
 
         SocialSnsViewHolder socialSnsviewHolder = new SocialSnsViewHolder(activity,holder.getView(R.id.social_sns),goodView,"回复：小朱");
         socialSnsviewHolder.setOnSocialListener(new SocialSnsViewHolder.OnSocialListener() {
@@ -106,7 +142,7 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
         }
 
         //视频
-        /*JZVideoPlayerStandard videoPlayer = holder.getView(R.id.videoplayer);
+        JZVideoPlayerStandard videoPlayer = holder.getView(R.id.videoplayer);
         if(!item.getVideo().isEmpty()){
             videoPlayer.setVisibility(View.VISIBLE);
             videoPlayer.setUp(item.getVideo().get(0).getUrl(), JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, "");
@@ -115,7 +151,7 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
             JZVideoPlayer.clearSavedProgress(mContext,item.getVideo().get(0).getUrl());
         }else {
             videoPlayer.setVisibility(View.GONE);
-        }*/
+        }
         PraiseListView praiseListView = holder.getView(R.id.thumbs);
         //点赞
         if(!item.getPraiseList().isEmpty()){
@@ -148,7 +184,6 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
         }else {
             comments.setVisibility(View.GONE);
         }
-
 
 
 
@@ -185,4 +220,7 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
         goodView.show(view);
     }
 
+    public void setmPre(CircleMessagePre mPre) {
+        this.mPre = mPre;
+    }
 }

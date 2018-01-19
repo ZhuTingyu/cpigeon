@@ -12,12 +12,11 @@ import com.cpigeon.app.circle.adpter.CircleMessageDetailsCommentsAdapter;
 import com.cpigeon.app.circle.adpter.CircleMessageImagesAdapter;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
-import com.cpigeon.app.entity.ThumbEntity;
+import com.cpigeon.app.entity.SnsEntity;
 import com.cpigeon.app.pigeonnews.ui.InputCommentDialog;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.view.ExpandTextView;
-import com.cpigeon.app.view.PraiseListView;
 import com.cpigeon.app.viewholder.SocialSnsViewHolder;
 import com.wx.goodview.GoodView;
 
@@ -73,7 +72,7 @@ public class CircleMessageDetailsFragment extends BaseMVPFragment {
         goodView = new GoodView(getContext());
 
 
-        initMessage(new ThumbEntity());
+        initMessage(new SnsEntity());
 
         initComments();
     }
@@ -86,7 +85,7 @@ public class CircleMessageDetailsFragment extends BaseMVPFragment {
         adapter.setNewData(Lists.newArrayList("","","",""));
     }
 
-    private void initMessage(ThumbEntity entity) {
+    private void initMessage(SnsEntity entity) {
         BaseViewHolder holder = new BaseViewHolder(findViewById(R.id.circle_message));
         holder.setGlideImageView(getContext(), R.id.head_img, "http://img3.imgtn.bdimg.com/it/u=1611505379,380489200&fm=27&gp=0.jpg");
         holder.setText(R.id.user_name, "小朱");
