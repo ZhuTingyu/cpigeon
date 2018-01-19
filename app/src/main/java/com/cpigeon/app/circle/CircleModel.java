@@ -30,14 +30,14 @@ public class CircleModel {
     }
 
 
-    public static Observable<ApiResponse<List<CircleMessageEntity>>> circleMessage(int userId, String type, @Nullable String messageId, int page, int count){
+    public static Observable<ApiResponse<List<CircleMessageEntity>>> circleMessage(int userId, String type, @Nullable int messageId, int page, int count){
         return PigeonHttpUtil.<ApiResponse<List<CircleMessageEntity>>>build()
                 .setToJsonType(new TypeToken<ApiResponse<List<CircleMessageEntity>>>(){}.getType())
                 .setType(HttpUtil.TYPE_POST)
                 .url(R.string.api_circle_message_list)
                 .addBody("u", String.valueOf(userId))
                 .addBody("lt", type)
-                .addBody("mid", messageId)
+                .addBody("mid", String.valueOf(messageId))
                 .addBody("pi", String.valueOf(page))
                 .addBody("ps", String.valueOf(count))
                 .request();

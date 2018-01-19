@@ -25,7 +25,7 @@ public class CircleMessagePre extends BasePresenter {
 
     int userId;
     public int page = 1;
-    String type;
+    public String type;
     public int followId;
     private int isFollow; //1关注，0取消关注
     private int isThumb; //1点赞，0取消点赞
@@ -36,7 +36,10 @@ public class CircleMessagePre extends BasePresenter {
     public CircleMessagePre(BaseFragment fragment) {
         super(fragment);
         userId = CpigeonData.getInstance().getUserId(fragment.getActivity());
-        type = fragment.getArguments().getString(IntentBuilder.KEY_TYPE);
+        if(fragment.getArguments() != null){
+            type = fragment.getArguments().getString(IntentBuilder.KEY_TYPE);
+        }
+        messageId = fragment.getActivity().getIntent().getIntExtra(IntentBuilder.KEY_DATA, 0);
     }
 
     @Override
@@ -45,7 +48,7 @@ public class CircleMessagePre extends BasePresenter {
     }
 
     public void getMessageList(Consumer<List<CircleMessageEntity>> consumer){
-        submitRequestThrowError(CircleModel.circleMessage(userId, type,null, page,10).map(r -> {
+        submitRequestThrowError(CircleModel.circleMessage(userId, type, messageId, page,10).map(r -> {
             if(r.isOk()){
                 if(r.status){
                     return r.data;

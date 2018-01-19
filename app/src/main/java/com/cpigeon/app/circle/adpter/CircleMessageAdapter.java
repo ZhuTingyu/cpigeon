@@ -279,6 +279,7 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
 
         holder.getView(R.id.tv_details).setOnClickListener(v -> {
             IntentBuilder.Builder()
+                    .putExtra(IntentBuilder.KEY_DATA, item.getMid())
                     .startParentActivity(activity, CircleMessageDetailsFragment.class);
         });
     }

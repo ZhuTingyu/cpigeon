@@ -66,6 +66,7 @@ public class BaseCircleMessageFragment extends BaseMVPFragment<CircleMessagePre>
         bindData();
 
         setRefreshListener(() -> {
+            mPresenter.page = 1;
             bindData();
         });
     }
