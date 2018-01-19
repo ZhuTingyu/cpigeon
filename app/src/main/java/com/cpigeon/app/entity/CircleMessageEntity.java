@@ -1,5 +1,8 @@
 package com.cpigeon.app.entity;
 
+import android.os.Parcel;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -194,7 +197,7 @@ public class CircleMessageEntity extends SnsEntity {
     }
 
 
-    public static class UserinfoBean {
+    public static class UserinfoBean implements android.os.Parcelable {
         /**
          * username : zg18408249304
          * nickname : 我就是我
@@ -238,6 +241,41 @@ public class CircleMessageEntity extends SnsEntity {
         public void setHeadimgurl(String headimgurl) {
             this.headimgurl = headimgurl;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.username);
+            dest.writeString(this.nickname);
+            dest.writeInt(this.uid);
+            dest.writeString(this.headimgurl);
+        }
+
+        public UserinfoBean() {
+        }
+
+        protected UserinfoBean(Parcel in) {
+            this.username = in.readString();
+            this.nickname = in.readString();
+            this.uid = in.readInt();
+            this.headimgurl = in.readString();
+        }
+
+        public static final Creator<UserinfoBean> CREATOR = new Creator<UserinfoBean>() {
+            @Override
+            public UserinfoBean createFromParcel(Parcel source) {
+                return new UserinfoBean(source);
+            }
+
+            @Override
+            public UserinfoBean[] newArray(int size) {
+                return new UserinfoBean[size];
+            }
+        };
     }
 
     public static class PictureBean {
@@ -423,4 +461,73 @@ public class CircleMessageEntity extends SnsEntity {
             this.uid = uid;
         }
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.st);
+        dest.writeString(this.time);
+        dest.writeInt(this.mid);
+        dest.writeString(this.msg);
+        dest.writeString(this.from);
+        dest.writeString(this.lo);
+        dest.writeByte(this.isAttention ? (byte) 1 : (byte) 0);
+        dest.writeString(this.loabs);
+        dest.writeParcelable(this.userinfo, flags);
+        dest.writeInt(this.fn);
+        dest.writeInt(this.tid);
+        dest.writeInt(this.uid);
+        dest.writeInt(this.praiseCount);
+        dest.writeInt(this.commentCount);
+        dest.writeList(this.picture);
+        dest.writeList(this.commentList);
+        dest.writeList(this.praiseList);
+        dest.writeList(this.video);
+    }
+
+    public CircleMessageEntity() {
+    }
+
+    protected CircleMessageEntity(Parcel in) {
+        super(in);
+        this.st = in.readInt();
+        this.time = in.readString();
+        this.mid = in.readInt();
+        this.msg = in.readString();
+        this.from = in.readString();
+        this.lo = in.readString();
+        this.isAttention = in.readByte() != 0;
+        this.loabs = in.readString();
+        this.userinfo = in.readParcelable(UserinfoBean.class.getClassLoader());
+        this.fn = in.readInt();
+        this.tid = in.readInt();
+        this.uid = in.readInt();
+        this.praiseCount = in.readInt();
+        this.commentCount = in.readInt();
+        this.picture = new ArrayList<PictureBean>();
+        in.readList(this.picture, PictureBean.class.getClassLoader());
+        this.commentList = new ArrayList<CommentListBean>();
+        in.readList(this.commentList, CommentListBean.class.getClassLoader());
+        this.praiseList = new ArrayList<PraiseListBean>();
+        in.readList(this.praiseList, PraiseListBean.class.getClassLoader());
+        this.video = new ArrayList<PictureBean>();
+        in.readList(this.video, PictureBean.class.getClassLoader());
+    }
+
+    public static final Creator<CircleMessageEntity> CREATOR = new Creator<CircleMessageEntity>() {
+        @Override
+        public CircleMessageEntity createFromParcel(Parcel source) {
+            return new CircleMessageEntity(source);
+        }
+
+        @Override
+        public CircleMessageEntity[] newArray(int size) {
+            return new CircleMessageEntity[size];
+        }
+    };
 }

@@ -122,7 +122,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                 ));
     }
 
-    protected void error(String message) {
+    public void error(String message) {
         hideLoading();
         if(!TextUtils.isEmpty(message)) {
             if(errorDialog == null || !errorDialog.isShowing()){

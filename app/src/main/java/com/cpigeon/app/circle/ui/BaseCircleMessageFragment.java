@@ -45,9 +45,20 @@ public class BaseCircleMessageFragment extends BaseMVPFragment<CircleMessagePre>
         goodView = new GoodView(getContext());
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new CircleMessageAdapter(getActivity(),goodView);
+        adapter = new CircleMessageAdapter(getActivity(), goodView);
         adapter.setmPre(mPresenter);
         adapter.bindToRecyclerView(recyclerView);
+        adapter.setOnLoadMoreListener(() -> {
+            mPresenter.page++;
+            mPresenter.getMessageList(data -> {
+                if (data.isEmpty()) {
+                    adapter.setLoadMore(false);
+                } else {
+                    adapter.setLoadMore(true);
+                    adapter.addData(data);
+                }
+            });
+        }, recyclerView);
         addItemDecorationLine(recyclerView, R.color.color_default_bg, ScreenTool.dip2px(getContext().getResources().getDimension(R.dimen.large_vertical_margin)));
 
         recyclerView.requestFocus();
@@ -59,7 +70,7 @@ public class BaseCircleMessageFragment extends BaseMVPFragment<CircleMessagePre>
         });
     }
 
-    private void bindData(){
+    private void bindData() {
         mPresenter.getMessageList(s -> {
             adapter.setNewData(s);
             hideLoading();

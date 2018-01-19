@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_margin="8dp"
 	android:id="@+id/social_sns"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -44,7 +45,7 @@
 
 			android:id="@+id/comment"
 			android:layout_toLeftOf="@id/share"
-			app:srcCompat="@mipmap/ic_new_comment"
+			android:src="@mipmap/ic_new_comment"
 			android:layout_centerVertical="true"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content" />
@@ -53,7 +54,7 @@
 			android:id="@+id/thumb"
 			android:layout_centerVertical="true"
 			android:layout_toLeftOf="@id/comment"
-			app:srcCompat="@mipmap/ic_thumbs_not_up"
+			tools:src="@mipmap/ic_thumbs_not_up"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content" />
 	</RelativeLayout>

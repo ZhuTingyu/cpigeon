@@ -24,10 +24,14 @@ import io.reactivex.functions.Consumer;
 public class CircleMessagePre extends BasePresenter {
 
     int userId;
-    int page = 1;
+    public int page = 1;
     String type;
     public int followId;
     private int isFollow; //1关注，0取消关注
+    private int isThumb; //1点赞，0取消点赞
+    public int messageId;
+    public String commentContent;
+    public int commentId = 0;
 
     public CircleMessagePre(BaseFragment fragment) {
         super(fragment);
@@ -58,7 +62,40 @@ public class CircleMessagePre extends BasePresenter {
         }),consumer);
     }
 
+    public void setThumb(Consumer<String> consumer){
+        submitRequestThrowError(CircleModel.circleMessageThumbUp(userId, messageId, isThumb).map(r -> {
+            if(r.status){
+                return r.msg;
+            }else throw new HttpErrorException(r);
+        }),consumer);
+    }
+
+    public void addComment(Consumer<CircleMessageEntity.CommentListBean> consumer){
+        submitRequestThrowError(CircleModel.addCircleMessageComment(userId, messageId, commentContent,commentId).map(r -> {
+            if(r.status){
+                return r.data;
+            }else throw new HttpErrorException(r);
+        }),consumer);
+    }
+
     public void setIsFollow(boolean isFollow) {
         this.isFollow = isFollow ? 1 : 0;
     }
+
+    public void setIsThumb(boolean isThumb) {
+        this.isThumb = isThumb ? 1 : 0;
+    }
+
+    public int getUserThumbPosition(List<CircleMessageEntity.PraiseListBean> list, int userId){
+        int position = -1;
+        for(int i = 0,len = list.size(); i < len; i++){
+            CircleMessageEntity.PraiseListBean praiseListBean = list.get(i);
+            if(praiseListBean.getUid() == userId){
+                position = i;
+                break;
+            }
+        }
+        return position;
+    }
+
 }

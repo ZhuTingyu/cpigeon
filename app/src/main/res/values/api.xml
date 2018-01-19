@@ -93,5 +93,8 @@
     <string name="api_circle_message_list">GetCircleMessageList</string>
     <string name="api_circle_user_follow">AttentionCircleUser</string>
     <string name="api_circle_thumb_message">PraiseCircleMessage</string>
+    <string name="api_circle_add_message_comment">AddCircleMessageComment</string>
+
+    <string name="api_hide_circle_message">ShieldCircleMessage</string>
 
 </resources>

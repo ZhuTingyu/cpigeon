@@ -31,7 +31,7 @@ public class SocialSnsViewHolder extends BaseViewHolder{
 
     public interface OnSocialListener{
         void thumb(View imageView);
-        void comment(EditText editText);
+        void comment(EditText editText, InputCommentDialog dialog);
         void share(View imageView);
     }
 
@@ -55,7 +55,7 @@ public class SocialSnsViewHolder extends BaseViewHolder{
             InputCommentDialog dialog = new InputCommentDialog();
             dialog.setHint(hint);
             dialog.setPushClickListener(content -> {
-                listener.comment(content);
+                listener.comment(content, dialog);
             });
             dialog.show(activity.getFragmentManager(), "InputComment");
         });
@@ -70,8 +70,10 @@ public class SocialSnsViewHolder extends BaseViewHolder{
     }
 
     public void setThumb(boolean isThumb){
-
         setImageDrawable(R.id.thumb, isThumb ? getDrawable(R.mipmap.ic_thumbs_up) : getDrawable(R.mipmap.ic_thumbs_not_up));
+    }
+
+    public void setThumbAnimation(boolean isThumb){
 
         if(isThumb){
             goodView.setImage(getDrawable(R.mipmap.ic_thumbs_up));
@@ -83,5 +85,9 @@ public class SocialSnsViewHolder extends BaseViewHolder{
 
     public void setComment(boolean isComment){
         setImageDrawable(R.id.thumb, isComment ? getDrawable(R.mipmap.ic_new_comment_select) : getDrawable(R.mipmap.ic_new_comment));
+    }
+
+    public void setHint(String hint) {
+        this.hint = hint;
     }
 }

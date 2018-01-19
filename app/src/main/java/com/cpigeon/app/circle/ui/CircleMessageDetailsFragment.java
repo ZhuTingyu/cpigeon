@@ -137,7 +137,7 @@ public class CircleMessageDetailsFragment extends BaseMVPFragment {
             }
 
             @Override
-            public void comment(EditText view) {
+            public void comment(EditText view ,InputCommentDialog dialog) {
                 ToastUtil.showShortToast(getActivity(), view.getText().toString());
             }
 

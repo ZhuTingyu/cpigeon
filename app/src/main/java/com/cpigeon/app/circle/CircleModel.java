@@ -53,4 +53,39 @@ public class CircleModel {
                 .addBody("isa", String.valueOf(isFollow))
                 .request();
     }
+
+    public static Observable<ApiResponse> circleMessageThumbUp(int userId, int messageId, int isThumb){
+        return PigeonHttpUtil.<ApiResponse>build()
+                .setToJsonType(new TypeToken<ApiResponse>(){}.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_circle_thumb_message)
+                .addBody("u", String.valueOf(userId))
+                .addBody("mid", String.valueOf(messageId))
+                .addBody("isp", String.valueOf(isThumb))
+                .request();
+    }
+
+    public static Observable<ApiResponse<CircleMessageEntity.CommentListBean>> addCircleMessageComment(int userId, int messageId, String content, int commentId){
+        return PigeonHttpUtil.<ApiResponse<CircleMessageEntity.CommentListBean>>build()
+                .setToJsonType(new TypeToken<ApiResponse<CircleMessageEntity.CommentListBean>>(){}.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_circle_add_message_comment)
+                .addBody("u", String.valueOf(userId))
+                .addBody("mid", String.valueOf(messageId))
+                .addBody("c", content)
+                .addBody("topid", String.valueOf(commentId))
+                .request();
+    }
+
+    public static Observable<ApiResponse> hideCircleMessage(int userId, int messageId, int isHide){
+        return PigeonHttpUtil.<ApiResponse>build()
+                .setToJsonType(new TypeToken<ApiResponse>(){}.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_hide_circle_message)
+                .addBody("u", String.valueOf(userId))
+                .addBody("mid", String.valueOf(messageId))
+                .addBody("iss", String.valueOf(isHide))
+                .request();
+    }
+
 }

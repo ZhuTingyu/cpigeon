@@ -16,8 +16,11 @@ import com.cpigeon.app.base.BaseQuickAdapter;
 import com.cpigeon.app.base.BaseViewHolder;
 import com.cpigeon.app.circle.presenter.CircleMessagePre;
 import com.cpigeon.app.circle.ui.CircleMessageDetailsFragment;
+import com.cpigeon.app.circle.ui.DialogHideCircleFragment;
 import com.cpigeon.app.entity.CircleMessageEntity;
 import com.cpigeon.app.modular.cpigeongroup.model.bean.Message;
+import com.cpigeon.app.pigeonnews.ui.InputCommentDialog;
+import com.cpigeon.app.utils.ChooseImageManager;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
@@ -30,6 +33,8 @@ import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 import com.wx.goodview.GoodView;
+
+import org.xutils.ImageManager;
 
 import java.util.List;
 
@@ -44,11 +49,13 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
     GoodView goodView;
     Activity activity;
     CircleMessagePre mPre;
+    DialogHideCircleFragment dialogHideCircleFragment;
 
     public CircleMessageAdapter(Activity activity, GoodView goodView) {
         super(R.layout.item_pigeon_circle_message_layout, Lists.newArrayList());
         this.goodView = goodView;
         this.activity = activity;
+        dialogHideCircleFragment = new DialogHideCircleFragment();
     }
 
     @Override
@@ -60,15 +67,48 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
         ExpandTextView content = holder.getView(R.id.content_text);
         content.setText(item.getMsg());
 
-        //地址
+        /**
+         * 屏蔽取消
+         */
+        holder.getView(R.id.img_expand).setOnClickListener(v -> {
+            dialogHideCircleFragment.setCircleMessageEntity(item);
+            dialogHideCircleFragment.setListener(new DialogHideCircleFragment.OnDialogClickListener() {
+                @Override
+                public void hideMessage() {
+                    dialogHideCircleFragment.dismiss();
+                    remove(holder.getAdapterPosition());
+                }
+
+                @Override
+                public void hideHisMessage() {
+
+                }
+
+                @Override
+                public void black() {
+
+                }
+
+                @Override
+                public void report() {
+
+                }
+            });
+            dialogHideCircleFragment.show(activity.getFragmentManager(),"DialogHideCircleFragment");
+        });
+
+        /**
+         * 地址
+         */
         if(StringValid.isStringValid(item.getLoabs())){
             holder.getView(R.id.ll_loaction).setVisibility(View.VISIBLE);
             holder.setText(R.id.tv_message_location,item.getLoabs());
         }else {
             holder.getView(R.id.ll_loaction).setVisibility(View.GONE);
         }
-
-        //关注
+        /**
+         * 关注
+         */
         ImageView follow = holder.getView(R.id.follow);
         if(item.isIsAttention() || item.getUserinfo().getUid() == CpigeonData.getInstance().getUserId(mContext)){
             follow.setVisibility(View.GONE);
@@ -86,29 +126,45 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
             });
         }
 
-        //TODO 点赞评论
-
-        if (item.getPraiseList() != null && item.getPraiseList().size() > 0) {
-            for (CircleMessageEntity.PraiseListBean praiseListBean : item.getPraiseList()) {
-
-                if (praiseListBean.getUid() == CpigeonData.getInstance().getUserId(mContext) && praiseListBean.getIsPraise() == 1) {
-                    holder.setImageResource(R.id.thumb, R.mipmap.ic_thumbs_up);
-                } else {
-                    holder.setImageResource(R.id.thumb, R.mipmap.ic_thumbs_not_up);
-                }
-            }
-        }
-
-        SocialSnsViewHolder socialSnsviewHolder = new SocialSnsViewHolder(activity,holder.getView(R.id.social_sns),goodView,"回复：小朱");
+        /**
+         * 点赞评论
+         */
+        SocialSnsViewHolder socialSnsviewHolder = new SocialSnsViewHolder(activity,holder.getView(R.id.social_sns),goodView,"回复:"+item.getUserinfo().getNickname());
         socialSnsviewHolder.setOnSocialListener(new SocialSnsViewHolder.OnSocialListener() {
             @Override
             public void thumb(View view) {
-
+                mPre.messageId = item.getMid();
+                mPre.setIsThumb(!item.isThumb());
+                mPre.setThumb(s -> {
+                    if(item.isThumb()){
+                        int position = mPre.getUserThumbPosition(item.getPraiseList(),CpigeonData.getInstance().getUserId(mContext));
+                        if(position != -1){
+                            item.getPraiseList().remove(position);
+                        }
+                        socialSnsviewHolder.setThumb(false);
+                        socialSnsviewHolder.setThumbAnimation(false);
+                    }else {
+                        CircleMessageEntity.PraiseListBean bean = new CircleMessageEntity.PraiseListBean();
+                        bean.setIsPraise(1);
+                        bean.setUid(CpigeonData.getInstance().getUserId(mContext));
+                        bean.setNickname(CpigeonData.getInstance().getUserInfo().getNickname());
+                        item.getPraiseList().add(0,bean);
+                        socialSnsviewHolder.setThumb(true);
+                        socialSnsviewHolder.setThumbAnimation(true);
+                    }
+                    notifyItemChanged(holder.getAdapterPosition());
+                });
             }
 
             @Override
-            public void comment(EditText view) {
-                ToastUtil.showShortToast(activity, view.getText().toString());
+            public void comment(EditText view, InputCommentDialog dialog) {
+                mPre.messageId = item.getMid();
+                mPre.commentContent = view.getText().toString();
+                mPre.addComment(newComment -> {
+                    item.getCommentList().add(0, newComment);
+                    dialog.closeDialog();
+                    notifyItemChanged(holder.getAdapterPosition());
+                });
             }
 
             @Override
@@ -116,7 +172,24 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
 
             }
         });
-        //图片
+
+        if (item.getPraiseList() != null && item.getPraiseList().size() > 0) {
+
+            for (CircleMessageEntity.PraiseListBean praiseListBean : item.getPraiseList()) {
+
+                if (praiseListBean.getUid() == CpigeonData.getInstance().getUserId(mContext) && praiseListBean.getIsPraise() == 1) {
+                    socialSnsviewHolder.setThumb(true);
+                    item.setThumb();
+                    break;
+                } else {
+                    socialSnsviewHolder.setThumb(false);
+                    item.setCancelThumb();
+                }
+            }
+        }else socialSnsviewHolder.setThumb(false);
+        /**
+         * 图片
+         */
         RecyclerView imgs = holder.getView(R.id.imgsList);
         imgs.setLayoutManager(new GridLayoutManager(mContext, 3){
             @Override
@@ -132,7 +205,7 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
             }else adapter = (CircleMessageImagesAdapter) imgs.getAdapter();
             adapter.setNewData(item.getPicture());
             adapter.setOnItemClickListener((adapter1, view, position) -> {
-                showImageDialog(mContext, adapter.getImagesUrl(),position);
+                ChooseImageManager.showImageDialog(mContext, adapter.getImagesUrl(),position);
             });
             imgs.setAdapter(adapter);
             imgs.setFocusableInTouchMode(false);
@@ -141,7 +214,9 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
             imgs.setVisibility(View.GONE);
         }
 
-        //视频
+        /**
+         * 视频
+         */
         JZVideoPlayerStandard videoPlayer = holder.getView(R.id.videoplayer);
         if(!item.getVideo().isEmpty()){
             videoPlayer.setVisibility(View.VISIBLE);
@@ -153,15 +228,17 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
             videoPlayer.setVisibility(View.GONE);
         }
         PraiseListView praiseListView = holder.getView(R.id.thumbs);
-        //点赞
+        /**
+         * 点赞
+         */
         if(!item.getPraiseList().isEmpty()){
             praiseListView.setVisibility(View.VISIBLE);
             praiseListView.setDatas(item.getPraiseList());
 
         }else praiseListView.setVisibility(View.GONE);
-
-        //评论
-
+        /**
+         * 评论
+         */
         RecyclerView comments = holder.getView(R.id.comments);
         comments.setLayoutManager(new LinearLayoutManager(mContext){
             @Override
@@ -177,7 +254,21 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
             }else replayAdapter = new MessageDetailsReplayAdapter();
             comments.setAdapter(replayAdapter);
             replayAdapter.setOnItemClickListener((adapter1, view, position) -> {
-                //TODO 回复
+                CircleMessageEntity.CommentListBean  comment =replayAdapter.getItem(position);
+                InputCommentDialog dialog = new InputCommentDialog();
+                dialog.setHint(CpigeonData.getInstance().getUserInfo().getNickname()
+                        + " 回复 " + comment.getUser().getNickname());
+                dialog.setPushClickListener(editText -> {
+                    mPre.messageId = item.getMid();
+                    mPre.commentId =comment.getId();
+                    mPre.commentContent = editText.getText().toString();
+                    mPre.addComment(newComment -> {
+                        item.getCommentList().add(position,newComment);
+                        dialog.dismiss();
+                        notifyItemChanged(holder.getAdapterPosition());
+                    });
+                });
+                dialog.show(activity.getFragmentManager(),"InputCommentDialog");
             });
             replayAdapter.setNewData(item.getCommentList());
             comments.setFocusableInTouchMode(false);
@@ -185,40 +276,12 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
             comments.setVisibility(View.GONE);
         }
 
-
-
         holder.getView(R.id.tv_details).setOnClickListener(v -> {
             IntentBuilder.Builder()
-                    .startParentActivity((Activity) mContext, CircleMessageDetailsFragment.class);
+                    .startParentActivity(activity, CircleMessageDetailsFragment.class);
         });
     }
 
-    public static void showImageDialog(Context context, List<String> list, int startPosition) {
-        new ImageViewer.Builder<String>(context, list)
-                .setStartPosition(startPosition)
-                .hideStatusBar(false)
-                .allowZooming(true)
-                .allowSwipeToDismiss(true)
-                //.setBackgroundColorRes(colorRes)
-                //.setBackgroundColor(color)
-                //.setImageMargin(margin)
-                //.setImageMarginPx(marginPx)
-                //.setContainerPadding(this, dimen)
-                //.setContainerPadding(this, dimenStart, dimenTop, dimenEnd, dimenBottom)
-                //.setContainerPaddingPx(padding)
-                //.setContainerPaddingPx(start, top, end, bottom)
-//                        .setCustomImageRequestBuilder(imageRequestBuilder)
-//                        .setCustomDraweeHierarchyBuilder(draweeHierarchyBuilder)
-//                        .setImageChangeListener(imageChangeListener)
-//                        .setOnDismissListener(onDismissListener)
-//                        .setOverlayView(overlayView)
-                .show();
-    }
-
-    private void showGood(View view,@DrawableRes int resId){
-        goodView.setImage(resId);
-        goodView.show(view);
-    }
 
     public void setmPre(CircleMessagePre mPre) {
         this.mPre = mPre;
