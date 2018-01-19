@@ -96,5 +96,7 @@
     <string name="api_circle_add_message_comment">AddCircleMessageComment</string>
 
     <string name="api_hide_circle_message">ShieldCircleMessage</string>
+    <string name="api_hide_circle_user">ShieldCircleUser</string>
+    <string name="api_add_user_black_list">DefriendCircleUser</string>
 
 </resources>

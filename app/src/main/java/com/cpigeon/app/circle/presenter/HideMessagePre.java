@@ -21,6 +21,8 @@ public class HideMessagePre extends BasePresenter {
     BaseActivity activity;
     int userId;
     public int messageId;
+    public int hideUserId;
+    public int blackUserId;
     public int isHide;//1 屏蔽， 0取消屏蔽
 
     public HideMessagePre(Activity activity) {
@@ -36,6 +38,14 @@ public class HideMessagePre extends BasePresenter {
 
     public void hideMessage(Consumer<ApiResponse> consumer){
         submitRequestThrowError(CircleModel.hideCircleMessage(userId, messageId, isHide),consumer);
+    }
+
+    public void hideUser(Consumer<ApiResponse> consumer){
+        submitRequestThrowError(CircleModel.hideCircleUser(userId, hideUserId, isHide),consumer);
+    }
+
+    public void addBlackList(Consumer<ApiResponse> consumer){
+        submitRequestThrowError(CircleModel.addUserToBlackList(userId, blackUserId, isHide),consumer);
     }
 
 

@@ -59,11 +59,23 @@ public class DialogHideCircleFragment extends DialogFragment {
         });
 
         dialog.findViewById(R.id.ll_hide_his).setOnClickListener(v -> {
-            listener.hideHisMessage();
+            mPre.hideUserId = entity.getUserinfo().getUid();
+            mPre.setIsHide(true);
+            mPre.hideUser(apiResponse -> {
+                if(apiResponse.status){
+                    listener.hideHisMessage();
+                }else error(apiResponse.msg);
+            });
         });
 
         dialog.findViewById(R.id.ll_black).setOnClickListener(v -> {
-            listener.black();
+            mPre.blackUserId = entity.getUserinfo().getUid();
+            mPre.setIsHide(true);
+            mPre.addBlackList(apiResponse -> {
+                if(apiResponse.status){
+                    listener.black();
+                }else error(apiResponse.msg);
+            });
         });
 
         dialog.findViewById(R.id.ll_report).setOnClickListener(v -> {

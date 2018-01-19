@@ -88,4 +88,26 @@ public class CircleModel {
                 .request();
     }
 
+    public static Observable<ApiResponse> hideCircleUser(int userId, int hidedUserId, int isHide){
+        return PigeonHttpUtil.<ApiResponse>build()
+                .setToJsonType(new TypeToken<ApiResponse>(){}.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_hide_circle_user)
+                .addBody("u", String.valueOf(userId))
+                .addBody("suid", String.valueOf(hidedUserId))
+                .addBody("iss", String.valueOf(isHide))
+                .request();
+    }
+
+    public static Observable<ApiResponse> addUserToBlackList(int userId, int blackUserId, int isHide){
+        return PigeonHttpUtil.<ApiResponse>build()
+                .setToJsonType(new TypeToken<ApiResponse>(){}.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_add_user_black_list)
+                .addBody("u", String.valueOf(userId))
+                .addBody("duid", String.valueOf(blackUserId))
+                .addBody("iss", String.valueOf(isHide))
+                .request();
+    }
+
 }

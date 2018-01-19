@@ -81,17 +81,18 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
 
                 @Override
                 public void hideHisMessage() {
-
+                    dialogHideCircleFragment.dismiss();
+                    remove(holder.getAdapterPosition());
                 }
 
                 @Override
                 public void black() {
-
+                    dialogHideCircleFragment.dismiss();
+                    remove(holder.getAdapterPosition());
                 }
 
                 @Override
                 public void report() {
-
                 }
             });
             dialogHideCircleFragment.show(activity.getFragmentManager(),"DialogHideCircleFragment");
