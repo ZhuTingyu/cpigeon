@@ -339,8 +339,14 @@ public class CommonTool {
     }
 
     public static void setEmptyView(BaseQuickAdapter adapter, String message){
+        setEmptyView(adapter, R.drawable.ic_empty_img,message );
+
+
+    }
+
+    public static void setEmptyView(BaseQuickAdapter adapter,@DrawableRes int resId ,String message){
         CustomEmptyView emptyView = new CustomEmptyView(MyApp.getInstance().getBaseContext());
-        emptyView.setEmptyImage(R.drawable.ic_empty_img);
+        emptyView.setEmptyImage(resId);
         emptyView.setEmptyText(message);
         adapter.setEmptyView(emptyView);
     }

@@ -3,6 +3,7 @@ package com.cpigeon.app.circle;
 import android.support.annotation.Nullable;
 
 import com.cpigeon.app.R;
+import com.cpigeon.app.entity.CircleFriendEntity;
 import com.cpigeon.app.entity.CircleMessageEntity;
 import com.cpigeon.app.entity.CircleUserInfoEntity;
 import com.cpigeon.app.utils.databean.ApiResponse;
@@ -107,6 +108,18 @@ public class CircleModel {
                 .addBody("u", String.valueOf(userId))
                 .addBody("duid", String.valueOf(blackUserId))
                 .addBody("iss", String.valueOf(isHide))
+                .request();
+    }
+
+    public static Observable<ApiResponse<List<CircleFriendEntity>>> fansAndFollowList(int userId, String type, int page, int count){
+        return PigeonHttpUtil.<ApiResponse<List<CircleFriendEntity>>>build()
+                .setToJsonType(new TypeToken<ApiResponse<List<CircleFriendEntity>>>(){}.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_get_fans_and_follow)
+                .addBody("u", String.valueOf(userId))
+                .addBody("t", type)
+                .addBody("pi", String.valueOf(page))
+                .addBody("ps", String.valueOf(count))
                 .request();
     }
 

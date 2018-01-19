@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.circle.adpter.ShowFriendAdapter;
+import com.cpigeon.app.circle.presenter.FriendPre;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.utils.Lists;
@@ -16,10 +17,10 @@ import java.util.List;
  * Created by Zhu TingYu on 2018/1/18.
  */
 
-public class BaseShowFriendFragment extends BaseMVPFragment {
+public class BaseShowFriendFragment extends BaseMVPFragment<FriendPre> {
 
-    public static final String TYPE_FANS = "TYPE_FANS";
-    public static final String TYPE_FOLLOW = "TYPE_FOLLOW";
+    public static final String TYPE_FANS = "fs";
+    public static final String TYPE_FOLLOW = "gz";
 
     RecyclerView recyclerView;
     ShowFriendAdapter adapter;
@@ -30,8 +31,8 @@ public class BaseShowFriendFragment extends BaseMVPFragment {
     }
 
     @Override
-    protected BasePresenter initPresenter() {
-        return null;
+    protected FriendPre initPresenter() {
+        return new FriendPre(this);
     }
 
     @Override
@@ -45,7 +46,15 @@ public class BaseShowFriendFragment extends BaseMVPFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ShowFriendAdapter();
         recyclerView.setAdapter(adapter);
+        bindData();
 
-        adapter.setNewData(Lists.newArrayList("","",""));
+    }
+
+    private void bindData() {
+        showLoading();
+        mPresenter.getFriends(data -> {
+            hideLoading();
+            adapter.setNewData(data);
+        });
     }
 }

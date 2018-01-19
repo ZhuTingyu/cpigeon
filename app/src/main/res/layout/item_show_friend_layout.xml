@@ -17,6 +17,7 @@
 
         <ImageView
             android:id="@+id/head_img"
+            android:scaleType="fitXY"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="8dp" />
@@ -44,24 +45,14 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/tv_fans_count"
+                    android:id="@+id/time"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="粉丝"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tv_focus_count"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="关注"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 
