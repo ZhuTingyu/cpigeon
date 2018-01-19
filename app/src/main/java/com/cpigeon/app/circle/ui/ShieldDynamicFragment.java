@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.circle.adpter.ShieldDynamicAdapter;
+import com.cpigeon.app.circle.presenter.HideMessageListPre;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.utils.Lists;
@@ -16,7 +17,7 @@ import java.util.List;
  * Created by Zhu TingYu on 2018/1/18.
  */
 
-public class ShieldDynamicFragment extends BaseMVPFragment {
+public class ShieldDynamicFragment extends BaseMVPFragment <HideMessageListPre>{
 
     RecyclerView recyclerView;
     ShieldDynamicAdapter adapter;
@@ -27,8 +28,8 @@ public class ShieldDynamicFragment extends BaseMVPFragment {
     }
 
     @Override
-    protected BasePresenter initPresenter() {
-        return null;
+    protected HideMessageListPre initPresenter() {
+        return new HideMessageListPre(getActivity());
     }
 
     @Override
@@ -43,6 +44,8 @@ public class ShieldDynamicFragment extends BaseMVPFragment {
 
         adapter = new ShieldDynamicAdapter();
         recyclerView.setAdapter(adapter);
-        adapter.setNewData(Lists.newArrayList("","",""));
+        mPresenter.getHideMessage(list -> {
+            adapter.setNewData(list);
+        });
     }
 }

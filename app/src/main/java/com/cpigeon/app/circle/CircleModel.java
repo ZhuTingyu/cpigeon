@@ -6,6 +6,7 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.entity.CircleFriendEntity;
 import com.cpigeon.app.entity.CircleMessageEntity;
 import com.cpigeon.app.entity.CircleUserInfoEntity;
+import com.cpigeon.app.entity.HideMessageEntity;
 import com.cpigeon.app.utils.databean.ApiResponse;
 import com.cpigeon.app.utils.http.HttpUtil;
 import com.cpigeon.app.utils.http.PigeonHttpUtil;
@@ -145,9 +146,9 @@ public class CircleModel {
                 .request();
     }
 
-    public static Observable<ApiResponse<List<String>>> hideMessageList(int userId, int page, int count){
-        return PigeonHttpUtil.<ApiResponse<List<String>>>build()
-                .setToJsonType(new TypeToken<ApiResponse<List<String>>>(){}.getType())
+    public static Observable<ApiResponse<List<HideMessageEntity>>> hideMessageList(int userId, int page, int count){
+        return PigeonHttpUtil.<ApiResponse<List<HideMessageEntity>>>build()
+                .setToJsonType(new TypeToken<ApiResponse<List<HideMessageEntity>>>(){}.getType())
                 .setType(HttpUtil.TYPE_POST)
                 .url(R.string.api_get_hide_message_list)
                 .addBody("u", String.valueOf(userId))
