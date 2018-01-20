@@ -129,5 +129,9 @@
 
     <string name="string_foot_search_remark">当前为您使用%1$s，%2$s，剩余查询次数：%3$s次</string>
 
+    <string name="string_circle_message_show_type_public">所有人可见</string>
+    <string name="string_circle_message_show_type_friend">好友可见</string>
+    <string name="string_circle_message_show_type_person">自己可见</string>
+
 
 </resources>

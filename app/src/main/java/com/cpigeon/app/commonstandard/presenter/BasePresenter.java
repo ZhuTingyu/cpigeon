@@ -263,4 +263,8 @@ public abstract class BasePresenter<TView extends IView, TDao extends IBaseDao> 
     public BaseFragment getBaseFragment() {
         return baseFragment;
     }
+
+    public String getString(@StringRes int resId){
+        return getActivity().getResources().getString(resId);
+    }
 }

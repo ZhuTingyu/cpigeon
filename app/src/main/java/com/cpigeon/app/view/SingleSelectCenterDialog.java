@@ -31,7 +31,7 @@ import java.util.List;
  */
 public class SingleSelectCenterDialog extends Dialog {
 
-    List<SelectItem> selectItemList;
+    public List<SelectItem> selectItemList;
     LinearLayout mRootLayout;
     ViewGroup.LayoutParams lp_item_textview;
     ViewGroup.LayoutParams lp_item_splitview;
@@ -157,6 +157,11 @@ public class SingleSelectCenterDialog extends Dialog {
 
         public Builder addSelectItem(String text, OnItemClickListener onItemClickListener) {
             return this.addSelectItem(new SelectItem(text, onItemClickListener));
+        }
+
+        public Builder removeSelectItem(String text, int position) {
+            this.selectItemList.remove(position);
+            return this;
         }
 
         public Builder addSelectItem(SelectItem item) {
