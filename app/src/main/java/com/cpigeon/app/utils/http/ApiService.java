@@ -49,6 +49,7 @@ public interface ApiService {
     @POST("PushCircleMessage")
     Observable<ApiResponse<String>> pushCircleMessage(
             @Header("u") String token,
+            @Query("timestamp") String timestamp,
             @Query("sign") String sign,
             @Body RequestBody requestBody);
 

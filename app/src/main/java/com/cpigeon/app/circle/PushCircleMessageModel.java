@@ -2,6 +2,7 @@ package com.cpigeon.app.circle;
 
 import com.cpigeon.app.MyApp;
 import com.cpigeon.app.utils.CPigeonApiUrl;
+import com.cpigeon.app.utils.CallAPI;
 import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.StringValid;
@@ -9,6 +10,9 @@ import com.cpigeon.app.utils.databean.ApiResponse;
 import com.cpigeon.app.utils.http.CommonUitls;
 import com.cpigeon.app.utils.http.LogUtil;
 import com.cpigeon.app.utils.http.RetrofitHelper;
+
+import org.xutils.http.HttpMethod;
+import org.xutils.http.RequestParams;
 
 import java.io.File;
 import java.util.HashMap;
@@ -88,17 +92,21 @@ public class PushCircleMessageModel {
 
         LogUtil.print("url: " + CPigeonApiUrl.getInstance().getServer()
                         + "/CPAPI/V1/"+ "PushCircleMessage");
-        LogUtil.print("sign: " + CommonUitls.getApiSign(System.currentTimeMillis() / 1000, map));
-
 
         RequestBody requestBody = builder.build();
+        RequestParams requestParams = new RequestParams();
+        requestParams.setMethod(HttpMethod.POST);
+        for (String key : map.keySet()) {
+            requestParams.addBodyParameter(key, map.get(key));
+        }
+         CallAPI.addApiSign(requestParams);
 
         return RetrofitHelper.getApi().pushCircleMessage(
                 CommonTool.getUserToken(MyApp.getInstance().getBaseContext()),
-                CommonUitls.getApiSign(System.currentTimeMillis() / 1000, map),
+                //CommonUitls.getApiSign(System.currentTimeMillis() / 1000, map),
+                String.valueOf(System.currentTimeMillis() / 1000),
+                CallAPI.addApiSign(requestParams),
                 requestBody);
-
-
     }
 
     private static String getString(String s){

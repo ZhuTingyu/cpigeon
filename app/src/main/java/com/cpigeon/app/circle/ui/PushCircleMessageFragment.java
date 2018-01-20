@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
 import com.cpigeon.app.circle.adpter.ChooseImageAdapter;
 import com.cpigeon.app.circle.presenter.PushCircleMessagePre;
@@ -18,6 +19,7 @@ import com.cpigeon.app.entity.ChooseImageEntity;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
+import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.view.SingleSelectCenterDialog;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -73,8 +75,9 @@ public class PushCircleMessageFragment extends BaseMVPFragment<PushCircleMessage
         toolbar.getMenu().clear();
         toolbar.getMenu().add("发表")
                 .setOnMenuItemClickListener(item -> {
-                    mPresenter.pushMessage(s -> {
-
+                    mPresenter.pushMessage(b -> {
+                        ToastUtil.showLongToast(MyApp.getInstance().getBaseContext(),"发布成功");
+                        finish();
                     });
                     return false;
                 }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
