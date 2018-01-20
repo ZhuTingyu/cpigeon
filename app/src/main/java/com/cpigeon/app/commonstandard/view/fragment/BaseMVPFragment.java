@@ -15,6 +15,7 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.ScreenTool;
+import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.ToastUtils;
 import com.cpigeon.app.utils.http.RestErrorInfo;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
@@ -63,7 +64,7 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
 
     protected void error(String message) {
         hideLoading();
-        if(!TextUtils.isEmpty(message)) {
+        if(!StringValid.isStringValid(message)) {
             if(errorDialog == null || !errorDialog.isShowing()){
                 errorDialog = DialogUtils.createErrorDialog(getContext(), message);
             }

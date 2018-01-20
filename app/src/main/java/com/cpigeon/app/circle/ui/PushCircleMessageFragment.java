@@ -75,7 +75,9 @@ public class PushCircleMessageFragment extends BaseMVPFragment<PushCircleMessage
         toolbar.getMenu().clear();
         toolbar.getMenu().add("发表")
                 .setOnMenuItemClickListener(item -> {
+                    showLoading();
                     mPresenter.pushMessage(b -> {
+                        hideLoading();
                         ToastUtil.showLongToast(MyApp.getInstance().getBaseContext(),"发布成功");
                         finish();
                     });

@@ -93,13 +93,13 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
 
         setTitle("中鸽网");
 
-        toolbar.setNavigationIcon(R.mipmap.ic_home_top_my);
+        toolbar.setNavigationIcon(R.mipmap.ic_home_my);
         toolbar.setNavigationOnClickListener(v -> {
             ToastUtil.showLongToast(getContext(), "home");
         });
 
         toolbar.getMenu().clear();
-        toolbar.getMenu().add("").setIcon(R.mipmap.ic_home_top_message)
+        toolbar.getMenu().add("").setIcon(R.mipmap.ic_home_message)
                 .setOnMenuItemClickListener(item -> {
                     return false;
                 }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -317,7 +317,7 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
     private void initNewList() {
         newsList.setLayoutManager(new LinearLayoutManager(getContext()));
         newsList.setNestedScrollingEnabled(false);
-        newAdapter = new PigeonNewsAdapter();
+        newAdapter = new PigeonNewsAdapter(PigeonNewsAdapter.TYPE_HOME);
         newAdapter.setType(PigeonNewsAdapter.TYPE_HOME);
         newsList.setAdapter(newAdapter);
     }

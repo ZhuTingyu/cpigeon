@@ -3,6 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -40,7 +41,7 @@
 
 
             <View
-                android:background="@color/line_color_f2f2f2"
+                android:background="@color/color_default_bg"
                 android:layout_width="match_parent"
                 android:layout_marginStart="@dimen/large_horizontal_margin"
                 android:layout_marginEnd="@dimen/large_horizontal_margin"
@@ -83,15 +84,24 @@
 
             </LinearLayout>
 
+            <View
+                android:background="@color/color_default_bg"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/big_large_vertical_margin"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/news_list"
-                android:layout_marginTop="@dimen/big_large_vertical_margin"
-                android:layout_marginBottom="@dimen/big_large_vertical_margin"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 />
 
+            <View
+                android:background="@color/color_default_bg"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/big_large_vertical_margin"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/dynamic_list"
