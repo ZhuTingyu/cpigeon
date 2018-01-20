@@ -105,4 +105,6 @@
     <string name="api_get_user_black_list">GetUserCircleBlackList</string>
     <string name="api_get_hide_message_list">GetUserShieldCircleMessageList</string>
 
+    <string name="api_push_message">PushCircleMessage</string>
+
 </resources>

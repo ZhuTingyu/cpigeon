@@ -5,7 +5,10 @@ import android.widget.TextView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseQuickAdapter;
 import com.cpigeon.app.base.BaseViewHolder;
+import com.cpigeon.app.circle.presenter.HideMessageListPre;
+import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.entity.HideMessageEntity;
+import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.Lists;
 
 import java.util.List;
@@ -16,8 +19,11 @@ import java.util.List;
 
 public class ShieldDynamicAdapter extends BaseQuickAdapter<HideMessageEntity, BaseViewHolder> {
 
-    public ShieldDynamicAdapter() {
+    HideMessageListPre mPre;
+
+    public ShieldDynamicAdapter(HideMessageListPre mPre) {
         super(R.layout.item_shield_dynamic_layout, Lists.newArrayList());
+        this.mPre = mPre;
     }
 
     @Override
@@ -29,7 +35,16 @@ public class ShieldDynamicAdapter extends BaseQuickAdapter<HideMessageEntity, Ba
         TextView statue = holder.getView(R.id.state);
         statue.setText("取消屏蔽");
         statue.setOnClickListener(v -> {
-
+            DialogUtils.createDialogWithLeft(mContext,"是否取消屏蔽消息", sweetAlertDialog -> {
+                sweetAlertDialog.dismiss();
+                mPre.messageId = item.getMsgInfo().getMid();
+                mPre.setIsHide(false);
+                mPre.hideMessage(apiResponse -> {
+                    if(apiResponse.status){
+                        remove(holder.getAdapterPosition());
+                    }else ((BaseActivity) mContext).error(apiResponse.msg);
+                });
+            });
         });
     }
 }

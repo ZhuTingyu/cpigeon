@@ -48,7 +48,7 @@ public class ShieldFriendFragment extends BaseMVPFragment<HideFriendPre>{
 
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new ShieldFriendAdapter(type);
+        adapter = new ShieldFriendAdapter(type, mPresenter);
         recyclerView.setAdapter(adapter);
 
         if(type.equals(TYPE_SHIELD)){

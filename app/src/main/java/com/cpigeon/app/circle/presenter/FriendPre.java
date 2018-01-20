@@ -21,8 +21,10 @@ import io.reactivex.functions.Consumer;
 public class FriendPre extends BasePresenter{
 
     public int page = 1;
-    String type;
+    public String type;
     int userId;
+    public int followId;
+    int isFollow = 0;
 
     public FriendPre(BaseFragment baseFragment) {
         super(baseFragment);
@@ -41,6 +43,14 @@ public class FriendPre extends BasePresenter{
                 if(r.status){
                     return r.data;
                 }else return Lists.newArrayList();
+            }else throw new HttpErrorException(r);
+        }),consumer);
+    }
+
+    public void cancelFollow(Consumer<String> consumer){
+        submitRequestThrowError(CircleModel.circleFollow(userId, followId, isFollow).map(r -> {
+            if(r.status){
+                return r.msg;
             }else throw new HttpErrorException(r);
         }),consumer);
     }

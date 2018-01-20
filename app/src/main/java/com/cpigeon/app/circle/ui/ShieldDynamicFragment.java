@@ -42,7 +42,7 @@ public class ShieldDynamicFragment extends BaseMVPFragment <HideMessageListPre>{
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        adapter = new ShieldDynamicAdapter();
+        adapter = new ShieldDynamicAdapter(mPresenter);
         recyclerView.setAdapter(adapter);
         mPresenter.getHideMessage(list -> {
             adapter.setNewData(list);

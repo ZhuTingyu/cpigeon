@@ -9,7 +9,9 @@ import com.cpigeon.app.circle.adpter.ShowFriendAdapter;
 import com.cpigeon.app.circle.presenter.FriendPre;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
+import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.ToastUtil;
 
 import java.util.List;
 
@@ -45,6 +47,17 @@ public class BaseShowFriendFragment extends BaseMVPFragment<FriendPre> {
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ShowFriendAdapter();
+        if (mPresenter.type.equals(BaseShowFriendFragment.TYPE_FOLLOW)) {
+            adapter.setOnItemClickListener((adapter1, view, position) -> {
+                DialogUtils.createDialogWithLeft(getContext(), "是否取消关注", sweetAlertDialog -> {
+                    mPresenter.followId = adapter.getItem(position).getUserinfo().getUid();
+                    mPresenter.cancelFollow(s -> {
+                        adapter.remove(position);
+                        ToastUtil.showShortToast(getContext(), s);
+                    });
+                });
+            });
+        }
         recyclerView.setAdapter(adapter);
         bindData();
 
