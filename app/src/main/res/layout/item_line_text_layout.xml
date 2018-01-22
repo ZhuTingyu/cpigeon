@@ -13,8 +13,7 @@
         android:singleLine="true"
         android:paddingTop="@dimen/large_vertical_margin"
         android:paddingBottom="@dimen/large_vertical_margin"
-        android:background="@color/bg_color_fafafa"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" /> />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

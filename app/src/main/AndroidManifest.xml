@@ -317,7 +317,7 @@
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity android:name=".pigeonnews.ui.PigeonNewsActivity" />
         <activity android:name=".pigeonnews.ui.NewsDetailsActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
     </application>
 
 

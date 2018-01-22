@@ -1,15 +1,12 @@
 package com.cpigeon.app.sign;
 
-import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,7 +16,6 @@ import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.MultiSelectEntity;
 import com.cpigeon.app.utils.DateTool;
-import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.view.materialcalendarview.CalendarDay;
 import com.cpigeon.app.view.materialcalendarview.EventDecorator;
@@ -83,7 +79,7 @@ public class SignFragment extends BaseMVPFragment {
         recyclerView = findViewById(R.id.list);
         tvSign = findViewById(R.id.text_sign);
 
-        topGif.setImageResource(R.drawable.sign_top_anim);
+        topGif.setImageResource(R.drawable.anim_sign_top);
         animationDrawable = (AnimationDrawable) topGif.getDrawable();
         animationDrawable.start();
 

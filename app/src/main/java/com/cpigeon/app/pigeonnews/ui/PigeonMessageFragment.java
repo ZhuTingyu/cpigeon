@@ -1,10 +1,14 @@
 package com.cpigeon.app.pigeonnews.ui;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
+import com.cpigeon.app.base.BaseViewHolder;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.pigeonnews.presenter.PigeonMessagePre;
@@ -23,6 +27,8 @@ public class PigeonMessageFragment extends BaseMVPFragment<PigeonMessagePre> {
 
     ImageView icon;
     TextView content;
+
+    AnimationDrawable animationDrawable;
 
     @Override
     protected PigeonMessagePre initPresenter() {
@@ -46,11 +52,44 @@ public class PigeonMessageFragment extends BaseMVPFragment<PigeonMessagePre> {
 
         icon = findViewById(R.id.icon);
         content = findViewById(R.id.content);
+        ImageView earthAnim = findViewById(R.id.earth_anim);
 
         if(mPresenter.type == TYPE_EARTH_QUAKE){
             icon.setImageResource(R.mipmap.ic_earth_quake);
+            earthAnim.setImageResource(R.drawable.anim_earth_quack);
+            animationDrawable = (AnimationDrawable) earthAnim.getDrawable();
+            animationDrawable.start();
         }else {
             icon.setImageResource(R.mipmap.ic_solar_storm);
+            earthAnim.setVisibility(View.GONE);
+            LinearLayout suns =  findViewById(R.id.suns_images);
+            suns.setVisibility(View.VISIBLE);
+
+            BaseViewHolder holder1 = new BaseViewHolder(findViewById(suns, R.id.img_layout_1));
+            TextView textView1 = holder1.getView(R.id.title);
+            textView1.setTextColor(getResources().getColor(R.color.gray_m));
+            textView1.setTextSize(14);
+            textView1.setText("太阳磁场像");
+            holder1.setImageResource(R.id.icon, R.mipmap.ic_solar_storm_1);
+
+
+            BaseViewHolder holder2 = new BaseViewHolder(findViewById(suns, R.id.img_layout_2));
+
+            TextView textView2 = holder2.getView(R.id.title);
+            textView2.setTextColor(getResources().getColor(R.color.gray_m));
+            textView2.setText("太阳黑子像");
+            textView2.setTextSize(14);
+            holder2.setImageResource(R.id.icon, R.mipmap.ic_solar_storm_2);
+
+            BaseViewHolder holder3 = new BaseViewHolder(findViewById(suns, R.id.img_layout_3));
+            TextView textView3 = holder3.getView(R.id.title);
+            textView3.setTextColor(getResources().getColor(R.color.gray_m));
+            textView3.setTextSize(14);
+            textView3.setText("全日面色球单色像");
+            holder3.setImageResource(R.id.icon, R.mipmap.ic_solar_storm_3);
+
+
+
         }
 
         bindData();
@@ -61,5 +100,13 @@ public class PigeonMessageFragment extends BaseMVPFragment<PigeonMessagePre> {
         mPresenter.getMessage(data -> {
             content.setText(data.content);
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(animationDrawable != null){
+            animationDrawable.stop();
+        }
     }
 }

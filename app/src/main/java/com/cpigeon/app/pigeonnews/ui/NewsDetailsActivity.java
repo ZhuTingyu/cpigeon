@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
@@ -22,7 +23,7 @@ import com.cpigeon.app.viewholder.NewsCommentViewHolder;
  * Created by Zhu TingYu on 2018/1/6.
  */
 
-public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
+public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre> {
 
 
     TextView title;
@@ -31,6 +32,7 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
 
     RecyclerView recyclerView;
     NewsRelatedAdapter adapter;
+    int loadCount = 0;
 
     @Override
     public int getLayoutId() {
@@ -49,7 +51,13 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
         introduce = findViewById(R.id.introduce);
         initBottomToolbar();
         super.initView(savedInstanceState);
-        webView.setWebViewClient(new WebViewClient(){
+        webView.setWebViewClient(new WebViewClient() {
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return false;
+            }
+
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
@@ -61,21 +69,31 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
                         " img.style.maxWidth = '100%';img.style.height='auto';" +
                         "}" +
                         "})()");
+                loadCount ++;
+                if(loadCount > 1){
+                    findViewById(R.id.text1).setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    hideLoading();
+
+                }
+
             }
         });
 
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setNestedScrollingEnabled(false);
-        addItemDecorationLine(recyclerView, R.color.color_e6e6e6, 0.5f);
+        addItemDecorationLine(recyclerView);
         adapter = new NewsRelatedAdapter();
         adapter.setOnItemClickListener((adapter1, view, position) -> {
-             IntentBuilder.Builder(getActivity(), NewsDetailsActivity.class)
+            IntentBuilder.Builder(getActivity(), NewsDetailsActivity.class)
                     .putExtra(IntentBuilder.KEY_DATA, adapter.getItem(position).nid)
                     .startActivity();
             finish();
         });
         recyclerView.setAdapter(adapter);
+
+        showLoading();
 
         bindData();
     }
@@ -89,7 +107,7 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
             public void commentPushClick(EditText editText) {
                 mPresenter.content = editText.getText().toString();
                 mPresenter.addNewsComment(msg -> {
-                    ToastUtil.showShortToast(getActivity(),msg);
+                    ToastUtil.showShortToast(getActivity(), msg);
                     viewHolder.dialog.closeDialog();
                     mPresenter.newsDetailsEntity.count += 1;
                     viewHolder.bindData(mPresenter.newsDetailsEntity);
@@ -102,11 +120,11 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
                 showLoading();
                 mPresenter.thumbNews(data -> {
                     hideLoading();
-                    if(data.isThumb()){
+                    if (data.isThumb()) {
                         ToastUtil.showShortToast(getActivity(), "点赞成功");
                         mPresenter.newsDetailsEntity.priase += 1;
                         mPresenter.newsDetailsEntity.setThumb();
-                    }else {
+                    } else {
                         ToastUtil.showShortToast(getActivity(), "取消点赞");
                         mPresenter.newsDetailsEntity.priase -= 1;
                         mPresenter.newsDetailsEntity.setCancelThumb();
@@ -132,14 +150,14 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre>{
             adapter.setNewData(data);
             mPresenter.getNewsDetails(newsDetailsEntity -> {
                 title.setText(newsDetailsEntity.title);
-                introduce.setText(newsDetailsEntity.author+"  "+newsDetailsEntity.time+"  "+
-                        "浏览"+newsDetailsEntity.hits+"次");
+                introduce.setText(newsDetailsEntity.author + "  " + newsDetailsEntity.time + "  " +
+                        "浏览" + newsDetailsEntity.hits + "次");
                 viewHolder.bindData(newsDetailsEntity);
                 String css = "<style type=\"text/css\"></style>";
-                String html = "<html><header><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no>"+css+"</header>"+"<body>"+newsDetailsEntity.content+"</body>"+"</html>";
+                String html = "<html><header><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no>" + css + "</header>" + "<body>" + newsDetailsEntity.content + "</body>" + "</html>";
                 loadWebByHtml(html);
-
             });
+
         });
 
     }

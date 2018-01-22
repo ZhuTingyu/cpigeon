@@ -62,8 +62,9 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
     protected void convert(BaseViewHolder holder, CircleMessageEntity item) {
 
         holder.getView(R.id.ll1).setOnClickListener(v -> {
-            ToastUtil.showLongToast(mContext, holder.getAdapterPosition()+"");
-
+            IntentBuilder.Builder()
+                    .putExtra(IntentBuilder.KEY_DATA, item.getMid())
+                    .startParentActivity(activity, CircleMessageDetailsFragment.class);
         });
 
         holder.setGlideImageView(mContext, R.id.head_img, item.getUserinfo().getHeadimgurl());

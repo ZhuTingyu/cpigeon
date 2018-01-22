@@ -76,6 +76,7 @@ public class BaseWebViewActivity<Pre extends BasePresenter> extends BaseActivity
                 if (progressBar != null) {
                     if (newProgress == 100) {
                         progressBar.setVisibility(View.GONE);
+                        loadJsFinish();
                     } else {
                         if (View.GONE == progressBar.getVisibility()) {
                             progressBar.setVisibility(View.VISIBLE);
@@ -154,5 +155,9 @@ public class BaseWebViewActivity<Pre extends BasePresenter> extends BaseActivity
         }
 
         super.onDestroy();
+    }
+
+    protected void loadJsFinish(){
+
     }
 }

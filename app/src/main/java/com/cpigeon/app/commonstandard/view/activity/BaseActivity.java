@@ -420,9 +420,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                 .showLastDivider().build());
     }
 
-    protected void addItemDecorationLine(RecyclerView recyclerView, @ColorRes int colorId, float size){
+    protected void addItemDecorationLine(RecyclerView recyclerView, @ColorRes int colorId){
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(recyclerView.getContext())
-                .colorResId(colorId).size(ScreenTool.dip2px(size))
+                .colorResId(colorId).size(1)
                 .showLastDivider().build());
     }
 }
