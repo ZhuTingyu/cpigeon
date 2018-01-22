@@ -1,9 +1,12 @@
 package com.cpigeon.app.pigeonnews.ui;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.ValueCallback;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -69,8 +72,9 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre> {
                         " img.style.maxWidth = '100%';img.style.height='auto';" +
                         "}" +
                         "})()");
-                loadCount ++;
-                if(loadCount > 1){
+                loadCount++;
+                if (loadCount > 1) {
+                    webView.setVisibility(View.VISIBLE);
                     findViewById(R.id.text1).setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.VISIBLE);
                     hideLoading();

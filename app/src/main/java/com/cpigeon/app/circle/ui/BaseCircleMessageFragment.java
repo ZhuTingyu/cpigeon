@@ -28,7 +28,7 @@ public class BaseCircleMessageFragment extends BaseMVPFragment<CircleMessagePre>
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_recyclerview_not_white_layout;
+        return R.layout.fragment_recyclerview_not_white_no_padding_layout;
     }
 
     @Override
