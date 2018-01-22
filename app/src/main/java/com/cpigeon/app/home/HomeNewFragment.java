@@ -110,6 +110,10 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
         newsList = findViewById(R.id.news_list);
         dynamicList = findViewById(R.id.dynamic_list);
 
+        setRefreshListener(() -> {
+            initData();
+        });
+
         initBanner();
 
 
@@ -226,20 +230,25 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
 
         mPresenter.getHomeNews(data -> {
             newAdapter.setNewData(HomeNewsEntity.get(data, HomeNewsEntity.TYPE_ONE));
-            newAdapter.addFooterView(initFootView(TYPE_NEWS));
+            if(dynamicAdapter.getFooterLayoutCount() == 0){
+                newAdapter.addFooterView(initFootView(TYPE_NEWS));
+            }
 
         });
 
         mPresenter.getHomeDynamic(data -> {
             dynamicAdapter.setNewData(data);
-            dynamicAdapter.addFooterView(initFootView(TYPE_DYNAMIC));
+            if(dynamicAdapter.getFooterLayoutCount() == 0){
+                dynamicAdapter.addFooterView(initFootView(TYPE_DYNAMIC));
+            }
+            hideLoading();
         });
     }
 
     private void initDynamicList() {
         dynamicList.setLayoutManager(new LinearLayoutManager(getContext()));
         dynamicList.setNestedScrollingEnabled(false);
-        dynamicAdapter = new CircleDynamicAdapter();
+        dynamicAdapter = new CircleDynamicAdapter(mPresenter);
         dynamicList.setAdapter(dynamicAdapter);
     }
 
@@ -360,6 +369,9 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
             });
         }else {
             textView.setText("查看更多动态");
+            view.setOnClickListener(v -> {
+                ((MainActivity)getActivity()).setCurrIndex(2);
+            });
         }
         return view;
     }

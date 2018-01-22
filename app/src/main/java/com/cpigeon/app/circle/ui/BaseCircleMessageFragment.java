@@ -62,7 +62,6 @@ public class BaseCircleMessageFragment extends BaseMVPFragment<CircleMessagePre>
                 }
             });
         }, recyclerView);
-        addItemDecorationLine(recyclerView, R.color.color_default_bg, ScreenTool.dip2px(getContext().getResources().getDimension(R.dimen.large_vertical_margin)));
 
         recyclerView.requestFocus();
 

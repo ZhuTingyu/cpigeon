@@ -15,6 +15,7 @@ import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.modular.footsearch.presenter.FootSearchHistoryPre;
 import com.cpigeon.app.modular.footsearch.ui.adapter.FootSearchAdapter;
+import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.ScreenTool;
@@ -58,12 +59,15 @@ public class FootSearchHistoryFragment extends BaseMVPFragment<FootSearchHistory
         btn = findViewById(R.id.rl1);
         btn.setVisibility(View.VISIBLE);
         btn.setOnClickListener(v -> {
-            showLoading();
-            mPresenter.cleanHistory(s -> {
-                hideLoading();
-                adapter.getData().clear();
-                adapter.notifyDataSetChanged();
-                adapter.setEmptyView();
+            DialogUtils.createDialogWithLeft(getActivity(),"是否要清空历史记录？",sweetAlertDialog -> {
+                sweetAlertDialog.dismiss();
+                showLoading();
+                mPresenter.cleanHistory(s -> {
+                    hideLoading();
+                    adapter.getData().clear();
+                    adapter.notifyDataSetChanged();
+                    adapter.setEmptyView();
+                });
             });
         });
 

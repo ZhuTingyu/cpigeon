@@ -112,7 +112,7 @@ public class PushCircleMessageFragment extends BaseMVPFragment<PushCircleMessage
             }
         });
         adapter = new ChooseImageAdapter(getActivity());
-        adapter.setType(ChooseImageAdapter.TYPE_PICTURE);
+        adapter.setType(ChooseImageAdapter.TYPE_ALL);
         adapter.setNewData(Lists.newArrayList());
         recyclerView.setAdapter(adapter);
     }
@@ -129,18 +129,24 @@ public class PushCircleMessageFragment extends BaseMVPFragment<PushCircleMessage
                     entity.url = localMedia.getCompressPath();
                     entities.add(entity);
                 }
-                adapter.addData(entities);
-                mPresenter.imgs = adapter.getImgs();
-                mPresenter.messageType = PushCircleMessagePre.TYPE_PICTURE;
+                if(!entities.isEmpty()){
+                    adapter.setType(ChooseImageAdapter.TYPE_PICTURE);
+                    mPresenter.messageType = PushCircleMessagePre.TYPE_PICTURE;
+                    adapter.addData(entities);
+                    mPresenter.imgs = adapter.getImgs();
+                }
             }else if(requestCode == PictureMimeType.ofVideo()){
                 for (LocalMedia localMedia : selectList) {
                     ChooseImageEntity entity = new ChooseImageEntity();
                     entity.url = localMedia.getPath();
                     entities.add(entity);
                 }
-                adapter.addData(entities);
-                mPresenter.messageType = PushCircleMessagePre.TYPE_VIDEO;
-                mPresenter.video = adapter.getImgs().get(0);
+                if(!entities.isEmpty()){
+                    adapter.setType(ChooseImageAdapter.TYPE_VIDEO);
+                    mPresenter.messageType = PushCircleMessagePre.TYPE_VIDEO;
+                    adapter.addData(entities);
+                    mPresenter.video = adapter.getImgs().get(0);
+                }
             }
 
         }

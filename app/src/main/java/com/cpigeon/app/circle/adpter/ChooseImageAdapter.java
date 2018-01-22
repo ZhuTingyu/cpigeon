@@ -54,13 +54,8 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
                 if (item != null) {
                     if (item.getText().equals("选择图片")) {
                         ChooseImageManager.showChooseImage(activity, PictureMimeType.ofImage(), maxChoose - getImgs().size());
-                        setType(TYPE_PICTURE);
-                        maxChoose = 9;
-                        setPublishTypeDialog(TYPE_PICTURE);
                     } else {
                         ChooseImageManager.showChooseImage(activity, PictureMimeType.ofVideo(), maxChoose - getImgs().size());
-                        setType(TYPE_VIDEO);
-                        maxChoose = 1;
                     }
                     dialog.dismiss();
 
@@ -97,14 +92,9 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
                 holder.getView(R.id.ll_del).setOnClickListener(v -> {
                     remove(holder.getAdapterPosition());
                     if (type == TYPE_PICTURE) {
-                        if (mData.get(mData.size() - 1).getItemType() != ChooseImageEntity.TYPE_ADD) {
-                            setAddImage();
-                        }
-
                         if(mData.size() == 1){
-                            setPublishTypeDialog(TYPE_ALL);
+                            setType(TYPE_ALL);
                         }
-
                     } else {
                         setAddImage();
                     }
@@ -116,6 +106,7 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
                 holder.setViewVisible(R.id.ll_del, View.GONE);
                 holder.setImageResource(R.id.image, R.mipmap.ic_add_img);
                 holder.itemView.setOnClickListener(v -> {
+                    setPublishTypeDialog();
                     publishTypeDialog.show();
                 });
                 break;
@@ -167,6 +158,11 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
 
     public void setType(int type) {
         this.type = type;
+        if(type == TYPE_VIDEO){
+            setMaxChoose(1);
+        }else {
+            setMaxChoose(9);
+        }
     }
 
     private void setAddImage() {
@@ -174,7 +170,7 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
         entity.setType(ChooseImageEntity.TYPE_ADD);
         mData.add(entity);
         notifyDataSetChanged();
-        setPublishTypeDialog(TYPE_ALL);
+        setType(TYPE_ALL);
     }
 
     private void removeAddImage() {
@@ -182,7 +178,7 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
         notifyDataSetChanged();
     }
 
-    private void setPublishTypeDialog(int type) {
+    private void setPublishTypeDialog() {
         if (type == TYPE_ALL) {
             publishTypeDialog = new SingleSelectCenterDialog
                     .Builder(activity)

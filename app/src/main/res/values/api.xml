@@ -106,5 +106,6 @@
     <string name="api_get_hide_message_list">GetUserShieldCircleMessageList</string>
 
     <string name="api_push_message">PushCircleMessage</string>
+    <string name="api_forward_circle_message">ForwardCircleMessage</string>
 
 </resources>
