@@ -18,23 +18,7 @@
 
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <com.cpigeon.app.utils.customview.smarttab.SmartTabLayout
-                android:id="@+id/viewpagertab"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                app:stl_defaultTabTextColor="#6D6D6D"
-                app:stl_defaultTabTextSize="16dp"
-                app:stl_distributeEvenly="true"
-                app:stl_indicatorColor="@color/colorPrimary"
-                app:stl_indicatorCornerRadius="1.5dp"
-                app:stl_indicatorInterpolation="smart"
-                app:stl_indicatorThickness="3dp"
-                app:stl_underlineColor="@android:color/transparent" />
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+            <include layout="@layout/item_tab_layout"/>
 
         </LinearLayout>
 
