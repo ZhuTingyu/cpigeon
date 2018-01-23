@@ -126,9 +126,6 @@ public class PushCircleMessageFragment extends BaseMVPFragment<PushCircleMessage
                     entity.url = localMedia.getCompressPath();
                     entities.add(entity);
                 }
-                adapter.addData(entities);
-                mPresenter.imgs = adapter.getImgs();
-                mPresenter.messageType = PushCircleMessagePre.TYPE_PICTURE;
                 if(!entities.isEmpty()){
                     adapter.setType(ChooseImageAdapter.TYPE_PICTURE);
                     mPresenter.messageType = PushCircleMessagePre.TYPE_PICTURE;
@@ -141,9 +138,6 @@ public class PushCircleMessageFragment extends BaseMVPFragment<PushCircleMessage
                     entity.url = localMedia.getPath();
                     entities.add(entity);
                 }
-                adapter.addData(entities);
-                mPresenter.messageType = PushCircleMessagePre.TYPE_VIDEO;
-                mPresenter.video = adapter.getImgs().get(0);
                 if(!entities.isEmpty()){
                     adapter.setType(ChooseImageAdapter.TYPE_VIDEO);
                     mPresenter.messageType = PushCircleMessagePre.TYPE_VIDEO;
