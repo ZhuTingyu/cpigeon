@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
+import com.cpigeon.app.entity.SGTDetailsInfoEntity;
 import com.cpigeon.app.modular.saigetong.model.bead.SGTImgEntity;
 import com.cpigeon.app.modular.saigetong.model.daoimpl.ISGTImpl;
 import com.cpigeon.app.utils.IntentBuilder;
@@ -21,11 +22,13 @@ import io.reactivex.functions.Consumer;
 
 public class SGTDetailsPre extends BasePresenter {
 
-    String foodId;
+    public String foodId;
+    String guid;
 
     public SGTDetailsPre(Activity activity) {
         super(activity);
         foodId = activity.getIntent().getStringExtra(IntentBuilder.KEY_DATA);
+        guid = activity.getIntent().getStringExtra(IntentBuilder.KEY_TYPE);
     }
 
     @Override
@@ -34,17 +37,11 @@ public class SGTDetailsPre extends BasePresenter {
     }
 
     //获取足环信息（含照片）
-    public void getFootInfoData(Consumer<List<SGTImgEntity>> consumer) {
-        submitRequestThrowError(ISGTImpl.getFootInfoData(foodId).map(r -> {
-            if (r.isOk()) {
-                if (r.status) {
-                    return r.data;
-                } else {
-                    return Lists.newArrayList();
-                }
-            } else {
-                throw new HttpErrorException(r);
-            }
-        }), consumer);
+    public void getFootInfoData(Consumer<SGTDetailsInfoEntity> consumer) {
+        submitRequestThrowError(ISGTImpl.getFootInfoData(foodId, guid).map(r -> {
+            if(r.status){
+                return r.data;
+            }else throw new HttpErrorException(r);
+        }),consumer);
     }
 }

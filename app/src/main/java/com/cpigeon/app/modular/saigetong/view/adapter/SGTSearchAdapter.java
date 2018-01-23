@@ -23,4 +23,6 @@ public class SGTSearchAdapter extends BaseQuickAdapter<SGTFootSearchEntity, Base
         helper.setText(R.id.item_centent1,item.getXingming());
         helper.setText(R.id.item_centent2,item.getCskh());
     }
+
+
 }

@@ -234,4 +234,9 @@ public class BaseViewHolder extends com.chad.library.adapter.base.BaseViewHolder
                 .into((ImageView) getView(resId)) ;
     }
 
+    public void setGlideImageViewNoRound(Context context, @IdRes int resId , String string){
+        Glide.with(context).load(string)
+                .into((ImageView) getView(resId)) ;
+    }
+
 }

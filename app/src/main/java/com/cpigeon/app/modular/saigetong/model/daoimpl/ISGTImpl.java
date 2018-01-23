@@ -2,6 +2,7 @@ package com.cpigeon.app.modular.saigetong.model.daoimpl;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
+import com.cpigeon.app.entity.SGTDetailsInfoEntity;
 import com.cpigeon.app.modular.saigetong.model.bead.SGTFootSearchEntity;
 import com.cpigeon.app.modular.saigetong.model.bead.SGTGzListEntity;
 import com.cpigeon.app.modular.saigetong.model.bead.SGTImgEntity;
@@ -75,13 +76,14 @@ public class ISGTImpl implements IBaseDao {
     }
 
     //获取足环信息（含照片）
-    public static Observable<ApiResponse<List<SGTImgEntity>>> getFootInfoData(String f) {
-        return CPAPIHttpUtil.<ApiResponse<List<SGTImgEntity>>>build()
-                .setToJsonType(new TypeToken<ApiResponse<List<SGTImgEntity>>>() {
+    public static Observable<ApiResponse<SGTDetailsInfoEntity>> getFootInfoData(String f, String guid) {
+        return CPAPIHttpUtil.<ApiResponse<SGTDetailsInfoEntity>>build()
+                .setToJsonType(new TypeToken<ApiResponse<SGTDetailsInfoEntity>>() {
                 }.getType())
                 .url(R.string.api_sgt_foot_img_info)
                 .setType(HttpUtil.TYPE_POST)
                 .addBody("f", String.valueOf(f))
+                .addBody("guid", guid)
                 .request();
     }
 }

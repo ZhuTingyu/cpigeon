@@ -91,6 +91,11 @@
 
         </LinearLayout>
 
+        <View
+            android:background="@color/color_default_bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/large_vertical_margin"/>
+
     </android.support.v4.widget.NestedScrollView>
 
     <include

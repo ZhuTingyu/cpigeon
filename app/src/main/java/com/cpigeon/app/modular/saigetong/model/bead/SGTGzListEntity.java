@@ -28,7 +28,7 @@ public class SGTGzListEntity {
 //    }]}
 
 
-    private int id;//索引ID
+    private String id;//索引ID
     private int count;//记录个数
     private String sjhm;//手机号码
     private String cskh;//参赛卡号
@@ -44,11 +44,11 @@ public class SGTGzListEntity {
         this.tag = tag;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -100,7 +100,7 @@ public class SGTGzListEntity {
          */
 
         private String cskh;//参赛卡号，字符串
-        private int id;//索引ID，数字类型
+        private String id;//索引ID，数字类型
         private String foot;//足环号码
 
         public String getCskh() {
@@ -111,11 +111,11 @@ public class SGTGzListEntity {
             this.cskh = cskh;
         }
 
-        public int getId() {
+        public String getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
 

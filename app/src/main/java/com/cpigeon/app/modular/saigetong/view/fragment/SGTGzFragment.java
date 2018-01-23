@@ -104,7 +104,9 @@ public class SGTGzFragment extends BaseMVPFragment<SGTPresenter> {
                 }
 
             } else if (item instanceof SGTGZAdapter.RaceItem) {//展开的item
-                IntentBuilder.Builder().putExtra(IntentBuilder.KEY_DATA, ((SGTGZAdapter.RaceItem) item).getRace().getFoot())
+                IntentBuilder.Builder()
+                        .putExtra(IntentBuilder.KEY_DATA, ((SGTGZAdapter.RaceItem) item).getRace().getFoot())
+                        .putExtra(IntentBuilder.KEY_TYPE, mPresenter.guid)
                         .startParentActivity(getActivity(), SGTDetailsFragment.class);
 
             }
@@ -135,7 +137,8 @@ public class SGTGzFragment extends BaseMVPFragment<SGTPresenter> {
         toolbar.getMenu().add("").setIcon(R.mipmap.sgt_sousuo).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                ToastUtil.showLongToast(getContext(), "搜索");
+                IntentBuilder.Builder().putExtra(IntentBuilder.KEY_DATA, mPresenter.guid)
+                        .startParentActivity(getActivity(), SGTSearchFragment.class);
                 return false;
             }
         }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);

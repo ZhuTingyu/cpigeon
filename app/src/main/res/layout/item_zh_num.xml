@@ -10,17 +10,36 @@
         android:orientation="horizontal">
 
         <TextView
-            android:textSize="12sp"
             android:id="@+id/it_sgt_time"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="0000/00/00" />
+            android:text="0000/00/00"
+            android:textSize="12sp" />
 
-        <ImageView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@mipmap/time_zhou" />
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/time_line_top"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/time_zhou_btm" />
+
+            <ImageView
+                android:id="@+id/time_line_btm"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/time_zhou_top" />
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="0dp"
@@ -36,10 +55,10 @@
                 android:text="赛鸽训放" />
 
             <ImageView
-                android:layout_marginLeft="10dp"
                 android:id="@+id/it_sgt_img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="40dp" />
 
         </LinearLayout>

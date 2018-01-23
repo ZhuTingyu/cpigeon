@@ -24,9 +24,9 @@ import static android.content.ContentValues.TAG;
 
 public class SGTSearchFragment extends BaseMVPFragment<SGTPresenter> implements SearchEditText.OnSearchClickListener {
 
-    @BindView(R.id.recyclerView)
+    @BindView(R.id.list)
     RecyclerView mRecyclerView;
-    @BindView(R.id.search_edittext)
+    @BindView(R.id.widget_title_bar_search)
     SearchEditText mSearchEditText;
 
     private SGTSearchAdapter mAdapter;
@@ -38,7 +38,7 @@ public class SGTSearchFragment extends BaseMVPFragment<SGTPresenter> implements 
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_sgt_search;
+        return R.layout.fragment_recyclerview_seach_layout;
     }
 
     @Override
@@ -46,7 +46,6 @@ public class SGTSearchFragment extends BaseMVPFragment<SGTPresenter> implements 
         return false;
     }
 
-    private String guid;//
 
     @Override
     public void finishCreateView(Bundle state) {
@@ -60,6 +59,9 @@ public class SGTSearchFragment extends BaseMVPFragment<SGTPresenter> implements 
         mAdapter = new SGTSearchAdapter(null);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         addItemDecorationLine(mRecyclerView);
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+
+        });
         mRecyclerView.setAdapter(mAdapter);
     }
 
