@@ -157,6 +157,15 @@ public class CircleModel {
                 .request();
     }
 
-
+    public static Observable<ApiResponse> forwardMessage(int userId, int messageId, String content){
+        return PigeonHttpUtil.<ApiResponse>build()
+                .setToJsonType(new TypeToken<ApiResponse>(){}.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_get_hide_message_list)
+                .addBody("u", String.valueOf(userId))
+                .addBody("mid", String.valueOf(messageId))
+                .addBody("c", content)
+                .request();
+    }
 
 }

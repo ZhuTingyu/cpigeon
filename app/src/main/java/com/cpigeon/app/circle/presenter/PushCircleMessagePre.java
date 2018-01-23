@@ -48,11 +48,12 @@ public class PushCircleMessagePre extends BasePresenter {
         return null;
     }
 
-    public void pushMessage(Consumer<String> consumer){
+
+    public void pushMessage(Consumer<Boolean> consumer){
         submitRequestThrowError(PushCircleMessageModel.pushMessage(userId, message,location,showType,messageType,video,imgs).map(r -> {
             LogUtil.print(r.toJsonString());
             if(r.status){
-                return r.data;
+                return true;
             }else throw new HttpErrorException(r);
         }),consumer);
     }

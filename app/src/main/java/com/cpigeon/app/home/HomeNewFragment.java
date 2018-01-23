@@ -94,13 +94,13 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
 
         setTitle("中鸽网");
 
-        toolbar.setNavigationIcon(R.mipmap.ic_home_top_my);
+        toolbar.setNavigationIcon(R.mipmap.ic_home_my);
         toolbar.setNavigationOnClickListener(v -> {
             ToastUtil.showLongToast(getContext(), "home");
         });
 
         toolbar.getMenu().clear();
-        toolbar.getMenu().add("").setIcon(R.mipmap.ic_home_top_message)
+        toolbar.getMenu().add("").setIcon(R.mipmap.ic_home_message)
                 .setOnMenuItemClickListener(item -> {
                     return false;
                 }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -110,6 +110,10 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
         adList = findViewById(R.id.ad_list);
         newsList = findViewById(R.id.news_list);
         dynamicList = findViewById(R.id.dynamic_list);
+
+        setRefreshListener(() -> {
+            initData();
+        });
 
         initBanner();
 
@@ -227,20 +231,25 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
 
         mPresenter.getHomeNews(data -> {
             newAdapter.setNewData(HomeNewsEntity.get(data, HomeNewsEntity.TYPE_ONE));
-            newAdapter.addFooterView(initFootView(TYPE_NEWS));
+            if(dynamicAdapter.getFooterLayoutCount() == 0){
+                newAdapter.addFooterView(initFootView(TYPE_NEWS));
+            }
 
         });
 
         mPresenter.getHomeDynamic(data -> {
             dynamicAdapter.setNewData(data);
-            dynamicAdapter.addFooterView(initFootView(TYPE_DYNAMIC));
+            if(dynamicAdapter.getFooterLayoutCount() == 0){
+                dynamicAdapter.addFooterView(initFootView(TYPE_DYNAMIC));
+            }
+            hideLoading();
         });
     }
 
     private void initDynamicList() {
         dynamicList.setLayoutManager(new LinearLayoutManager(getContext()));
         dynamicList.setNestedScrollingEnabled(false);
-        dynamicAdapter = new CircleDynamicAdapter();
+        dynamicAdapter = new CircleDynamicAdapter(mPresenter);
         dynamicList.setAdapter(dynamicAdapter);
     }
 
@@ -318,7 +327,7 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
     private void initNewList() {
         newsList.setLayoutManager(new LinearLayoutManager(getContext()));
         newsList.setNestedScrollingEnabled(false);
-        newAdapter = new PigeonNewsAdapter();
+        newAdapter = new PigeonNewsAdapter(PigeonNewsAdapter.TYPE_HOME);
         newAdapter.setType(PigeonNewsAdapter.TYPE_HOME);
         newsList.setAdapter(newAdapter);
     }
@@ -361,6 +370,9 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
             });
         } else {
             textView.setText("查看更多动态");
+            view.setOnClickListener(v -> {
+                ((MainActivity)getActivity()).setCurrIndex(2);
+            });
         }
         return view;
     }

@@ -125,7 +125,7 @@ public class CommonUitls {
         }
         stringBuilder.append("key=" + KEY_API_SIGN);
         String result = stringBuilder.toString();
-        Logger.d(result);
+        LogUtil.print(result);
         result = EncryptionTool.MD5(result);
         return result;
     }

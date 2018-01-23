@@ -5,6 +5,8 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_marginBottom="@dimen/large_vertical_margin"
+
+        android:layout_alignParentTop="true"
         android:layout_above="@+id/input_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -24,6 +26,7 @@
                 android:textSize="@dimen/big_text_size"
                 android:textColor="@color/black"
                 android:text="全部评论"
+                android:visibility="visible"
                 android:padding="@dimen/medium_vertical_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -31,6 +34,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/list"
                 android:padding="@dimen/medium_vertical_margin"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 

@@ -1,12 +1,9 @@
 package com.cpigeon.app.commonstandard.view.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
-import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +12,7 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.ScreenTool;
+import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.ToastUtils;
 import com.cpigeon.app.utils.http.RestErrorInfo;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
@@ -25,7 +23,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.BehaviorSubject;
 
 /**
  * Created by chenshuai on 2017/4/15.
@@ -63,7 +60,7 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
 
     protected void error(String message) {
         hideLoading();
-        if(!TextUtils.isEmpty(message)) {
+        if(!StringValid.isStringValid(message)) {
             if(errorDialog == null || !errorDialog.isShowing()){
                 errorDialog = DialogUtils.createErrorDialog(getContext(), message);
             }

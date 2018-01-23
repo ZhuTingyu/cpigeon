@@ -108,12 +108,16 @@
 
     <string name="api_push_message">PushCircleMessage</string>
 
+
     <!--赛鸽通-->
     <string name="api_sgt_user_info">SGT_GetUserList</string>
     <string name="api_sgt_rpRecord">SGT_GetRuPengList</string>
     <string name="api_sgt_gezhu">SGT_GetGeZhuList</string>
     <string name="api_sgt_search">SGT_GetFootSS</string>
     <string name="api_sgt_foot_img_info">SGT_GetFootInfo</string>
+
+
+    <string name="api_forward_circle_message">ForwardCircleMessage</string>
 
 
 </resources>

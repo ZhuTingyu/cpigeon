@@ -21,6 +21,7 @@
     <dimen name="small_horizontal_margin">5dp</dimen>
     <dimen name="medium_horizontal_margin">8dp</dimen>
     <dimen name="large_horizontal_margin">10dp</dimen>
+    <dimen name="large_horizontal_margin_15">15dp</dimen>
     <dimen name="big_large_horizontal_margin">16dp</dimen>
 
 

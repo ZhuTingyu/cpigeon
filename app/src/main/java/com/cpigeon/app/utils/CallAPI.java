@@ -49,6 +49,7 @@ import org.json.JSONObject;
 import org.xutils.DbManager;
 import org.xutils.common.Callback;
 import org.xutils.common.util.KeyValue;
+import org.xutils.common.util.LogUtil;
 import org.xutils.db.sqlite.WhereBuilder;
 import org.xutils.ex.DbException;
 import org.xutils.http.HttpMethod;
@@ -4807,7 +4808,7 @@ public class CallAPI {
         }
         stringBuilder.append("key=" + Const.KEY_API_SIGN);
         String result = stringBuilder.toString();
-        Logger.d(result);
+        com.cpigeon.app.utils.http.LogUtil.print(result);
         result = EncryptionTool.MD5(result);
         requestParams.addQueryStringParameter("sign", result);
         return result;

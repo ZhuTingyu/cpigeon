@@ -84,9 +84,10 @@ public class HomeModel {
     }
 
     static Observable<ApiResponse<List<DynamicEntity>>> homeDynamicList(int top){
-        return RHttpUtil.<ApiResponse<List<DynamicEntity>>>build()
+        return CPAPIHttpUtil.<ApiResponse<List<DynamicEntity>>>build()
                 .setToJsonType(new TypeToken<ApiResponse<List<DynamicEntity>>>(){}.getType())
                 .url(R.string.api_home_circle_dynamic)
+                .setType(HttpUtil.TYPE_POST)
                 .addBody("top", String.valueOf(top))
                 .request();
     }
