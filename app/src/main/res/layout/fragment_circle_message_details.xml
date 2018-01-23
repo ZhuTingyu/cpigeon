@@ -5,10 +5,7 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_marginBottom="@dimen/large_vertical_margin"
-<<<<<<< HEAD
-=======
         android:layout_alignParentTop="true"
->>>>>>> 24a82fd5de9b79b659760acc475a39349abbf3c0
         android:layout_above="@+id/input_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

@@ -1,5 +1,8 @@
 package com.cpigeon.app.home.adpter;
 
+import android.util.TypedValue;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;

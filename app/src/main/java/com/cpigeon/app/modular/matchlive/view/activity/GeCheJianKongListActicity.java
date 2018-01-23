@@ -27,9 +27,9 @@ public class GeCheJianKongListActicity extends BaseActivity {
     //private final static String APP_STATE_KEY_VIEWPAGER_SELECT_INDEX = "com.cpigeon.app.modular.usercenter.view.activity.MyFollowActivity.SelectItemIndex.";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.tab_view)
+    @BindView(R.id.viewpagertab)
     SmartTabLayout viewpagertab;
-    @BindView(R.id.view_pager)
+    @BindView(R.id.viewPager)
     ViewPager viewPager;
 
     @Override

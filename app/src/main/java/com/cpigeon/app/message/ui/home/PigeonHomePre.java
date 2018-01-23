@@ -7,6 +7,7 @@ import com.cpigeon.app.entity.OrderInfoEntity;
 import com.cpigeon.app.entity.UserGXTEntity;
 import com.cpigeon.app.message.ui.order.ui.OrderModel;
 import com.cpigeon.app.utils.databean.ApiResponse;
+import com.cpigeon.app.utils.http.HttpErrorException;
 
 import io.reactivex.functions.Consumer;
 
@@ -42,5 +43,7 @@ public class PigeonHomePre extends BasePresenter {
             return r;
         }), consumer);
     }
+
+
 
 }

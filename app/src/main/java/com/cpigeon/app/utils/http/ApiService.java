@@ -1,5 +1,6 @@
 package com.cpigeon.app.utils.http;
 
+import com.cpigeon.app.MyApp;
 import com.cpigeon.app.utils.databean.ApiResponse;
 
 import java.util.Map;
@@ -11,7 +12,10 @@ import retrofit2.http.Body;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 
 /**
@@ -45,14 +49,8 @@ public interface ApiService {
     @POST("PushCircleMessage")
     Observable<ApiResponse<String>> pushCircleMessage(
             @Header("u") String token,
+            @Query("timestamp") String timestamp,
             @Query("sign") String sign,
             @Body RequestBody requestBody);
-
-    @FormUrlEncoded
-    @POST("SGT_GetGeZhuList")
-    Observable<ResponseBody> getSGTGeZhu(@Header("u") String token,
-                                         @FieldMap Map<String, String> params,
-                                         @Query("u") int userid,
-                                         @Query("sign") String sign);
 
 }

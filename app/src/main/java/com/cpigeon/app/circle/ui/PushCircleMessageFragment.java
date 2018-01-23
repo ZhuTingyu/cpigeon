@@ -19,10 +19,7 @@ import com.cpigeon.app.entity.ChooseImageEntity;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
-<<<<<<< HEAD
-=======
 import com.cpigeon.app.utils.ToastUtil;
->>>>>>> 24a82fd5de9b79b659760acc475a39349abbf3c0
 import com.cpigeon.app.view.SingleSelectCenterDialog;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -78,16 +75,11 @@ public class PushCircleMessageFragment extends BaseMVPFragment<PushCircleMessage
         toolbar.getMenu().clear();
         toolbar.getMenu().add("发表")
                 .setOnMenuItemClickListener(item -> {
-<<<<<<< HEAD
-                    mPresenter.pushMessage(s -> {
-
-=======
                     showLoading();
                     mPresenter.pushMessage(b -> {
                         hideLoading();
                         ToastUtil.showLongToast(MyApp.getInstance().getBaseContext(),"发布成功");
                         finish();
->>>>>>> 24a82fd5de9b79b659760acc475a39349abbf3c0
                     });
                     return false;
                 }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -137,36 +129,24 @@ public class PushCircleMessageFragment extends BaseMVPFragment<PushCircleMessage
                     entity.url = localMedia.getCompressPath();
                     entities.add(entity);
                 }
-<<<<<<< HEAD
-                adapter.addData(entities);
-                mPresenter.imgs = adapter.getImgs();
-                mPresenter.messageType = PushCircleMessagePre.TYPE_PICTURE;
-=======
                 if(!entities.isEmpty()){
                     adapter.setType(ChooseImageAdapter.TYPE_PICTURE);
                     mPresenter.messageType = PushCircleMessagePre.TYPE_PICTURE;
                     adapter.addData(entities);
                     mPresenter.imgs = adapter.getImgs();
                 }
->>>>>>> 24a82fd5de9b79b659760acc475a39349abbf3c0
             }else if(requestCode == PictureMimeType.ofVideo()){
                 for (LocalMedia localMedia : selectList) {
                     ChooseImageEntity entity = new ChooseImageEntity();
                     entity.url = localMedia.getPath();
                     entities.add(entity);
                 }
-<<<<<<< HEAD
-                adapter.addData(entities);
-                mPresenter.messageType = PushCircleMessagePre.TYPE_VIDEO;
-                mPresenter.video = adapter.getImgs().get(0);
-=======
                 if(!entities.isEmpty()){
                     adapter.setType(ChooseImageAdapter.TYPE_VIDEO);
                     mPresenter.messageType = PushCircleMessagePre.TYPE_VIDEO;
                     adapter.addData(entities);
                     mPresenter.video = adapter.getImgs().get(0);
                 }
->>>>>>> 24a82fd5de9b79b659760acc475a39349abbf3c0
             }
 
         }

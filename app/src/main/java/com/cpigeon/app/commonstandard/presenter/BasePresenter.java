@@ -1,19 +1,26 @@
 package com.cpigeon.app.commonstandard.presenter;
 
 import android.app.Activity;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.v7.app.AppCompatActivity;
 
 import com.cpigeon.app.MyApp;
-import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
+import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.commonstandard.view.activity.IView;
+import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.view.fragment.BaseFragment;
+import com.cpigeon.app.utils.CallAPI;
 import com.cpigeon.app.utils.WeakHandler;
 import com.cpigeon.app.utils.http.HttpErrorException;
 import com.cpigeon.app.utils.http.RestErrorInfo;
 
+import org.reactivestreams.Subscription;
 import org.xutils.common.Callback;
 
+import java.lang.ref.WeakReference;
+import java.util.List;
 import java.util.WeakHashMap;
 
 import io.reactivex.Observable;

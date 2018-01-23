@@ -54,12 +54,6 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
                 if (item != null) {
                     if (item.getText().equals("选择图片")) {
                         ChooseImageManager.showChooseImage(activity, PictureMimeType.ofImage(), maxChoose - getImgs().size());
-<<<<<<< HEAD
-                        setType(TYPE_PICTURE);
-                        maxChoose = 9;
-                        setPublishTypeDialog(TYPE_PICTURE);
-=======
->>>>>>> 24a82fd5de9b79b659760acc475a39349abbf3c0
                     } else {
                         ChooseImageManager.showChooseImage(activity, PictureMimeType.ofVideo(), maxChoose - getImgs().size());
                     }
@@ -98,20 +92,9 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
                 holder.getView(R.id.ll_del).setOnClickListener(v -> {
                     remove(holder.getAdapterPosition());
                     if (type == TYPE_PICTURE) {
-<<<<<<< HEAD
-                        if (mData.get(mData.size() - 1).getItemType() != ChooseImageEntity.TYPE_ADD) {
-                            setAddImage();
-                        }
-
-                        if(mData.size() == 1){
-                            setPublishTypeDialog(TYPE_ALL);
-                        }
-
-=======
                         if(mData.size() == 1){
                             setType(TYPE_ALL);
                         }
->>>>>>> 24a82fd5de9b79b659760acc475a39349abbf3c0
                     } else {
                         setAddImage();
                     }
@@ -187,11 +170,7 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
         entity.setType(ChooseImageEntity.TYPE_ADD);
         mData.add(entity);
         notifyDataSetChanged();
-<<<<<<< HEAD
-        setPublishTypeDialog(TYPE_ALL);
-=======
         setType(TYPE_ALL);
->>>>>>> 24a82fd5de9b79b659760acc475a39349abbf3c0
     }
 
     private void removeAddImage() {
@@ -199,11 +178,7 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
         notifyDataSetChanged();
     }
 
-<<<<<<< HEAD
-    private void setPublishTypeDialog(int type) {
-=======
     private void setPublishTypeDialog() {
->>>>>>> 24a82fd5de9b79b659760acc475a39349abbf3c0
         if (type == TYPE_ALL) {
             publishTypeDialog = new SingleSelectCenterDialog
                     .Builder(activity)
