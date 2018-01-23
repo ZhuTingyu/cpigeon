@@ -22,7 +22,7 @@
             android:padding="8dp"
             android:gravity="top|left"
             android:hint="这一刻的想法..."
-            android:id="@+id/edit_user_msg"
+            android:id="@+id/content"
             android:minLines="3"
             android:maxLength="600"
             android:layout_width="match_parent"
@@ -59,7 +59,7 @@
             <TextView
                 android:textSize="18sp"
                 android:layout_toLeftOf="@id/imageView4"
-                android:id="@+id/tv_user_location"
+                android:id="@+id/location"
                 tool:text="1231231231"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -87,7 +87,7 @@
                 android:layout_marginRight="8dp"
                 android:textSize="18sp"
                 android:layout_toLeftOf="@id/iv_open"
-                android:id="@+id/tv_user_visibility"
+                android:id="@+id/visibility"
                 android:text="所有人可见"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

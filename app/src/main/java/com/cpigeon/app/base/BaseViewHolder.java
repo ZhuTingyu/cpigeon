@@ -230,7 +230,7 @@ public class BaseViewHolder extends com.chad.library.adapter.base.BaseViewHolder
 
     public void setGlideImageView(Context context, @IdRes int resId , String string){
         Glide.with(context).load(string)
-                .transform(new GlideRoundTransform(context, 2))
+                .transform(new GlideRoundTransform(context, 3))
                 .into((ImageView) getView(resId)) ;
     }
 

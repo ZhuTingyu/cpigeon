@@ -15,7 +15,7 @@
 
         <ImageView
             android:id="@+id/head_img"
-            android:scaleType="centerInside"
+            android:scaleType="fitXY"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="8dp"/>

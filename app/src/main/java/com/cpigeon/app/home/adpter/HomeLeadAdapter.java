@@ -1,8 +1,5 @@
 package com.cpigeon.app.home.adpter;
 
-import android.util.TypedValue;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -30,7 +27,7 @@ public class HomeLeadAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
     public HomeLeadAdapter() {
         super(R.layout.item_pigeon_message_home_layout
-                , Lists.newArrayList("赛鸽通", "比赛监控", "鸽信通", "足环查询")
+                , Lists.newArrayList("公棚赛鸽", "比赛监控", "鸽信通", "足环查询")
         );
 
 

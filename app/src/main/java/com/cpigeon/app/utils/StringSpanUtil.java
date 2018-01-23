@@ -14,7 +14,7 @@ import com.cpigeon.app.MyApp;
 public class StringSpanUtil {
     public static SpannableString setClickableSpan(String textStr, @ColorRes int resId) {
         SpannableString subjectSpanText = new SpannableString(textStr);
-        subjectSpanText.setSpan(new SpannableClickable(MyApp.getInstance().getColor(resId)){
+        subjectSpanText.setSpan(new SpannableClickable(MyApp.getInstance().getBaseContext().getResources().getColor(resId)){
                                     @Override
                                     public void onClick(View widget) {
 

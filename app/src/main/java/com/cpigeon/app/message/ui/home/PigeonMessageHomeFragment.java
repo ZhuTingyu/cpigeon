@@ -47,7 +47,6 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
     UserGXTEntity userGXTEntity;
     SweetAlertDialog dialogAgreement;
 
-
     @Override
     public PigeonHomePre initPresenter() {
         return new PigeonHomePre(this);

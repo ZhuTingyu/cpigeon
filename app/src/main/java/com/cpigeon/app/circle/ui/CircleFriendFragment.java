@@ -58,8 +58,8 @@ public class CircleFriendFragment extends BaseMVPFragment {
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getActivity().getSupportFragmentManager(), FragmentPagerItems.with(getActivity())
-                .add("我的关注", BaseShowFriendFragment.class, fans)
-                .add("我的粉丝", BaseShowFriendFragment.class, follow)
+                .add("我的关注", BaseShowFriendFragment.class, follow)
+                .add("我的粉丝", BaseShowFriendFragment.class, fans)
                 .create());
 
         viewPager.setAdapter(adapter);
