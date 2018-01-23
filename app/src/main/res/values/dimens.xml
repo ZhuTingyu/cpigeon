@@ -431,5 +431,25 @@
     <dimen name="dp_sign_box_size_3">28dp</dimen>
     <dimen name="dp_sign_box_size_4">32dp</dimen>
 
+    <!--公共的-->
+    <dimen name="dividingline_h">0.5dp</dimen>
 
+    <!--自定义输入框-->
+    <dimen name="search_et_h">32dp</dimen>
+    <dimen name="search_et_m">9dp</dimen>
+    <dimen name="search_et_ml">19dp</dimen>
+    <dimen name="search_et_mr">19dp</dimen>
+    <dimen name="search_et_mt">9dp</dimen>
+    <dimen name="search_et_mb">9dp</dimen>
+    <dimen name="search_et_mlr">15dp</dimen>
+    <dimen name="search_et_dra_p">9dp</dimen>
+    <dimen name="search_et_size">13sp</dimen>
+
+
+    <dimen name="item_sgt_zh_detail_h">50dp</dimen>
+    <dimen name="item_sgt_zh_detail_ml">28dp</dimen>
+    <dimen name="sgt_info_m">10dp</dimen>
+    <dimen name="sgt_img_upload_m">10dp</dimen>
+
+    <dimen name="gyt_monitor_img_wh">80sp</dimen>
 </resources>

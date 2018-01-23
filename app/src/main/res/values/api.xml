@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="api_head_url">/CPAPI/V1/</string>
+    <string name="api_head_url_no_v1">/CPAPI/</string>
     <string name="api_public_head_url">/GAPI/V1/</string>
     <string name="api_CHAPI_head_url">/CHAPI/V1/</string>
 
@@ -53,7 +54,7 @@
     <string name="api_user_balance_info">GetUserYEJF</string>
 
     <string name="api_get_wx_order">GetWXPrePayOrderBySXF</string>
-    
+
     <string name="api_get_match_race_report">RaceReport</string>
     <string name="api_get_JG_message">GetJGSJ</string>
 
@@ -106,6 +107,17 @@
     <string name="api_get_hide_message_list">GetUserShieldCircleMessageList</string>
 
     <string name="api_push_message">PushCircleMessage</string>
+<<<<<<< HEAD
+
+    <!--赛鸽通-->
+    <string name="api_sgt_user_info">SGT_GetUserList</string>
+    <string name="api_sgt_rpRecord">SGT_GetRuPengList</string>
+    <string name="api_sgt_gezhu">SGT_GetGeZhuList</string>
+    <string name="api_sgt_search">SGT_GetFootSS</string>
+    <string name="api_sgt_foot_img_info">SGT_GetFootInfo</string>
+
+=======
     <string name="api_forward_circle_message">ForwardCircleMessage</string>
+>>>>>>> 24a82fd5de9b79b659760acc475a39349abbf3c0
 
 </resources>

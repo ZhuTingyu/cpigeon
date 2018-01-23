@@ -143,5 +143,16 @@
     <color name="bg_color_fafafa">#fafafa</color>
 
     <color name="Black4">#121415</color>
+    <!--layout   activity_base_toolbar背景-->
+    <color name="colorViewBackground">#F6F6F6</color>
+    <!--分割线-->
+    <color name="dividingline">#f0f0f0</color>
+
+    <!--文本输入框颜色-->
+    <color name="et_hint_color">#ccc</color>
+
+    <color name="color_262626">#262626</color>
+    <color name="color_666666">#666666</color>
+    <color name="color_999999">#999999</color>
 
 </resources>
