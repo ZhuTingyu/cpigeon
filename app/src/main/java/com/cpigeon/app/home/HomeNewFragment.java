@@ -29,6 +29,7 @@ import com.cpigeon.app.modular.footsearch.ui.FootSearchFragment;
 import com.cpigeon.app.modular.home.model.bean.HomeAd;
 import com.cpigeon.app.modular.home.view.activity.WebActivity;
 import com.cpigeon.app.modular.matchlive.view.activity.GeCheJianKongListActicity;
+import com.cpigeon.app.modular.saigetong.view.fragment.SGTHomeFragment;
 import com.cpigeon.app.pigeonnews.ui.PigeonNewsActivity;
 import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.ContactsUtil;
@@ -269,9 +270,9 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
         adList.setLayoutManager(linearLayoutManager);
         adAdapter = new HomeAdAdapter();
         adAdapter.setOnItemClickListener((adapter, view, position) -> {
-            switch (adAdapter.getItem(position).getType()){
+            switch (adAdapter.getItem(position).getType()) {
                 case NewsEntity.TYPE_LIVE:
-                    ((MainActivity)getActivity()).setCurrIndex(1);
+                    ((MainActivity) getActivity()).setCurrIndex(1);
                     break;
                 case NewsEntity.TYPE_DZCB:
                     IntentBuilder.Builder(getActivity(), PigeonNewsActivity.class)
@@ -306,7 +307,7 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
         });
     }
 
-    private void stopRollPolingAdList(){
+    private void stopRollPolingAdList() {
         if (AdListDisposable != null) {
             AdListDisposable.dispose();
             AdListDisposable = null;
@@ -334,8 +335,8 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
         leadList.setAdapter(leadAdapter);
         leadAdapter.setOnItemClickListener((adapter, view, position) -> {
             switch (position) {
-                case 0://比赛直播
-
+                case 0://赛鸽通
+                    IntentBuilder.Builder().startParentActivity(getActivity(), SGTHomeFragment.class);
                     break;
                 case 1://比赛监控
                     IntentBuilder.Builder(getActivity(), GeCheJianKongListActicity.class).startActivity();
@@ -353,12 +354,12 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
     private View initFootView(int type) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.item_home_list_foot_layout, null);
         TextView textView = findViewById(view, R.id.textView);
-        if(type == TYPE_NEWS){
+        if (type == TYPE_NEWS) {
             textView.setText("查看更多新闻");
             view.setOnClickListener(v -> {
                 IntentBuilder.Builder(getActivity(), PigeonNewsActivity.class).startActivity();
             });
-        }else {
+        } else {
             textView.setText("查看更多动态");
         }
         return view;

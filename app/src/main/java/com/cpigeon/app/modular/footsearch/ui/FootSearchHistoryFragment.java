@@ -82,9 +82,9 @@ public class FootSearchHistoryFragment extends BaseMVPFragment<FootSearchHistory
             mPresenter.page ++;
             mPresenter.getHistory(data -> {
                 if(data.isEmpty()){
-                    adapter.setLoadMore(false);
-                }else {
                     adapter.setLoadMore(true);
+                }else {
+                    adapter.setLoadMore(false);
                     adapter.addData(data);
                 }
             });

@@ -3,8 +3,11 @@ package com.cpigeon.app.circle.adpter;
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseQuickAdapter;
 import com.cpigeon.app.base.BaseViewHolder;
+import com.cpigeon.app.circle.presenter.FriendPre;
+import com.cpigeon.app.circle.ui.BaseShowFriendFragment;
 import com.cpigeon.app.entity.CircleFriendEntity;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.ToastUtil;
 
 import java.util.List;
 
@@ -13,6 +16,7 @@ import java.util.List;
  */
 
 public class ShowFriendAdapter extends BaseQuickAdapter<CircleFriendEntity, BaseViewHolder> {
+
 
     public ShowFriendAdapter() {
         super(R.layout.item_show_friend_layout, Lists.newArrayList());
@@ -23,6 +27,7 @@ public class ShowFriendAdapter extends BaseQuickAdapter<CircleFriendEntity, Base
         holder.setText(R.id.time, item.getTime());
         holder.setGlideImageView(mContext,R.id.head_img, item.getUserinfo().getHeadimgurl());
         holder.setText(R.id.user_name, item.getUserinfo().getNickname());
+
     }
 
     @Override

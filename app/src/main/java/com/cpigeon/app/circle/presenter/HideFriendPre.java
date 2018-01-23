@@ -18,7 +18,7 @@ import io.reactivex.functions.Consumer;
  * Created by Zhu TingYu on 2018/1/19.
  */
 
-public class HideFriendPre extends BasePresenter {
+public class HideFriendPre extends HideMessagePre {
     public int page = 1;
     int userId;
 

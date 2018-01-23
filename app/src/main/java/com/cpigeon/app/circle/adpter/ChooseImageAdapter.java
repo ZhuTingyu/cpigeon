@@ -35,17 +35,20 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
 
     public static final int TYPE_VIDEO = 1;
     public static final int TYPE_PICTURE = 2;
+    public static final int TYPE_ALL = 3;
 
     int type;
     SingleSelectCenterDialog publishTypeDialog;
     int size;
-
+    Activity activity;
+    SingleSelectCenterDialog.OnItemClickListener onItemClickListener;
 
     public ChooseImageAdapter(Activity activity) {
         super(Lists.newArrayList());
+        this.activity = activity;
         addItemType(ChooseImageEntity.TYPE_IMG, R.layout.item_choose_image_layout);
         addItemType(ChooseImageEntity.TYPE_ADD, R.layout.item_choose_image_layout);
-        SingleSelectCenterDialog.OnItemClickListener onItemClickListener = new SingleSelectCenterDialog.OnItemClickListener() {
+        onItemClickListener = new SingleSelectCenterDialog.OnItemClickListener() {
             @Override
             public void onItemClick(SingleSelectCenterDialog dialog, SingleSelectCenterDialog.SelectItem item) {
                 if (item != null) {
@@ -53,6 +56,7 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
                         ChooseImageManager.showChooseImage(activity, PictureMimeType.ofImage(), maxChoose - getImgs().size());
                         setType(TYPE_PICTURE);
                         maxChoose = 9;
+                        setPublishTypeDialog(TYPE_PICTURE);
                     } else {
                         ChooseImageManager.showChooseImage(activity, PictureMimeType.ofVideo(), maxChoose - getImgs().size());
                         setType(TYPE_VIDEO);
@@ -82,21 +86,26 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
 
             case ChooseImageEntity.TYPE_IMG:
 
-                if(type == TYPE_PICTURE){
-                    holder.setGlideImageView(mContext,R.id.image, item.url);
-                }else {
-                    SoftReference<Bitmap> bitmapSoftReference = new SoftReference<Bitmap>(ThumbnailUtils.createVideoThumbnail(item.url,  MediaStore.Images.Thumbnails.MICRO_KIND) );
+                if (type == TYPE_PICTURE) {
+                    holder.setGlideImageView(mContext, R.id.image, item.url);
+                } else {
+                    SoftReference<Bitmap> bitmapSoftReference = new SoftReference<Bitmap>(ThumbnailUtils.createVideoThumbnail(item.url, MediaStore.Images.Thumbnails.MICRO_KIND));
                     ImageView imageView = holder.getView(R.id.image);
                     imageView.setImageBitmap(bitmapSoftReference.get());
                 }
 
                 holder.getView(R.id.ll_del).setOnClickListener(v -> {
                     remove(holder.getAdapterPosition());
-                    if(type == TYPE_PICTURE){
-                        if(mData.get(mData.size() - 1).getItemType() != ChooseImageEntity.TYPE_ADD){
+                    if (type == TYPE_PICTURE) {
+                        if (mData.get(mData.size() - 1).getItemType() != ChooseImageEntity.TYPE_ADD) {
                             setAddImage();
                         }
-                    }else {
+
+                        if(mData.size() == 1){
+                            setPublishTypeDialog(TYPE_ALL);
+                        }
+
+                    } else {
                         setAddImage();
                     }
 
@@ -113,10 +122,10 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
         }
     }
 
-    public List<String> getImgs(){
+    public List<String> getImgs() {
         List<String> imgs = Lists.newArrayList();
-        for(ChooseImageEntity entity : mData){
-            if(StringValid.isStringValid(entity.url)){
+        for (ChooseImageEntity entity : mData) {
+            if (StringValid.isStringValid(entity.url)) {
                 imgs.add(entity.url);
             }
         }
@@ -145,8 +154,8 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
             entity.setType(ChooseImageEntity.TYPE_IMG);
         }
 
-        super.addData(mData.size() - 1,newData);
-        if(mData.size() == maxChoose + 1){
+        super.addData(mData.size() - 1, newData);
+        if (mData.size() == maxChoose + 1) {
             removeAddImage();
         }
 
@@ -160,15 +169,32 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
         this.type = type;
     }
 
-    private void setAddImage(){
+    private void setAddImage() {
         ChooseImageEntity entity = new ChooseImageEntity();
         entity.setType(ChooseImageEntity.TYPE_ADD);
         mData.add(entity);
         notifyDataSetChanged();
+        setPublishTypeDialog(TYPE_ALL);
     }
-    private void removeAddImage(){
-        mData.remove(mData.size() -1 );
+
+    private void removeAddImage() {
+        mData.remove(mData.size() - 1);
         notifyDataSetChanged();
+    }
+
+    private void setPublishTypeDialog(int type) {
+        if (type == TYPE_ALL) {
+            publishTypeDialog = new SingleSelectCenterDialog
+                    .Builder(activity)
+                    .addSelectItem("选择图片", onItemClickListener)
+                    .addSelectItem("选择视频", onItemClickListener)
+                    .create();
+        } else if(type == TYPE_PICTURE){
+            publishTypeDialog = new SingleSelectCenterDialog
+                    .Builder(activity)
+                    .addSelectItem("选择图片", onItemClickListener)
+                    .create();
+        }
     }
 
 }
