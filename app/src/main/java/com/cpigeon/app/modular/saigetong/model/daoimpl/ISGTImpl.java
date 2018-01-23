@@ -35,13 +35,13 @@ public class ISGTImpl implements IBaseDao {
     }
 
     //获取入棚记录列表
-    public static Observable<ApiResponse<SGTRpRecordEntity>> getSGTRpRecoudData(int guid, int pi, int ps) {
+    public static Observable<ApiResponse<SGTRpRecordEntity>> getSGTRpRecoudData(String guid, int pi, int ps) {
         return CPAPIHttpUtil.<ApiResponse<SGTRpRecordEntity>>build()
                 .setToJsonType(new TypeToken<ApiResponse<SGTRpRecordEntity>>() {
                 }.getType())
                 .url(R.string.api_sgt_rpRecord)
                 .setType(HttpUtil.TYPE_POST)
-                .addBody("guid", String.valueOf(guid))
+                .addBody("guid",guid)
                 .addBody("pi", String.valueOf(pi))
                 .addBody("ps", String.valueOf(ps))
                 .request();
@@ -55,8 +55,8 @@ public class ISGTImpl implements IBaseDao {
                 }.getType())
                 .url(R.string.api_sgt_gezhu)
                 .setType(HttpUtil.TYPE_POST)
-                .addBody("guid", String.valueOf(guid))
-                .addBody("id", String.valueOf(id))
+                .addBody("guid", guid)
+                .addQueryString("id", id)
                 .addBody("pi", String.valueOf(pi))
                 .addBody("ps", String.valueOf(ps))
                 .request();

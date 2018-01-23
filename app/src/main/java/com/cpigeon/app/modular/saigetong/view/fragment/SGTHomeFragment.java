@@ -51,6 +51,7 @@ public class SGTHomeFragment extends BaseMVPFragment<SGTPresenter> {
 
         mAdapter = new SGTUserListAdapter();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        addItemDecorationLine(mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
         mPresenter.getSGTHomeData(data -> {
             mAdapter.setNewData(data);

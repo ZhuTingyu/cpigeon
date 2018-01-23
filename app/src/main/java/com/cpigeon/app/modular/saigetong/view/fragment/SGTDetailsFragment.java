@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
+import com.cpigeon.app.modular.saigetong.presenter.SGTDetailsPre;
 import com.cpigeon.app.modular.saigetong.presenter.SGTPresenter;
 import com.cpigeon.app.modular.saigetong.view.adapter.ZHNumAdapter;
 import com.luck.picture.lib.PictureSelector;
@@ -26,17 +27,17 @@ import butterknife.BindView;
  * Created by Administrator on 2018/1/22.
  */
 
-public class SGTDetailsFragment extends BaseMVPFragment<SGTPresenter> {
+public class SGTDetailsFragment extends BaseMVPFragment<SGTDetailsPre> {
 
-    @BindView(R.id.recyclerView)
+    @BindView(R.id.list)
     RecyclerView mRecyclerView;
     private ZHNumAdapter mAdapter;
     TextView tvCskh, tvGzxm, tvZhhm, tvDzhh, tvSgys, tvDq, tvRpsj;
     private View headView;
 
     @Override
-    protected SGTPresenter initPresenter() {
-        return new SGTPresenter(getActivity());
+    protected SGTDetailsPre initPresenter() {
+        return new SGTDetailsPre(getActivity());
     }
 
     @Override
@@ -49,12 +50,12 @@ public class SGTDetailsFragment extends BaseMVPFragment<SGTPresenter> {
         initRecyclerView();
         mPresenter.getFootInfoData(data -> {
             mAdapter.setNewData(data);
-        }, "2017-22-0998689");
+        });
     }
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_sgt_details;
+        return R.layout.fragment_recyclerview_layout;
     }
 
 
@@ -66,13 +67,13 @@ public class SGTDetailsFragment extends BaseMVPFragment<SGTPresenter> {
 //        mAdapter.setOnLoadMoreListener(getActivity(), mRecyclerView);
         mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         headView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_sg_headview, null, false);
-        tvCskh = (TextView) headView.findViewById(R.id.tv_cskh);
-        tvGzxm = (TextView) headView.findViewById(R.id.tv_gzxm);
-        tvZhhm = (TextView) headView.findViewById(R.id.tv_zhhm);
-        tvDzhh = (TextView) headView.findViewById(R.id.tv_dzhh);
-        tvSgys = (TextView) headView.findViewById(R.id.tv_sgys);
-        tvDq = (TextView) headView.findViewById(R.id.tv_dq);
-        tvRpsj = (TextView) headView.findViewById(R.id.tv_rpsj);
+        tvCskh =  headView.findViewById(R.id.tv_cskh);
+        tvGzxm =  headView.findViewById(R.id.tv_gzxm);
+        tvZhhm =  headView.findViewById(R.id.tv_zhhm);
+        tvDzhh =  headView.findViewById(R.id.tv_dzhh);
+        tvSgys =  headView.findViewById(R.id.tv_sgys);
+        tvDq =  headView.findViewById(R.id.tv_dq);
+        tvRpsj =  headView.findViewById(R.id.tv_rpsj);
 
         mAdapter.addHeaderView(headView);
         mRecyclerView.setAdapter(mAdapter);

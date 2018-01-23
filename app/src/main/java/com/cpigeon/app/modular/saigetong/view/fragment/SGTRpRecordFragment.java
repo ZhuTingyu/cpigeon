@@ -33,7 +33,6 @@ public class SGTRpRecordFragment extends BaseMVPFragment<SGTPresenter> {
     TextView tv2;
 
     private SGTRpRecordAdapter mAdapter;
-    public int usetId;
 
 
     @Override
@@ -51,25 +50,22 @@ public class SGTRpRecordFragment extends BaseMVPFragment<SGTPresenter> {
     public void finishCreateView(Bundle state) {
         setTitle("公棚赛鸽");
 
-        usetId = getActivity().getIntent().getIntExtra(IntentBuilder.KEY_DATA, -1);
-
         toolbar.getMenu().clear();
         toolbar.getMenu().add("").setIcon(R.mipmap.sgt_sousuo).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                Log.d(TAG, "onMenuItemClick跳转: " + usetId);
-                IntentBuilder.Builder().putExtra("guid", String.valueOf(usetId))
+                IntentBuilder.Builder().putExtra(IntentBuilder.KEY_DATA, mPresenter.guid)
                         .startParentActivity(getActivity(), SGTSearchFragment.class);
                 return false;
             }
         }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
 
-        Log.d(TAG, "finishCreateView: " + usetId);
 
         mAdapter = new SGTRpRecordAdapter();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(mAdapter);
+        addItemDecorationLine(mRecyclerView);
+        mAdapter.bindToRecyclerView(mRecyclerView);
         mPresenter.getSGTRpRecoudData(data -> {
             mAdapter.setSGTRpRecordEntity(data, getActivity());
             tv1.setText(String.valueOf(data.getAlltpcount()));
@@ -80,7 +76,7 @@ public class SGTRpRecordFragment extends BaseMVPFragment<SGTPresenter> {
             } else {
                 mAdapter.setEmptyView();
             }
-        }, usetId);
+        });
 
         //下拉刷新
         setRefreshListener(() -> {
@@ -89,7 +85,7 @@ public class SGTRpRecordFragment extends BaseMVPFragment<SGTPresenter> {
                 mAdapter.setSGTRpRecordEntity(data, getActivity());
                 mAdapter.setNewData(data.getList());
                 hideLoading();
-            }, usetId);
+            });
         });
 
         //设置加载更多
@@ -103,7 +99,7 @@ public class SGTRpRecordFragment extends BaseMVPFragment<SGTPresenter> {
                     mAdapter.setLoadMore(false);
                     mAdapter.addData(data.getList());
                 }
-            }, usetId);
+            });
         }, mRecyclerView);
     }
 

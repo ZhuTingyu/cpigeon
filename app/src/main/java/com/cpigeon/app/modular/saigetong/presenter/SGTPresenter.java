@@ -11,6 +11,7 @@ import com.cpigeon.app.modular.saigetong.model.bead.SGTImgEntity;
 import com.cpigeon.app.modular.saigetong.model.bead.SGTRpRecordEntity;
 import com.cpigeon.app.modular.saigetong.model.bead.SGTUserListEntity;
 import com.cpigeon.app.modular.saigetong.model.daoimpl.ISGTImpl;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.http.HttpErrorException;
 
@@ -27,11 +28,15 @@ public class SGTPresenter extends BasePresenter {
     public int pi2 = 1;
     public int pi3 = 1;
 
-    private String guid;
+    public String guid;
+    public String tID;
+
+    private String keyWord;
 
     public SGTPresenter(Activity mView) {
         super(mView);
-        guid = getActivity().getIntent().getStringExtra("guid");
+        guid = getActivity().getIntent().getStringExtra(IntentBuilder.KEY_DATA);
+        tID = getActivity().getIntent().getStringExtra(IntentBuilder.KEY_TYPE);
     }
 
     @Override
@@ -55,7 +60,7 @@ public class SGTPresenter extends BasePresenter {
     }
 
     //获取入棚记录列表
-    public void getSGTRpRecoudData(Consumer<SGTRpRecordEntity> consumer, int guid) {
+    public void getSGTRpRecoudData(Consumer<SGTRpRecordEntity> consumer) {
         submitRequestThrowError(ISGTImpl.getSGTRpRecoudData(guid, pi2, 10).map(r -> {
             if (r.status) {
                 return r.data;
@@ -68,9 +73,9 @@ public class SGTPresenter extends BasePresenter {
     private String TAG = "xiaohl";
 
     //获取赛鸽通用户列表
-    public void getSGTGzListData(Consumer<List<SGTGzListEntity>> consumer, String guid, String tid) {
-        Log.d(TAG, "getSGTGzListData: " + tid);
-        submitRequestThrowError(ISGTImpl.getSGTGzListData(guid, tid, pi3, 10).map(r -> {
+    public void getSGTGzListData(Consumer<List<SGTGzListEntity>> consumer) {
+        Log.d(TAG, "getSGTGzListData: " + tID);
+        submitRequestThrowError(ISGTImpl.getSGTGzListData(guid, tID, pi3, 10).map(r -> {
             if (r.isOk()) {
                 if (r.status) {
                     return r.data;
@@ -84,8 +89,8 @@ public class SGTPresenter extends BasePresenter {
     }
 
     //公棚赛鸽搜索（搜索足环或鸽主姓名）
-    public void getSGTSearchFootListData(Consumer<List<SGTFootSearchEntity>> consumer, String guid,String s) {
-        submitRequestThrowError(ISGTImpl.getSGTSearchFootListData(guid,s).map(r -> {
+    public void getSGTSearchFootListData(Consumer<List<SGTFootSearchEntity>> consumer) {
+        submitRequestThrowError(ISGTImpl.getSGTSearchFootListData(guid, keyWord).map(r -> {
             if (r.isOk()) {
                 if (r.status) {
                     return r.data;
@@ -99,19 +104,11 @@ public class SGTPresenter extends BasePresenter {
     }
 
 
-    //获取足环信息（含照片）
-    public void getFootInfoData(Consumer<List<SGTImgEntity>> consumer, String f) {
-        Log.d(TAG, "getFootInfoData: " + f);
-        submitRequestThrowError(ISGTImpl.getFootInfoData(f).map(r -> {
-            if (r.isOk()) {
-                if (r.status) {
-                    return r.data;
-                } else {
-                    return Lists.newArrayList();
-                }
-            } else {
-                throw new HttpErrorException(r);
-            }
-        }), consumer);
+
+
+    public Consumer<String> setKeyWord(){
+        return s -> {
+            keyWord = s;
+        };
     }
 }

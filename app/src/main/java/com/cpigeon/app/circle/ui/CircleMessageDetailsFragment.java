@@ -93,10 +93,12 @@ public class CircleMessageDetailsFragment extends BaseMVPFragment<CircleMessageP
         goodView = new GoodView(getContext());
 
         mPresenter.type = "xxxx";
+        showLoading();
         mPresenter.getMessageList(data -> {
             entity = data.get(0);
             initMessage();
             initComments();
+            hideLoading();
         });
 
     }

@@ -24,7 +24,6 @@ public class BaseCircleMessageFragment extends BaseMVPFragment<CircleMessagePre>
 
     RecyclerView recyclerView;
     CircleMessageAdapter adapter;
-    public GoodView goodView;
 
     @Override
     protected int getLayoutResource() {
@@ -43,10 +42,9 @@ public class BaseCircleMessageFragment extends BaseMVPFragment<CircleMessagePre>
 
     @Override
     public void finishCreateView(Bundle state) {
-        goodView = new GoodView(getContext());
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new CircleMessageAdapter(getActivity(), goodView);
+        adapter = new CircleMessageAdapter(getActivity());
         adapter.setOnItemClickListener((adapter1, view, position) -> {
         });
         adapter.setmPre(mPresenter);

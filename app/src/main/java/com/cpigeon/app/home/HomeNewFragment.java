@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.cpigeon.app.MainActivity;
 import com.cpigeon.app.R;
+import com.cpigeon.app.circle.ui.CircleMessageDetailsFragment;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.HomeNewsEntity;
 import com.cpigeon.app.entity.NewsEntity;
@@ -250,6 +251,11 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
         dynamicList.setLayoutManager(new LinearLayoutManager(getContext()));
         dynamicList.setNestedScrollingEnabled(false);
         dynamicAdapter = new CircleDynamicAdapter(mPresenter);
+        dynamicAdapter.setOnItemClickListener((adapter, view, position) -> {
+            IntentBuilder.Builder()
+                    .putExtra(IntentBuilder.KEY_DATA, dynamicAdapter.getItem(position).mid)
+                    .startParentActivity(activity, CircleMessageDetailsFragment.class);
+        });
         dynamicList.setAdapter(dynamicAdapter);
     }
 

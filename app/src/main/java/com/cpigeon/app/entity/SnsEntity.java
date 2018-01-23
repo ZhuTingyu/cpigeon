@@ -15,6 +15,18 @@ public class SnsEntity implements Parcelable {
 
     public int zan =  0;
 
+    public static final Creator<SnsEntity> CREATOR = new Creator<SnsEntity>() {
+        @Override
+        public SnsEntity createFromParcel(Parcel in) {
+            return new SnsEntity(in);
+        }
+
+        @Override
+        public SnsEntity[] newArray(int size) {
+            return new SnsEntity[size];
+        }
+    };
+
     public boolean isThumb(){
         return zan != 0; //0为取消点赞
     }

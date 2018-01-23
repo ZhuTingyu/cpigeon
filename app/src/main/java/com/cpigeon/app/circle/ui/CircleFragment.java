@@ -15,6 +15,7 @@ import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.customview.smarttab.SmartTabLayout;
+import com.melnykov.fab.FloatingActionButton;
 
 import cn.jzvd.JZVideoPlayer;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -32,6 +33,8 @@ public class CircleFragment extends BaseMVPFragment<CirclePre>{
 
     SmartTabLayout tabLayout;
     ViewPager viewPager;
+
+    FloatingActionButton floatingActionButton;
 
     @Override
     protected CirclePre initPresenter() {
@@ -55,17 +58,15 @@ public class CircleFragment extends BaseMVPFragment<CirclePre>{
         toolbar.setNavigationOnClickListener(v -> {
             IntentBuilder.Builder().startParentActivity(getActivity(), CircleFriendFragment.class);
         });
-        toolbar.getMenu().clear();
-        toolbar.getMenu().add("").setIcon(R.drawable.vector_push_pigeon_circle)
-                .setOnMenuItemClickListener(item -> {
-                    IntentBuilder.Builder().startParentActivity(getActivity(), PushCircleMessageFragment.class);
-                    return false;
-                }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         imgHeadIcon = findViewById(R.id.head_img);
         tvUserName = findViewById(R.id.user_name);
         tvFans = findViewById(R.id.tv_fans);
         tvFocus = findViewById(R.id.tv_focus);
+        floatingActionButton = findViewById(R.id.fab);
+        floatingActionButton.setOnClickListener(v -> {
+            IntentBuilder.Builder().startParentActivity(getActivity(), PushCircleMessageFragment.class);
+        });
 
         tabLayout = findViewById(R.id.tab_view);
         viewPager = findViewById(R.id.view_pager);

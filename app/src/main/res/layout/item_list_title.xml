@@ -2,46 +2,56 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:gravity="center"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:orientation="horizontal">
 
         <CheckBox
             android:id="@+id/btn_cb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
             android:button="@drawable/selector_check_box"
             android:clickable="false" />
 
 
         <TextView
             android:id="@+id/it_title1"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="title" />
+            android:layout_alignBaseline="@+id/it_title2"
+            android:layout_alignBottom="@+id/it_title2"
+            android:layout_toEndOf="@+id/btn_cb"
+            android:textColor="@color/black"
+            tools:text="ti1231231231231231231231123123123123tle" />
 
         <TextView
             android:id="@+id/it_title2"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="title" />
+            android:textColor="@color/black"
+            android:gravity="center"
+            tools:text="title" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/it_title3"
             android:layout_width="wrap_content"
+            tools:text="10"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:drawablePadding="@dimen/small_horizontal_margin"
+            android:drawableLeft="@mipmap/ic_list_sgt_img"
             android:layout_height="wrap_content" />
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

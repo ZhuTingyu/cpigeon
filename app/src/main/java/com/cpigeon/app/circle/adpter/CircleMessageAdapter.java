@@ -51,9 +51,9 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
     CircleMessagePre mPre;
     DialogHideCircleFragment dialogHideCircleFragment;
 
-    public CircleMessageAdapter(Activity activity, GoodView goodView) {
+    public CircleMessageAdapter(Activity activity) {
         super(R.layout.item_circle_message_2_layout, Lists.newArrayList());
-        this.goodView = goodView;
+        this.goodView = new GoodView(activity);
         this.activity = activity;
         dialogHideCircleFragment = new DialogHideCircleFragment();
     }
@@ -143,7 +143,9 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
             public void thumb(View view) {
                 mPre.messageId = item.getMid();
                 mPre.setIsThumb(!item.isThumb());
+                getBaseActivity().showLoading();
                 mPre.setThumb(s -> {
+                    getBaseActivity().hideLoading();
                     if(item.isThumb()){
                         int position = mPre.getUserThumbPosition(item.getPraiseList(),CpigeonData.getInstance().getUserId(mContext));
                         if(position != -1){
@@ -194,7 +196,10 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
                     item.setCancelThumb();
                 }
             }
-        }else socialSnsviewHolder.setThumb(false);
+        }else {
+            socialSnsviewHolder.setThumb(false);
+            item.setCancelThumb();
+        }
         /**
          * 图片
          */

@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 public class DynamicEntity extends BaseDynamicEntity {
-    public String mid;//鸽迷圈ID
+    public int mid;//鸽迷圈ID
     public String uid;//会员ID
     public String nicheng;
     public String headurl;//头像图片路径

@@ -1,8 +1,12 @@
 package com.cpigeon.app.modular.saigetong.view.adapter;
 
 import android.util.Log;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.AbstractExpandableItem;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
@@ -28,6 +32,12 @@ public class SGTGZAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, Bas
 //        addItemType(TYPE_CONTENT, R.layout.item_list_content);
         addItemType(TYPE_RACE, R.layout.item_list_con_content);
     }
+    private OnItemClickListener  listener = new OnItemClickListener() {
+        @Override
+        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+        }
+    };
 
     @Override
     protected void convert(BaseViewHolder helper, MultiItemEntity item) {
@@ -35,12 +45,17 @@ public class SGTGZAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, Bas
         switch (helper.getItemViewType()) {
             case TYPE_ORG:
                 SGTGzListEntity mSGTGzListEntity = ((OrgItem) item).orgInfo;
-
+                CheckBox checkBox =  helper.getView(R.id.btn_cb);
+                if (((OrgItem) item).orgInfo.getTag() == 1) {
+                    checkBox.setChecked(false);
+                } else {
+                    checkBox.setChecked(true);
+                }
 
                 Log.d(TAG, "convert1: " + mSGTGzListEntity.getXingming() + "     " + String.valueOf(mSGTGzListEntity.getCount()));
 
                 helper.setText(R.id.it_title1, mSGTGzListEntity.getXingming());
-                helper.setText(R.id.it_title2, String.valueOf(mSGTGzListEntity.getCount()));
+                helper.setText(R.id.it_title2, String.valueOf(mSGTGzListEntity.getCount()+ "羽"));
                 if (mSGTGzListEntity.getData() != null && mSGTGzListEntity.getData().size() > 0) {
                     helper.setText(R.id.it_title3, String.valueOf(mSGTGzListEntity.getData().size()));
                 }

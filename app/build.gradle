@@ -193,6 +193,7 @@ dependencies {
 
     compile 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.1.0'
     compile 'com.wx.goodview:goodview:1.0.0'
+    compile 'com.melnykov:floatingactionbutton:1.3.0'
 
 }
 

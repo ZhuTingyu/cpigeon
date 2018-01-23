@@ -402,11 +402,11 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
 
 
-    protected void showLoading(){
+    public void showLoading(){
         showTips("请稍后...", TipType.LoadingShow);
     }
 
-    protected void hideLoading(){
+    public void hideLoading(){
         showTips("", TipType.LoadingHide);
     }
 

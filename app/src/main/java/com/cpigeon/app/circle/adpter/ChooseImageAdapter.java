@@ -83,6 +83,9 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
 
                 if (type == TYPE_PICTURE) {
                     holder.setGlideImageView(mContext, R.id.image, item.url);
+                    holder.itemView.setOnClickListener(v -> {
+                        ChooseImageManager.showImageDialog(mContext, getImgs(), holder.getAdapterPosition());
+                    });
                 } else {
                     SoftReference<Bitmap> bitmapSoftReference = new SoftReference<Bitmap>(ThumbnailUtils.createVideoThumbnail(item.url, MediaStore.Images.Thumbnails.MICRO_KIND));
                     ImageView imageView = holder.getView(R.id.image);

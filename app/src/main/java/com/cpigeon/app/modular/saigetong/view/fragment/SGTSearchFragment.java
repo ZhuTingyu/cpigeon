@@ -10,6 +10,8 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.modular.saigetong.presenter.SGTPresenter;
 import com.cpigeon.app.modular.saigetong.view.adapter.SGTSearchAdapter;
+import com.cpigeon.app.utils.IntentBuilder;
+import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.customview.SearchEditText;
 
 import butterknife.BindView;
@@ -51,13 +53,13 @@ public class SGTSearchFragment extends BaseMVPFragment<SGTPresenter> implements 
         setTitle("公棚赛鸽搜索");
 
         mSearchEditText.setOnSearchClickListener(this);
-        guid = getActivity().getIntent().getStringExtra("guid");
-//        guid = SGTRpRecordFragment.usetId;
+        bindUi(RxUtils.textChanges(mSearchEditText),mPresenter.setKeyWord());
 
-        Log.d(TAG, "搜索页: "+guid);
+
 
         mAdapter = new SGTSearchAdapter(null);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        addItemDecorationLine(mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -71,6 +73,6 @@ public class SGTSearchFragment extends BaseMVPFragment<SGTPresenter> implements 
     public void onSearchClick(View view, String keyword) {
         mPresenter.getSGTSearchFootListData(data -> {
             mAdapter.setNewData(data);
-        }, String.valueOf(guid), keyword);
+        });
     }
 }

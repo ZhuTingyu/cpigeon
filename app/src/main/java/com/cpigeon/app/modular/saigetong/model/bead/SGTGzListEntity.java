@@ -36,6 +36,14 @@ public class SGTGzListEntity {
     private List<DataBean> data;
     private int tag = 1;//点击展开tag 1 收缩，2展开
 
+    public int getTag() {
+        return tag;
+    }
+
+    public void setTag(int tag) {
+        this.tag = tag;
+    }
+
     public int getId() {
         return id;
     }

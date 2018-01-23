@@ -13,15 +13,15 @@ public class SGTUserListEntity {
      * tpcount : 0
      */
 
-    private int userid;
+    private String userid;
     private String gpmc;
     private int tpcount;
 
-    public int getUserid() {
+    public String getUserid() {
         return userid;
     }
 
-    public void setUserid(int userid) {
+    public void setUserid(String userid) {
         this.userid = userid;
     }
 

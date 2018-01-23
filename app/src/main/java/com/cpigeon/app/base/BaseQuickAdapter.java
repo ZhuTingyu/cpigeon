@@ -7,6 +7,7 @@ import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.view.View;
 
+import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.http.CommonUitls;
 
@@ -30,12 +31,16 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends com.
 
     @Override
     public void setNewData(List<T> data) {
-        super.setNewData(data);
+        if(getRecyclerView() != null){
+            getRecyclerView().getRecycledViewPool().clear();
+            notifyDataSetChanged();
+        }
         if (data.isEmpty()) {
             if (!getEmptyViewText().isEmpty()) {
                 setEmptyView();
             }
         }
+        super.setNewData(data);
     }
 
     public void setEmptyView() {
@@ -61,6 +66,10 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends com.
 
     protected float getDimension(@DimenRes int resId) {
         return mContext.getResources().getDimension(resId);
+    }
+
+    protected BaseActivity getBaseActivity(){
+        return (BaseActivity) mContext;
     }
 }
 
