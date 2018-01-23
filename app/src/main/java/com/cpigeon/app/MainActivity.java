@@ -372,18 +372,18 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
                     .initialise();*/
 
             mBottomNavigationBar
-                    .addItem(new BottomNavigationItem(R.drawable.ic_home_home_selected, "首页"))
-                    .addItem(new BottomNavigationItem(R.drawable.ic_home_live_selected, "直播"))
-                    .addItem(new BottomNavigationItem(R.drawable.ic_home_circle_selected, "鸽迷圈"))
-                    .addItem(new BottomNavigationItem(R.drawable.ic_home_my_selected, "我的"))
+                    .addItem(new BottomNavigationItem(R.drawable.ic_home_home_selected, "首页").setInactiveIconResource(R.drawable.ic_home_home).setActiveColorResource(R.color.colorPrimary))
+                    .addItem(new BottomNavigationItem(R.drawable.ic_home_live_selected, "直播").setInactiveIconResource(R.drawable.ic_home_live).setActiveColorResource(R.color.colorPrimary))
+                    .addItem(new BottomNavigationItem(R.drawable.ic_home_circle_selected, "鸽迷圈").setInactiveIconResource(R.drawable.ic_home_circle).setActiveColorResource(R.color.colorPrimary))
+                    .addItem(new BottomNavigationItem(R.drawable.ic_home_my_selected, "我的").setInactiveIconResource(R.drawable.ic_home_my).setActiveColorResource(R.color.colorPrimary))
                     .setFirstSelectedPosition(laseSelectedPosition > 4 ? 4 : laseSelectedPosition)
                     .initialise();
         } else {
             mBottomNavigationBar
-                    .addItem(new BottomNavigationItem(R.drawable.ic_home_home_selected, "首页").setBadgeItem(numberBadgeItem))
-                    .addItem(new BottomNavigationItem(R.drawable.ic_home_live_selected, "直播"))
-                    .addItem(new BottomNavigationItem(R.drawable.ic_home_circle_selected, "鸽迷圈"))
-                    .addItem(new BottomNavigationItem(R.drawable.ic_home_my_selected, "我的"))
+                    .addItem(new BottomNavigationItem(R.drawable.ic_home_home_selected, "首页").setInactiveIconResource(R.drawable.ic_home_home).setActiveColorResource(R.color.colorPrimary))
+                    .addItem(new BottomNavigationItem(R.drawable.ic_home_live_selected, "直播").setInactiveIconResource(R.drawable.ic_home_live).setActiveColorResource(R.color.colorPrimary))
+                    .addItem(new BottomNavigationItem(R.drawable.ic_home_circle_selected, "鸽迷圈").setInactiveIconResource(R.drawable.ic_home_circle).setActiveColorResource(R.color.colorPrimary))
+                    .addItem(new BottomNavigationItem(R.drawable.ic_home_my_selected, "我的").setInactiveIconResource(R.drawable.ic_home_my).setActiveColorResource(R.color.colorPrimary))
                     .setFirstSelectedPosition(laseSelectedPosition > 4 ? 4 : laseSelectedPosition)
                     .initialise();
         }

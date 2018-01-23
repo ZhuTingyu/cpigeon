@@ -452,4 +452,6 @@
     <dimen name="sgt_img_upload_m">10dp</dimen>
 
     <dimen name="gyt_monitor_img_wh">80sp</dimen>
+
+    <dimen name="water_img_tv_size">7sp</dimen>
 </resources>
