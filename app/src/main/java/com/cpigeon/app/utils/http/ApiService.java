@@ -55,5 +55,4 @@ public interface ApiService {
                                          @Query("u") int userid,
                                          @Query("sign") String sign);
 
-
 }

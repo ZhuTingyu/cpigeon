@@ -9,6 +9,7 @@ import com.cpigeon.app.circle.adpter.CircleMessageAdapter;
 import com.cpigeon.app.circle.presenter.CircleMessagePre;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.utils.ScreenTool;
+import com.cpigeon.app.utils.ToastUtil;
 import com.wx.goodview.GoodView;
 
 /**
@@ -27,7 +28,7 @@ public class BaseCircleMessageFragment extends BaseMVPFragment<CircleMessagePre>
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_recyclerview_not_white_layout;
+        return R.layout.fragment_recyclerview_not_white_no_padding_layout;
     }
 
     @Override
@@ -46,6 +47,8 @@ public class BaseCircleMessageFragment extends BaseMVPFragment<CircleMessagePre>
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new CircleMessageAdapter(getActivity(), goodView);
+        adapter.setOnItemClickListener((adapter1, view, position) -> {
+        });
         adapter.setmPre(mPresenter);
         adapter.bindToRecyclerView(recyclerView);
         adapter.setOnLoadMoreListener(() -> {
@@ -59,7 +62,6 @@ public class BaseCircleMessageFragment extends BaseMVPFragment<CircleMessagePre>
                 }
             });
         }, recyclerView);
-        addItemDecorationLine(recyclerView, R.color.color_default_bg, ScreenTool.dip2px(getContext().getResources().getDimension(R.dimen.large_vertical_margin)));
 
         recyclerView.requestFocus();
 

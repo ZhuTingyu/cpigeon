@@ -52,7 +52,7 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
     DialogHideCircleFragment dialogHideCircleFragment;
 
     public CircleMessageAdapter(Activity activity, GoodView goodView) {
-        super(R.layout.item_pigeon_circle_message_layout, Lists.newArrayList());
+        super(R.layout.item_circle_message_2_layout, Lists.newArrayList());
         this.goodView = goodView;
         this.activity = activity;
         dialogHideCircleFragment = new DialogHideCircleFragment();
@@ -60,6 +60,13 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
 
     @Override
     protected void convert(BaseViewHolder holder, CircleMessageEntity item) {
+
+        holder.getView(R.id.ll1).setOnClickListener(v -> {
+            IntentBuilder.Builder()
+                    .putExtra(IntentBuilder.KEY_DATA, item.getMid())
+                    .startParentActivity(activity, CircleMessageDetailsFragment.class);
+        });
+
         holder.setGlideImageView(mContext, R.id.head_img, item.getUserinfo().getHeadimgurl());
         holder.setText(R.id.user_name, item.getUserinfo().getNickname());
         holder.setText(R.id.time,item.getTime());
@@ -277,11 +284,11 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
             comments.setVisibility(View.GONE);
         }
 
-        holder.getView(R.id.tv_details).setOnClickListener(v -> {
+        /*holder.getView(R.id.tv_details).setOnClickListener(v -> {
             IntentBuilder.Builder()
                     .putExtra(IntentBuilder.KEY_DATA, item.getMid())
                     .startParentActivity(activity, CircleMessageDetailsFragment.class);
-        });
+        });*/
     }
 
 

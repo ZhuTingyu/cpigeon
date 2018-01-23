@@ -5,6 +5,12 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <View
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/large_vertical_margin"/>
+
     <com.cpigeon.app.utils.customview.smarttab.SmartTabLayout
         android:id="@+id/tab_view"
         app:stl_dividerColor="@color/white"
@@ -21,7 +27,12 @@
         app:stl_indicatorThickness="3dp"
         app:stl_underlineColor="@android:color/transparent"
         android:layout_width="match_parent"
-        android:layout_height="48dp"/>
+        android:layout_height="30dp"/>
+
+    <View
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/large_vertical_margin"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"

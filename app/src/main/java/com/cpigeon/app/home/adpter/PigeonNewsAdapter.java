@@ -24,20 +24,26 @@ public class PigeonNewsAdapter extends BaseQuickAdapter<HomeNewsEntity, NewsView
 
     private int type = 1;
 
+    public PigeonNewsAdapter(int type) {
+        super(R.layout.item_news_layout,Lists.newArrayList());
+        this.type = type;
+    }
+
     public PigeonNewsAdapter() {
         super(R.layout.item_news_layout,Lists.newArrayList());
     }
 
     @Override
     protected void convert(NewsViewHolder holder, HomeNewsEntity item) {
-        /*if (type != TYPE_HOME){
+        if (type == TYPE_HOME){
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0, 0,0,0);
             holder.itemView.setLayoutParams(params);
-            holder.itemView.setPadding(ScreenTool.dip2px(mContext.getResources().getDimension(R.dimen.medium_horizontal_margin))
-                    ,0
-                    ,ScreenTool.dip2px(mContext.getResources().getDimension(R.dimen.medium_horizontal_margin))
-                    ,0);
-        }*/
+            /*holder.itemView.setPadding(ScreenTool.dip2px(mContext.getResources().getDimension(R.dimen.large_horizontal_margin_15))
+                    ,ScreenTool.dip2px(mContext.getResources().getDimension(R.dimen.medium_vertical_margin))
+                    ,ScreenTool.dip2px(mContext.getResources().getDimension(R.dimen.large_horizontal_margin_15))
+                    ,ScreenTool.dip2px(mContext.getResources().getDimension(R.dimen.medium_vertical_margin)));*/
+        }
         holder.bindData(item);
         holder.setListener(mContext);
     }

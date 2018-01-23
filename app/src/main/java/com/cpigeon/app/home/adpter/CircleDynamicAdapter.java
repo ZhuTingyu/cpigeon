@@ -11,7 +11,9 @@ import com.cpigeon.app.base.BaseViewHolder;
 import com.cpigeon.app.entity.BaseDynamicEntity;
 import com.cpigeon.app.entity.DynamicEntity;
 import com.cpigeon.app.entity.ImageEntity;
+import com.cpigeon.app.home.HomePre;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.http.GlideRoundTransform;
 
 import java.util.List;
@@ -22,8 +24,11 @@ import java.util.List;
 
 public class CircleDynamicAdapter extends BaseMultiItemQuickAdapter<DynamicEntity, BaseViewHolder> {
 
-    public CircleDynamicAdapter() {
+    HomePre mPre;
+
+    public CircleDynamicAdapter(HomePre mPre) {
         super(Lists.newArrayList());
+        this.mPre = mPre;
         addItemType(BaseDynamicEntity.IMAGE_0, R.layout.item_dynamic_1_img_layout);
         addItemType(BaseDynamicEntity.IMAGE_1, R.layout.item_dynamic_1_img_layout);
         addItemType(BaseDynamicEntity.IMAGE_2, R.layout.item_dynamic_2_img_layout);
@@ -36,6 +41,14 @@ public class CircleDynamicAdapter extends BaseMultiItemQuickAdapter<DynamicEntit
         holder.setText(R.id.user_name,item.nicheng);
         holder.setText(R.id.content_text, item.content);
         holder.setImageResource(R.id.icon, item.guanzhu ? R.mipmap.ic_home_followed : R.mipmap.ic_home_follow);
+        holder.getView(R.id.icon).setOnClickListener(v -> {
+            mPre.firendId = Integer.parseInt(item.uid);
+            mPre.followFirend(s -> {
+                ToastUtil.showLongToast(mContext, s);
+                item.guanzhu = true;
+                notifyDataSetChanged();
+            });
+        });
         holder.setSimpleImageView(R.id.user_icon, item.headurl);
         List<ImageEntity> list = item.imglist;
 

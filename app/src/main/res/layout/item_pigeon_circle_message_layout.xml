@@ -8,7 +8,7 @@
     app:cardCornerRadius="2dp"
     app:cardElevation="4dp">
 
-    <include layout="@layout/item_circle_message_layout"/>
+    <include layout="@layout/item_circle_message_2_layout"/>
 
 </android.support.v7.widget.CardView>
 
