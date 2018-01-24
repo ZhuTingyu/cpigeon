@@ -48,7 +48,8 @@ public class SGTRpRecordFragment extends BaseMVPFragment<SGTPresenter> {
 
     @Override
     public void finishCreateView(Bundle state) {
-        setTitle("公棚赛鸽");
+
+        setTitle(getActivity().getIntent().getStringExtra(IntentBuilder.KEY_TITLE));
 
         toolbar.getMenu().clear();
         toolbar.getMenu().add("").setIcon(R.mipmap.sgt_sousuo).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -68,8 +69,8 @@ public class SGTRpRecordFragment extends BaseMVPFragment<SGTPresenter> {
         mAdapter.bindToRecyclerView(mRecyclerView);
         mPresenter.getSGTRpRecoudData(data -> {
             mAdapter.setSGTRpRecordEntity(data, getActivity());
-            tv1.setText(String.valueOf(data.getAlltpcount()));
-            tv2.setText(String.valueOf(data.getAllgzcount() + "羽"));
+            tv2.setText(String.valueOf(data.getAlltpcount()));
+            tv1.setText(String.valueOf(data.getAllgzcount() + "羽"));
 
             if (data.getList() != null) {
                 mAdapter.setNewData(data.getList());

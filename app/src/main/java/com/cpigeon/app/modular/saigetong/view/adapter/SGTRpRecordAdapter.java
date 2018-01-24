@@ -33,6 +33,7 @@ public class SGTRpRecordAdapter extends BaseQuickAdapter<SGTRpRecordEntity.ListB
                 IntentBuilder.Builder()
                         .putExtra(IntentBuilder.KEY_DATA, mSGTRpRecordEntity.getGuid())
                         .putExtra(IntentBuilder.KEY_TYPE, item.getTid())
+                        .putExtra(IntentBuilder.KEY_TITLE, item.getTitle())
                         .startParentActivity((Activity) mContext, SGTGzFragment.class);
             }
 

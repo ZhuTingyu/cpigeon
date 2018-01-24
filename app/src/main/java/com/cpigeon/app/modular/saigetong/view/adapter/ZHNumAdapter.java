@@ -41,7 +41,7 @@ public class ZHNumAdapter extends BaseQuickAdapter<SGTDetailsInfoEntity.RPImages
         long time = item.getSj();
 
         holder.setText(R.id.tv_day, DateTool.format(time*1000, DateTool.FORMAT_DD));
-        holder.setText(R.id.tv_year, DateTool.format(time+1000, DateTool.FORMAT_YYYY_MM2));
+        holder.setText(R.id.tv_year, DateTool.format(time*1000, DateTool.FORMAT_YYYY_MM2));
         holder.setGlideImageViewNoRound(mContext, R.id.image, item.getImgurl());
         holder.setText(R.id.image_type,item.getTag());
 

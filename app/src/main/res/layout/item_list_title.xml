@@ -36,14 +36,13 @@
             android:id="@+id/it_title2"
             android:layout_width="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:textColor="@color/black"
-            android:gravity="center"
             tools:text="title" />
 
 
-        <TextView
+        <!--<TextView
             android:id="@+id/it_title3"
             android:layout_width="wrap_content"
             tools:text="10"
@@ -51,7 +50,7 @@
             android:layout_alignParentRight="true"
             android:drawablePadding="@dimen/small_horizontal_margin"
             android:drawableLeft="@mipmap/ic_list_sgt_img"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" />-->
     </RelativeLayout>
 
 </LinearLayout>

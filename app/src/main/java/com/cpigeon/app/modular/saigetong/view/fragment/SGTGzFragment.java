@@ -133,7 +133,7 @@ public class SGTGzFragment extends BaseMVPFragment<SGTPresenter> {
     @Override
     public void finishCreateView(Bundle state) {
 
-        setTitle("公棚赛鸽");
+        setTitle(getActivity().getIntent().getStringExtra(IntentBuilder.KEY_TITLE));
         toolbar.getMenu().clear();
         toolbar.getMenu().add("").setIcon(R.mipmap.sgt_sousuo).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -146,6 +146,7 @@ public class SGTGzFragment extends BaseMVPFragment<SGTPresenter> {
 
         mAdapter = new SGTGZAdapter(null);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        addItemDecorationLine(mRecyclerView);
         mAdapter.setOnItemClickListener(onItemClickListener);
         mRecyclerView.setAdapter(mAdapter);
 

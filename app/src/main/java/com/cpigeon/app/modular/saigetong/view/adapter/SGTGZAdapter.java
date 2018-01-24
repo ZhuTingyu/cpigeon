@@ -56,9 +56,6 @@ public class SGTGZAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, Bas
 
                 helper.setText(R.id.it_title1, mSGTGzListEntity.getXingming());
                 helper.setText(R.id.it_title2, String.valueOf(mSGTGzListEntity.getCount()+ "羽"));
-                if (mSGTGzListEntity.getData() != null && mSGTGzListEntity.getData().size() > 0) {
-                    helper.setText(R.id.it_title3, String.valueOf(mSGTGzListEntity.getData().size()));
-                }
 
                 break;
             case TYPE_RACE:

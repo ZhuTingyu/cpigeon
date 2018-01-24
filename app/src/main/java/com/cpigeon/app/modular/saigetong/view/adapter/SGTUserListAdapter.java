@@ -27,6 +27,7 @@ public class SGTUserListAdapter extends BaseQuickAdapter<SGTUserListEntity, Base
         helper.setText(R.id.item_num, String.valueOf(item.getTpcount()));
         helper.getView(R.id.ll_sgt_home).setOnClickListener(view -> {
             IntentBuilder.Builder().putExtra(IntentBuilder.KEY_DATA, item.getUserid())
+                    .putExtra(IntentBuilder.KEY_TITLE, item.getGpmc())
                     .startParentActivity((Activity) mContext, SGTRpRecordFragment.class);
         });
     }
