@@ -10,6 +10,8 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
+
+
         <!--中间水印图片-->
         <ImageView
             android:id="@+id/watermark_center_img"
@@ -36,6 +38,14 @@
             app:focus_focusing_id="@mipmap/focus_focusing"
             app:focus_success_id="@mipmap/focus_focused" />
 
+        <include
+            android:id="@+id/water_layout"
+            layout="@layout/water_push_circle_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
+
         <FrameLayout
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -58,6 +68,8 @@
                 android:visibility="gone" />
 
         </FrameLayout>
+
+
 
         <!--水印-->
         <LinearLayout

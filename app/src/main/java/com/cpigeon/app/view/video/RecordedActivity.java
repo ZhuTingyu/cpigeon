@@ -40,6 +40,7 @@ import com.cpigeon.app.utils.DateTool;
 import com.cpigeon.app.utils.DateUtils;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.ScreenTool;
+import com.cpigeon.app.utils.cache.CacheManager;
 import com.cpigeon.app.utils.http.CommonUitls;
 import com.cpigeon.app.view.video.camera.SensorControler;
 import com.cpigeon.app.view.video.widget.CameraView;
@@ -48,6 +49,7 @@ import com.cpigeon.app.view.video.widget.FocusImageView;
 
 
 import java.io.File;
+import java.lang.ref.SoftReference;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -55,6 +57,7 @@ import java.util.concurrent.Executors;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
 
 
 /**
@@ -95,6 +98,7 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
     private boolean autoPausing = false;
     ExecutorService executorService;
     private SensorControler mSensorControler;
+    LocationManager locationManager;
 
     private Unbinder mUnbinder;
 
@@ -107,7 +111,6 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
     View water;
     TextView waterTime;
     TextView waterLocation;
-    LocationManager locationManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -145,9 +148,10 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
 
         if (type.equals("photo") || type.equals("sgt")) {
             photoOperation();//拍照
-        } else if (type.equals(TYPE_VIDEO)) {
+        } else if (type.equals("video")) {
             videoOperation();//拍摄视频
         }
+
 
         //开启线程，持续传递Bitmap,显示水印
         mThread = new Thread(mRunnable);
@@ -159,7 +163,7 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
     }
 
     private void initWater() {
-        water = LayoutInflater.from(getBaseContext()).inflate(R.layout.water_push_circle_layout,null);
+        water = findViewById(R.id.water_layout);
         waterTime  = water.findViewById(R.id.time);
         waterLocation =water.findViewById( R.id.location);
     }
@@ -323,8 +327,8 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
             autoPausing = false;
             timeCount = 0;
             long time = System.currentTimeMillis();
-            savePath = Constants.getPath("record/", time + ".mp4");
-
+           // savePath = Constants.getPath("record/", time + ".mp4");
+            savePath =getCacheDir().getAbsolutePath() +"/" +time + ".mp4";
             try {
                 mCameraView.setSavePath(savePath);
                 mCameraView.startRecord();
@@ -396,7 +400,7 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
                             if (mThread != null && mThread.isAlive()) {//如果现在正在执行
                                 mThread.interrupt();//线程结束
                             }
-                        } else  {
+                        } else if (watermarkTime != null && watermarkLlz != null) {
 //                            watermarkTime.setText(getStringDate());
 //                            //时间
 //                            watermarkTime.setText(DateUtils.sdf.format(new Date()) + "   " + weatherlive.getWeather() + "  " + weatherlive.getTemperature() + "℃" + "  " + weatherlive.getWindDirection() + "风");
@@ -405,16 +409,14 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
 
                             //时间
                             waterTime.setText(DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_DATETIME));
-                            Log.d(TAG, (DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_DATETIME)));
-                            /*String img_path = MyApp.getInstance().getBaseContext().getExternalFilesDir(Environment.DIRECTORY_DCIM).getPath() + "video_watermark" + ".jpeg";
-//                            Bitmap bitmap = BitmapFactory.decodeFile(img_path);*/
-                            Log.d(TAG, waterTime.getText().toString());
+                           /* Log.d(TAG, (DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_DATETIME)));
+                            *//*String img_path = MyApp.getInstance().getBaseContext().getExternalFilesDir(Environment.DIRECTORY_DCIM).getPath() + "video_watermark" + ".jpeg";
+//                            Bitmap bitmap = BitmapFactory.decodeFile(img_path);*//*
+                            Log.d(TAG, waterTime.getText().toString());*/
 //                        Bitmap viewWatermarkBitmap1 = BitmapUtils.getViewBitmap(ac_time);//控件转化成有水印的bipmap
-                            Bitmap viewWatermarkBitmap1 = BitmapUtils.convertViewToBitmap(water);//控件转化成有水印的bipmap
-                            if (viewWatermarkBitmap1 != null) {
-                                mCameraView.mCameraDrawer.getBitmap.setBitmap(viewWatermarkBitmap1);
-                            }
+                                mCameraView.mCameraDrawer.setBitmap(BitmapUtils.getViewBitmap(water));
                         }
+//                       BitmapUtils.saveJPGE_After(RecordedActivity.this, viewWatermarkBitmap1, img_path, 100);//将有水印的bipmap保存
                     }
                 });
             }
@@ -489,9 +491,11 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
         //定位获取数据成功
         Log.d(TAG, "onLocationChanged: " + aMapLocation.getLatitude() + "/" + aMapLocation.getLongitude());
 
-        /*//地址
-        watermarkDz.setText(aMapLocation.getProvince() + aMapLocation.getCity() + aMapLocation.getDistrict() + aMapLocation.getStreet() + aMapLocation.getStreetNum());
+        //地址
+        /*watermarkDz.setText(aMapLocation.getProvince() + aMapLocation.getCity() + aMapLocation.getDistrict() + aMapLocation.getStreet() + aMapLocation.getStreetNum());
         //设置经纬度
+        watermarkLo.setText(("" + GPSFormatUtils.LoLatoD(aMapLocation.getLongitude()) + "°" + GPSFormatUtils.LoLatoM(aMapLocation.getLongitude()) + "\'" + GPSFormatUtils.LoLatoS(aMapLocation.getLongitude()) + "\"").trim() + "E");
+        watermarkLa.setText(("" + GPSFormatUtils.LoLatoD(aMapLocation.getLatitude()) + "°" + GPSFormatUtils.LoLatoM(aMapLocation.getLatitude()) + "\'" + GPSFormatUtils.LoLatoS(aMapLocation.getLatitude()) + "\"").trim() + "N");
 
 
         //获取海拔高度
@@ -505,15 +509,15 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
         if (location != null) {
 //            watermark_weather.setText(we + "  " + t + "度" + "  " + wd + "风" + "  海拔：" + new DecimalFormat("#.00").format(hb));
 //            watermark_weather.setText(we + "  " + t + "度" + "  " + wd + "风");
+            watermarkHb.setText("海拔：" + CommonUitls.strTwo(location.getAltitude()) + "米");
         } else {
 //            watermark_weather.setText(we + "  " + t + "度" + "  " + wd + "风" + "  海拔：无");
 //            watermark_weather.setText(we + "  " + t + "度" + "  " + wd + "风");
+            watermarkHb.setText("海拔：无");
         }
         lo = CommonUitls.GPS2AjLocation(aMapLocation.getLongitude());//经度
         la = CommonUitls.GPS2AjLocation(aMapLocation.getLatitude());//纬度
         initWeatherSearch(aMapLocation.getCity());//天气查询*/
-
-
     }
 
 
@@ -622,10 +626,10 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
             case MotionEvent.ACTION_UP:
                 float sRawX = event.getRawX();
                 float sRawY = event.getRawY();
-                float rawY = sRawY * ScreenTool.getScreenWidth(MyApp.getInstance().getBaseContext())/ ScreenTool.getScreenHeight(MyApp.getInstance().getBaseContext());
+                float rawY = sRawY * ScreenTool.getScreenWidth(getBaseContext()) / ScreenTool.getScreenHeight(getBaseContext());
                 float temp = sRawX;
                 float rawX = rawY;
-                rawY = ( ScreenTool.getScreenHeight(MyApp.getInstance().getBaseContext()) - temp) *  ScreenTool.getScreenHeight(MyApp.getInstance().getBaseContext()) /  ScreenTool.getScreenWidth(MyApp.getInstance().getBaseContext());
+                rawY = (ScreenTool.getScreenWidth(getBaseContext()) - temp) * ScreenTool.getScreenHeight(getBaseContext()) / ScreenTool.getScreenWidth(getBaseContext());
 
                 Point point = new Point((int) rawX, (int) rawY);
                 mCameraView.onFocus(point, callback);
@@ -653,7 +657,7 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
         if (mCameraView.getCameraId() == 1) {
             return;
         }
-        Point point = new Point( ScreenTool.getScreenWidth(MyApp.getInstance().getBaseContext()) / 2,  ScreenTool.getScreenHeight(MyApp.getInstance().getBaseContext()) / 2);
+        Point point = new Point(ScreenTool.getScreenWidth(getBaseContext()) / 2, ScreenTool.getScreenHeight(getBaseContext()) / 2);
         mCameraView.onFocus(point, callback);
     }
 
@@ -701,14 +705,8 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
 
                                 //图片保存
                                 BitmapUtils.saveJPGE_After(RecordedActivity.this, BitmapUtils.createBitmapCenter(BitmapUtils.createBitmapLowerLeft(BitmapUtils.rotaingImageView(90, BitmapFactory.decodeByteArray(data, 0, data.length)), BitmapUtils.convertViewToBitmap(watermarkLlz)), BitmapUtils.convertViewToBitmap(waterCenImg)), img_path, 100);
-                                Intent intent1 = null;
-                                if (type.equals("sgt")) {
-
-
-                                } else if (type.equals("photo")) {
+                               if (type.equals("photo")) {
                                 }
-                                intent1.putExtra("img_path", img_path);
-                                startActivity(intent1);
 
 //                                imageView.setImageBitmap(saveBitmap);
 //                                mCameraView.open(0);

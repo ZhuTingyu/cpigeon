@@ -186,7 +186,7 @@ public class CameraDrawer implements GLSurfaceView.Renderer {
 
     public Bitmap mBitmaps;
 
-    public GetBitmap getBitmap = new GetBitmap() {
+    /*public GetBitmap getBitmap = new GetBitmap() {
         @Override
         public void setBitmap(Bitmap mBitmap) {
             Log.d("aaas", "setBitmap: 1");
@@ -195,7 +195,11 @@ public class CameraDrawer implements GLSurfaceView.Renderer {
 //            }
             mBitmaps = mBitmap;
         }
-    };
+    };*/
+
+    public void setBitmap(Bitmap bitmap){
+        mBitmaps = bitmap;
+    }
 
     @Override
     public void onDrawFrame(GL10 gl10) {
@@ -213,7 +217,7 @@ public class CameraDrawer implements GLSurfaceView.Renderer {
 //                    Bitmap bitmap = BitmapFactory.decodeFile(img_path);
 
             waterMarkFilter.setWaterMark(mBitmaps);
-            waterMarkFilter.setPosition(0, mPreviewHeight - mBitmaps.getHeight(), 0, 0);
+            waterMarkFilter.setPosition(0, 0, mPreviewWidth, mPreviewHeight);
             addFilter(waterMarkFilter);
 
 
@@ -225,7 +229,7 @@ public class CameraDrawer implements GLSurfaceView.Renderer {
 //            String img_path = MyApplication.getContext().getExternalFilesDir(Environment.DIRECTORY_DCIM).getPath() + "video_watermark" + ".jpeg";
 //            Bitmap bitmap = BitmapFactory.decodeFile(img_path);
             waterMarkFilter.setWaterMark(mBitmaps);
-            waterMarkFilter.setPosition(0, mPreviewHeight - mBitmaps.getHeight(), 0, 0);
+            waterMarkFilter.setPosition(0, 0, mPreviewWidth, mPreviewHeight);
             addFilter(waterMarkFilter);
         }
 
