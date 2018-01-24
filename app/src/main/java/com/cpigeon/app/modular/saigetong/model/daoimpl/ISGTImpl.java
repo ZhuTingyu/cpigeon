@@ -82,7 +82,7 @@ public class ISGTImpl implements IBaseDao {
                 }.getType())
                 .url(R.string.api_sgt_foot_img_info)
                 .setType(HttpUtil.TYPE_POST)
-                .addBody("f", String.valueOf(f))
+                .addBody("id", String.valueOf(f))
                 .addBody("guid", guid)
                 .request();
     }

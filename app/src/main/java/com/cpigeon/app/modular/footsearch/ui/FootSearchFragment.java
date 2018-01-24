@@ -40,10 +40,12 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> {
     private TextView lookHistroy;
     private TextView open;
     private TextView remark;
+    private TextView count;
 
     private int datePosition;
 
     RelativeLayout cotent;
+
 
     @Override
     protected FootSearchPre initPresenter() {
@@ -73,7 +75,8 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> {
 
         mPresenter.getUserServiceInfo(entity -> {
             if(StringValid.isStringValid(entity.brief)){
-                remark.setText(getString(R.string.string_foot_search_remark,entity.packageX,entity.brief,String.valueOf(entity.numbers) ));
+                remark.setText(getString(R.string.string_foot_search_remark,entity.packageX,entity.brief,String.valueOf(entity.numbers)));
+                count.setText(getString(R.string.string_foot_search_count, String.valueOf(entity.numbers)));
             }
         });
     }
@@ -86,6 +89,7 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> {
         open = findViewById(R.id.tv_open);
         cotent = findViewById(R.id.rl_content);
         remark = findViewById(R.id.remark);
+        count = findViewById(R.id.foot_count);
 
 
         bindUi(RxUtils.textChanges(searchContent), mPresenter.setKeyWord());

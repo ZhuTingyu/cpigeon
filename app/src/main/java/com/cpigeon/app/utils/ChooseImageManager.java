@@ -10,16 +10,29 @@ import com.luck.picture.lib.PictureSelectionModel;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 
 import java.util.List;
+
+import uk.co.senab.photoview.PhotoView;
 
 /**
  * Created by Zhu TingYu on 2018/1/16.
  */
 
 public class ChooseImageManager {
+
+    public static void showImagePhoto(Activity activity, List<String> list, int startPosition) {
+        List<LocalMedia> media = Lists.newArrayList();
+        for (String img : list) {
+            LocalMedia localMedia = new LocalMedia();
+            localMedia.setPath(img);
+            media.add(localMedia);
+        }
+        PictureSelector.create(activity).externalPicturePreview(startPosition, media);
+    }
 
     public static void showImageDialog(Context context, List<String> list, int startPosition) {
         new ImageViewer.Builder<String>(context, list)

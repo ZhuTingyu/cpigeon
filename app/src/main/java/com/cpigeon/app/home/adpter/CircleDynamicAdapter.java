@@ -49,7 +49,7 @@ public class CircleDynamicAdapter extends BaseMultiItemQuickAdapter<DynamicEntit
                 notifyDataSetChanged();
             });
         });
-        holder.setSimpleImageView(R.id.user_icon, item.headurl);
+        holder.setGlideImageView(mContext, R.id.user_icon, item.headurl);
         List<ImageEntity> list = item.imglist;
 
 

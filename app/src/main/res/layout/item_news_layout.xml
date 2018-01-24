@@ -35,7 +35,7 @@
             android:textColor="@color/white"
             tools:text="alsdfjasl;kdfjklas;dfjo;asdfjkl"
             android:maxLines="1"
-            android:paddingLeft="@dimen/small_horizontal_margin"
+            android:paddingLeft="3dp"
             android:paddingRight="@dimen/large_horizontal_margin"
             android:paddingTop="@dimen/large_vertical_margin"
             android:paddingBottom="@dimen/large_vertical_margin"

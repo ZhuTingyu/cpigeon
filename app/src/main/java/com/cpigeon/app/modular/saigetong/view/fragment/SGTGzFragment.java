@@ -105,7 +105,8 @@ public class SGTGzFragment extends BaseMVPFragment<SGTPresenter> {
 
             } else if (item instanceof SGTGZAdapter.RaceItem) {//展开的item
                 IntentBuilder.Builder()
-                        .putExtra(IntentBuilder.KEY_DATA, ((SGTGZAdapter.RaceItem) item).getRace().getFoot())
+                        .putExtra(IntentBuilder.KEY_TITLE, ((SGTGZAdapter.RaceItem) item).getRace().getFoot())
+                        .putExtra(IntentBuilder.KEY_DATA, ((SGTGZAdapter.RaceItem) item).getRace().getId())
                         .putExtra(IntentBuilder.KEY_TYPE, mPresenter.guid)
                         .startParentActivity(getActivity(), SGTDetailsFragment.class);
 

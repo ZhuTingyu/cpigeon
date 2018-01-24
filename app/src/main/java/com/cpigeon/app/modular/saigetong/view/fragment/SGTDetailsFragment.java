@@ -55,7 +55,7 @@ public class SGTDetailsFragment extends BaseMVPFragment<SGTDetailsPre> {
         initView();
         mPresenter.getFootInfoData(data -> {
             bindData(data);
-            mAdapter.setNewData(Lists.newArrayList("","",""));
+            mAdapter.setNewData(data.getDatalist());
         });
     }
 
@@ -96,7 +96,7 @@ public class SGTDetailsFragment extends BaseMVPFragment<SGTDetailsPre> {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+                ChooseImageManager.showImageDialog(getContext(), mAdapter.getImages(), position);
             }
         });
     }

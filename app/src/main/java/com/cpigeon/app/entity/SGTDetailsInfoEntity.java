@@ -40,16 +40,18 @@ public class SGTDetailsInfoEntity {
     private List<RPImages> datalist;
 
     public class RPImages{
-        String sj;
+        long sj;
         String imgurl;
         String slrurl;
         String tag;
+        String updatefootinfo;
 
-        public String getSj() {
+
+        public long getSj() {
             return sj;
         }
 
-        public void setSj(String sj) {
+        public void setSj(long sj) {
             this.sj = sj;
         }
 
@@ -76,7 +78,16 @@ public class SGTDetailsInfoEntity {
         public void setTag(String tag) {
             this.tag = tag;
         }
+        public String getUpdatefootinfo() {
+            return updatefootinfo;
+        }
+
+        public void setUpdatefootinfo(String updatefootinfo) {
+            this.updatefootinfo = updatefootinfo;
+        }
     }
+
+
 
     public List<RPImages> getDatalist() {
         return datalist;

@@ -9,6 +9,7 @@ import android.view.View;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.modular.saigetong.presenter.SGTPresenter;
+import com.cpigeon.app.modular.saigetong.view.adapter.SGTGZAdapter;
 import com.cpigeon.app.modular.saigetong.view.adapter.SGTSearchAdapter;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.RxUtils;
@@ -60,7 +61,11 @@ public class SGTSearchFragment extends BaseMVPFragment<SGTPresenter> implements 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         addItemDecorationLine(mRecyclerView);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
-
+            IntentBuilder.Builder()
+                    .putExtra(IntentBuilder.KEY_TITLE, mAdapter.getItem(position).getFoot())
+                    .putExtra(IntentBuilder.KEY_DATA, mAdapter.getItem(position).getId())
+                    .putExtra(IntentBuilder.KEY_TYPE, mPresenter.guid)
+                    .startParentActivity(getActivity(), SGTDetailsFragment.class);
         });
         mRecyclerView.setAdapter(mAdapter);
     }

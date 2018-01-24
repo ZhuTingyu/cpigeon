@@ -20,12 +20,12 @@
             android:visibility="invisible" />
 
 
-        <com.cpigeon.cpigeonhelper.video.widget.CameraView
+        <com.cpigeon.app.view.video.widget.CameraView
             android:id="@+id/camera_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.cpigeon.cpigeonhelper.video.widget.FocusImageView
+        <com.cpigeon.app.view.video.widget.FocusImageView
             android:id="@+id/focusImageView"
             android:layout_width="75dip"
             android:layout_height="75dip"
@@ -83,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <com.cpigeon.cpigeonhelper.video.widget.CircularProgressView
+            <com.cpigeon.app.view.video.widget.CircularProgressView
                 android:id="@+id/mCapture"
                 android:layout_width="88dp"
                 android:layout_height="88dp"

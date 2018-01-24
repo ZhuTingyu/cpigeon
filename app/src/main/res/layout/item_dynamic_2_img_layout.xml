@@ -21,16 +21,16 @@
             android:id="@+id/content_img1"
             android:layout_width="0dp"
             android:layout_marginRight="5dp"
+            android:scaleType="centerCrop"
             android:layout_height="match_parent"
-            android:scaleType="fitXY"
             android:layout_weight="1"/>
 
         <ImageView
             android:id="@+id/content_img2"
             android:layout_width="0dp"
             android:layout_marginLeft="5dp"
+            android:scaleType="centerCrop"
             android:layout_height="match_parent"
-            android:scaleType="fitXY"
             android:layout_weight="1"/>
 
     </LinearLayout>

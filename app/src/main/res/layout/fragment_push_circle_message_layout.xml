@@ -60,7 +60,7 @@
                 android:textSize="18sp"
                 android:layout_toLeftOf="@id/imageView4"
                 android:id="@+id/location"
-                tool:text="1231231231"
+                android:text="@string/string_text_not_show"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

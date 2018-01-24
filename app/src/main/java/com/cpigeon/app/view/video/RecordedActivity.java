@@ -10,12 +10,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.hardware.Camera;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -34,8 +34,11 @@ import com.amap.api.services.weather.WeatherSearch;
 import com.amap.api.services.weather.WeatherSearchQuery;
 import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
+import com.cpigeon.app.circle.LocationManager;
 import com.cpigeon.app.utils.BitmapUtils;
+import com.cpigeon.app.utils.DateTool;
 import com.cpigeon.app.utils.DateUtils;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.ScreenTool;
 import com.cpigeon.app.utils.http.CommonUitls;
 import com.cpigeon.app.view.video.camera.SensorControler;
@@ -99,6 +102,13 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
     private String savePath;//视频保存路径
     private String type;
 
+    public static final String TYPE_VIDEO = "video";
+
+    View water;
+    TextView waterTime;
+    TextView waterLocation;
+    LocationManager locationManager;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,10 +118,14 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
         executorService = Executors.newSingleThreadExecutor();
         mSensorControler = SensorControler.getInstance();
         mSensorControler.setCameraFocusListener(this);
+        locationManager = new LocationManager(getBaseContext());
         initView();
     }
 
     private void initView() {
+
+        initWater();
+
         //初始化定位
         mLocationClient = new AMapLocationClient(MyApp.getInstance().getBaseContext());
         //初始化定位相关数据
@@ -123,7 +137,7 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
 
         mCameraView.setOnTouchListener(this);
 
-        type = getIntent().getStringExtra("type");
+        type = getIntent().getStringExtra(IntentBuilder.KEY_TYPE);
 
         if (type.equals("sgt")) {
             watermarkGeZhu.setVisibility(View.VISIBLE);
@@ -131,14 +145,23 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
 
         if (type.equals("photo") || type.equals("sgt")) {
             photoOperation();//拍照
-        } else if (type.equals("video")) {
+        } else if (type.equals(TYPE_VIDEO)) {
             videoOperation();//拍摄视频
         }
-
 
         //开启线程，持续传递Bitmap,显示水印
         mThread = new Thread(mRunnable);
         mThread.start();
+
+        locationManager.setLocationListener(aMapLocation -> {
+            waterLocation.setText(aMapLocation.getProvince() + aMapLocation.getCity() + aMapLocation.getDistrict() + aMapLocation.getStreet());
+        }).star();
+    }
+
+    private void initWater() {
+        water = LayoutInflater.from(getBaseContext()).inflate(R.layout.water_push_circle_layout,null);
+        waterTime  = water.findViewById(R.id.time);
+        waterLocation =water.findViewById( R.id.location);
     }
 
 
@@ -373,7 +396,7 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
                             if (mThread != null && mThread.isAlive()) {//如果现在正在执行
                                 mThread.interrupt();//线程结束
                             }
-                        } else if (watermarkTime != null && watermarkLlz != null) {
+                        } else  {
 //                            watermarkTime.setText(getStringDate());
 //                            //时间
 //                            watermarkTime.setText(DateUtils.sdf.format(new Date()) + "   " + weatherlive.getWeather() + "  " + weatherlive.getTemperature() + "℃" + "  " + weatherlive.getWindDirection() + "风");
@@ -381,18 +404,17 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
 
 
                             //时间
-                            watermarkTime.setText(DateUtils.sdf.format(new Date()) + "   " + we + "  " + t + "℃" + "  " + wd + "风");
-
-                            String img_path = MyApp.getInstance().getBaseContext().getExternalFilesDir(Environment.DIRECTORY_DCIM).getPath() + "video_watermark" + ".jpeg";
-//                            Bitmap bitmap = BitmapFactory.decodeFile(img_path);
-
+                            waterTime.setText(DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_DATETIME));
+                            Log.d(TAG, (DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_DATETIME)));
+                            /*String img_path = MyApp.getInstance().getBaseContext().getExternalFilesDir(Environment.DIRECTORY_DCIM).getPath() + "video_watermark" + ".jpeg";
+//                            Bitmap bitmap = BitmapFactory.decodeFile(img_path);*/
+                            Log.d(TAG, waterTime.getText().toString());
 //                        Bitmap viewWatermarkBitmap1 = BitmapUtils.getViewBitmap(ac_time);//控件转化成有水印的bipmap
-                            Bitmap viewWatermarkBitmap1 = BitmapUtils.convertViewToBitmap(watermarkLlz);//控件转化成有水印的bipmap
+                            Bitmap viewWatermarkBitmap1 = BitmapUtils.convertViewToBitmap(water);//控件转化成有水印的bipmap
                             if (viewWatermarkBitmap1 != null) {
                                 mCameraView.mCameraDrawer.getBitmap.setBitmap(viewWatermarkBitmap1);
                             }
                         }
-//                       BitmapUtils.saveJPGE_After(RecordedActivity.this, viewWatermarkBitmap1, img_path, 100);//将有水印的bipmap保存
                     }
                 });
             }
@@ -467,7 +489,7 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
         //定位获取数据成功
         Log.d(TAG, "onLocationChanged: " + aMapLocation.getLatitude() + "/" + aMapLocation.getLongitude());
 
-        //地址
+        /*//地址
         watermarkDz.setText(aMapLocation.getProvince() + aMapLocation.getCity() + aMapLocation.getDistrict() + aMapLocation.getStreet() + aMapLocation.getStreetNum());
         //设置经纬度
 
@@ -489,7 +511,9 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
         }
         lo = CommonUitls.GPS2AjLocation(aMapLocation.getLongitude());//经度
         la = CommonUitls.GPS2AjLocation(aMapLocation.getLatitude());//纬度
-        initWeatherSearch(aMapLocation.getCity());//天气查询
+        initWeatherSearch(aMapLocation.getCity());//天气查询*/
+
+
     }
 
 

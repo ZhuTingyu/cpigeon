@@ -24,6 +24,7 @@ public class DateTool {
     //年月
 
     public final static String FORMAT_YYYY_MM = "yyyy-MM";
+    public final static String FORMAT_YYYY_MM2 = "yyyy.MM";
 
     public final static String FORMAT_MM = "MM";
     public final static String FORMAT_DD = "dd";

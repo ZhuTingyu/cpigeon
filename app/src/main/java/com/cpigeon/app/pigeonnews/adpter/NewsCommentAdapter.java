@@ -57,13 +57,6 @@ public class NewsCommentAdapter extends BaseQuickAdapter<NewsCommentEntity, Base
         comment.setText(String.valueOf(item.replycount));
         thumb.setText(String.valueOf(item.dianzan));
 
-        if (item.isreply) {
-            holder.setViewDrawableLeft(comment, R.mipmap.ic_new_comment_select);
-            comment.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
-        }else {
-            holder.setViewDrawableLeft(comment, R.mipmap.ic_new_comment);
-            comment.setTextColor(mContext.getResources().getColor(R.color.text_color_4d4d4d));
-        }
 
         if(item.isThumb()){
             holder.setViewDrawableLeft(thumb, R.mipmap.ic_thumbs_up);
@@ -129,6 +122,11 @@ public class NewsCommentAdapter extends BaseQuickAdapter<NewsCommentEntity, Base
     @Override
     protected String getEmptyViewText() {
         return "暂时没有评论";
+    }
+
+    @Override
+    protected int getEmptyViewImage() {
+        return R.drawable.ic_comment_empty_view;
     }
 
     public interface OnCommunicationListener{

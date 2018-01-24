@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.cpigeon.app.MyApp;
@@ -15,9 +17,13 @@ import com.cpigeon.app.circle.adpter.ChooseImageAdapter;
 import com.cpigeon.app.circle.presenter.PushCircleMessagePre;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.ChooseImageEntity;
+import com.cpigeon.app.utils.BitmapUtil;
+import com.cpigeon.app.utils.BitmapUtils;
+import com.cpigeon.app.utils.DateTool;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
+import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.ToastUtil;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -40,6 +46,11 @@ public class PushCircleMessageFragment extends BaseMVPFragment<PushCircleMessage
     TextView visible;
     TextView location;
 
+    View water;
+
+    TextView wTime;
+    TextView wLocation;
+
 
     @Override
     protected int getLayoutResource() {
@@ -58,6 +69,8 @@ public class PushCircleMessageFragment extends BaseMVPFragment<PushCircleMessage
 
     @Override
     public void finishCreateView(Bundle state) {
+
+        initWater();
 
         setTitle("说说");
         content = findViewById(R.id.content);
@@ -114,18 +127,36 @@ public class PushCircleMessageFragment extends BaseMVPFragment<PushCircleMessage
         recyclerView.setAdapter(adapter);
     }
 
+    private void initWater() {
+        water = LayoutInflater.from(getContext()).inflate(R.layout.water_push_circle_layout,null);
+        wTime  = findViewById(water, R.id.time);
+        wLocation = findViewById(water, R.id.location);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == getActivity().RESULT_OK){
+            List<String> images = Lists.newArrayList();
             List<ChooseImageEntity> entities = Lists.newArrayList();
             List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
             if(requestCode == PictureMimeType.ofImage()){
+                wTime.setText(DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_DATETIME));
                 for (LocalMedia localMedia : selectList) {
+                    images.add(localMedia.getCompressPath());
+                }
+                if(StringValid.isStringValid(mPresenter.location)){
+                    wLocation.setText(mPresenter.location);
+                    wLocation.setVisibility(View.VISIBLE);
+                }else wLocation.setVisibility(View.GONE);
+                images = BitmapUtils.addWaters(images, water, DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_DATETIME));
+
+                for (String path : images) {
                     ChooseImageEntity entity = new ChooseImageEntity();
-                    entity.url = localMedia.getCompressPath();
+                    entity.url = path;
                     entities.add(entity);
                 }
+
                 if(!entities.isEmpty()){
                     adapter.setType(ChooseImageAdapter.TYPE_PICTURE);
                     mPresenter.messageType = PushCircleMessagePre.TYPE_PICTURE;
@@ -150,6 +181,7 @@ public class PushCircleMessageFragment extends BaseMVPFragment<PushCircleMessage
         if(requestCode == CODE_CHOOSE_LOCATION){
             if(data != null && data.hasExtra(IntentBuilder.KEY_DATA)){
                 location.setText(data.getStringExtra(IntentBuilder.KEY_DATA));
+                wLocation.setText(data.getStringExtra(IntentBuilder.KEY_DATA));
             }
         }
     }

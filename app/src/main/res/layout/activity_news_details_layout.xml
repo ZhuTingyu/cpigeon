@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     xmlns:tools="http://schemas.android.com/tools">
 
     <include
@@ -18,12 +17,14 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_above="@+id/bottom_comment"
+        android:layout_marginBottom="@dimen/large_vertical_margin"
         android:layout_below="@id/top"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:orientation="vertical"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -52,10 +53,11 @@
             <WebView
                 android:id="@+id/web_view"
                 android:visibility="gone"
-                android:layout_marginTop="@dimen/big_large_vertical_margin"
-                android:layout_marginLeft="@dimen/medium_horizontal_margin"
-                android:layout_marginRight="@dimen/medium_horizontal_margin"
-                android:layout_marginBottom="@dimen/medium_vertical_margin"
+                android:paddingTop="@dimen/big_large_vertical_margin"
+                android:paddingLeft="@dimen/medium_horizontal_margin"
+                android:paddingRight="@dimen/medium_horizontal_margin"
+                android:paddingBottom="@dimen/medium_vertical_margin"
+                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -72,14 +74,6 @@
                 android:drawableBottom="@mipmap/ic_related_under_line"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-            <View
-                android:background="@color/color_e6e6e6"
-                android:layout_width="match_parent"
-                android:layout_marginStart="@dimen/large_horizontal_margin"
-                android:layout_marginEnd="@dimen/large_horizontal_margin"
-                android:layout_height="0.5dp"/>
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/list"
                 android:background="@color/white"
@@ -89,12 +83,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-        </LinearLayout>
 
-        <View
-            android:background="@color/color_default_bg"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/large_vertical_margin"/>
+        </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
 

@@ -21,12 +21,18 @@ import android.media.ExifInterface;
 import android.media.MediaScannerConnection;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 
+import com.alibaba.idst.nls.internal.utils.L;
+import com.cpigeon.app.MyApp;
+
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by yue on 15/10/29.
@@ -508,6 +514,64 @@ public class BitmapUtils {
         if (!tempPath.exists()) {
             tempPath.mkdirs();
         }
+    }
+
+    public static String getBitmapFile(Bitmap bitmap, String path){
+        File file=new File(MyApp.getInstance().getExternalCacheDir(),path);//将要保存图片的路径
+
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return file.getPath();
+
+    }
+
+    public static List<String> addWaters(List<String> imgs, View watermark, String pathName){
+        List<String> newFile = Lists.newArrayList();
+        for (int i = 0, len = imgs.size(); i < len; i++)  {
+            String path = pathName + String.valueOf(i) +"_circle_push.jpg";
+            Bitmap newBitap = addWater(imgs.get(i), watermark);
+            newFile.add(getBitmapFile(newBitap, path));
+        }
+        return newFile;
+    }
+
+    public static Bitmap addWater(String image, View watermark) {
+
+        Bitmap bitmap = BitmapFactory.decodeFile(image);
+
+        if (bitmap == null) {
+            return null;
+        }
+
+        int imageW = bitmap.getWidth();
+        int imageH = bitmap.getHeight();
+
+        watermark.setLayoutParams(new RelativeLayout.LayoutParams(imageW, imageH));
+
+        Bitmap waterBitmap = getBitmapFromView(watermark);
+
+        // create the new blank bitmap
+//        Bitmap newb = Bitmap.createBitmap(w, h, Config.ARGB_8888);// 创建一个新的和SRC长度宽度一样的位图
+        Bitmap newb = Bitmap.createBitmap(imageW, imageH, Config.ARGB_8888);// 创建一个新的和SRC长度宽度一样的位图
+
+        Canvas cv = new Canvas(newb);
+        // draw src into
+        cv.drawBitmap(bitmap, 0, 0, null);// 在 0，0坐标开始画入src
+        // draw watermark into
+//        cv.drawBitmap(watermark, w - ww + 5, h - wh + 5, null);// 在src的右下角画入水印
+        cv.drawBitmap(waterBitmap, 0, 0, null);// 在src的左下角下角画入水印
+        // save all clip
+        cv.save(Canvas.ALL_SAVE_FLAG);// 保存
+        // store
+        cv.restore();// 存储
+        return newb;
     }
 
     /**

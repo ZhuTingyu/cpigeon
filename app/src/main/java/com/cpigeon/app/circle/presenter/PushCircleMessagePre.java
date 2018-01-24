@@ -66,7 +66,9 @@ public class PushCircleMessagePre extends BasePresenter {
 
     public Consumer<String> setLocation() {
         return s -> {
-            location = s;
+            if(!s.equals(getString(R.string.string_text_not_show))){
+                location = s;
+            }
         };
     }
 

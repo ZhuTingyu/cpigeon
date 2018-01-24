@@ -16,10 +16,12 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseViewHolder;
 import com.cpigeon.app.entity.ChooseImageEntity;
 import com.cpigeon.app.utils.ChooseImageManager;
+import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.ScreenTool;
 import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.view.SingleSelectCenterDialog;
+import com.cpigeon.app.view.video.RecordedActivity;
 import com.luck.picture.lib.config.PictureMimeType;
 
 import java.lang.ref.SoftReference;
@@ -55,7 +57,9 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
                     if (item.getText().equals("选择图片")) {
                         ChooseImageManager.showChooseImage(activity, PictureMimeType.ofImage(), maxChoose - getImgs().size());
                     } else {
-                        ChooseImageManager.showChooseImage(activity, PictureMimeType.ofVideo(), maxChoose - getImgs().size());
+                        IntentBuilder.Builder(activity, RecordedActivity.class)
+                                .putExtra(IntentBuilder.KEY_TYPE, RecordedActivity.TYPE_VIDEO)
+                                .startActivity();
                     }
                     dialog.dismiss();
 
@@ -84,7 +88,7 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
                 if (type == TYPE_PICTURE) {
                     holder.setGlideImageView(mContext, R.id.image, item.url);
                     holder.itemView.setOnClickListener(v -> {
-                        ChooseImageManager.showImageDialog(mContext, getImgs(), holder.getAdapterPosition());
+                        ChooseImageManager.showImagePhoto((Activity) mContext, getImgs(), holder.getAdapterPosition());
                     });
                 } else {
                     SoftReference<Bitmap> bitmapSoftReference = new SoftReference<Bitmap>(ThumbnailUtils.createVideoThumbnail(item.url, MediaStore.Images.Thumbnails.MICRO_KIND));

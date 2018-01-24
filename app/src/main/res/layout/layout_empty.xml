@@ -14,7 +14,7 @@
 
         <ImageView
             android:id="@+id/empty_img"
-            android:layout_width="100dp"
+            android:layout_width="160dp"
             android:layout_height="100dp"
             tools:src="@drawable/ic_empty_img"/>
 

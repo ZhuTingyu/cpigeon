@@ -24,11 +24,13 @@ public class SGTDetailsPre extends BasePresenter {
 
     public String foodId;
     String guid;
+    public String id;
 
     public SGTDetailsPre(Activity activity) {
         super(activity);
-        foodId = activity.getIntent().getStringExtra(IntentBuilder.KEY_DATA);
+        foodId = activity.getIntent().getStringExtra(IntentBuilder.KEY_TITLE);
         guid = activity.getIntent().getStringExtra(IntentBuilder.KEY_TYPE);
+        id = activity.getIntent().getStringExtra(IntentBuilder.KEY_DATA);
     }
 
     @Override
@@ -38,7 +40,7 @@ public class SGTDetailsPre extends BasePresenter {
 
     //获取足环信息（含照片）
     public void getFootInfoData(Consumer<SGTDetailsInfoEntity> consumer) {
-        submitRequestThrowError(ISGTImpl.getFootInfoData(foodId, guid).map(r -> {
+        submitRequestThrowError(ISGTImpl.getFootInfoData(id, guid).map(r -> {
             if(r.status){
                 return r.data;
             }else throw new HttpErrorException(r);
