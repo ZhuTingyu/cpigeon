@@ -60,7 +60,7 @@ public abstract class BaseMVPFragment<Pre extends BasePresenter> extends BaseFra
 
     protected void error(String message) {
         hideLoading();
-        if(!StringValid.isStringValid(message)) {
+        if(StringValid.isStringValid(message)) {
             if(errorDialog == null || !errorDialog.isShowing()){
                 errorDialog = DialogUtils.createErrorDialog(getContext(), message);
             }

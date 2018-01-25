@@ -55,8 +55,31 @@
 
         <!-- UMeng 配置 -->
         <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="${CHANNEL_VALUE}" />
+            android:name="UMENG_APPKEY"
+            android:value="59f9201cf43e482285000010" />、
+
+        <!--友盟分享-->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent1105989530" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+
+
         <!-- APP 渠到配置 -->
         <meta-data
             android:name="APP_CHANNEL"
@@ -320,7 +343,13 @@
         <activity android:name=".pigeonnews.ui.NewsDetailsActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity android:name=".view.video.RecordedActivity" />
+
+
+
     </application>
+
+
+
 
 
 

@@ -9,6 +9,7 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.commonstandard.view.fragment.BaseFragment;
+import com.umeng.socialize.UMShareAPI;
 
 /**
  * Created by Zhu TingYu on 2017/11/15.
@@ -48,6 +49,7 @@ public class FragmentParentActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
         if(baseFragment!=null)
             baseFragment.onActivityResult(requestCode,resultCode,data);
     }

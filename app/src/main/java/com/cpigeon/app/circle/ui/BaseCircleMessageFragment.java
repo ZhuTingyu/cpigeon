@@ -1,5 +1,6 @@
 package com.cpigeon.app.circle.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,10 @@ import com.cpigeon.app.circle.presenter.CircleMessagePre;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.utils.ScreenTool;
 import com.cpigeon.app.utils.ToastUtil;
+import com.cpigeon.app.view.ShareDialogFragment;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.wx.goodview.GoodView;
 
 /**
@@ -24,6 +29,7 @@ public class BaseCircleMessageFragment extends BaseMVPFragment<CircleMessagePre>
 
     RecyclerView recyclerView;
     CircleMessageAdapter adapter;
+    ShareDialogFragment shareDialogFragment;
 
     @Override
     protected int getLayoutResource() {
@@ -42,11 +48,35 @@ public class BaseCircleMessageFragment extends BaseMVPFragment<CircleMessagePre>
 
     @Override
     public void finishCreateView(Bundle state) {
+
+        shareDialogFragment = new ShareDialogFragment();
+        shareDialogFragment.setShareListener(new UMShareListener() {
+            @Override
+            public void onStart(SHARE_MEDIA share_media) {
+                ToastUtil.showLongToast(getContext(),"成功");
+            }
+
+            @Override
+            public void onResult(SHARE_MEDIA share_media) {
+                ToastUtil.showLongToast(getContext(),"成功");
+            }
+
+            @Override
+            public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+                ToastUtil.showLongToast(getContext(),"错误");
+            }
+
+            @Override
+            public void onCancel(SHARE_MEDIA share_media) {
+                ToastUtil.showLongToast(getContext(),"取消");
+            }
+        });
+
+
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new CircleMessageAdapter(getActivity());
-        adapter.setOnItemClickListener((adapter1, view, position) -> {
-        });
+        adapter.setShare(shareDialogFragment);
         adapter.setmPre(mPresenter);
         adapter.bindToRecyclerView(recyclerView);
         adapter.setOnLoadMoreListener(() -> {
@@ -77,4 +107,5 @@ public class BaseCircleMessageFragment extends BaseMVPFragment<CircleMessagePre>
             hideLoading();
         });
     }
+
 }

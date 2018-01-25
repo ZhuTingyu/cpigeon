@@ -1,4 +1,4 @@
-package com.cpigeon.app.utils;
+package com.cpigeon.app.view;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -15,10 +15,14 @@ import android.widget.ImageButton;
 
 import com.cpigeon.app.R;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMVideo;
 import com.umeng.socialize.media.UMWeb;
+
+import java.io.File;
 
 
 /**
@@ -27,6 +31,12 @@ import com.umeng.socialize.media.UMWeb;
  */
 
 public class ShareDialogFragment extends DialogFragment {
+
+    public static final int TYPE_DEFALT = -1;
+    public static final int TYPE_URL = 1;
+    public static final int TYPE_IMAGE_URL = 2;
+    public static final int TYPE_IMAGE_FILE = 3;
+    public static final int TYPE_VIDEO = 4;
 
 
     private ImageButton imgbtn_wx, imgbtn_pyq, imgbtn_qq, imgbtn_qqz;//分享按钮
@@ -38,7 +48,16 @@ public class ShareDialogFragment extends DialogFragment {
 
     private String shareUrl;
 
-    private int shareType = -1;// -1  默认， 1 链接   2 图片  3 本地图片
+    private int shareType = -1;// -1  默认， 1 链接   2网络图片  3 本地图片 4 视频
+
+    private String description;
+
+    private File file;
+
+    private String videoUrl;
+    private String videoThumb;
+    private String videoTitle;
+
 
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
@@ -88,16 +107,29 @@ public class ShareDialogFragment extends DialogFragment {
             new ShareAction(getActivity())
                     .setPlatform(platform)//传入平台
                     .withMedia(image)//分享内容
+                    .withText(description)
                     .setCallback(umShareListener)//回调监听器
                     .share();
         } else if (shareType == 3) {
             //分享图片
-            UMImage image = new UMImage(getActivity(), mBitmap);//bitmap图片
+            UMImage image = new UMImage(getActivity(), file);//file图片
 
             new ShareAction(getActivity())
                     .setPlatform(platform)//传入平台
                     .withMedia(image)//分享内容
+                    .withText(description)
                     .setCallback(umShareListener)//回调监听器
+                    .share();
+        } else if(shareType == TYPE_VIDEO){
+            UMVideo video = new UMVideo(videoUrl);
+            video.setTitle(videoTitle);//视频的标题
+            video.setThumb(new UMImage(getActivity(), videoThumb));//视频的缩略图
+            video.setDescription(description);//视频的描述
+
+            new ShareAction(getActivity())
+                    .withText(description)
+                    .withMedia(video)
+                    .setCallback(umShareListener)
                     .share();
         }
     }
@@ -160,13 +192,33 @@ public class ShareDialogFragment extends DialogFragment {
         this.mBitmap = shareBitmap;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
+    public void setShareUrl(String shareUrl) {
+        this.shareUrl = shareUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public void setVideoThumb(String videoThumb) {
+        this.videoThumb = videoThumb;
+    }
+
+    public void setVideoTitle(String videoTitle) {
+        this.videoTitle = videoTitle;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
+
 
     public interface OnShareListener {
         void onShare(Dialog dialog);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
     }
 }

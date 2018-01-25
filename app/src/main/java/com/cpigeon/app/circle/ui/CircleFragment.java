@@ -1,5 +1,6 @@
 package com.cpigeon.app.circle.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.customview.smarttab.SmartTabLayout;
 import com.melnykov.fab.FloatingActionButton;
+import com.umeng.socialize.UMShareAPI;
 
 import cn.jzvd.JZVideoPlayer;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -127,5 +129,8 @@ public class CircleFragment extends BaseMVPFragment<CirclePre>{
         });
     }
 
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

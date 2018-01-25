@@ -130,7 +130,7 @@ public class PushCircleMessageFragment extends BaseMVPFragment<PushCircleMessage
 
     private void initWater() {
         water = LayoutInflater.from(getContext()).inflate(R.layout.water_push_circle_layout,null);
-        //wTime  = findViewById(water, R.id.time);
+        wTime  = findViewById(water, R.id.time);
         wLocation = findViewById(water, R.id.location);
     }
 

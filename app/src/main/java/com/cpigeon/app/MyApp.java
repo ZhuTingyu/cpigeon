@@ -17,6 +17,8 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Cache;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 
 import org.xutils.x;
 
@@ -38,6 +40,11 @@ import static com.cpigeon.app.modular.settings.view.activity.SettingPushActivity
 
 public class MyApp extends Application {
 
+    {
+
+        PlatformConfig.setWeixin("wx9eb3fe76d8a64362", "1e9c27bb36823ccca5dcc5ae7e089126");
+        PlatformConfig.setQQZone("1105989530", "ztLtwrRKr7YiDLly");
+    }
 
     private static MyApp instance;
     private static String TAG = "cpigeon";
@@ -59,6 +66,7 @@ public class MyApp extends Application {
         initJPhsh();
         initLocalCacheManager();
         Fresco.initialize(this);
+        //UMShareAPI.get(this);
     }
 
     /**

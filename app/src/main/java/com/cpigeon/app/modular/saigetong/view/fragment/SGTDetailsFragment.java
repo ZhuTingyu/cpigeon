@@ -57,7 +57,9 @@ public class SGTDetailsFragment extends BaseMVPFragment<SGTDetailsPre> {
         mPresenter.getFootInfoData(data -> {
             hideLoading();
             bindData(data);
-            mAdapter.setNewData(data.getDatalist());
+            if(data.getDatalist() != null){
+                mAdapter.setNewData(data.getDatalist());
+            }
         });
     }
 
@@ -68,6 +70,7 @@ public class SGTDetailsFragment extends BaseMVPFragment<SGTDetailsPre> {
         tvSgys.setText(entity.getColor());
         tvDq.setText(entity.getDiqu());
         tvRpsj.setText(entity.getRpsj());
+        tvDzhh.setText(entity.getRing());
     }
 
     @Override

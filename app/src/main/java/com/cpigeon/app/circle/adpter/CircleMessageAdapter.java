@@ -28,6 +28,7 @@ import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.view.ExpandTextView;
 import com.cpigeon.app.view.PraiseListView;
+import com.cpigeon.app.view.ShareDialogFragment;
 import com.cpigeon.app.viewholder.SocialSnsViewHolder;
 import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Picasso;
@@ -50,6 +51,11 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
     Activity activity;
     CircleMessagePre mPre;
     DialogHideCircleFragment dialogHideCircleFragment;
+    private ShareDialogFragment share;
+
+    int dataType;
+    private static final int TYPE_IMAGE = 0;
+    private static final int TYPE_VIDEO = 1;
 
     public CircleMessageAdapter(Activity activity) {
         super(R.layout.item_circle_message_2_layout, Lists.newArrayList());
@@ -134,72 +140,7 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
             });
         }
 
-        /**
-         * 点赞评论
-         */
-        SocialSnsViewHolder socialSnsviewHolder = new SocialSnsViewHolder(activity,holder.getView(R.id.social_sns),goodView,"回复:"+item.getUserinfo().getNickname());
-        socialSnsviewHolder.setOnSocialListener(new SocialSnsViewHolder.OnSocialListener() {
-            @Override
-            public void thumb(View view) {
-                mPre.messageId = item.getMid();
-                mPre.setIsThumb(!item.isThumb());
-                getBaseActivity().showLoading();
-                mPre.setThumb(s -> {
-                    getBaseActivity().hideLoading();
-                    if(item.isThumb()){
-                        int position = mPre.getUserThumbPosition(item.getPraiseList(),CpigeonData.getInstance().getUserId(mContext));
-                        if(position != -1){
-                            item.getPraiseList().remove(position);
-                        }
-                        socialSnsviewHolder.setThumb(false);
-                        socialSnsviewHolder.setThumbAnimation(false);
-                    }else {
-                        CircleMessageEntity.PraiseListBean bean = new CircleMessageEntity.PraiseListBean();
-                        bean.setIsPraise(1);
-                        bean.setUid(CpigeonData.getInstance().getUserId(mContext));
-                        bean.setNickname(CpigeonData.getInstance().getUserInfo().getNickname());
-                        item.getPraiseList().add(0,bean);
-                        socialSnsviewHolder.setThumb(true);
-                        socialSnsviewHolder.setThumbAnimation(true);
-                    }
-                    notifyItemChanged(holder.getAdapterPosition());
-                });
-            }
 
-            @Override
-            public void comment(EditText view, InputCommentDialog dialog) {
-                mPre.messageId = item.getMid();
-                mPre.commentContent = view.getText().toString();
-                mPre.addComment(newComment -> {
-                    item.getCommentList().add(0, newComment);
-                    dialog.closeDialog();
-                    notifyItemChanged(holder.getAdapterPosition());
-                });
-            }
-
-            @Override
-            public void share(View view) {
-
-            }
-        });
-
-        if (item.getPraiseList() != null && item.getPraiseList().size() > 0) {
-
-            for (CircleMessageEntity.PraiseListBean praiseListBean : item.getPraiseList()) {
-
-                if (praiseListBean.getUid() == CpigeonData.getInstance().getUserId(mContext) && praiseListBean.getIsPraise() == 1) {
-                    socialSnsviewHolder.setThumb(true);
-                    item.setThumb();
-                    break;
-                } else {
-                    socialSnsviewHolder.setThumb(false);
-                    item.setCancelThumb();
-                }
-            }
-        }else {
-            socialSnsviewHolder.setThumb(false);
-            item.setCancelThumb();
-        }
         /**
          * 图片
          */
@@ -210,19 +151,20 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
                 return false;
             }
         });
-        CircleMessageImagesAdapter adapter;
+        CircleMessageImagesAdapter imagesAdapter = null;
         if(!item.getPicture().isEmpty()){
             imgs.setVisibility(View.VISIBLE);
             if(imgs.getAdapter() == null){
-                adapter = new CircleMessageImagesAdapter();
-            }else adapter = (CircleMessageImagesAdapter) imgs.getAdapter();
-            adapter.setNewData(item.getPicture());
-            adapter.setOnItemClickListener((adapter1, view, position) -> {
-                ChooseImageManager.showImageDialog(mContext, adapter.getImagesUrl(),position);
+                imagesAdapter = new CircleMessageImagesAdapter();
+            }else imagesAdapter = (CircleMessageImagesAdapter) imgs.getAdapter();
+            imagesAdapter.setNewData(item.getPicture());
+            CircleMessageImagesAdapter finalImagesAdapter = imagesAdapter;
+            imagesAdapter.setOnItemClickListener((adapter1, view, position) -> {
+                ChooseImageManager.showImageDialog(mContext, finalImagesAdapter.getImagesUrl(),position);
             });
-            imgs.setAdapter(adapter);
+            imgs.setAdapter(imagesAdapter);
             imgs.setFocusableInTouchMode(false);
-
+            dataType = TYPE_IMAGE;
         }else {
             imgs.setVisibility(View.GONE);
         }
@@ -237,6 +179,7 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
             Picasso.with(mContext).load(item.getVideo().get(0).getThumburl())
                     .into(((JZVideoPlayerStandard)holder.getView(R.id.videoplayer)).thumbImageView);
             JZVideoPlayer.clearSavedProgress(mContext,item.getVideo().get(0).getUrl());
+            dataType = TYPE_VIDEO;
         }else {
             videoPlayer.setVisibility(View.GONE);
         }
@@ -294,10 +237,92 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
                     .putExtra(IntentBuilder.KEY_DATA, item.getMid())
                     .startParentActivity(activity, CircleMessageDetailsFragment.class);
         });*/
+
+        /**
+         * 点赞评论
+         */
+        SocialSnsViewHolder socialSnsviewHolder = new SocialSnsViewHolder(activity,holder.getView(R.id.social_sns),goodView,"回复:"+item.getUserinfo().getNickname());
+        CircleMessageImagesAdapter finalImagesAdapter1 = imagesAdapter;
+        socialSnsviewHolder.setOnSocialListener(new SocialSnsViewHolder.OnSocialListener() {
+            @Override
+            public void thumb(View view) {
+                mPre.messageId = item.getMid();
+                mPre.setIsThumb(!item.isThumb());
+                getBaseActivity().showLoading();
+                mPre.setThumb(s -> {
+                    getBaseActivity().hideLoading();
+                    if(item.isThumb()){
+                        int position = mPre.getUserThumbPosition(item.getPraiseList(),CpigeonData.getInstance().getUserId(mContext));
+                        if(position != -1){
+                            item.getPraiseList().remove(position);
+                        }
+                        socialSnsviewHolder.setThumb(false);
+                        socialSnsviewHolder.setThumbAnimation(false);
+                    }else {
+                        CircleMessageEntity.PraiseListBean bean = new CircleMessageEntity.PraiseListBean();
+                        bean.setIsPraise(1);
+                        bean.setUid(CpigeonData.getInstance().getUserId(mContext));
+                        bean.setNickname(CpigeonData.getInstance().getUserInfo().getNickname());
+                        item.getPraiseList().add(0,bean);
+                        socialSnsviewHolder.setThumb(true);
+                        socialSnsviewHolder.setThumbAnimation(true);
+                    }
+                    notifyItemChanged(holder.getAdapterPosition());
+                });
+            }
+
+            @Override
+            public void comment(EditText view, InputCommentDialog dialog) {
+                mPre.messageId = item.getMid();
+                mPre.commentContent = view.getText().toString();
+                mPre.addComment(newComment -> {
+                    item.getCommentList().add(0, newComment);
+                    dialog.closeDialog();
+                    notifyItemChanged(holder.getAdapterPosition());
+                });
+            }
+
+            @Override
+            public void share(View view) {
+                share.setDescription(item.getMsg());
+                if(dataType == TYPE_IMAGE){
+                    share.setShareType(ShareDialogFragment.TYPE_IMAGE_URL);
+                    share.setShareContent(finalImagesAdapter1.getImagesUrl().get(0));
+                    share.show(activity.getFragmentManager(),"share");
+                }
+
+            }
+        });
+
+        if (item.getPraiseList() != null && item.getPraiseList().size() > 0) {
+
+            for (CircleMessageEntity.PraiseListBean praiseListBean : item.getPraiseList()) {
+
+                if (praiseListBean.getUid() == CpigeonData.getInstance().getUserId(mContext) && praiseListBean.getIsPraise() == 1) {
+                    socialSnsviewHolder.setThumb(true);
+                    item.setThumb();
+                    break;
+                } else {
+                    socialSnsviewHolder.setThumb(false);
+                    item.setCancelThumb();
+                }
+            }
+        }else {
+            socialSnsviewHolder.setThumb(false);
+            item.setCancelThumb();
+        }
     }
 
 
     public void setmPre(CircleMessagePre mPre) {
         this.mPre = mPre;
+    }
+
+    public void setShare(ShareDialogFragment share) {
+        this.share = share;
+    }
+
+    public ShareDialogFragment getShare() {
+        return share;
     }
 }
