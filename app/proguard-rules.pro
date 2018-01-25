@@ -148,6 +148,22 @@
 -dontwarn org.joda.time.**
 -dontwarn org.w3c.dom.**
 
+#微信
+-keep class com.tencent.mm.sdk.openapi.WXMediaMessage { ;}
+-keep class com.tencent.mm.sdk.openapi.** implements c om.tencent.mm.sdk.openapi.WXMediaMessage$IMediaObject {;}
+
+#微信新版本需要再填写下面2个
+-keep class com.tencent.mm.sdk.modelmsg.WXMediaMessage { ;}
+-keep class com.tencent.mm.sdk.modelmsg.** implements com.tencent.mm.sdk.modelmsg.WXMediaMessage$IMediaObject {;}
+
+#qq和qq空间:
+-keep class com.tencent.open.TDialog$*
+-keep class com.tencent.open.TDialog$* {}
+-keep class com.tencent.open.PKDialog
+-keep class com.tencent.open.PKDialog {}
+-keep class com.tencent.open.PKDialog$*
+-keep class com.tencent.open.PKDialog$* {*;}
+
 
 
 

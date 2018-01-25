@@ -285,7 +285,7 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
             @Override
             public void share(View view) {
                 share.setDescription(item.getMsg());
-                if(dataType == TYPE_IMAGE){
+                if(finalImagesAdapter1 != null){
                     share.setShareType(ShareDialogFragment.TYPE_IMAGE_URL);
                     share.setShareContent(finalImagesAdapter1.getImagesUrl().get(0));
                     share.show(activity.getFragmentManager(),"share");
