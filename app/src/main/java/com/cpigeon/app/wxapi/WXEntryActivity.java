@@ -1,12 +1,12 @@
 package com.cpigeon.app.wxapi;
 
 
-import com.umeng.socialize.weixin.view.WXCallbackActivity;
+import com.umeng.weixin.callback.WXCallbackActivity;
 
 /**
  * 微信分享回调Activity
  */
-public class WXEntryActivity extends WXCallbackActivity{
+public class WXEntryActivity extends WXCallbackActivity {
 //    private String TAG = "umeng_tool";
 //    private SweetAlertDialog dialog;
 
