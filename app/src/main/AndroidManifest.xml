@@ -343,7 +343,7 @@
         <activity android:name=".pigeonnews.ui.NewsDetailsActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity android:name=".view.video.RecordedActivity" />
-
+        <activity android:name=".wxapi.WXEntryActivity" />
 
 
     </application>

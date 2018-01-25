@@ -51,6 +51,7 @@ import com.cpigeon.app.utils.UpdateManager;
 import com.cpigeon.app.utils.app.ControlManager;
 import com.cpigeon.app.utils.http.LogUtil;
 import com.orhanobut.logger.Logger;
+import com.umeng.socialize.UMShareAPI;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -626,4 +627,9 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
 }

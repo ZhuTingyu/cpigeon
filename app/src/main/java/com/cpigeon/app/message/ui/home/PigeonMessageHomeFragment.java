@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
@@ -134,7 +135,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_recyclerview_layout;
+        return R.layout.fragment_pigeon_message_home_layout;
     }
 
     public void getUserData() {

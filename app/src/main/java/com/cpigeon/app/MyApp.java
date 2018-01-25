@@ -17,6 +17,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Cache;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -66,7 +67,8 @@ public class MyApp extends Application {
         initJPhsh();
         initLocalCacheManager();
         Fresco.initialize(this);
-        //UMShareAPI.get(this);
+        UMShareAPI.get(this);
+        Config.DEBUG = true;
     }
 
     /**

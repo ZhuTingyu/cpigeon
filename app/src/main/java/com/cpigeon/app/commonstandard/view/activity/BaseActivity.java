@@ -45,6 +45,7 @@ import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.ToastUtils;
 import com.cpigeon.app.utils.http.LogUtil;
 import com.cpigeon.app.utils.http.RestErrorInfo;
+import com.umeng.socialize.UMShareAPI;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.lang.ref.WeakReference;
@@ -424,5 +425,11 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(recyclerView.getContext())
                 .colorResId(colorId).size(1)
                 .showLastDivider().build());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 }
