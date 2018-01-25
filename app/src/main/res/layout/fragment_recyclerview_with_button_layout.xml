@@ -53,7 +53,8 @@
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeLayout"
-        android:padding="10dp"
+        android:paddingStart="@dimen/large_horizontal_margin_15"
+        android:paddingEnd="@dimen/large_horizontal_margin_15"
         android:layout_above="@id/rl1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

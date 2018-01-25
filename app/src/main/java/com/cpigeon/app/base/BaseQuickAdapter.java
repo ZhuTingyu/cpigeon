@@ -1,12 +1,17 @@
 package com.cpigeon.app.base;
 
 
+import android.animation.Animator;
 import android.graphics.Color;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.view.View;
 
+import com.chad.library.adapter.base.animation.BaseAnimation;
+import com.chad.library.adapter.base.loadmore.LoadMoreView;
+import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.http.CommonUitls;
@@ -20,13 +25,37 @@ import java.util.List;
 public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends com.chad.library.adapter.base.BaseQuickAdapter<T, K> {
     public BaseQuickAdapter(int layoutResId, List<T> data) {
         super(layoutResId, data);
+        /*setLoadMoreView(new LoadMoreView() {
+            @Override
+            public int getLayoutId() {
+                return R.layout.item_adpter_load_more_layout;
+            }
+
+            @Override
+            protected int getLoadingViewId() {
+                return R.id.load_more;
+            }
+
+            @Override
+            protected int getLoadFailViewId() {
+                return R.id.load_more;
+            }
+
+            @Override
+            protected int getLoadEndViewId() {
+                return R.id.load_more;
+            }
+        });*/
+
     }
 
 
+
     public void setLoadMore(boolean isEnd) {
-        if (isEnd) this.loadMoreEnd();
-        else
-            this.loadMoreComplete();
+        if (isEnd) {
+            this.loadMoreEnd();
+        }
+        else this.loadMoreComplete();
     }
 
     @Override
@@ -34,7 +63,9 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends com.
         if(getRecyclerView() != null){
             getRecyclerView().getRecycledViewPool().clear();
             notifyDataSetChanged();
+            ((DefaultItemAnimator) getRecyclerView().getItemAnimator()).setSupportsChangeAnimations(false);
         }
+
         if (data.isEmpty()) {
             if (!getEmptyViewText().isEmpty()) {
                 setEmptyView();
@@ -71,5 +102,6 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends com.
     protected BaseActivity getBaseActivity(){
         return (BaseActivity) mContext;
     }
+
 }
 

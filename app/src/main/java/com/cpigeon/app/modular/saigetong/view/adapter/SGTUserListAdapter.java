@@ -2,6 +2,7 @@ package com.cpigeon.app.modular.saigetong.view.adapter;
 
 import android.app.Activity;
 
+import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseQuickAdapter;
 import com.cpigeon.app.base.BaseViewHolder;
@@ -36,4 +37,5 @@ public class SGTUserListAdapter extends BaseQuickAdapter<SGTUserListEntity, Base
     protected String getEmptyViewText() {
         return "暂无数据";
     }
+
 }

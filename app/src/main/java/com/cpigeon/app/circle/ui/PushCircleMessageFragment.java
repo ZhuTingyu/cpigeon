@@ -38,6 +38,7 @@ import java.util.List;
 public class PushCircleMessageFragment extends BaseMVPFragment<PushCircleMessagePre> {
 
     public static final int CODE_CHOOSE_LOCATION = 0x123;
+    public static final int CODE_VIDEO = 0x234;
 
     RecyclerView recyclerView;
     ChooseImageAdapter adapter;
@@ -163,21 +164,30 @@ public class PushCircleMessageFragment extends BaseMVPFragment<PushCircleMessage
                     adapter.addData(entities);
                     mPresenter.imgs = adapter.getImgs();
                 }
-            }else if(requestCode == PictureMimeType.ofVideo()){
+            }/*else if(requestCode == PictureMimeType.ofVideo()){
                 for (LocalMedia localMedia : selectList) {
                     ChooseImageEntity entity = new ChooseImageEntity();
                     entity.url = localMedia.getPath();
                     entities.add(entity);
                 }
                 if(!entities.isEmpty()){
-                    adapter.setType(ChooseImageAdapter.TYPE_VIDEO);
-                    mPresenter.messageType = PushCircleMessagePre.TYPE_VIDEO;
-                    adapter.addData(entities);
-                    mPresenter.video = adapter.getImgs().get(0);
+
                 }
-            }
+            }*/
 
         }
+
+        if(requestCode == CODE_VIDEO){
+            if(data != null && data.hasExtra("video_path")){
+                ChooseImageEntity entity = new ChooseImageEntity();
+                entity.url = data.getStringExtra("video_path");
+                adapter.setType(ChooseImageAdapter.TYPE_VIDEO);
+                mPresenter.messageType = PushCircleMessagePre.TYPE_VIDEO;
+                adapter.addData(Lists.newArrayList(entity));
+                mPresenter.video = adapter.getImgs().get(0);
+            }
+        }
+
         if(requestCode == CODE_CHOOSE_LOCATION){
             if(data != null && data.hasExtra(IntentBuilder.KEY_DATA)){
                 location.setText(data.getStringExtra(IntentBuilder.KEY_DATA));

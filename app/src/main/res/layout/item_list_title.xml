@@ -7,14 +7,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="60dp"
         android:orientation="horizontal">
 
         <CheckBox
             android:id="@+id/btn_cb"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginLeft="5dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="10dp"
             android:layout_centerVertical="true"
             android:button="@drawable/selector_check_box"
             android:clickable="false" />
@@ -25,6 +25,7 @@
             android:layout_width="100dp"
             android:ellipsize="end"
             android:singleLine="true"
+            android:textSize="@dimen/medium_text_size"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/it_title2"
             android:layout_alignBottom="@+id/it_title2"
@@ -34,10 +35,12 @@
 
         <TextView
             android:id="@+id/it_title2"
-            android:layout_width="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_alignParentRight="true"
+            android:layout_width="50dp"
+            android:gravity="left"
+            android:textSize="@dimen/medium_text_size"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/btn_cb"
+            android:layout_alignParentEnd="true"
             android:textColor="@color/black"
             tools:text="title" />
 
@@ -52,5 +55,12 @@
             android:drawableLeft="@mipmap/ic_list_sgt_img"
             android:layout_height="wrap_content" />-->
     </RelativeLayout>
+
+    <include
+        android:id="@+id/line"
+        layout="@layout/item_line_view_layout"
+        android:layout_marginLeft="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp" />
 
 </LinearLayout>

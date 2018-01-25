@@ -8,32 +8,41 @@
     <LinearLayout
         android:gravity="center"
         android:padding="10dp"
+        android:background="@color/color_default_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
+            android:textSize="13dp"
             android:layout_width="wrap_content"
+            android:textColor="@color/gray_m"
             android:layout_height="wrap_content"
-            android:text="赛鸽羽数:" />
+            android:text="共" />
 
         <TextView
             android:id="@+id/tv_sgt_info1"
+            android:textSize="13dp"
+            android:textColor="@color/gray_m"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
             android:layout_width="wrap_content"
+            android:textSize="13dp"
+            android:textColor="@color/gray_m"
             android:layout_height="wrap_content"
-            android:text="  记录图片：" />
+            android:text="" />
 
         <TextView
             android:id="@+id/tv_sgt_info2"
+            android:textSize="13dp"
+            android:textColor="@color/gray_m"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
 
-    <include layout="@layout/layout_rv_srl" />
+    <include layout="@layout/fragment_recyclerview_layout" />
 
 </LinearLayout>

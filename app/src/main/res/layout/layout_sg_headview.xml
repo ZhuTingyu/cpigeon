@@ -32,6 +32,34 @@
     <!--分割线-->
     <include layout="@layout/view_dividerline_h1" />
 
+    <!--地区-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_sgt_zh_detail_h"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/sgt_info_m">
+
+        <TextView
+            android:textColor="@color/color_262626"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="所属地区" />
+
+        <TextView
+            android:textColor="@color/color_999999"
+            android:id="@+id/tv_dq"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/item_sgt_zh_detail_ml" />
+    </LinearLayout>
+
+
+    <!--分割线-->
+    <include layout="@layout/view_dividerline_h1" />
+
 
     <!--鸽主姓名-->
     <LinearLayout
@@ -46,7 +74,7 @@
             android:textColor="@color/color_262626"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="鸽主姓名" />
+            android:text="参赛鸽主" />
 
         <TextView
             android:textColor="@color/color_999999"
@@ -145,33 +173,7 @@
     <!--分割线-->
     <include layout="@layout/view_dividerline_h1" />
 
-    <!--地区-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/item_sgt_zh_detail_h"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="@dimen/sgt_info_m">
 
-        <TextView
-            android:textColor="@color/color_262626"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="地        区" />
-
-        <TextView
-            android:textColor="@color/color_999999"
-            android:id="@+id/tv_dq"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="@dimen/item_sgt_zh_detail_ml" />
-    </LinearLayout>
-
-
-    <!--分割线-->
-    <include layout="@layout/view_dividerline_h1" />
 
 
     <!--入鹏时间-->
@@ -188,7 +190,7 @@
             android:textColor="@color/color_262626"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="入鹏时间" />
+            android:text="入棚时间" />
 
         <TextView
             android:textColor="@color/color_999999"

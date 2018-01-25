@@ -45,7 +45,24 @@ public class SGTDetailsInfoEntity {
         String slrurl;
         String tag;
         String updatefootinfo;
+        String yearmonth;
+        String day;
 
+        public String getYearmonth() {
+            return yearmonth;
+        }
+
+        public void setYearmonth(String yearmonth) {
+            this.yearmonth = yearmonth;
+        }
+
+        public String getDay() {
+            return day;
+        }
+
+        public void setDay(String day) {
+            this.day = day;
+        }
 
         public long getSj() {
             return sj;

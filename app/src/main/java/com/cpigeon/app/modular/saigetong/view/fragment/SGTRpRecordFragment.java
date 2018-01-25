@@ -23,7 +23,7 @@ import static android.content.ContentValues.TAG;
 
 public class SGTRpRecordFragment extends BaseMVPFragment<SGTPresenter> {
 
-    @BindView(R.id.recyclerView)
+    @BindView(R.id.list)
     RecyclerView mRecyclerView;
 
     @BindView(R.id.tv_sgt_info1)
@@ -67,10 +67,12 @@ public class SGTRpRecordFragment extends BaseMVPFragment<SGTPresenter> {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         addItemDecorationLine(mRecyclerView);
         mAdapter.bindToRecyclerView(mRecyclerView);
+        showLoading();
         mPresenter.getSGTRpRecoudData(data -> {
+            hideLoading();
             mAdapter.setSGTRpRecordEntity(data, getActivity());
-            tv2.setText(String.valueOf(data.getAlltpcount()));
-            tv1.setText(String.valueOf(data.getAllgzcount() + "羽"));
+            tv1.setText(String.valueOf(data.getAllgzcount() + "羽  "));
+            tv2.setText(String.valueOf(data.getAlltpcount()) +"张照片");
 
             if (data.getList() != null) {
                 mAdapter.setNewData(data.getList());

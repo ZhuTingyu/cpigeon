@@ -48,8 +48,10 @@ public class SGTGZAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, Bas
                 CheckBox checkBox =  helper.getView(R.id.btn_cb);
                 if (((OrgItem) item).orgInfo.getTag() == 1) {
                     checkBox.setChecked(false);
+                    helper.setVisible(R.id.line, true);
                 } else {
                     checkBox.setChecked(true);
+                    helper.setVisible(R.id.line, false);
                 }
 
                 Log.d(TAG, "convert1: " + mSGTGzListEntity.getXingming() + "     " + String.valueOf(mSGTGzListEntity.getCount()));
@@ -62,7 +64,7 @@ public class SGTGZAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, Bas
                 SGTGzListEntity.DataBean mContentData = ((RaceItem) item).race;
                 Log.d(TAG, "convert2: " + mContentData.getFoot() + "    " + mContentData.getCskh());
                 helper.setText(R.id.item_content1, mContentData.getFoot());
-                helper.setText(R.id.item_content2, mContentData.getCskh());
+                helper.setText(R.id.item_content2, mContentData.getColor());
 
                 break;
         }
@@ -89,6 +91,10 @@ public class SGTGZAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, Bas
         }
 
         return result;
+    }
+
+    public void isVisibleLine(int position, boolean isVisible){
+        getViewByPosition(position, R.id.line).setVisibility(isVisible ? View.VISIBLE : View.GONE);
     }
 
 

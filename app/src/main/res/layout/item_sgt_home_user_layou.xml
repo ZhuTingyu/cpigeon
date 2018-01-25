@@ -8,41 +8,51 @@
 
     <LinearLayout
         android:id="@+id/ll_sgt_home"
-        android:clickable="true"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:gravity="center_vertical"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="55dp">
+        android:layout_height="60dp"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <TextView
-            android:textSize="16sp"
             android:id="@+id/tv_content_title"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/black"
-            tools:text="12312341235124r"
-            android:layout_height="wrap_content" />
+            android:textSize="@dimen/medium_text_size"
+            tools:text="12312341235124r" />
 
-        <ImageView
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:src="@mipmap/ic_list_sgt_img"
-            android:layout_width="20dp"
-            android:layout_height="20dp" />
-
-        <TextView
-            android:id="@+id/item_num"
-            android:textSize="16sp"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <ImageView
-            android:layout_marginLeft="10dp"
-            android:src="@mipmap/ic_info_r"
-            android:layout_width="14dp"
-            android:layout_height="14dp" />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/ic_list_sgt_img" />
+
+            <TextView
+                android:id="@+id/item_num"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="@color/gray_m"
+                android:textSize="12dp"
+                tools:text="133323" />
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/ic_info_r" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

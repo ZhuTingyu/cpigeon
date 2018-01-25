@@ -51,7 +51,6 @@ public class SGTGzFragment extends BaseMVPFragment<SGTPresenter> {
                     }
 
                     adapter.expand(position);
-
                     currentPosition = position;
                 } else {
                     if (currentPosition == position) {
@@ -146,11 +145,11 @@ public class SGTGzFragment extends BaseMVPFragment<SGTPresenter> {
 
         mAdapter = new SGTGZAdapter(null);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        addItemDecorationLine(mRecyclerView);
         mAdapter.setOnItemClickListener(onItemClickListener);
-        mRecyclerView.setAdapter(mAdapter);
-
+        mAdapter.bindToRecyclerView(mRecyclerView);
+        showLoading();
         mPresenter.getSGTGzListData(data -> {
+            hideLoading();
             mAdapter.addData(SGTGZAdapter.get(data));
         });
     }

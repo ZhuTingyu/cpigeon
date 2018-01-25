@@ -102,9 +102,18 @@ public class SGTGzListEntity {
         private String cskh;//参赛卡号，字符串
         private String id;//索引ID，数字类型
         private String foot;//足环号码
+        private String color;//羽色
 
         public String getCskh() {
             return cskh;
+        }
+
+        public String getColor() {
+            return color;
+        }
+
+        public void setColor(String color) {
+            this.color = color;
         }
 
         public void setCskh(String cskh) {

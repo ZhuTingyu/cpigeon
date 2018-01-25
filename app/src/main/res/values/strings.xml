@@ -123,9 +123,9 @@
 
     <string name="string_hint_get_gb">您已经获取%1$s个鸽币，请再接再厉</string>
 
-    <string name="string_foot_search_help1">1、中鸽网为鸽友提供免费足环查询服务，支持足环号码模糊查询。</string>
-    <string name="string_foot_search_help2">2、足环查询套餐服务可以使用积分兑换，查询到结果后扣除次数。普通套餐查询100次，每次显示5条记录，不支持模糊搜索和显示鸽主姓名；VIP套餐查询200次，每次显示所有结果，可以搜索和显示鸽主姓名。</string>
-    <string name="string_foot_search_help3">4、历史查询记录查看搜索结果不会扣除足环查询套餐服务次数。购买的最新足环查询套餐服务，会覆盖之前的足环套餐服务，请谨慎操作 </string>
+    <string name="string_foot_search_help1">中鸽网为鸽友提供免费足环查询服务，支持足环号码模糊查询。</string>
+    <string name="string_foot_search_help2">足环查询套餐服务可以使用积分兑换，查询到结果后扣除次数。普通套餐查询100次，每次显示5条记录，不支持模糊搜索和显示鸽主姓名；VIP套餐查询200次，每次显示所有结果，可以搜索和显示鸽主姓名。</string>
+    <string name="string_foot_search_help3">历史查询记录查看搜索结果不会扣除足环查询套餐服务次数。购买的最新足环查询套餐服务，会覆盖之前的足环套餐服务，请谨慎操作 </string>
 
     <string name="string_foot_search_remark">当前为您使用%1$s，%2$s，剩余查询次数：%3$s次</string>
     <string name="string_foot_search_count">剩余查询次数：%1$s</string>

@@ -78,7 +78,9 @@ public class SGTSearchFragment extends BaseMVPFragment<SGTPresenter> implements 
      */
     @Override
     public void onSearchClick(View view, String keyword) {
+        showLoading();
         mPresenter.getSGTSearchFootListData(data -> {
+            hideLoading();
             mAdapter.setNewData(data);
         });
     }

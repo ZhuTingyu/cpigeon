@@ -1,6 +1,7 @@
 package com.cpigeon.app.modular.saigetong.view.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -17,7 +18,7 @@ import butterknife.BindView;
 
 public class SGTHomeFragment extends BaseMVPFragment<SGTPresenter> {
 
-    @BindView(R.id.recyclerView)
+    @BindView(R.id.list)
     RecyclerView mRecyclerView;
     //    @BindView(R.id.empty_layout)
 //    CustomEmptyView mCustomEmptyView;
@@ -52,8 +53,10 @@ public class SGTHomeFragment extends BaseMVPFragment<SGTPresenter> {
         mAdapter = new SGTUserListAdapter();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         addItemDecorationLine(mRecyclerView);
-        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.bindToRecyclerView(mRecyclerView);
+        showLoading();
         mPresenter.getSGTHomeData(data -> {
+            hideLoading();
             mAdapter.setNewData(data);
         });
 
@@ -82,7 +85,7 @@ public class SGTHomeFragment extends BaseMVPFragment<SGTPresenter> {
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.layout_rv_srl;
+        return R.layout.fragment_recyclerview_layout;
     }
 
 

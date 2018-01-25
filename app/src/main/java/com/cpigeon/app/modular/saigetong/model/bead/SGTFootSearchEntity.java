@@ -29,7 +29,7 @@ public class SGTFootSearchEntity {
     private String sjhm;
     private String xingming;
     private String foot;
-    private int id;
+    private String id;
     private String cskh;
 
     public String getSjhm() {
@@ -56,11 +56,11 @@ public class SGTFootSearchEntity {
         this.foot = foot;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

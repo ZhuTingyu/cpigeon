@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseViewHolder;
+import com.cpigeon.app.circle.ui.PushCircleMessageFragment;
 import com.cpigeon.app.entity.ChooseImageEntity;
 import com.cpigeon.app.utils.ChooseImageManager;
 import com.cpigeon.app.utils.IntentBuilder;
@@ -59,7 +60,7 @@ public class ChooseImageAdapter extends BaseMultiItemQuickAdapter<ChooseImageEnt
                     } else {
                         IntentBuilder.Builder(activity, RecordedActivity.class)
                                 .putExtra(IntentBuilder.KEY_TYPE, RecordedActivity.TYPE_VIDEO)
-                                .startActivity();
+                                .startActivity(activity, PushCircleMessageFragment.CODE_VIDEO);
                     }
                     dialog.dismiss();
 

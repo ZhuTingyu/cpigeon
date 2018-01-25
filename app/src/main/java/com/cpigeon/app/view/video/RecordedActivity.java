@@ -414,7 +414,7 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
 //                            Bitmap bitmap = BitmapFactory.decodeFile(img_path);*//*
                             Log.d(TAG, waterTime.getText().toString());*/
 //                        Bitmap viewWatermarkBitmap1 = BitmapUtils.getViewBitmap(ac_time);//控件转化成有水印的bipmap
-                                mCameraView.mCameraDrawer.setBitmap(BitmapUtils.getViewBitmap(water));
+                            mCameraView.mCameraDrawer.setBitmap(BitmapUtils.getViewBitmap(water));
                         }
 //                       BitmapUtils.saveJPGE_After(RecordedActivity.this, viewWatermarkBitmap1, img_path, 100);//将有水印的bipmap保存
                     }

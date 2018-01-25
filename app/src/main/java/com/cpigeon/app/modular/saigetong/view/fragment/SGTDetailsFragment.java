@@ -53,7 +53,9 @@ public class SGTDetailsFragment extends BaseMVPFragment<SGTDetailsPre> {
     public void finishCreateView(Bundle state) {
         setTitle(mPresenter.foodId);
         initView();
+        showLoading();
         mPresenter.getFootInfoData(data -> {
+            hideLoading();
             bindData(data);
             mAdapter.setNewData(data.getDatalist());
         });
