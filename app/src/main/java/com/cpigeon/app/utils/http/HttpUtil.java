@@ -8,7 +8,9 @@ import com.alibaba.fastjson.JSON;
 import com.cpigeon.app.MyApp;
 import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.CallAPI;
+import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.CpigeonConfig;
+import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.databean.ApiResponse;
 import com.google.gson.reflect.TypeToken;
@@ -160,6 +162,7 @@ public class HttpUtil<T> {
 
         CallAPI.addApiSign(requestParams);
         LogUtil.print(requestParams.getUri());
+        LogUtil.print(CommonTool.getUserToken(MyApp.getInstance().getBaseContext()));
         Observable<T> observable = RxNet.newRequest(this)
                 .map(s -> {
                     try {

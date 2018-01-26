@@ -1,6 +1,7 @@
 package com.cpigeon.app.modular.usercenter.view.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -145,6 +146,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
 
         }
     };
+
+    public static void startActivity(Activity activity){
+        IntentBuilder.Builder(activity, LoginActivity.class).startActivity();
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

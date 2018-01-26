@@ -31,6 +31,7 @@ import com.cpigeon.app.modular.home.model.bean.HomeAd;
 import com.cpigeon.app.modular.home.view.activity.WebActivity;
 import com.cpigeon.app.modular.matchlive.view.activity.GeCheJianKongListActicity;
 import com.cpigeon.app.modular.saigetong.view.fragment.SGTHomeFragment;
+import com.cpigeon.app.modular.usercenter.view.activity.LoginActivity;
 import com.cpigeon.app.pigeonnews.ui.PigeonNewsActivity;
 import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.ContactsUtil;
@@ -97,7 +98,9 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
 
         toolbar.setNavigationIcon(R.mipmap.ic_home_my);
         toolbar.setNavigationOnClickListener(v -> {
-            ToastUtil.showLongToast(getContext(), "home");
+            if(checkLogin()){
+                ((MainActivity)getActivity()).setCurrIndex(3);
+            }else LoginActivity.startActivity(getActivity());
         });
 
         toolbar.getMenu().clear();
@@ -349,20 +352,23 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
         leadAdapter = new HomeLeadAdapter();
         leadList.setAdapter(leadAdapter);
         leadAdapter.setOnItemClickListener((adapter, view, position) -> {
-            switch (position) {
-                case 0://赛鸽通
-                    IntentBuilder.Builder().startParentActivity(getActivity(), SGTHomeFragment.class);
-                    break;
-                case 1://比赛监控
-                    IntentBuilder.Builder(getActivity(), GeCheJianKongListActicity.class).startActivity();
-                    break;
-                case 2://鸽信通
-                    IntentBuilder.Builder().startParentActivity(getActivity(), PigeonMessageHomeFragment.class);
-                    break;
-                case 3://足环查询
-                    IntentBuilder.Builder().startParentActivity(getActivity(), FootSearchFragment.class);
-                    break;
-            }
+            if(checkLogin()){
+                switch (position) {
+                    case 0://赛鸽通
+                        IntentBuilder.Builder().startParentActivity(getActivity(), SGTHomeFragment.class);
+                        break;
+                    case 1://比赛监控
+                        IntentBuilder.Builder(getActivity(), GeCheJianKongListActicity.class).startActivity();
+                        break;
+                    case 2://鸽信通
+                        IntentBuilder.Builder().startParentActivity(getActivity(), PigeonMessageHomeFragment.class);
+                        break;
+                    case 3://足环查询
+                        IntentBuilder.Builder().startParentActivity(getActivity(), FootSearchFragment.class);
+                        break;
+                }
+            }else LoginActivity.startActivity(getActivity());
+
         });
     }
 

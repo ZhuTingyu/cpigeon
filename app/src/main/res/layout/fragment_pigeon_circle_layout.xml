@@ -58,9 +58,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        android:src="@drawable/vector_pigeon_circle"
-        fab:fab_colorNormal="@color/colorPrimary"
-        fab:fab_colorPressed="@color/colorPrimary"
-        fab:fab_colorRipple="@color/colorPrimary" />
+        android:src="@mipmap/ic_push_circle"
+        fab:fab_colorNormal="#f49562"
+        fab:fab_colorPressed="#f49562"
+        fab:fab_colorRipple="#f49562" />
 
 </android.support.design.widget.CoordinatorLayout>

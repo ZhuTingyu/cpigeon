@@ -156,4 +156,7 @@
     <color name="Black4">#121415</color>
     <color name="hint_color">#000</color>
 
+    <color name="color_blue_57bbdfa">#57bbfa</color>
+    <color name="color_yellow_f49562">#f49562</color>
+
 </resources>

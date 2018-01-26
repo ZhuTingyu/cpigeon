@@ -27,7 +27,7 @@ public class MyFollowActivity extends BaseActivity {
     private final static String APP_STATE_KEY_VIEWPAGER_SELECT_INDEX = "com.cpigeon.app.modular.usercenter.view.activity.MyFollowActivity.SelectItemIndex.";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.viewpagertab)
+    @BindView(R.id.tab_view)
     SmartTabLayout viewpagertab;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
