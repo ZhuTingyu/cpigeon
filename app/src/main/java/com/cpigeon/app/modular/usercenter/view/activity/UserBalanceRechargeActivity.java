@@ -31,9 +31,10 @@ import com.cpigeon.app.utils.NetUtils;
 import com.cpigeon.app.utils.inputfilter.CashierInputFilter;
 import com.cpigeon.app.wxapi.WXPayEntryActivity;
 import com.orhanobut.logger.Logger;
-import com.tencent.mm.sdk.modelpay.PayReq;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
 
 import java.lang.ref.WeakReference;
 

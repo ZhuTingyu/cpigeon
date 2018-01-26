@@ -4,7 +4,7 @@ import com.cpigeon.app.commonstandard.view.activity.IPageTurn;
 import com.cpigeon.app.commonstandard.view.activity.IRefresh;
 import com.cpigeon.app.commonstandard.view.activity.IView;
 import com.cpigeon.app.modular.usercenter.model.bean.CpigeonRechargeInfo;
-import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 
 import java.util.List;
 

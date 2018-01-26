@@ -8,7 +8,7 @@ import com.cpigeon.app.MyApp;
 import com.cpigeon.app.modular.usercenter.model.bean.CpigeonUserServiceInfo;
 import com.cpigeon.app.modular.usercenter.model.bean.UserInfo;
 import com.orhanobut.logger.Logger;
-import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

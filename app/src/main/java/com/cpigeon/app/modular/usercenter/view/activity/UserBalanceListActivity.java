@@ -12,9 +12,10 @@ import com.cpigeon.app.modular.usercenter.presenter.UserBalanceListPresenter;
 import com.cpigeon.app.modular.usercenter.view.activity.viewdao.IUserBalanceListView;
 import com.cpigeon.app.modular.usercenter.view.adapter.UserBalanceAdapter;
 import com.cpigeon.app.wxapi.WXPayEntryActivity;
-import com.tencent.mm.sdk.modelpay.PayReq;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
 
 import java.util.logging.Logger;
 

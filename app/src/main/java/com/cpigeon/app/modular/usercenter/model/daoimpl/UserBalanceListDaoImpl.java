@@ -9,7 +9,6 @@ import com.cpigeon.app.modular.usercenter.model.bean.CpigeonRechargeInfo;
 import com.cpigeon.app.modular.usercenter.model.dao.IUserBalanceListDao;
 import com.cpigeon.app.utils.CallAPI;
 import com.orhanobut.logger.Logger;
-import com.tencent.mm.sdk.modelpay.PayReq;
 
 import org.xutils.common.Callback;
 

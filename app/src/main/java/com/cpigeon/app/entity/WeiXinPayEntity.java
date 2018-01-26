@@ -1,7 +1,7 @@
 package com.cpigeon.app.entity;
 
 import com.google.gson.annotations.SerializedName;
-import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 
 /**
  * Created by Zhu TingYu on 2017/12/8.

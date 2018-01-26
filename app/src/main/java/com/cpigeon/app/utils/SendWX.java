@@ -7,16 +7,20 @@ package com.cpigeon.app.utils;
 
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.wxapi.WXPayEntryActivity;
-import com.tencent.mm.sdk.constants.Build;
-import com.tencent.mm.sdk.modelpay.PayReq;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.tencent.mm.opensdk.constants.Build;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Base64;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 
 public class SendWX {
@@ -92,6 +96,32 @@ public class SendWX {
         }
         api.sendReq(payReq);
     }
+
+    /*private void sendWeb(boolean isTimelineCb, String webpageUrl, String title, String desc, Bitmap thumb) {
+        api = WXAPIFactory.createWXAPI(context, APP_ID);
+        api.registerApp(APP_ID);
+        if (!api.isWXAppInstalled()) {
+            if(context instanceof  BaseActivity){
+                BaseActivity baseActivity=(BaseActivity)context;
+                baseActivity.setProgressVisible(false);
+            }
+            createDialog();
+            return;
+        }
+        WXWebpageObject webpage = new WXWebpageObject();
+        webpage.webpageUrl = webpageUrl;
+        WXMediaMessage msg = new WXMediaMessage(webpage);
+        msg.title = title;
+        msg.description = desc;
+        if (thumb != null) {
+            msg.setThumbImage(thumb);
+        }
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = "webpage" + System.currentTimeMillis();
+        req.message = msg;
+        req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
+        api.sendReq(req);
+    }*/
 
 
 

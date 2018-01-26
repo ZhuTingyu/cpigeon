@@ -41,7 +41,7 @@ import com.cpigeon.app.utils.databean.UpdateInfo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
-import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 
 import org.json.JSONArray;
 import org.json.JSONException;

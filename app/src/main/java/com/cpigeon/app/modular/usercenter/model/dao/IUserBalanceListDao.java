@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.model.dao.IGetWXPrepayOrder;
 import com.cpigeon.app.modular.usercenter.model.bean.CpigeonRechargeInfo;
-import com.tencent.mm.sdk.modelpay.PayReq;
 
 import org.xutils.common.Callback;
 

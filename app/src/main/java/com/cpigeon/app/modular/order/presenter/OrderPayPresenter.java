@@ -11,7 +11,7 @@ import com.cpigeon.app.modular.order.model.dao.IOrderPayDao;
 import com.cpigeon.app.modular.order.model.daoimpl.OrderPayDaoImpl;
 import com.cpigeon.app.modular.order.view.activity.viewdao.IOrderPayView;
 import com.cpigeon.app.utils.CpigeonData;
-import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 
 import java.util.Map;
 

@@ -9,7 +9,7 @@ import com.cpigeon.app.modular.usercenter.model.bean.CpigeonRechargeInfo;
 import com.cpigeon.app.modular.usercenter.model.dao.IUserBalanceRechargeDao;
 import com.cpigeon.app.modular.usercenter.model.daoimpl.UserBalanceRechargeDaoImpl;
 import com.cpigeon.app.modular.usercenter.view.activity.viewdao.IUserBalanceRechargeView;
-import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 
 /**
  * Created by chenshuai on 2017/4/15.

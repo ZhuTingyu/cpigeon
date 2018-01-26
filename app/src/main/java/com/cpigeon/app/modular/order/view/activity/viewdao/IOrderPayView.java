@@ -2,7 +2,7 @@ package com.cpigeon.app.modular.order.view.activity.viewdao;
 
 import com.cpigeon.app.commonstandard.view.activity.IView;
 import com.cpigeon.app.modular.order.model.bean.CpigeonOrderInfo;
-import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 
 /**
  * Created by chenshuai on 2017/4/14.

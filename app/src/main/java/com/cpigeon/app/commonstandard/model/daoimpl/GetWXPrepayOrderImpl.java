@@ -6,7 +6,7 @@ import com.cpigeon.app.MyApp;
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.model.dao.IGetWXPrepayOrder;
 import com.cpigeon.app.utils.CallAPI;
-import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 
 /**
  * Created by chenshuai on 2017/4/14.
