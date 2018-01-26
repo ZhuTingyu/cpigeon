@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.fragment.BasePageTurnFragment;
+import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongOrgInfo;
 import com.cpigeon.app.modular.matchlive.presenter.GeCheJianKongPersenter;
 import com.cpigeon.app.modular.matchlive.view.activity.MapLiveActivity;
 import com.cpigeon.app.modular.matchlive.view.adapter.GeCheJianKongExpandListAdapter;
@@ -126,6 +127,7 @@ public class GeCheJianKongListFragment extends BasePageTurnFragment<GeCheJianKon
 
     @Override
     public void showMoreData(List<MultiItemEntity> dataBeen) {
+        LogUtil.print(dataBeen);
         super.showMoreData(dataBeen);
         currentPosition = -1;
     }
@@ -137,23 +139,30 @@ public class GeCheJianKongListFragment extends BasePageTurnFragment<GeCheJianKon
             Object item = ((GeCheJianKongExpandListAdapter) adapter).getData().get(position);
             if (item instanceof GeCheJianKongExpandListAdapter.OrgItem) {
                 LogUtil.print("p: " + position);
-                if(currentPosition == -1){ //当前没有展开项
+                if(currentPosition == -1){//当前没有展开项
+                    ((GeCheJianKongExpandListAdapter.OrgItem) mAdapter.getItem(position)).getOrgInfo().setRace(true);
                     adapter.expand(position);
                     currentPosition = position;
 
                 }else {
                     if(currentPosition == position){
+                        ((GeCheJianKongExpandListAdapter.OrgItem) mAdapter.getItem(position)).getOrgInfo().setRace(false);
                         adapter.collapse(position);
                         currentPosition = -1;
                     }else if(currentPosition > position){
+
+                        ((GeCheJianKongExpandListAdapter.OrgItem) mAdapter.getItem(currentPosition)).getOrgInfo().setRace(false);
+                        ((GeCheJianKongExpandListAdapter.OrgItem) mAdapter.getItem(position)).getOrgInfo().setRace(true);
                         adapter.collapse(currentPosition);
                         adapter.expand(position);
                         currentPosition = position;
                     }else {
+                        ((GeCheJianKongExpandListAdapter.OrgItem) mAdapter.getItem(currentPosition)).getOrgInfo().setRace(false);
                         adapter.collapse(currentPosition);
                         GeCheJianKongExpandListAdapter.OrgItem orgItem = (GeCheJianKongExpandListAdapter.OrgItem) mAdapter.getItem(currentPosition);
                         int dataSize = orgItem.getOrgInfo().getRaces().size();
                         int expandPosition = position - dataSize;
+                        ((GeCheJianKongExpandListAdapter.OrgItem) mAdapter.getItem(expandPosition)).getOrgInfo().setRace(true);
                         adapter.expand(expandPosition);
                         currentPosition = expandPosition;
                     }

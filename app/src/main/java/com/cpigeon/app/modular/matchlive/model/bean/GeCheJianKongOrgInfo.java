@@ -1,5 +1,8 @@
 package com.cpigeon.app.modular.matchlive.model.bean;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.cpigeon.app.modular.matchlive.view.adapter.GeCheJianKongExpandListAdapter;
+
 import java.util.List;
 
 /**
@@ -15,10 +18,23 @@ public class GeCheJianKongOrgInfo {
      * orgName : 12356456
      */
 
+    private static final int STATE_NOT_MONITOR = 0;
+    private static final int STATE_MONITORING = 1;
+    private static final int STATE_END_OF_MONITOR = 2;
+
     private String status;
     private String orgType;
     private String orgName;
     private List<GeCheJianKongRace> races;
+    private boolean isRace;
+
+    public boolean isRace() {
+        return isRace;
+    }
+
+    public void setRace(boolean race) {
+        isRace = race;
+    }
 
     public String getStatus() {
         return status;
@@ -51,6 +67,46 @@ public class GeCheJianKongOrgInfo {
     public void setRaces(List<GeCheJianKongRace> races) {
         this.races = races;
     }
+
+    public boolean isHaveMonitoring() {
+        for (GeCheJianKongRace g : races) {
+            if (g.getStateCode() == STATE_MONITORING){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int getMonitoringCount() {
+        int i = 0;
+        for (GeCheJianKongRace g : races) {
+            if (g.getStateCode() == STATE_MONITORING){
+                i++;
+            }
+        }
+        return i;
+    }
+
+    public int getNotMonitorCount() {
+        int i = 0;
+        for (GeCheJianKongRace g : races) {
+            if (g.getStateCode() == STATE_NOT_MONITOR){
+                i++;
+            }
+        }
+        return i;
+    }
+
+    public int getEndMonitorCount() {
+        int i = 0;
+        for (GeCheJianKongRace g : races) {
+            if (g.getStateCode() == STATE_MONITORING){
+                i++;
+            }
+        }
+        return i;
+    }
+
 
 
 }

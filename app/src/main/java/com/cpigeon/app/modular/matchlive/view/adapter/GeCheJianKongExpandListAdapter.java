@@ -12,6 +12,8 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongOrgInfo;
 import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongRace;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
+import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.viewholder.PigeonCarMonitorViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,38 +25,77 @@ import java.util.List;
 public class GeCheJianKongExpandListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
     public static final int TYPE_ORG = 1;
     public static final int TYPE_RACE = 2;
+    List<Integer> icons;
 
-    private int _redColor = Color.parseColor("#ff3a3a");
-    private int _greenColor = Color.parseColor("#2c9c00");
-    private int _blueColor = Color.parseColor("#2f96ff");
-
-    private static final int STATE_NOT_MONITOR = 0;
-    private static final int STATE_MONITORING = 1;
-    private static final int STATE_END_OF_MONITOR = 2;
 
     public GeCheJianKongExpandListAdapter(List<MultiItemEntity> data) {
         super(data);
         addItemType(TYPE_ORG, R.layout.listitem_gechejiankong_title);
         addItemType(TYPE_RACE, R.layout.listitem_gechejiankong_race);
+        icons = Lists.newArrayList(R.mipmap.ic_vertical_blue, R.mipmap.ic_vertical_yellow
+                , R.mipmap.ic_vertical_withe);
     }
 
     @Override
-    protected void convert(BaseViewHolder baseViewHolder, MultiItemEntity multiItemEntity) {
-        switch (baseViewHolder.getItemViewType()) {
+    protected void convert(BaseViewHolder holder, MultiItemEntity multiItemEntity) {
+        switch (holder.getItemViewType()) {
             case TYPE_ORG:
-                //((OrgItem)multiItemEntity).orgInfo
-                baseViewHolder.setText(R.id.tv_item_orgname, ((OrgItem) multiItemEntity).orgInfo.getOrgName());
-                boolean isNoRace = ((OrgItem) multiItemEntity).orgInfo.getRaces() == null || ((OrgItem) multiItemEntity).orgInfo.getRaces().size() == 0;
-                baseViewHolder.setText(R.id.tv_item_state, isNoRace ? "无监控" : isHaveMonitoring(multiItemEntity) ? "监控中" : "监控结束");
-                baseViewHolder.setTextColor(R.id.tv_item_state, isNoRace ? _redColor : isHaveMonitoring(multiItemEntity) ? _greenColor : _blueColor);
-                AppCompatImageView downImg = baseViewHolder.getView(R.id.aciv_item_expand);
-                downImg.setVisibility(isNoRace ? View.INVISIBLE : View.VISIBLE);
-                downImg.setRotation(((OrgItem) multiItemEntity).isExpanded() ? 180 : 0);
+                GeCheJianKongOrgInfo data = ((OrgItem) multiItemEntity).orgInfo;
+                /*holder.bindData(orgInfo);
+                holder.setItemColor(orgInfo.isRace());*/
+                holder.setText(R.id.match_count, String.valueOf(data.getRaces().size()));
+                holder.setText(R.id.monitoring_count,String.valueOf(data.getMonitoringCount()));
+                holder.setText(R.id.end_count,String.valueOf(data.getEndMonitorCount()));
+                holder.setText(R.id.not_start_count, String.valueOf(data.getNotMonitorCount()));
+                holder.setText(R.id.title, data.getOrgName());
+
+                if (data.getMonitoringCount() != 0) {
+                    holder.setText(R.id.state,"监控中");
+                    holder.setBackgroundColor(R.id.line1, R.color.white);
+                    holder.setBackgroundColor(R.id.line1, R.color.color_blue_57bbdfa);
+                } else {
+                    holder.setText(R.id.state,"监控结束");
+                    holder.setBackgroundColor(R.id.line1, R.color.white);
+                    holder.setBackgroundColor(R.id.line1, R.color.color_yellow_f49562);
+                }
+
+                if (holder.getAdapterPosition() % 2 == 0) {
+                    holder.setImageResource(R.id.icon_image, icons.get(0));
+                } else holder.setImageResource(R.id.icon_image, icons.get(1));
+
+                /*if(data.isRace()){
+                    holder.setTextColor(R.id.state, R.color.white);
+                    holder.setTextColor(R.id.title,R.color.white);
+                    holder.setTextColor(R.id.text1,R.color.white);
+                    holder.setTextColor(R.id.text2,R.color.white);
+                    holder.setTextColor(R.id.text3,R.color.white);
+                    holder.setTextColor(R.id.text4,R.color.white);
+                    holder.setTextColor(R.id.match_count,R.color.white);
+                    holder.setTextColor(R.id.match_count,R.color.white);
+                    holder.setTextColor(R.id.match_count,R.color.white);
+                    holder.setTextColor(R.id.not_start_count,R.color.white);
+                    holder.setImageResource(R.id.icon_image, icons.get(2));
+                    if(holder.getAdapterPosition() % 2 == 0){
+                        holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.color_blue_57bbdfa));
+                    }else holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.color_yellow_f49562));
+                }else {
+                    holder.setTextColor(R.id.state,R.color.black);
+                    holder.setTextColor(R.id.title,R.color.gray_m);
+                    holder.setTextColor(R.id.text1,R.color.gray_m);
+                    holder.setTextColor(R.id.text1,R.color.gray_m);
+                    holder.setTextColor(R.id.text1,R.color.gray_m);
+                    holder.setTextColor(R.id.text1,(R.color.gray_m));
+                    holder.setTextColor(R.id.match_count,(R.color.black));
+                    holder.setTextColor(R.id.match_count,R.color.black);
+                    holder.setTextColor(R.id.match_count,R.color.black);
+                    holder.setTextColor(R.id.not_start_count,R.color.black);
+                }*/
+
+
                 break;
             case TYPE_RACE:
-                baseViewHolder.setText(R.id.tv_item_racename, ((RaceItem) multiItemEntity).race.getRaceName());
-                baseViewHolder.setText(R.id.tv_item_state, ((RaceItem) multiItemEntity).race.getState());
-                baseViewHolder.setTextColor(R.id.tv_item_state, ((RaceItem) multiItemEntity).race.getStateCode() == 0 ? _redColor : ((RaceItem) multiItemEntity).race.getStateCode() == 1 ? _greenColor : _blueColor);
+                holder.setText(R.id.tv_item_racename, ((RaceItem) multiItemEntity).race.getRaceName());
+                holder.setText(R.id.tv_item_state, ((RaceItem) multiItemEntity).race.getState());
                 break;
         }
     }
@@ -120,14 +161,8 @@ public class GeCheJianKongExpandListAdapter extends BaseMultiItemQuickAdapter<Mu
         }
     }
 
-    private boolean isHaveMonitoring(MultiItemEntity itemEntity) {
-        List<GeCheJianKongRace> data = ((OrgItem) itemEntity).getOrgInfo().getRaces();
-        for (GeCheJianKongRace g : data) {
-            if (g.getStateCode() == STATE_MONITORING){
-                return true;
-            }
-        }
-        return false;
+    private void setItemColor(BaseViewHolder holder){
+
     }
 
 }

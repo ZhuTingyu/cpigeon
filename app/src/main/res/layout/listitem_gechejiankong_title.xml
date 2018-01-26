@@ -21,8 +21,7 @@
             <ImageView
                 android:id="@+id/line1"
                 android:layout_width="4dp"
-                android:layout_height="match_parent"
-                android:background="#57bbfa"/>
+                android:layout_height="match_parent"/>
 
             <RelativeLayout
                 android:layout_toRightOf="@id/line1"
@@ -56,6 +55,7 @@
                         tools:text="6" />
 
                     <TextView
+                        android:id="@+id/text1"
                         android:text="比赛场数"
                         android:textColor="@color/gray_m"
                         android:textSize="13dp"
@@ -70,6 +70,7 @@
         </RelativeLayout>
 
         <com.cpigeon.app.view.ImageView
+            android:id="@+id/icon_image"
             android:layout_width="6dp"
             android:layout_height="58dp"
             android:layout_marginTop="13dp"
@@ -85,6 +86,7 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/title"
                 tools:text="北京市信鸽比赛协会"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -110,6 +112,7 @@
                         tools:text="6" />
 
                     <TextView
+                        android:id="@+id/text2"
                         android:text="监控中"
                         android:textColor="@color/gray_m"
                         android:textSize="13dp"
@@ -135,6 +138,7 @@
                         tools:text="6" />
 
                     <TextView
+                        android:id="@+id/text3"
                         android:text="已结束"
                         android:textColor="@color/gray_m"
                         android:textSize="13dp"
@@ -160,6 +164,7 @@
                         tools:text="6" />
 
                     <TextView
+                        android:id="@+id/text4"
                         android:text="未开启"
                         android:textColor="@color/gray_m"
                         android:textSize="13dp"
