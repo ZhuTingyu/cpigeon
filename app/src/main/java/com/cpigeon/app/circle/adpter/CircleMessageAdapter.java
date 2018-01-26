@@ -285,12 +285,20 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
             @Override
             public void share(View view) {
                 share.setDescription(item.getMsg());
+                share.setShareType(ShareDialogFragment.TYPE_DEFALT);
+
                 if(finalImagesAdapter1 != null){
                     share.setShareType(ShareDialogFragment.TYPE_IMAGE_URL);
                     share.setShareContent(finalImagesAdapter1.getImagesUrl().get(0));
-                    share.show(activity.getFragmentManager(),"share");
                 }
 
+                if(!item.getVideo().isEmpty()){
+                    share.setShareType(ShareDialogFragment.TYPE_VIDEO);
+                    share.setVideoTitle(item.getMsg());
+                    share.setVideoUrl(item.getVideo().get(0).getUrl());
+                    share.setVideoThumb(item.getVideo().get(0).getThumburl());
+                }
+                share.show(activity.getFragmentManager(),"share");
             }
         });
 

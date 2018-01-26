@@ -17,6 +17,7 @@ import com.cpigeon.app.modular.saigetong.presenter.SGTPresenter;
 import com.cpigeon.app.modular.saigetong.view.adapter.ZHNumAdapter;
 import com.cpigeon.app.utils.ChooseImageManager;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.view.ShareDialogFragment;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 
@@ -38,6 +39,7 @@ public class SGTDetailsFragment extends BaseMVPFragment<SGTDetailsPre> {
     private ZHNumAdapter mAdapter;
     TextView tvCskh, tvGzxm, tvZhhm, tvDzhh, tvSgys, tvDq, tvRpsj;
     private View headView;
+    ShareDialogFragment shareDialogFragment;
 
     @Override
     protected SGTDetailsPre initPresenter() {
@@ -52,6 +54,7 @@ public class SGTDetailsFragment extends BaseMVPFragment<SGTDetailsPre> {
     @Override
     public void finishCreateView(Bundle state) {
         setTitle(mPresenter.foodId);
+        shareDialogFragment = new ShareDialogFragment();
         initView();
         showLoading();
         mPresenter.getFootInfoData(data -> {
@@ -103,6 +106,16 @@ public class SGTDetailsFragment extends BaseMVPFragment<SGTDetailsPre> {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ChooseImageManager.showImageDialog(getContext(), mAdapter.getImages(), position);
             }
+        });
+
+        mAdapter.setOnItemLongClickListener((adapter, view, position) -> {
+            SGTDetailsInfoEntity.RPImages item =  mAdapter.getItem(position);
+            shareDialogFragment.setShareType(ShareDialogFragment.TYPE_IMAGE_URL);
+            shareDialogFragment.setTitle(item.getTag());
+            shareDialogFragment.setDescription(item.getUpdatefootinfo());
+            shareDialogFragment.setShareContent(item.getImgurl());
+            shareDialogFragment.show(getActivity().getFragmentManager(),"share");
+            return false;
         });
     }
 }

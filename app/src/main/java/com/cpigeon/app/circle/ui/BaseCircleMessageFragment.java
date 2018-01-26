@@ -50,28 +50,6 @@ public class BaseCircleMessageFragment extends BaseMVPFragment<CircleMessagePre>
     public void finishCreateView(Bundle state) {
 
         shareDialogFragment = new ShareDialogFragment();
-        shareDialogFragment.setShareListener(new UMShareListener() {
-            @Override
-            public void onStart(SHARE_MEDIA share_media) {
-                ToastUtil.showLongToast(getContext(),"成功");
-            }
-
-            @Override
-            public void onResult(SHARE_MEDIA share_media) {
-                ToastUtil.showLongToast(getContext(),"成功");
-            }
-
-            @Override
-            public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-                ToastUtil.showLongToast(getContext(),"错误");
-            }
-
-            @Override
-            public void onCancel(SHARE_MEDIA share_media) {
-                ToastUtil.showLongToast(getContext(),"取消");
-            }
-        });
-
 
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

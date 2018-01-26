@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.cpigeon.app.R;
+import com.cpigeon.app.utils.ToastUtil;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
@@ -45,6 +46,7 @@ public class ShareDialogFragment extends DialogFragment {
     private Bitmap mBitmap;
 
     public UMShareListener umShareListener;
+    private OnShareCallBackListener onShareCallBackListener;
 
     private String shareUrl;
 
@@ -57,8 +59,11 @@ public class ShareDialogFragment extends DialogFragment {
     private String videoUrl;
     private String videoThumb;
     private String videoTitle;
+    private String title;
 
-
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
@@ -89,7 +94,14 @@ public class ShareDialogFragment extends DialogFragment {
     };
 
     private void startShareApp(SHARE_MEDIA platform) {
-        if (shareType == 1) {
+        if(shareType == TYPE_DEFALT){
+            new ShareAction(getActivity())
+                    .setPlatform(platform)//传入平台
+                    .withText(description)
+                    .setCallback(umShareListener)//回调监听器
+                    .share();
+
+        } else if (shareType == 1) {
             //分享链接
             UMWeb web = new UMWeb(shareUrl);
             web.setTitle("中鸽网");//标题
@@ -103,6 +115,7 @@ public class ShareDialogFragment extends DialogFragment {
         } else if (shareType == 2) {
             //分享图片
             UMImage image = new UMImage(getActivity(), shareUrl);//网络图片
+            image.setTitle(title);
 
             new ShareAction(getActivity())
                     .setPlatform(platform)//传入平台
@@ -127,6 +140,7 @@ public class ShareDialogFragment extends DialogFragment {
             video.setDescription(description);//视频的描述
 
             new ShareAction(getActivity())
+                    .setPlatform(platform)
                     .withText(description)
                     .withMedia(video)
                     .setCallback(umShareListener)
@@ -135,10 +149,6 @@ public class ShareDialogFragment extends DialogFragment {
     }
 
     private String TAG = "ShareDialogFragment";
-
-    public void setShareListener(UMShareListener umShareListener) {
-        this.umShareListener = umShareListener;
-    }
 
     //分享类型 // -1  默认， 1 链接   2。图片
     public void setShareType(int shareType) {
@@ -149,6 +159,31 @@ public class ShareDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        umShareListener = new UMShareListener() {
+            @Override
+            public void onStart(SHARE_MEDIA share_media) {
+            }
+
+            @Override
+            public void onResult(SHARE_MEDIA share_media) {
+                ToastUtil.showShortToast(getActivity(), "分享成功");
+                if(onShareCallBackListener != null){
+                    onShareCallBackListener.onSuccess();
+                }
+            }
+
+            @Override
+            public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+                ToastUtil.showShortToast(getActivity(), throwable.getMessage());
+            }
+
+            @Override
+            public void onCancel(SHARE_MEDIA share_media) {
+                ToastUtil.showShortToast(getActivity(), "分享取消");
+            }
+        };
+
         // 使用不带Theme的构造器, 获得的dialog边框距离屏幕仍有几毫米的缝隙。
         Dialog dialog = new Dialog(getActivity(), R.style.BottomDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // 设置Content前设定
@@ -220,5 +255,13 @@ public class ShareDialogFragment extends DialogFragment {
 
     public interface OnShareListener {
         void onShare(Dialog dialog);
+    }
+
+    public interface OnShareCallBackListener{
+        void onSuccess();
+    }
+
+    public void setOnShareCallBackListener(OnShareCallBackListener onShareCallBackListener) {
+        this.onShareCallBackListener = onShareCallBackListener;
     }
 }
