@@ -10,6 +10,7 @@
     app:cardElevation="0dp">
 
     <LinearLayout
+        android:id="@+id/ll_parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
@@ -19,7 +20,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent">
             <ImageView
-                android:id="@+id/line1"
+                android:id="@+id/line_blue"
+                android:background="@color/color_blue_57bbdfa"
+                android:layout_width="4dp"
+                android:layout_height="match_parent"/>
+
+            <ImageView
+                android:id="@+id/line_yellow"
+                android:background="@color/color_yellow_f49562"
                 android:layout_width="4dp"
                 android:layout_height="match_parent"/>
 
@@ -36,7 +44,6 @@
                     android:id="@+id/state"
                     tools:text="监控中"
                     android:layout_centerHorizontal="true"
-                    android:textColor="@color/black"
                     android:textSize="@dimen/medium_text_size"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -48,7 +55,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:textColor="@color/black"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:textSize="@dimen/big_text_size"
@@ -57,7 +63,6 @@
                     <TextView
                         android:id="@+id/text1"
                         android:text="比赛场数"
-                        android:textColor="@color/gray_m"
                         android:textSize="13dp"
                         android:layout_centerHorizontal="true"
                         android:layout_above="@+id/match_count"
@@ -105,7 +110,6 @@
                         android:id="@+id/monitoring_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
                         android:layout_marginLeft="16dp"
                         android:layout_alignParentBottom="true"
                         android:textSize="@dimen/big_text_size"
@@ -114,7 +118,6 @@
                     <TextView
                         android:id="@+id/text2"
                         android:text="监控中"
-                        android:textColor="@color/gray_m"
                         android:textSize="13dp"
                         android:layout_centerHorizontal="true"
                         android:layout_above="@+id/monitoring_count"
@@ -132,7 +135,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
-                        android:textColor="@color/black"
                         android:layout_alignParentBottom="true"
                         android:textSize="@dimen/big_text_size"
                         tools:text="6" />
@@ -140,7 +142,6 @@
                     <TextView
                         android:id="@+id/text3"
                         android:text="已结束"
-                        android:textColor="@color/gray_m"
                         android:textSize="13dp"
                         android:layout_above="@+id/end_count"
                         android:layout_width="wrap_content"
@@ -157,7 +158,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:textColor="@color/black"
                         android:layout_marginLeft="16dp"
                         android:layout_alignParentBottom="true"
                         android:textSize="@dimen/big_text_size"
@@ -166,7 +166,6 @@
                     <TextView
                         android:id="@+id/text4"
                         android:text="未开启"
-                        android:textColor="@color/gray_m"
                         android:textSize="13dp"
                         android:layout_above="@+id/not_start_count"
                         android:layout_width="wrap_content"

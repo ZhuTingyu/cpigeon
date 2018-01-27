@@ -41,6 +41,15 @@ public class GeCheJianKongRace implements Serializable{
     private String raceImage;
     private double latitude;
     private String flyingArea;
+    private int position;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
 
     public int getStateCode() {
         return stateCode;

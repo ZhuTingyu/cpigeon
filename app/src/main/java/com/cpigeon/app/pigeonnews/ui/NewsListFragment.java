@@ -44,8 +44,7 @@ public class NewsListFragment extends BaseMVPFragment<NewsListPre> {
     public void finishCreateView(Bundle state) {
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setPadding(0, 0
-                , 0, 0);
+        recyclerView.setPadding(0, 0, 0, 0);
         adapter = new PigeonNewsAdapter();
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             IntentBuilder.Builder(getActivity(), NewsDetailsActivity.class).startActivity();

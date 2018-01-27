@@ -18,23 +18,15 @@ public class GeCheJianKongOrgInfo {
      * orgName : 12356456
      */
 
-    private static final int STATE_NOT_MONITOR = 0;
-    private static final int STATE_MONITORING = 1;
-    private static final int STATE_END_OF_MONITOR = 2;
+    public static final int STATE_NOT_MONITOR = 0;
+    public static final int STATE_MONITORING = 1;
+    public static final int STATE_END_OF_MONITOR = 2;
 
     private String status;
     private String orgType;
     private String orgName;
     private List<GeCheJianKongRace> races;
-    private boolean isRace;
 
-    public boolean isRace() {
-        return isRace;
-    }
-
-    public void setRace(boolean race) {
-        isRace = race;
-    }
 
     public String getStatus() {
         return status;

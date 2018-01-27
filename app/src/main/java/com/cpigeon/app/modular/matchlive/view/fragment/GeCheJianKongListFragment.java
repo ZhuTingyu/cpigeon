@@ -140,33 +140,27 @@ public class GeCheJianKongListFragment extends BasePageTurnFragment<GeCheJianKon
             if (item instanceof GeCheJianKongExpandListAdapter.OrgItem) {
                 LogUtil.print("p: " + position);
                 if(currentPosition == -1){//当前没有展开项
-                    ((GeCheJianKongExpandListAdapter.OrgItem) mAdapter.getItem(position)).getOrgInfo().setRace(true);
                     adapter.expand(position);
                     currentPosition = position;
 
                 }else {
                     if(currentPosition == position){
-                        ((GeCheJianKongExpandListAdapter.OrgItem) mAdapter.getItem(position)).getOrgInfo().setRace(false);
                         adapter.collapse(position);
                         currentPosition = -1;
                     }else if(currentPosition > position){
-
-                        ((GeCheJianKongExpandListAdapter.OrgItem) mAdapter.getItem(currentPosition)).getOrgInfo().setRace(false);
-                        ((GeCheJianKongExpandListAdapter.OrgItem) mAdapter.getItem(position)).getOrgInfo().setRace(true);
                         adapter.collapse(currentPosition);
                         adapter.expand(position);
                         currentPosition = position;
                     }else {
-                        ((GeCheJianKongExpandListAdapter.OrgItem) mAdapter.getItem(currentPosition)).getOrgInfo().setRace(false);
                         adapter.collapse(currentPosition);
                         GeCheJianKongExpandListAdapter.OrgItem orgItem = (GeCheJianKongExpandListAdapter.OrgItem) mAdapter.getItem(currentPosition);
                         int dataSize = orgItem.getOrgInfo().getRaces().size();
                         int expandPosition = position - dataSize;
-                        ((GeCheJianKongExpandListAdapter.OrgItem) mAdapter.getItem(expandPosition)).getOrgInfo().setRace(true);
                         adapter.expand(expandPosition);
                         currentPosition = expandPosition;
                     }
                 }
+                mAdapter.orgItemPosition = currentPosition;
                 LogUtil.print("cp: " + currentPosition);
             } else if (item instanceof GeCheJianKongExpandListAdapter.RaceItem) {
                 GeCheJianKongExpandListAdapter.RaceItem raceItem = (GeCheJianKongExpandListAdapter.RaceItem) item;

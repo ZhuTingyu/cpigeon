@@ -13,6 +13,7 @@ import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongOrgInfo;
 import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongRace;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchInfo;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.view.ImageView;
 import com.cpigeon.app.viewholder.PigeonCarMonitorViewHolder;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class GeCheJianKongExpandListAdapter extends BaseMultiItemQuickAdapter<Mu
     public static final int TYPE_ORG = 1;
     public static final int TYPE_RACE = 2;
     List<Integer> icons;
+    public int orgItemPosition;
 
 
     public GeCheJianKongExpandListAdapter(List<MultiItemEntity> data) {
@@ -40,62 +42,79 @@ public class GeCheJianKongExpandListAdapter extends BaseMultiItemQuickAdapter<Mu
     protected void convert(BaseViewHolder holder, MultiItemEntity multiItemEntity) {
         switch (holder.getItemViewType()) {
             case TYPE_ORG:
-                GeCheJianKongOrgInfo data = ((OrgItem) multiItemEntity).orgInfo;
+                OrgItem item = (OrgItem) multiItemEntity;
+                GeCheJianKongOrgInfo data = item.orgInfo;
                 /*holder.bindData(orgInfo);
                 holder.setItemColor(orgInfo.isRace());*/
                 holder.setText(R.id.match_count, String.valueOf(data.getRaces().size()));
-                holder.setText(R.id.monitoring_count,String.valueOf(data.getMonitoringCount()));
-                holder.setText(R.id.end_count,String.valueOf(data.getEndMonitorCount()));
+                holder.setText(R.id.monitoring_count, String.valueOf(data.getMonitoringCount()));
+                holder.setText(R.id.end_count, String.valueOf(data.getEndMonitorCount()));
                 holder.setText(R.id.not_start_count, String.valueOf(data.getNotMonitorCount()));
                 holder.setText(R.id.title, data.getOrgName());
 
                 if (data.getMonitoringCount() != 0) {
-                    holder.setText(R.id.state,"监控中");
-                    holder.setBackgroundColor(R.id.line1, R.color.white);
-                    holder.setBackgroundColor(R.id.line1, R.color.color_blue_57bbdfa);
+                    holder.setText(R.id.state, "监控中");
+
                 } else {
-                    holder.setText(R.id.state,"监控结束");
-                    holder.setBackgroundColor(R.id.line1, R.color.white);
-                    holder.setBackgroundColor(R.id.line1, R.color.color_yellow_f49562);
+                    holder.setText(R.id.state, "监控结束");
+
                 }
 
-                if (holder.getAdapterPosition() % 2 == 0) {
-                    holder.setImageResource(R.id.icon_image, icons.get(0));
-                } else holder.setImageResource(R.id.icon_image, icons.get(1));
 
-                /*if(data.isRace()){
-                    holder.setTextColor(R.id.state, R.color.white);
-                    holder.setTextColor(R.id.title,R.color.white);
-                    holder.setTextColor(R.id.text1,R.color.white);
-                    holder.setTextColor(R.id.text2,R.color.white);
-                    holder.setTextColor(R.id.text3,R.color.white);
-                    holder.setTextColor(R.id.text4,R.color.white);
-                    holder.setTextColor(R.id.match_count,R.color.white);
-                    holder.setTextColor(R.id.match_count,R.color.white);
-                    holder.setTextColor(R.id.match_count,R.color.white);
-                    holder.setTextColor(R.id.not_start_count,R.color.white);
+                if (((OrgItem) multiItemEntity).getPosition() % 2 == 0) {
+                    holder.setImageResource(R.id.icon_image, icons.get(0));
+                    holder.setVisible(R.id.line_blue, true);
+                    holder.setVisible(R.id.line_yellow, false);
+                } else {
+                    holder.setImageResource(R.id.icon_image, icons.get(1));
+                    holder.setVisible(R.id.line_blue, false);
+                    holder.setVisible(R.id.line_yellow, true);
+                }
+
+                // holder.setTextColor(R.id.state, item.isExpanded() ? R.color.white : R.color.black);
+
+                if (item.isExpanded()) {
+                    holder.setTextColor(R.id.state, mContext.getResources().getColor(R.color.white));
+                    holder.setTextColor(R.id.title, mContext.getResources().getColor(R.color.white));
+                    holder.setTextColor(R.id.text1, mContext.getResources().getColor(R.color.white));
+                    holder.setTextColor(R.id.text2, mContext.getResources().getColor(R.color.white));
+                    holder.setTextColor(R.id.text3, mContext.getResources().getColor(R.color.white));
+                    holder.setTextColor(R.id.text4, mContext.getResources().getColor(R.color.white));
+                    holder.setTextColor(R.id.monitoring_count, mContext.getResources().getColor(R.color.white));
+                    holder.setTextColor(R.id.match_count, mContext.getResources().getColor(R.color.white));
+                    holder.setTextColor(R.id.end_count, mContext.getResources().getColor(R.color.white));
+                    holder.setTextColor(R.id.not_start_count, mContext.getResources().getColor(R.color.white));
                     holder.setImageResource(R.id.icon_image, icons.get(2));
-                    if(holder.getAdapterPosition() % 2 == 0){
-                        holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.color_blue_57bbdfa));
-                    }else holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.color_yellow_f49562));
-                }else {
-                    holder.setTextColor(R.id.state,R.color.black);
-                    holder.setTextColor(R.id.title,R.color.gray_m);
-                    holder.setTextColor(R.id.text1,R.color.gray_m);
-                    holder.setTextColor(R.id.text1,R.color.gray_m);
-                    holder.setTextColor(R.id.text1,R.color.gray_m);
-                    holder.setTextColor(R.id.text1,(R.color.gray_m));
-                    holder.setTextColor(R.id.match_count,(R.color.black));
-                    holder.setTextColor(R.id.match_count,R.color.black);
-                    holder.setTextColor(R.id.match_count,R.color.black);
-                    holder.setTextColor(R.id.not_start_count,R.color.black);
-                }*/
+                    if (holder.getAdapterPosition() % 2 == 0) {
+                        holder.setBackgroundColor(R.id.ll_parent, mContext.getResources().getColor(R.color.color_blue_57bbdfa));
+                    } else {
+                        holder.setBackgroundColor(R.id.ll_parent, mContext.getResources().getColor(R.color.color_yellow_f49562));
+                    }
+                } else {
+                    holder.setTextColor(R.id.state, mContext.getResources().getColor(R.color.black));
+                    holder.setTextColor(R.id.title, mContext.getResources().getColor(R.color.gray_m));
+                    holder.setTextColor(R.id.text1, mContext.getResources().getColor(R.color.gray_m));
+                    holder.setTextColor(R.id.text2, mContext.getResources().getColor(R.color.gray_m));
+                    holder.setTextColor(R.id.text3, mContext.getResources().getColor(R.color.gray_m));
+                    holder.setTextColor(R.id.text4, mContext.getResources().getColor(R.color.gray_m));
+                    holder.setTextColor(R.id.monitoring_count, mContext.getResources().getColor(R.color.black));
+                    holder.setTextColor(R.id.match_count, mContext.getResources().getColor(R.color.black));
+                    holder.setTextColor(R.id.end_count, mContext.getResources().getColor(R.color.black));
+                    holder.setTextColor(R.id.not_start_count, mContext.getResources().getColor(R.color.black));
+                    holder.setBackgroundColor(R.id.ll_parent, mContext.getResources().getColor(R.color.white));
+                }
 
 
                 break;
             case TYPE_RACE:
-                holder.setText(R.id.tv_item_racename, ((RaceItem) multiItemEntity).race.getRaceName());
-                holder.setText(R.id.tv_item_state, ((RaceItem) multiItemEntity).race.getState());
+                holder.setText(R.id.title, ((RaceItem) multiItemEntity).race.getRaceName());
+                holder.setText(R.id.state, ((RaceItem) multiItemEntity).race.getState());
+                if(((RaceItem) multiItemEntity).race.getStateCode() == GeCheJianKongOrgInfo.STATE_MONITORING){
+                    holder.setTextColor(R.id.state, mContext.getResources().getColor(R.color.black));
+                }else holder.setTextColor(R.id.state, mContext.getResources().getColor(R.color.gray_m));
+                if(((RaceItem) multiItemEntity).race.getPosition() == getRaceItemCount() - 1){
+                    holder.setVisible(R.id.line, false);
+                }
                 break;
         }
     }
@@ -107,13 +126,18 @@ public class GeCheJianKongExpandListAdapter extends BaseMultiItemQuickAdapter<Mu
         OrgItem orgItem;
         RaceItem raceItem;
         if (data.size() > 0) {
-            for (GeCheJianKongOrgInfo orginfo : data) {
+            for (int i = 0, len = data.size(); i < len; i++) {
+                GeCheJianKongOrgInfo orginfo = data.get(i);
                 orgItem = new OrgItem(orginfo);
+                orgItem.setPosition(i);
                 if (orginfo.getRaces() != null)
-                    for (GeCheJianKongRace race : orginfo.getRaces()) {
+                    for (int j = 0, len2 = orginfo.getRaces().size(); j < len2 ; j++) {
+                        GeCheJianKongRace race = orginfo.getRaces().get(j);
+                        race.setPosition(j);
                         raceItem = new RaceItem(race);
                         orgItem.addSubItem(raceItem);
                     }
+
                 result.add(orgItem);
             }
         }
@@ -124,9 +148,18 @@ public class GeCheJianKongExpandListAdapter extends BaseMultiItemQuickAdapter<Mu
     public static class OrgItem extends AbstractExpandableItem<RaceItem> implements MultiItemEntity {
 
         GeCheJianKongOrgInfo orgInfo;
+        int position;
 
         public OrgItem(GeCheJianKongOrgInfo orgInfo) {
             this.orgInfo = orgInfo;
+        }
+
+        public int getPosition() {
+            return position;
+        }
+
+        public void setPosition(int position) {
+            this.position = position;
         }
 
         @Override
@@ -161,8 +194,13 @@ public class GeCheJianKongExpandListAdapter extends BaseMultiItemQuickAdapter<Mu
         }
     }
 
-    private void setItemColor(BaseViewHolder holder){
-
+    private int getRaceItemCount() {
+        int count = 0;
+        for (int i = 0, len = mData.size(); i < len; i++) {
+            if(mData.get(i) instanceof RaceItem){
+                count++;
+            }
+        }
+        return count;
     }
-
 }

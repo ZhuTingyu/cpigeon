@@ -2,17 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginTop="@dimen/big_large_vertical_margin"
-    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
     <ImageView
         android:id="@+id/icon"
-        android:padding="30dp"
-        tools:src="@mipmap/ic_earth_quake"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="200dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/white"
+        android:padding="30dp"
+        tools:src="@mipmap/ic_earth_quake" />
 
     <TextView
         android:id="@+id/content"
@@ -21,6 +23,8 @@
         android:text="1238450234852-3458923-90458230-45892-3045820-458203-458230-58203-45230-845230-458023-5823-58230-58230-58"
         android:maxLines="6"
         android:minLines="10"
+        android:padding="@dimen/large_horizontal_margin_15"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
