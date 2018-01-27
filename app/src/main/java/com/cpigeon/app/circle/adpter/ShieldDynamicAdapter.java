@@ -47,4 +47,9 @@ public class ShieldDynamicAdapter extends BaseQuickAdapter<HideMessageEntity, Ba
             });
         });
     }
+
+    @Override
+    protected String getEmptyViewText() {
+        return "暂时没有数据";
+    }
 }

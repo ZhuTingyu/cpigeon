@@ -26,6 +26,7 @@ import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.view.ExpandTextView;
 import com.cpigeon.app.view.PraiseListView;
+import com.cpigeon.app.view.ShareDialogFragment;
 import com.cpigeon.app.viewholder.SocialSnsViewHolder;
 import com.squareup.picasso.Picasso;
 import com.wx.goodview.GoodView;
@@ -148,6 +149,7 @@ public class CircleMessageDetailsFragment extends BaseMVPFragment<CircleMessageP
          * 屏蔽取消
          */
         holder.getView(R.id.img_expand).setOnClickListener(v -> {
+            dialogHideCircleFragment = new DialogHideCircleFragment();
             dialogHideCircleFragment.setCircleMessageEntity(entity);
             dialogHideCircleFragment.setListener(new DialogHideCircleFragment.OnDialogClickListener() {
                 @Override
@@ -200,67 +202,7 @@ public class CircleMessageDetailsFragment extends BaseMVPFragment<CircleMessageP
             });
         }
 
-        /**
-         * 点赞评论
-         */
-        SocialSnsViewHolder socialSnsviewHolder = new SocialSnsViewHolder(getActivity(),holder.getView(R.id.social_sns),goodView,"回复:"+entity.getUserinfo().getNickname());
-        socialSnsviewHolder.setOnSocialListener(new SocialSnsViewHolder.OnSocialListener() {
-            @Override
-            public void thumb(View view) {
-                mPresenter.messageId = entity.getMid();
-                mPresenter.setIsThumb(!entity.isThumb());
-                mPresenter.setThumb(s -> {
-                    if(entity.isThumb()){
-                        int position = mPresenter.getUserThumbPosition(entity.getPraiseList(),CpigeonData.getInstance().getUserId(getContext()));
-                        if(position != -1){
-                            entity.getPraiseList().remove(position);
-                        }
-                        socialSnsviewHolder.setThumb(false);
-                        socialSnsviewHolder.setThumbAnimation(false);
-                    }else {
-                        CircleMessageEntity.PraiseListBean bean = new CircleMessageEntity.PraiseListBean();
-                        bean.setIsPraise(1);
-                        bean.setUid(CpigeonData.getInstance().getUserId(getContext()));
-                        bean.setNickname(CpigeonData.getInstance().getUserInfo().getNickname());
-                        entity.getPraiseList().add(0,bean);
-                        socialSnsviewHolder.setThumb(true);
-                        socialSnsviewHolder.setThumbAnimation(true);
-                    }
-                   initMessage();
-                });
-            }
 
-            @Override
-            public void comment(EditText view, InputCommentDialog dialog) {
-                mPresenter.messageId = entity.getMid();
-                mPresenter.commentContent = view.getText().toString();
-                mPresenter.addComment(newComment -> {
-                    entity.getCommentList().add(0, newComment);
-                    dialog.closeDialog();
-
-                });
-            }
-
-            @Override
-            public void share(View view) {
-
-            }
-        });
-
-        if (entity.getPraiseList() != null && entity.getPraiseList().size() > 0) {
-
-            for (CircleMessageEntity.PraiseListBean praiseListBean : entity.getPraiseList()) {
-
-                if (praiseListBean.getUid() == CpigeonData.getInstance().getUserId(getContext()) && praiseListBean.getIsPraise() == 1) {
-                    socialSnsviewHolder.setThumb(true);
-                    entity.setThumb();
-                    break;
-                } else {
-                    socialSnsviewHolder.setThumb(false);
-                    entity.setCancelThumb();
-                }
-            }
-        }else socialSnsviewHolder.setThumb(false);
         /**
          * 图片
          */
@@ -271,15 +213,16 @@ public class CircleMessageDetailsFragment extends BaseMVPFragment<CircleMessageP
                 return false;
             }
         });
-        CircleMessageImagesAdapter adapter;
+        CircleMessageImagesAdapter adapter = null;
         if(!entity.getPicture().isEmpty()){
             imgs.setVisibility(View.VISIBLE);
             if(imgs.getAdapter() == null){
                 adapter = new CircleMessageImagesAdapter();
             }else adapter = (CircleMessageImagesAdapter) imgs.getAdapter();
+            CircleMessageImagesAdapter finalImagesAdapter = adapter;
             adapter.setNewData(entity.getPicture());
             adapter.setOnItemClickListener((adapter1, view, position) -> {
-                ChooseImageManager.showImageDialog(getContext(), adapter.getImagesUrl(),position);
+                ChooseImageManager.showImageDialog(getContext(), finalImagesAdapter.getImagesUrl(),position);
             });
             imgs.setAdapter(adapter);
             imgs.setFocusableInTouchMode(false);
@@ -310,6 +253,83 @@ public class CircleMessageDetailsFragment extends BaseMVPFragment<CircleMessageP
             praiseListView.setDatas(entity.getPraiseList());
 
         }else praiseListView.setVisibility(View.GONE);
+
+
+        /**
+         * 点赞评论
+         */
+        CircleMessageImagesAdapter finalImagesAdapter1 = adapter;
+        SocialSnsViewHolder socialSnsviewHolder = new SocialSnsViewHolder(getActivity(),holder.getView(R.id.social_sns),goodView,"回复:"+entity.getUserinfo().getNickname());
+        socialSnsviewHolder.setOnSocialListener(new SocialSnsViewHolder.OnSocialListener() {
+            @Override
+            public void thumb(View view) {
+                mPresenter.messageId = entity.getMid();
+                mPresenter.setIsThumb(!entity.isThumb());
+                mPresenter.setThumb(s -> {
+                    if(entity.isThumb()){
+                        int position = mPresenter.getUserThumbPosition(entity.getPraiseList(),CpigeonData.getInstance().getUserId(getContext()));
+                        if(position != -1){
+                            entity.getPraiseList().remove(position);
+                        }
+                        socialSnsviewHolder.setThumb(false);
+                        socialSnsviewHolder.setThumbAnimation(false);
+                    }else {
+                        CircleMessageEntity.PraiseListBean bean = new CircleMessageEntity.PraiseListBean();
+                        bean.setIsPraise(1);
+                        bean.setUid(CpigeonData.getInstance().getUserId(getContext()));
+                        bean.setNickname(CpigeonData.getInstance().getUserInfo().getNickname());
+                        entity.getPraiseList().add(0,bean);
+                        socialSnsviewHolder.setThumb(true);
+                        socialSnsviewHolder.setThumbAnimation(true);
+                    }
+                    initMessage();
+                });
+            }
+
+            @Override
+            public void comment(EditText view, InputCommentDialog dialog) {
+                mPresenter.messageId = entity.getMid();
+                mPresenter.commentContent = view.getText().toString();
+                mPresenter.addComment(newComment -> {
+                    entity.getCommentList().add(0, newComment);
+                    dialog.closeDialog();
+
+                });
+            }
+
+            @Override
+            public void share(View view) {
+                ShareDialogFragment share = new ShareDialogFragment();
+                share.setDescription(entity.getMsg());
+                share.setShareType(ShareDialogFragment.TYPE_DEFALT);
+                if(finalImagesAdapter1 != null){
+                    share.setShareType(ShareDialogFragment.TYPE_IMAGE_URL);
+                    share.setShareContent(finalImagesAdapter1.getImagesUrl().get(0));
+                }
+                if(!entity.getVideo().isEmpty()){
+                    share.setShareType(ShareDialogFragment.TYPE_VIDEO);
+                    share.setVideoTitle(entity.getMsg());
+                    share.setVideoUrl(entity.getVideo().get(0).getUrl());
+                    share.setVideoThumb(entity.getVideo().get(0).getThumburl());
+                }
+                share.show(getActivity().getFragmentManager(),"share");
+            }
+        });
+
+        if (entity.getPraiseList() != null && entity.getPraiseList().size() > 0) {
+
+            for (CircleMessageEntity.PraiseListBean praiseListBean : entity.getPraiseList()) {
+
+                if (praiseListBean.getUid() == CpigeonData.getInstance().getUserId(getContext()) && praiseListBean.getIsPraise() == 1) {
+                    socialSnsviewHolder.setThumb(true);
+                    entity.setThumb();
+                    break;
+                } else {
+                    socialSnsviewHolder.setThumb(false);
+                    entity.setCancelThumb();
+                }
+            }
+        }else socialSnsviewHolder.setThumb(false);
 
     }
 }

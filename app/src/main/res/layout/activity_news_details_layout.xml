@@ -53,10 +53,7 @@
             <WebView
                 android:id="@+id/web_view"
                 android:visibility="gone"
-                android:paddingTop="@dimen/big_large_vertical_margin"
-                android:paddingLeft="@dimen/medium_horizontal_margin"
-                android:paddingRight="@dimen/medium_horizontal_margin"
-                android:paddingBottom="@dimen/medium_vertical_margin"
+                android:padding="@dimen/large_horizontal_margin_15"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

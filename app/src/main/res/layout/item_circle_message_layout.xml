@@ -11,6 +11,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <LinearLayout
+
+                android:paddingLeft="@dimen/large_horizontal_margin_15"
+                android:paddingRight="@dimen/large_horizontal_margin_15"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
@@ -75,6 +78,9 @@
             </LinearLayout>
             <com.cpigeon.app.view.ExpandTextView
                 app:showLines="4"
+
+                android:paddingLeft="@dimen/large_horizontal_margin_15"
+                android:paddingRight="@dimen/large_horizontal_margin_15"
                 android:id="@+id/content_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -87,12 +93,16 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/imgsList"
                 android:visibility="gone"
+                android:paddingLeft="@dimen/large_horizontal_margin_15"
+                android:paddingRight="@dimen/large_horizontal_margin_15"
                 android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
             <cn.jzvd.JZVideoPlayerStandard
                 android:visibility="gone"
+                android:paddingLeft="@dimen/large_horizontal_margin_15"
+                android:paddingRight="@dimen/large_horizontal_margin_15"
                 android:id="@+id/videoplayer"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"/>
@@ -104,7 +114,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.cpigeon.app.view.PraiseListView
-                    android:padding="8dp"
+                    android:paddingTop="@dimen/medium_vertical_margin"
+                    android:paddingBottom="@dimen/medium_vertical_margin"
+                    android:paddingLeft="@dimen/large_horizontal_margin_15"
+                    android:paddingRight="@dimen/large_horizontal_margin_15"
                     android:id="@+id/thumbs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -112,7 +125,10 @@
                     android:textColor="@color/praise_item"
                     app:item_color="@color/praise_item" />
                 <android.support.v7.widget.RecyclerView
-                    android:padding="8dp"
+                    android:paddingTop="@dimen/medium_vertical_margin"
+                    android:paddingBottom="@dimen/medium_vertical_margin"
+                    android:paddingLeft="@dimen/large_horizontal_margin_15"
+                    android:paddingRight="@dimen/large_horizontal_margin_15"
                     android:id="@+id/comments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

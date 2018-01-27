@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/large_vertical_margin"/>
 
+    <!--app:stl_indicatorWidth="20dp"-->
     <com.cpigeon.app.utils.customview.smarttab.SmartTabLayout
         android:id="@+id/tab_view"
         app:stl_dividerColor="@color/white"
@@ -20,7 +21,6 @@
         app:stl_customTabTextViewId="@+id/custom_text"
         app:stl_defaultTabTextSize="16dp"
         app:stl_distributeEvenly="true"
-        app:stl_indicatorWidth="20dp"
         app:stl_indicatorColor="@color/colorPrimary"
         app:stl_indicatorCornerRadius="1.5dp"
         app:stl_indicatorInterpolation="smart"

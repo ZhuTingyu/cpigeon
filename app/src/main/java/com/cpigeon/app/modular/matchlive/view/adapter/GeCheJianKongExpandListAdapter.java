@@ -114,7 +114,7 @@ public class GeCheJianKongExpandListAdapter extends BaseMultiItemQuickAdapter<Mu
                 }else holder.setTextColor(R.id.state, mContext.getResources().getColor(R.color.gray_m));
                 if(((RaceItem) multiItemEntity).race.getPosition() == getRaceItemCount() - 1){
                     holder.setVisible(R.id.line, false);
-                }
+                }else holder.setVisible(R.id.line, true);
                 break;
         }
     }

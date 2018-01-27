@@ -59,6 +59,7 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
         android:src="@mipmap/ic_push_circle"
+        android:scaleType="fitCenter"
         fab:fab_colorNormal="#f49562"
         fab:fab_colorPressed="#f49562"
         fab:fab_colorRipple="#f49562" />

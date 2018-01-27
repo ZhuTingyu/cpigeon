@@ -14,7 +14,10 @@
 
         <RelativeLayout
             android:id="@+id/ll1"
-            android:padding="@dimen/medium_vertical_margin"
+            android:paddingTop="@dimen/medium_vertical_margin"
+            android:paddingBottom="@dimen/medium_vertical_margin"
+            android:paddingLeft="@dimen/large_horizontal_margin_15"
+            android:paddingRight="@dimen/large_horizontal_margin_15"
             android:layout_width="wrap_content"
             android:layout_height="64dp">
 
@@ -70,25 +73,35 @@
         </RelativeLayout>
 
         <com.cpigeon.app.view.ExpandTextView
-            app:showLines="4"
+            android:paddingTop="@dimen/medium_vertical_margin"
+            android:paddingBottom="@dimen/medium_vertical_margin"
+            android:paddingLeft="@dimen/large_horizontal_margin_15"
+            android:paddingRight="@dimen/large_horizontal_margin_15"
             android:id="@+id/content_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/time"
+            android:layout_centerHorizontal="true"
             android:padding="@dimen/large_horizontal_margin"
             android:text=""
             android:textColor="#080808"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:showLines="4" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/imgsList"
             android:visibility="gone"
+            android:paddingLeft="@dimen/large_horizontal_margin_15"
+            android:paddingRight="@dimen/large_horizontal_margin_15"
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <cn.jzvd.JZVideoPlayerStandard
             android:visibility="gone"
+            android:paddingLeft="@dimen/large_horizontal_margin_15"
+            android:paddingRight="@dimen/large_horizontal_margin_15"
             android:id="@+id/videoplayer"
             android:layout_width="match_parent"
             android:layout_height="200dp"/>
@@ -96,7 +109,10 @@
         <include layout="@layout/social_sns_popupwindow"/>
 
         <com.cpigeon.app.view.PraiseListView
-            android:padding="8dp"
+            android:paddingTop="@dimen/medium_vertical_margin"
+            android:paddingBottom="@dimen/medium_vertical_margin"
+            android:paddingLeft="@dimen/large_horizontal_margin_15"
+            android:paddingRight="@dimen/large_horizontal_margin_15"
             android:id="@+id/thumbs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -105,7 +121,10 @@
             app:item_color="@color/praise_item" />
 
         <android.support.v7.widget.RecyclerView
-            android:padding="8dp"
+            android:paddingTop="@dimen/medium_vertical_margin"
+            android:paddingBottom="@dimen/medium_vertical_margin"
+            android:paddingLeft="@dimen/large_horizontal_margin_15"
+            android:paddingRight="@dimen/large_horizontal_margin_15"
             android:id="@+id/comments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

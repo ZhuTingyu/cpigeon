@@ -33,8 +33,10 @@ import com.cpigeon.app.modular.matchlive.view.activity.GeCheJianKongListActicity
 import com.cpigeon.app.modular.saigetong.view.fragment.SGTHomeFragment;
 import com.cpigeon.app.modular.usercenter.view.activity.LoginActivity;
 import com.cpigeon.app.pigeonnews.ui.PigeonNewsActivity;
+import com.cpigeon.app.utils.CPigeonApiUrl;
 import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.ContactsUtil;
+import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.ToastUtil;
@@ -96,16 +98,18 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
 
         setTitle("中鸽网");
 
-        toolbar.setNavigationIcon(R.mipmap.ic_home_my);
+        toolbar.setNavigationIcon(R.drawable.vector_home_message);
         toolbar.setNavigationOnClickListener(v -> {
-            if(checkLogin()){
-                ((MainActivity)getActivity()).setCurrIndex(3);
-            }else LoginActivity.startActivity(getActivity());
+            ToastUtil.showShortToast(getContext(), "消息");
         });
 
         toolbar.getMenu().clear();
-        toolbar.getMenu().add("").setIcon(R.mipmap.ic_home_message)
+        toolbar.getMenu().add("签到")
                 .setOnMenuItemClickListener(item -> {
+                    Intent intent = new Intent(getActivity(), WebActivity.class);
+                    intent.putExtra(WebActivity.INTENT_DATA_KEY_BACKNAME, "我的");
+                    intent.putExtra(WebActivity.INTENT_DATA_KEY_URL, CPigeonApiUrl.getInstance().getServer() + CPigeonApiUrl.APP_SIGN_URL + "?uid=" + CpigeonData.getInstance().getUserId(getActivity()));
+                    startActivity(intent);
                     return false;
                 }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 

@@ -19,6 +19,7 @@
             android:paddingLeft="8dp"
             android:text="无监控"
             android:layout_centerVertical="true"
+            android:textSize="@dimen/medium_text_size"
             android:textColor="@color/gray_m" />
 
         <TextView
@@ -29,7 +30,7 @@
             android:layout_alignTop="@+id/title"
             android:paddingLeft="20dp"
             android:text="登录312545"
-            android:textSize="@dimen/sp_16" />
+            android:textSize="@dimen/medium_text_size" />
 
         <include
             android:id="@+id/line"

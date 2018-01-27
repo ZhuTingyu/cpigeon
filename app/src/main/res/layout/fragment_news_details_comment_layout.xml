@@ -4,7 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_comment"
+        layout="@layout/fragment_recyclerview_layout"/>
+
+    <!--<android.support.v4.widget.SwipeRefreshLayout
         android:id="@id/swipeLayout"
         android:layout_above="@+id/bottom_comment"
         android:layout_width="match_parent"
@@ -18,7 +24,7 @@
             android:layout_alignParentTop="true"
             android:padding="@dimen/medium_horizontal_margin" />
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>-->
 
 
     <include

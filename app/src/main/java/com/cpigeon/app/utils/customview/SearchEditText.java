@@ -104,6 +104,7 @@ public class SearchEditText extends AppCompatEditText implements View.OnFocusCha
     }
 
     private void init() {
+        setTextColor(getResources().getColor(R.color.hint_color));
         setOnFocusChangeListener(this);
         setOnKeyListener(this);
         addTextChangedListener(this);
