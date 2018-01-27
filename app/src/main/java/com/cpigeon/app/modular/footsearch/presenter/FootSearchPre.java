@@ -34,6 +34,7 @@ public class FootSearchPre extends BasePresenter {
     String keyWord;
     public String year;
     int userId;
+    public FootSearchServiceInfoEntity serviceInfoEntity;
 
 
     public FootSearchPre(BaseFragment baseFragment) {
@@ -73,7 +74,8 @@ public class FootSearchPre extends BasePresenter {
                 if(r.data == null){
                     return new FootSearchServiceInfoEntity();
                 }else {
-                    return r.data;
+                    serviceInfoEntity = r.data;
+                    return serviceInfoEntity;
                 }
             }else throw new HttpErrorException(r);
         }),consumer);

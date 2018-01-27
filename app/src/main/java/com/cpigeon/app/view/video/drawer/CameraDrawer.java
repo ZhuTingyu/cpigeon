@@ -2,6 +2,7 @@ package com.cpigeon.app.view.video.drawer;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.SurfaceTexture;
 import android.opengl.EGL14;
 import android.opengl.GLES11Ext;
@@ -9,6 +10,10 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
+import com.cpigeon.app.MyApp;
+import com.cpigeon.app.R;
+import com.cpigeon.app.utils.BitmapUtil;
+import com.cpigeon.app.utils.ScreenTool;
 import com.cpigeon.app.view.video.GetBitmap;
 import com.cpigeon.app.view.video.filter.AFilter;
 import com.cpigeon.app.view.video.filter.CameraFilter;
@@ -20,6 +25,7 @@ import com.cpigeon.app.view.video.gpufilter.filter.MagicBeautyFilter;
 import com.cpigeon.app.view.video.record.video.TextureMovieEncoder;
 import com.cpigeon.app.view.video.utils.EasyGlUtils;
 import com.cpigeon.app.view.video.utils.MatrixUtils;
+import com.cpigeon.app.view.video.utils.SingleBitmap;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -87,6 +93,7 @@ public class CameraDrawer implements GLSurfaceView.Renderer {
     private float[] SM = new float[16];     //用于显示的变换矩阵
 
     private Resources resources;
+    //SingleBitmap singleBitmap;
 
 
     public CameraDrawer(Resources resources) {
@@ -108,6 +115,8 @@ public class CameraDrawer implements GLSurfaceView.Renderer {
 
 
         recordingEnabled = false;
+        //singleBitmap = SingleBitmap.getSingleBitmap();
+        waterMarkFilter = new WaterMarkFilter(resources);
     }
 
     private void addFilter(AFilter filter) {
@@ -185,6 +194,7 @@ public class CameraDrawer implements GLSurfaceView.Renderer {
     WaterMarkFilter waterMarkFilter;
 
     public Bitmap mBitmaps;
+    public Bitmap mBitmaps2;
 
     /*public GetBitmap getBitmap = new GetBitmap() {
         @Override
@@ -197,7 +207,7 @@ public class CameraDrawer implements GLSurfaceView.Renderer {
         }
     };*/
 
-    public void setBitmap(Bitmap bitmap){
+    public void setBitmap(Bitmap bitmap) {
         mBitmaps = bitmap;
     }
 
@@ -209,27 +219,27 @@ public class CameraDrawer implements GLSurfaceView.Renderer {
 
         if (waterMarkFilter != null && mBitmaps != null) {
 
-
             mBeFilter.removeFilter(waterMarkFilter);
-            waterMarkFilter = new WaterMarkFilter(resources);
 //            Bitmap bitmap = BitmapFactory.decodeResource(resources, R.mipmap.watermark);
 //                    String img_path = MyApplication.getContext().getExternalFilesDir(Environment.DIRECTORY_DCIM).getPath() + "video_watermark" + ".jpeg";
 //                    Bitmap bitmap = BitmapFactory.decodeFile(img_path);
 
             waterMarkFilter.setWaterMark(mBitmaps);
-            waterMarkFilter.setPosition(0, 0, mPreviewWidth, mPreviewHeight);
+            waterMarkFilter.setPosition(0, mPreviewHeight - mBitmaps.getHeight()
+                    ,mBitmaps.getWidth(), mBitmaps.getHeight());
             addFilter(waterMarkFilter);
 
 
         } else if (mBitmaps != null) {
-            waterMarkFilter = new WaterMarkFilter(resources);
+            //waterMarkFilter = new WaterMarkFilter(resources);
 //            Bitmap bitmap = BitmapFactory.decodeResource(resources, R.mipmap.watermark);
 
 
 //            String img_path = MyApplication.getContext().getExternalFilesDir(Environment.DIRECTORY_DCIM).getPath() + "video_watermark" + ".jpeg";
 //            Bitmap bitmap = BitmapFactory.decodeFile(img_path);
             waterMarkFilter.setWaterMark(mBitmaps);
-            waterMarkFilter.setPosition(0, 0, mPreviewWidth, mPreviewHeight);
+            waterMarkFilter.setPosition(0, mPreviewHeight - mBitmaps.getHeight()
+                    , ScreenTool.getScreenWidth(MyApp.getInstance().getBaseContext()), mBitmaps.getHeight());
             addFilter(waterMarkFilter);
         }
 

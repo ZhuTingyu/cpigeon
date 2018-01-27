@@ -114,7 +114,7 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre> {
                     ToastUtil.showShortToast(getActivity(), msg);
                     viewHolder.dialog.closeDialog();
                     mPresenter.newsDetailsEntity.count += 1;
-                    viewHolder.bindData(mPresenter.newsDetailsEntity);
+                    viewHolder.bindData(mPresenter.newsDetailsEntity,false);
                 });
 
             }
@@ -133,7 +133,7 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre> {
                         mPresenter.newsDetailsEntity.priase -= 1;
                         mPresenter.newsDetailsEntity.setCancelThumb();
                     }
-                    viewHolder.bindData(mPresenter.newsDetailsEntity);
+                    viewHolder.bindData(mPresenter.newsDetailsEntity, false);
                 });
             }
 
@@ -156,7 +156,7 @@ public class NewsDetailsActivity extends BaseWebViewActivity<NewsDetailsPre> {
                 title.setText(newsDetailsEntity.title);
                 introduce.setText(newsDetailsEntity.author + "  " + newsDetailsEntity.time + "  " +
                         "浏览" + newsDetailsEntity.hits + "次");
-                viewHolder.bindData(newsDetailsEntity);
+                viewHolder.bindData(newsDetailsEntity, true);
                 String css = "<style type=\"text/css\"></style>";
                 String html = "<html><header><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no>" + css + "</header>" + "<body>" + newsDetailsEntity.content + "</body>" + "</html>";
                 loadWebByHtml(html);

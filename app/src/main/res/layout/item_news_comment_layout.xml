@@ -54,17 +54,35 @@
             tools:text="20" />
 
 
-        <TextView
-            android:id="@+id/thumb"
+
+
+        <LinearLayout
+            android:id="@+id/ll_thumb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/comment"
-            android:layout_marginRight="@dimen/big_large_horizontal_margin"
-            android:drawableLeft="@mipmap/ic_thumbs_not_up"
-            android:drawablePadding="@dimen/small_horizontal_margin"
+            android:orientation="horizontal"
             android:layout_centerVertical="true"
-            android:textSize="14dp"
-            tools:text="20" />
+            android:layout_toLeftOf="@+id/comment"
+            android:layout_marginRight="32dp">
+
+            <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/image_thumb"
+                android:layout_marginRight="6dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/ic_thumbs_not_up"/>
+
+
+            <TextView
+                android:id="@+id/thumb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_color_4d4d4d"
+                android:textSize="14dp"
+                tools:text="20" />
+
+        </LinearLayout>
 
     </RelativeLayout>
     

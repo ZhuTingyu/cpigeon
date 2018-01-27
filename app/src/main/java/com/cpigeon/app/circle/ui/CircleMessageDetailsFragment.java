@@ -259,7 +259,7 @@ public class CircleMessageDetailsFragment extends BaseMVPFragment<CircleMessageP
          * 点赞评论
          */
         CircleMessageImagesAdapter finalImagesAdapter1 = adapter;
-        SocialSnsViewHolder socialSnsviewHolder = new SocialSnsViewHolder(getActivity(),holder.getView(R.id.social_sns),goodView,"回复:"+entity.getUserinfo().getNickname());
+        SocialSnsViewHolder socialSnsviewHolder = new SocialSnsViewHolder(getActivity(),holder.getView(R.id.social_sns),"回复:"+entity.getUserinfo().getNickname());
         socialSnsviewHolder.setOnSocialListener(new SocialSnsViewHolder.OnSocialListener() {
             @Override
             public void thumb(View view) {

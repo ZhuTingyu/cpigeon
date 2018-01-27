@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
+import com.cpigeon.app.entity.FootSearchServiceInfoEntity;
 import com.cpigeon.app.modular.footsearch.presenter.FootSearchPre;
 import com.cpigeon.app.modular.order.view.activity.OpenServiceActivity;
 import com.cpigeon.app.utils.DateTool;
@@ -112,6 +113,11 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> {
 
         searchBtn.setOnClickListener(v -> {
             mPresenter.searchFoot(s -> {
+                if(StringValid.isStringValid(mPresenter.serviceInfoEntity.brief)){
+                    mPresenter.serviceInfoEntity.numbers --;
+                    remark.setText(getString(R.string.string_foot_search_remark,mPresenter.serviceInfoEntity.packageX,mPresenter.serviceInfoEntity.brief,String.valueOf(mPresenter.serviceInfoEntity.numbers)));
+                    count.setText(getString(R.string.string_foot_search_count, String.valueOf(mPresenter.serviceInfoEntity.numbers)));
+                }
                 hideLoading();
                 IntentBuilder.Builder()
                         .putParcelableArrayListExtra(IntentBuilder.KEY_DATA, (ArrayList<? extends Parcelable>) s)

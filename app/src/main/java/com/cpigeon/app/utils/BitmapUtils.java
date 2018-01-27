@@ -961,8 +961,7 @@ public class BitmapUtils {
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
         view.buildDrawingCache();
-        Bitmap bitmap = view.getDrawingCache();
-        return bitmap;
+        return view.getDrawingCache();
     }
 
     /**

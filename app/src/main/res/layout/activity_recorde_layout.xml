@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -38,13 +39,49 @@
             app:focus_focusing_id="@mipmap/focus_focusing"
             app:focus_success_id="@mipmap/focus_focused" />
 
-        <include
+        <RelativeLayout
             android:id="@+id/water_layout"
-            layout="@layout/water_push_circle_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true" />
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:layout_width="200dp"
+            android:layout_height="50dp">
+
+            <RelativeLayout
+                android:id="@+id/rl1"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/time"
+                    tools:text="100"
+                    android:textColor="@color/white"
+                    android:textSize="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/location"
+                    tools:text="成都市四川省"
+                    android:textSize="12dp"
+                    android:layout_below="@+id/time"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+            <ImageView
+                android:id="@+id/image"
+                android:layout_alignParentBottom="true"
+                android:layout_toLeftOf="@id/rl1"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:alpha="0.6"
+                android:src="@mipmap/water_lcon"/>
+        </RelativeLayout>
 
         <FrameLayout
             android:layout_width="40dp"
@@ -76,7 +113,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true">
-
             <include layout="@layout/layout_water1" />
         </LinearLayout>
 

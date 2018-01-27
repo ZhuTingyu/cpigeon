@@ -8,9 +8,12 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseQuickAdapter;
 import com.cpigeon.app.base.BaseViewHolder;
@@ -241,7 +244,7 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
         /**
          * 点赞评论
          */
-        SocialSnsViewHolder socialSnsviewHolder = new SocialSnsViewHolder(activity,holder.getView(R.id.social_sns),goodView,"回复:"+item.getUserinfo().getNickname());
+        SocialSnsViewHolder socialSnsviewHolder = new SocialSnsViewHolder(activity,holder.getView(R.id.social_sns),"回复:"+item.getUserinfo().getNickname());
         CircleMessageImagesAdapter finalImagesAdapter1 = imagesAdapter;
         socialSnsviewHolder.setOnSocialListener(new SocialSnsViewHolder.OnSocialListener() {
             @Override

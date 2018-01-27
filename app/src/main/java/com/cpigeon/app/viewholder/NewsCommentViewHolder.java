@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseViewHolder;
 import com.cpigeon.app.entity.NewsDetailsEntity;
@@ -32,9 +35,13 @@ public class NewsCommentViewHolder extends BaseViewHolder {
     TextView thumb;
     TextView comment;
 
+    ImageView imgThumb;
+
 
     private OnViewClickListener listener;
     public InputCommentDialog dialog;
+    Animation animation;
+
 
 
     public NewsCommentViewHolder(View itemView, Activity activity) {
@@ -42,7 +49,9 @@ public class NewsCommentViewHolder extends BaseViewHolder {
         input = getView(R.id.input);
         thumb = getView(R.id.thumb);
         comment = getView(R.id.comment);
+        imgThumb = getView(R.id.image_thumb);
         this.activity = activity;
+        animation = AnimationUtils.loadAnimation(MyApp.getInstance().getBaseContext(), R.anim.anim_sign_box_rock);
         bindUi();
     }
 
@@ -56,7 +65,7 @@ public class NewsCommentViewHolder extends BaseViewHolder {
             dialog.show(activity.getFragmentManager(), "InputComment");
         });
 
-        thumb.setOnClickListener(v -> {
+        getView(R.id.ll_thumb).setOnClickListener(v -> {
             listener.thumbClick();
         });
 
@@ -66,7 +75,7 @@ public class NewsCommentViewHolder extends BaseViewHolder {
 
     }
 
-    public void bindData(NewsDetailsEntity entity) {
+    public void bindData(NewsDetailsEntity entity, boolean isFirst) {
         thumb.setText(String.valueOf(entity.priase));
         comment.setText(String.valueOf(entity.count));
 
@@ -80,10 +89,13 @@ public class NewsCommentViewHolder extends BaseViewHolder {
 
         if(entity.isThumb()){
             thumb.setTextColor(activity.getResources().getColor(R.color.colorPrimary));
-            setViewDrawableLeft(thumb, R.mipmap.ic_thumbs_up);
+            imgThumb.setImageResource(R.mipmap.ic_thumbs_up);
+            if(!isFirst){
+                imgThumb.startAnimation(animation);
+            }
         }else {
             thumb.setTextColor(activity.getResources().getColor(R.color.text_color_4d4d4d));
-            setViewDrawableLeft(thumb, R.mipmap.ic_thumbs_not_up);
+            imgThumb.setImageResource(R.mipmap.ic_thumbs_not_up);
         }
 
         if(!entity.iscomment){

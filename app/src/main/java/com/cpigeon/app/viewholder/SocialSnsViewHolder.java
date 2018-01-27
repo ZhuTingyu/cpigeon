@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 
+import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseViewHolder;
 import com.cpigeon.app.pigeonnews.ui.InputCommentDialog;
@@ -23,11 +26,12 @@ public class SocialSnsViewHolder extends BaseViewHolder{
 
     OnSocialListener listener;
 
-    GoodView goodView;
 
     Activity activity;
 
     String hint;
+    Animation animation;
+
 
     public interface OnSocialListener{
         void thumb(View imageView);
@@ -35,14 +39,15 @@ public class SocialSnsViewHolder extends BaseViewHolder{
         void share(View imageView);
     }
 
-    public SocialSnsViewHolder(Activity activity, View itemView, GoodView goodView, String hint) {
+    public SocialSnsViewHolder(Activity activity, View itemView, String hint) {
         super(itemView);
         this.activity = activity;
-        this.goodView = goodView;
         this.hint = hint;
         thumb = getView(R.id.thumb);
         comment = getView(R.id.comment);
         share = getView(R.id.share);
+        animation = AnimationUtils.loadAnimation(MyApp.getInstance().getBaseContext(), R.anim.anim_sign_box_rock);
+
         bindUi();
     }
 
@@ -74,13 +79,9 @@ public class SocialSnsViewHolder extends BaseViewHolder{
     }
 
     public void setThumbAnimation(boolean isThumb){
-
         if(isThumb){
-            goodView.setImage(getDrawable(R.mipmap.ic_thumbs_up));
-        }else {
-            goodView.setImage(getDrawable(R.mipmap.ic_thumbs_not_up));
+            thumb.startAnimation(animation);
         }
-        goodView.show(thumb);
     }
 
     public void setComment(boolean isComment){

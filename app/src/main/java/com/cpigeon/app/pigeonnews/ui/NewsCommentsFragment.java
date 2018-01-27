@@ -3,8 +3,11 @@ package com.cpigeon.app.pigeonnews.ui;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 
+import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.NewsCommentEntity;
@@ -25,6 +28,8 @@ public class NewsCommentsFragment extends BaseMVPFragment<NewsCommentsPre> {
     RecyclerView recyclerView;
     NewsCommentAdapter adapter;
     String usersNickName;
+    Animation animation;
+
 
     @Override
     protected NewsCommentsPre initPresenter() {
@@ -43,6 +48,8 @@ public class NewsCommentsFragment extends BaseMVPFragment<NewsCommentsPre> {
 
     @Override
     public void finishCreateView(Bundle state) {
+        animation = AnimationUtils.loadAnimation(MyApp.getInstance().getBaseContext(), R.anim.anim_sign_box_rock);
+
         getNickName();
         setTitle("全部评论");
         NewsCommentViewHolder viewHolder = new NewsCommentViewHolder(findViewById(R.id.bottom_comment), getActivity());
@@ -74,7 +81,7 @@ public class NewsCommentsFragment extends BaseMVPFragment<NewsCommentsPre> {
         recyclerView = findViewById(R.id.list);
         addItemDecorationLine(recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsCommentAdapter(getContext(),mPresenter);
+        adapter = new NewsCommentAdapter(mPresenter);
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             NewsCommentEntity entity = adapter.getItem(position);
             InputCommentDialog dialog = new InputCommentDialog();
@@ -111,6 +118,7 @@ public class NewsCommentsFragment extends BaseMVPFragment<NewsCommentsPre> {
                         entity.setCancelThumb();
                     }
                     adapter.notifyItemChanged(position);
+                    adapter.getViewByPosition(position,R.id.thumb).startAnimation(animation);
                 });
             }
 

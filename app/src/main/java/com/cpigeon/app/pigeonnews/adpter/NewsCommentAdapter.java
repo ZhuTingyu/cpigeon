@@ -4,9 +4,12 @@ import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseQuickAdapter;
 import com.cpigeon.app.base.BaseViewHolder;
@@ -29,12 +32,10 @@ public class NewsCommentAdapter extends BaseQuickAdapter<NewsCommentEntity, Base
     private OnCommunicationListener listener;
 
     NewsCommentsPre mPresenter;
-    Context context;
 
-    public NewsCommentAdapter(Context context, NewsCommentsPre commentsPre) {
+    public NewsCommentAdapter(NewsCommentsPre commentsPre) {
         super(R.layout.item_news_comment_layout, Lists.newArrayList());
         mPresenter = commentsPre;
-        this.context = context;
     }
 
     @Override
@@ -50,7 +51,7 @@ public class NewsCommentAdapter extends BaseQuickAdapter<NewsCommentEntity, Base
             listener.comment(item, holder.getAdapterPosition());
         });
 
-        thumb.setOnClickListener(v -> {
+        holder.getView(R.id.ll_thumb).setOnClickListener(v -> {
             listener.thumb(item, holder.getAdapterPosition());
         });
 
