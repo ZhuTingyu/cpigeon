@@ -14,6 +14,7 @@ import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.GXTMessagePrice;
 import com.cpigeon.app.message.ui.order.ui.presenter.MessageCreateOrderPre;
+import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
@@ -87,7 +88,7 @@ public class CreateMessageOrderFragment extends BaseMVPFragment<MessageCreateOrd
 
         btn.setOnClickListener(v -> {
             if(mPresenter.messageCount < 1){
-                ToastUtil.showLongToast(getContext(), "请确认充值的数量");
+                DialogUtils.createHintDialog(getActivity(), "请确认充值的数量");
                 return;
             }
             showLoading("正在创建订单");

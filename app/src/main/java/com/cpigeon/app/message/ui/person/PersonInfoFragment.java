@@ -273,6 +273,7 @@ public class PersonInfoFragment extends BaseMVPFragment<PersonSignPre> {
                                                 IntentBuilder.Builder()
                                                         .putExtra(IntentBuilder.KEY_DATA, order.data)
                                                         .startParentActivity(getActivity(), OrderPayFragment.class);
+                                                finish();
                                             }else error(order.msg);
                                         });
                                     });

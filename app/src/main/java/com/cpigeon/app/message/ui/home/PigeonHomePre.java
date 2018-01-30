@@ -23,6 +23,8 @@ public class PigeonHomePre extends BasePresenter {
     public static final int STATE_PERSON_INFO_NOT_NORMAL = 10013;
     public static final int STATE_NOT_PAY = 10014;
 
+    public UserGXTEntity userGXTEntity;
+
     public PigeonHomePre(IView mView) {
         super(mView);
     }
@@ -34,6 +36,7 @@ public class PigeonHomePre extends BasePresenter {
 
     public void getUserInfo(Consumer<ApiResponse<UserGXTEntity>> consumer) {
         submitRequestThrowError(UserGXTModel.getUserInfo(userId).map(r -> {
+            userGXTEntity = r.data;
             return r;
         }), consumer);
     }

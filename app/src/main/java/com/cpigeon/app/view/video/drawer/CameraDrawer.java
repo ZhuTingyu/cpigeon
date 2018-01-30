@@ -92,7 +92,7 @@ public class CameraDrawer implements GLSurfaceView.Renderer {
 
     private float[] SM = new float[16];     //用于显示的变换矩阵
 
-    private Resources resources;
+    private static Resources resources;
     //SingleBitmap singleBitmap;
 
 
@@ -194,7 +194,6 @@ public class CameraDrawer implements GLSurfaceView.Renderer {
     WaterMarkFilter waterMarkFilter;
 
     public Bitmap mBitmaps;
-    public Bitmap mBitmaps2;
 
     /*public GetBitmap getBitmap = new GetBitmap() {
         @Override
@@ -209,6 +208,23 @@ public class CameraDrawer implements GLSurfaceView.Renderer {
 
     public void setBitmap(Bitmap bitmap) {
         mBitmaps = bitmap;
+        if (waterMarkFilter != null) {
+            mBeFilter.removeFilter(waterMarkFilter);
+            waterMarkFilter = new WaterMarkFilter(CameraDrawer.resources);
+            if (mBitmaps != null) {
+                waterMarkFilter.setWaterMark(mBitmaps);
+                waterMarkFilter.setPosition(0, mPreviewHeight - mBitmaps.getHeight(), 0, 0);
+            }
+        } else {
+            waterMarkFilter = new WaterMarkFilter(CameraDrawer.resources);
+
+            if (mBitmaps != null) {
+                waterMarkFilter.setWaterMark(mBitmaps);
+                waterMarkFilter.setPosition(0, mPreviewHeight - mBitmaps.getHeight(), 0, 0);
+            }
+        }
+
+        addFilter(waterMarkFilter);
     }
 
     @Override
@@ -216,7 +232,7 @@ public class CameraDrawer implements GLSurfaceView.Renderer {
         Log.d(TAG, "onDrawFrame: ");
         /**更新界面中的数据*/
         mSurfaceTextrue.updateTexImage();
-
+/*
         if (waterMarkFilter != null && mBitmaps != null) {
 
             mBeFilter.removeFilter(waterMarkFilter);
@@ -241,7 +257,7 @@ public class CameraDrawer implements GLSurfaceView.Renderer {
             waterMarkFilter.setPosition(0, mPreviewHeight - mBitmaps.getHeight()
                     , ScreenTool.getScreenWidth(MyApp.getInstance().getBaseContext()), mBitmaps.getHeight());
             addFilter(waterMarkFilter);
-        }
+        }*/
 
         EasyGlUtils.bindFrameTexture(fFrame[0], fTexture[0]);
         GLES20.glViewport(0, 0, mPreviewWidth, mPreviewHeight);

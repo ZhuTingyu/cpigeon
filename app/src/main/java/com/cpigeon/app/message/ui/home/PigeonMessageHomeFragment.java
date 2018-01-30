@@ -74,7 +74,9 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             if (0 == position) {
                 //发送消息
-                IntentBuilder.Builder().startParentActivity(getActivity(), SendMessageFragment.class);
+                IntentBuilder.Builder()
+                        .putExtra(IntentBuilder.KEY_DATA, mPresenter.userGXTEntity)
+                        .startParentActivity(getActivity(), SendMessageFragment.class);
             } else if (1 == position) {
                 //电话簿
                 IntentBuilder.Builder().startParentActivity(getActivity(), TelephoneBookFragment.class);

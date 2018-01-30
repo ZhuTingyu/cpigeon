@@ -136,5 +136,7 @@
 
     <string name="string_text_not_show">不显示</string>
 
+    <string name="string_pigeon_message_balance_count">剩余短信条数：%1$s</string>
+
 
 </resources>

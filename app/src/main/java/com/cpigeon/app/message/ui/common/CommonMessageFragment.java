@@ -95,11 +95,18 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
         bottomText2.setVisibility(View.VISIBLE);
         bottomText2.setText("确定");
         bottomText2.setOnClickListener(v -> {
-            Intent intent = new Intent();
-            intent.putExtra(IntentBuilder.KEY_DATA
-                    , adapter.getItem(adapter.getSelectedPotion().get(0)).dxnr);
-            getActivity().setResult(0, intent);
-            finish();
+
+            if(!adapter.getSelectedPotion().isEmpty()){
+                Intent intent = new Intent();
+                intent.putExtra(IntentBuilder.KEY_DATA
+                        , adapter.getItem(adapter.getSelectedPotion().get(0)).dxnr);
+                getActivity().setResult(0, intent);
+                finish();
+            }else {
+                DialogUtils.createHintDialog(getContext(),"请至少选择一个");
+            }
+
+
         });
     }
 

@@ -9,6 +9,7 @@ import com.cpigeon.app.entity.PersonInfoEntity;
 import com.cpigeon.app.message.ui.order.ui.OrderModel;
 import com.cpigeon.app.message.ui.person.PersonInfoFragment;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.ToastUtil;
@@ -69,23 +70,23 @@ public class PersonSignPre extends BasePresenter {
 
     public void uploadPersonInfo(Consumer<ApiResponse> consumer) {
         if(!StringValid.isStringValid(personName)){
-            ToastUtil.showLongToast(getActivity(),"请输入名字");
+            DialogUtils.createHintDialog(getActivity(), "请输入名字");
             return;
         }
 
         if(!StringValid.phoneNumberValid(personPhoneNumber)){
-            ToastUtil.showLongToast(getActivity(),"手机号码无效");
+            DialogUtils.createHintDialog(getActivity(), "手机号码无效");
             return;
         }
 
         if(!StringValid.isStringValid(personWork)){
-            ToastUtil.showLongToast(getActivity(),"请输入单位名称");
+            DialogUtils.createHintDialog(getActivity(), "请输入单位名称");
             return;
         }
 
         if(type == PersonInfoFragment.TYPE_UPLOAD_INFO){
             if(!StringValid.isStringValid(sign)){
-                ToastUtil.showLongToast(getActivity(),"请输入签名");
+                DialogUtils.createHintDialog(getActivity(), "请输入签名");
                 return;
             }
         }

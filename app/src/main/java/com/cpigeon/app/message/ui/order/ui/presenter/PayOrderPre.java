@@ -9,6 +9,7 @@ import com.cpigeon.app.entity.UserBalanceEntity;
 import com.cpigeon.app.entity.WeiXinPayEntity;
 import com.cpigeon.app.message.ui.order.ui.OrderModel;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.SendWX;
 import com.cpigeon.app.utils.StringValid;
@@ -44,7 +45,7 @@ public class PayOrderPre extends BasePresenter {
     public void payOrderByBalance(Consumer<ApiResponse> consumer){
 
         if((!StringValid.isStringValid(password) || password.length() < 6)){
-            ToastUtil.showLongToast(getActivity(),"请输出密码（6-12位）");
+            DialogUtils.createHintDialog(getActivity(),"请输入密码（6-12位）");
             return;
         }
 

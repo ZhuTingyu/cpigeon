@@ -12,6 +12,7 @@ import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.ContactsGroupEntity;
+import com.cpigeon.app.entity.UserGXTEntity;
 import com.cpigeon.app.message.ui.common.CommonMessageFragment;
 import com.cpigeon.app.message.ui.contacts.SelectContactsFragment;
 import com.cpigeon.app.message.ui.modifysign.ModifySignFragment;
@@ -41,8 +42,11 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
     TextView btnModifySign;
     TextView contactsNumber;
     TextView tvSign;
+    TextView tvBlanceCount;
 
     String sign;
+
+    UserGXTEntity userGXTEntity;
 
 
     @Override
@@ -58,6 +62,7 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
     @Override
     public void finishCreateView(Bundle state) {
         setTitle("发送短信");
+        userGXTEntity = getActivity().getIntent().getParcelableExtra(IntentBuilder.KEY_DATA);
         toolbar.getMenu().clear();
         toolbar.getMenu().add("充值短信")
                 .setOnMenuItemClickListener(item -> {
@@ -85,6 +90,9 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
         btnModifySign = (TextView) findViewById(R.id.btn_modify_sign);
         contactsNumber = findViewById(R.id.number);
         tvSign = findViewById(R.id.text2);
+        tvBlanceCount = findViewById(R.id.balance);
+
+        tvBlanceCount.setText(getString(R.string.string_pigeon_message_balance_count, userGXTEntity.syts));
 
         bindUi(RxUtils.textChanges(edContent),mPresenter.setMessageContent());
 

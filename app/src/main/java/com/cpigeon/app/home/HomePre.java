@@ -11,6 +11,7 @@ import com.cpigeon.app.entity.HomeAdEntity;
 import com.cpigeon.app.entity.NewsEntity;
 import com.cpigeon.app.modular.home.model.bean.HomeAd;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.http.HttpErrorException;
 
@@ -76,7 +77,7 @@ public class HomePre extends BasePresenter {
 
     public void followFirend(Consumer<String> consumer){
         if(userId == 0) {
-            ToastUtil.showLongToast(getActivity(), "请先登录！");
+            DialogUtils.createHintDialog(getActivity(), "请先登录！");
             return;
         }
         submitRequestThrowError(CircleModel.circleFollow(userId, firendId, 1).map(r -> {

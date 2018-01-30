@@ -16,6 +16,11 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class DialogUtils {
 
     public static void createDialog(Context context, String title, String content, String left) {
+
+        if(content == null){
+            return;
+        }
+
         SweetAlertDialog dialogPrompt;
         dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);
         dialogPrompt.setTitleText(title)
@@ -25,6 +30,9 @@ public class DialogUtils {
 
     public static void createDialog(Context context, String title, String content, String right,
                                     SweetAlertDialog.OnSweetClickListener rightListener) {
+        if(content == null){
+            return;
+        }
         SweetAlertDialog dialogPrompt;
         dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);
         dialogPrompt.setTitleText(title)
@@ -35,6 +43,11 @@ public class DialogUtils {
 
     public static void createDialog(Context context, String content,
                                     SweetAlertDialog.OnSweetClickListener rightListener) {
+
+        if(content == null){
+            return;
+        }
+
         SweetAlertDialog dialogPrompt;
         dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);
         dialogPrompt.setTitleText("提示")
@@ -45,6 +58,10 @@ public class DialogUtils {
 
     public static void createDialogWithLeft(Context context, String content,
                                             SweetAlertDialog.OnSweetClickListener rightListener) {
+
+        if(content == null){
+            return;
+        }
         SweetAlertDialog dialogPrompt;
         dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);
         dialogPrompt.setCanceledOnTouchOutside(false);
@@ -62,6 +79,10 @@ public class DialogUtils {
     public static void createDialogWithLeft(Context context, String content,
                                             SweetAlertDialog.OnSweetClickListener leftListener,
                                             SweetAlertDialog.OnSweetClickListener rightListener) {
+
+        if(content == null){
+            return;
+        }
         SweetAlertDialog dialogPrompt;
         dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);
         dialogPrompt.setCanceledOnTouchOutside(false);
@@ -75,6 +96,7 @@ public class DialogUtils {
     }
 
     public static SweetAlertDialog createErrorDialog(Context context, String error) {
+
         SweetAlertDialog dialogPrompt;
         dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE);
         dialogPrompt.setTitleText("失败");
@@ -85,6 +107,11 @@ public class DialogUtils {
 
     public static void createDialog(Context context, String title, String content
             , @Nullable String left, String right, @Nullable SweetAlertDialog.OnSweetClickListener leftListener, @Nullable SweetAlertDialog.OnSweetClickListener rightListener) {
+
+
+        if(content == null){
+            return;
+        }
 
         SweetAlertDialog dialogPrompt;
         dialogPrompt = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE);

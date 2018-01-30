@@ -149,23 +149,32 @@
         android:background="@drawable/button_red_bg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/balance"
+        android:layout_marginTop="40dp"
+        android:layout_below="@id/btn_right"
+        android:textColor="@color/black"
+        tools:text="12314511235123"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 
     <TextView
         android:id="@+id/text2"
-        tools:text="@string/string_sign_info"
-        android:layout_below="@+id/btn_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/btn_left"
+        android:layout_below="@+id/balance"
+        android:layout_marginTop="32dp"
         android:textColor="@color/gray"
         android:textSize="12dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginLeft="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        tools:text="@string/string_sign_info" />
 
     <TextView
         android:id="@+id/btn_modify_sign"
         android:text="修改签名"
-        android:layout_below="@+id/btn_left"
+        android:layout_below="@+id/balance"
         android:textColor="@color/colorGreen"
         android:layout_alignParentRight="true"
         android:textSize="12dp"
@@ -173,6 +182,8 @@
         android:layout_marginEnd="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+
 
 
 

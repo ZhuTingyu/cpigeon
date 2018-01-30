@@ -8,6 +8,7 @@ import com.cpigeon.app.commonstandard.view.activity.IView;
 import com.cpigeon.app.entity.ContactsEntity;
 import com.cpigeon.app.message.ui.contacts.ContactsModel;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.ToastUtil;
@@ -48,17 +49,17 @@ public class ContactsInfoPre extends BasePresenter{
     public void addContacts(Consumer<ApiResponse> consumer){
 
         if(!StringValid.isStringValid(name)){
-            ToastUtil.showLongToast(getActivity(),"姓名不能为空");
+            DialogUtils.createHintDialog(getActivity(),"姓名不能为空");
             return;
         }
 
         if(!StringValid.phoneNumberValid(phoneNumber)){
-            ToastUtil.showLongToast(getActivity(),"手机号码无效");
+            DialogUtils.createHintDialog(getActivity(),"手机号码无效");
             return;
         }
 
         if(groupId == 0){
-            ToastUtil.showLongToast(getActivity(),"请选择分组");
+            DialogUtils.createHintDialog(getActivity(),"请选择分组");
             return;
         }
 
@@ -70,17 +71,17 @@ public class ContactsInfoPre extends BasePresenter{
     public void modifyContacts(Consumer<String> consumer){
 
         if(!StringValid.isStringValid(name)){
-            ToastUtil.showLongToast(getActivity(),"姓名不能为空");
+            DialogUtils.createHintDialog(getActivity(),"姓名不能为空");
             return;
         }
 
         if(!StringValid.phoneNumberValid(phoneNumber)){
-            ToastUtil.showLongToast(getActivity(),"手机号码无效");
+            DialogUtils.createHintDialog(getActivity(),"手机号码无效");
             return;
         }
 
         if(groupId == 0){
-            ToastUtil.showLongToast(getActivity(),"请选择分组");
+            DialogUtils.createHintDialog(getActivity(),"请选择分组");
             return;
         }
 

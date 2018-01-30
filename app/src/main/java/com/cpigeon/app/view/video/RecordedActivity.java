@@ -39,6 +39,7 @@ import com.cpigeon.app.utils.BitmapUtils;
 import com.cpigeon.app.utils.DateTool;
 import com.cpigeon.app.utils.DateUtils;
 import com.cpigeon.app.utils.IntentBuilder;
+import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.ScreenTool;
 import com.cpigeon.app.utils.cache.CacheManager;
 import com.cpigeon.app.utils.http.CommonUitls;
@@ -57,7 +58,7 @@ import java.util.concurrent.Executors;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-
+import io.reactivex.disposables.Disposable;
 
 
 /**
@@ -111,6 +112,7 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
     View water;
     TextView waterTime;
     TextView waterLocation;
+    Disposable disposable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -154,8 +156,15 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
 
 
         //开启线程，持续传递Bitmap,显示水印
-        mThread = new Thread(mRunnable);
-        mThread.start();
+        /*mThread = new Thread(mRunnable);
+        mThread.start();*/
+
+        disposable = RxUtils.rollPoling(1, 1000, aLong -> {
+
+            waterTime.setText(DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_DATETIME));
+
+            mCameraView.mCameraDrawer.setBitmap(BitmapUtils.getViewBitmap(water));
+        });
 
         locationManager.setLocationListener(aMapLocation -> {
             waterLocation.setText(aMapLocation.getProvince() + aMapLocation.getCity() + aMapLocation.getDistrict() + aMapLocation.getStreet());
@@ -213,12 +222,12 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
             mLocationClient.onDestroy();//销毁定位客户端，同时销毁本地定位服务。
         }
 
-        if (mThread != null && mThread.isAlive()) {//如果现在正在执行
+        /*if (mThread != null && mThread.isAlive()) {//如果现在正在执行
             mThread.interrupt();//线程结束
 //            mThread.stop();
             Log.d(TAG, "run: 页面销毁");
 //            mThread.destroy();
-        }
+        }*/
 
 //        if (mCameraView.mCamera.mCamera != null) {
 //            mCameraView.mCamera.mCamera.release();
@@ -231,6 +240,7 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
         mCameraView.destroyDrawingCache();
 
         mUnbinder.unbind();//解除奶油刀绑定
+        disposable.dispose();
     }
 
 
@@ -364,7 +374,7 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
     /**
      * 水印bitmap传递到相机线程
      */
-    private Thread mThread;
+   /* private Thread mThread;
     private Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
@@ -409,10 +419,10 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
 
                             //时间
                             waterTime.setText(DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_DATETIME));
-                           /* Log.d(TAG, (DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_DATETIME)));
-                            *//*String img_path = MyApp.getInstance().getBaseContext().getExternalFilesDir(Environment.DIRECTORY_DCIM).getPath() + "video_watermark" + ".jpeg";
-//                            Bitmap bitmap = BitmapFactory.decodeFile(img_path);*//*
-                            Log.d(TAG, waterTime.getText().toString());*/
+                           *//* Log.d(TAG, (DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_DATETIME)));
+                            *//**//*String img_path = MyApp.getInstance().getBaseContext().getExternalFilesDir(Environment.DIRECTORY_DCIM).getPath() + "video_watermark" + ".jpeg";
+//                            Bitmap bitmap = BitmapFactory.decodeFile(img_path);*//**//*
+                            Log.d(TAG, waterTime.getText().toString());*//*
 //                        Bitmap viewWatermarkBitmap1 = BitmapUtils.getViewBitmap(ac_time);//控件转化成有水印的bipmap
                             mCameraView.mCameraDrawer.setBitmap(BitmapUtils.getViewBitmap(water));
                         }
@@ -421,7 +431,7 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
                 });
             }
         }
-    };
+    };*/
 
 
     //-----------------------------------------------------定位相关（不动）------------------------------------------------------------------------
