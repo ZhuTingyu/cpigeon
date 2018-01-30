@@ -41,6 +41,7 @@
         android:layout_height="wrap_content"
         android:text="取消"
         android:paddingLeft="32dp"
+        android:textColor="@color/gray_m"
         android:paddingTop="8dp"
         android:paddingEnd="32dp"
         android:paddingBottom="8dp"

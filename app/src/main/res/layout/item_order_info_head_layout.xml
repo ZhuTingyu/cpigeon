@@ -10,9 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:padding="10dp"
-        android:orientation="vertical"
-        android:paddingTop="16dp">
+        android:padding="@dimen/big_large_vertical_margin"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"

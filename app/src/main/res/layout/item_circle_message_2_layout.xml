@@ -24,16 +24,17 @@
             <ImageView
                 android:id="@+id/head_img"
                 android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_height="match_parent"
                 android:src="@mipmap/head_image_default" />
 
             <TextView
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:textColor="#f46200"
-                android:textSize="16sp"
+                android:textSize="@dimen/medium_text_size"
+                android:layout_marginTop="2dp"
+                android:layout_alignParentTop="true"
                 tools:text="小朱"
                 android:layout_marginLeft="@dimen/large_horizontal_margin"
                 android:textStyle="bold"
@@ -49,6 +50,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_alignParentBottom="true"
                 tools:text="123123103123123"
+                android:layout_marginBottom="2dp"
                 android:textColor="#aaaaaa"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -66,9 +68,8 @@
                 android:layout_alignParentBottom="true"
                 android:layout_width="50dp"
                 android:layout_height="25dp"
-                android:layout_marginEnd="5dp"
-                android:src="@mipmap/ic_home_follow"
-                android:drawablePadding="5dp" />
+                android:layout_marginEnd="20dp"
+                android:src="@mipmap/ic_home_follow" />
 
         </RelativeLayout>
 

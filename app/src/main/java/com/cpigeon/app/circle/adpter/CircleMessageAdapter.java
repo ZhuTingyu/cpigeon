@@ -260,7 +260,6 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
                             item.getPraiseList().remove(position);
                         }
                         socialSnsviewHolder.setThumb(false);
-                        socialSnsviewHolder.setThumbAnimation(false);
                     }else {
                         CircleMessageEntity.PraiseListBean bean = new CircleMessageEntity.PraiseListBean();
                         bean.setIsPraise(1);

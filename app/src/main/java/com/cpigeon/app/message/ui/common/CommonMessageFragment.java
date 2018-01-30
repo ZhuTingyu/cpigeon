@@ -74,11 +74,14 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
         isSendMessage = getActivity().getIntent().getBooleanExtra(IntentBuilder.KEY_BOOLEAN, false);
         setTitle("短语库");
         initView();
-        setToolbarChooseMenu();
         if (!isSendMessage) {
+            setToolbarChooseMenu();
             setBottomViewAdd();
         } else {
             initSelectMessage();
+            adapter.setOnCheckboxClickListener(position -> {
+                adapter.setSingleItem(adapter.getItem(position), position);
+            });
         }
 
         showLoading();
@@ -174,7 +177,9 @@ public class CommonMessageFragment extends BaseMVPFragment<CommonMessageQPre> {
         mPresenter.getCommonList(commonEntities -> {
             hideLoading();
             adapter.setNewData(commonEntities);
-            hideLoading();
+            if(isSendMessage){
+                adapter.setImgChooseVisible(true);
+            }
         });
     }
 

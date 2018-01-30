@@ -71,6 +71,7 @@ public class CircleMessageDetailsFragment extends BaseMVPFragment<CircleMessageP
 
         View view  = findViewById(R.id.input_comment);
         findViewById(view, R.id.thumb).setVisibility(View.GONE);
+        findViewById(view, R.id.image_thumb).setVisibility(View.GONE);
         findViewById(view, R.id.comment).setVisibility(View.GONE);
         findViewById(R.id.comments).setVisibility(View.GONE);
         findViewById(R.id.tv_details).setVisibility(View.GONE);

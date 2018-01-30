@@ -242,7 +242,9 @@ public abstract class BasePageTurnFragment<Pre extends BasePresenter, Adapter ex
         if (getPageIndex() == 1 && (dataBeen == null || dataBeen.size() == 0)) {
             showEmptyData();
         } else {
-            mCustomEmptyView.setVisibility(View.GONE);
+            if(mCustomEmptyView != null){
+                mCustomEmptyView.setVisibility(View.GONE);
+            }
         }
         if (dataBeen != null)
             mAdapter.addData(dataBeen);

@@ -17,6 +17,7 @@ import com.cpigeon.app.entity.FootSearchServiceInfoEntity;
 import com.cpigeon.app.modular.footsearch.presenter.FootSearchPre;
 import com.cpigeon.app.modular.order.view.activity.OpenServiceActivity;
 import com.cpigeon.app.utils.DateTool;
+import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
@@ -119,9 +120,12 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> {
                     count.setText(getString(R.string.string_foot_search_count, String.valueOf(mPresenter.serviceInfoEntity.numbers)));
                 }
                 hideLoading();
-                IntentBuilder.Builder()
-                        .putParcelableArrayListExtra(IntentBuilder.KEY_DATA, (ArrayList<? extends Parcelable>) s)
-                        .startParentActivity(getActivity(), FootSearchResultFragment.class);
+                if(!s.isEmpty()){
+                    IntentBuilder.Builder()
+                            .putParcelableArrayListExtra(IntentBuilder.KEY_DATA, (ArrayList<? extends Parcelable>) s)
+                            .startParentActivity(getActivity(), FootSearchResultFragment.class);
+                }else DialogUtils.createHintDialog(getContext(),"没有搜索到相关信息");
+
             });
         });
 

@@ -51,6 +51,11 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <provider
+            android:name=".utils.VideoProvider"
+            android:authorities="com.myexampleapp.video.VideoProvider.files"
+            android:exported="false" />
+
         <meta-data android:name="android.max_aspect" android:value="2.1" />
 
         <!-- UMeng 配置 -->

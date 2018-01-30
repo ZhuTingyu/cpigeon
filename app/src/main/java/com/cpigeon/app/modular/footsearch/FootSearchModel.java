@@ -28,7 +28,7 @@ public class FootSearchModel {
                 .addBody("u", String.valueOf(userId))
                 .addBody("s", keyWord)
                 .addBody("y", year)
-                .addBody("t",String.valueOf(2))
+                .addBody("t",String.valueOf(1))
                 .request();
     }
     public static Observable<ApiResponse<List<FootSearchEntity>>> searchHistory (int page, int count){

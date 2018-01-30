@@ -38,6 +38,8 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
 
     private static final int CODE_AGREEMENT = 0x123;
+    private static final int CODE_SEND_MESSAGE = 0x234;
+
 
 
     RecyclerView recyclerView;
@@ -76,7 +78,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
                 //发送消息
                 IntentBuilder.Builder()
                         .putExtra(IntentBuilder.KEY_DATA, mPresenter.userGXTEntity)
-                        .startParentActivity(getActivity(), SendMessageFragment.class);
+                        .startParentActivity(getActivity(), SendMessageFragment.class, CODE_SEND_MESSAGE);
             } else if (1 == position) {
                 //电话簿
                 IntentBuilder.Builder().startParentActivity(getActivity(), TelephoneBookFragment.class);
@@ -242,6 +244,10 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
             if (data != null) {
                 initView();
                 dialogAgreement.dismiss();
+            }
+        }else if(requestCode == CODE_SEND_MESSAGE){
+            if(data != null){
+             getUserData();
             }
         }
     }

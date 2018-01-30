@@ -128,6 +128,9 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
                 hideLoading();
                 if(r.status){
                     ToastUtil.showLongToast(MyApp.getInstance().getBaseContext(),r.msg);
+                    Intent intent = new Intent();
+                    intent.putExtra(IntentBuilder.KEY_BOOLEAN, true);
+                    getActivity().setResult(0, intent);
                     finish();
                 }else {
                     showTips(r.msg, TipType.DialogError);

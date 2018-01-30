@@ -15,6 +15,7 @@ import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -75,7 +76,7 @@ public abstract class BaseFragment extends Fragment implements IView {
 
     protected boolean isBack = true;
 
-
+    private RecyclerView recyclerView;
 
     @Nullable
     @Override
@@ -127,6 +128,15 @@ public abstract class BaseFragment extends Fragment implements IView {
             refreshLayout.setEnabled(false);
         }
 
+        try {
+            recyclerView = findViewById(R.id.list);
+        }catch (Throwable e){
+
+        }
+
+        if(recyclerView != null){
+            ((DefaultItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        }
         finishCreateView(savedInstanceState);
     }
 

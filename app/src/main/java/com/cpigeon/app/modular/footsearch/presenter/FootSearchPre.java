@@ -16,6 +16,7 @@ import com.cpigeon.app.modular.footsearch.model.dao.ICpigeonServicesInfo;
 import com.cpigeon.app.modular.footsearch.model.daoimpl.CpigeonServicesInfoImpl;
 import com.cpigeon.app.modular.usercenter.model.bean.CpigeonUserServiceInfo;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.http.HttpErrorException;
@@ -59,6 +60,13 @@ public class FootSearchPre extends BasePresenter {
             return;
         }
 
+        if(StringValid.isStringValid(serviceInfoEntity.brief)){
+            if(serviceInfoEntity.numbers == 0){
+                DialogUtils.createHintDialog(getActivity(), "您当前剩余查询次数为0");
+                return;
+            }
+        }
+
         getBaseFragment().showLoading();
 
         submitRequestThrowError(FootSearchModel.searchFoot(keyWord,year,userId).map(r -> {
@@ -72,11 +80,11 @@ public class FootSearchPre extends BasePresenter {
         submitRequestThrowError(FootSearchModel.getUserServiceInfo().map(r -> {
             if(r.status){
                 if(r.data == null){
-                    return new FootSearchServiceInfoEntity();
+                    serviceInfoEntity = new FootSearchServiceInfoEntity();
                 }else {
                     serviceInfoEntity = r.data;
-                    return serviceInfoEntity;
                 }
+                return serviceInfoEntity;
             }else throw new HttpErrorException(r);
         }),consumer);
     }
