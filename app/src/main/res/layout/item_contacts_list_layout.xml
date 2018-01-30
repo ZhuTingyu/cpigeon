@@ -20,12 +20,13 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
+        android:textSize="@dimen/medium_text_size"
         android:textColor="@color/black"
         tools:text="川南地区"/>
 
     <TextView
         android:id="@+id/number"
+        android:textSize="@dimen/medium_text_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="@string/string_text_contacts_number"

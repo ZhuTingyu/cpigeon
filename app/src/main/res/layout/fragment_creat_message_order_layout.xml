@@ -9,8 +9,8 @@
         android:id="@+id/tv_explain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
-        android:layout_margin="10dp"
+        android:textSize="@dimen/medium_text_size"
+        android:layout_margin="@dimen/large_horizontal_margin_15"
         android:layout_marginBottom="16dp"
         tools:text="@string/string_text_create_message_order_explain" />
 
@@ -27,9 +27,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/line1"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="@dimen/large_horizontal_margin_15"
         android:text="短信充值条数"
-        android:textSize="16dp" />
+        android:textSize="@dimen/medium_text_size" />
 
 
 
@@ -37,6 +37,7 @@
     <RelativeLayout
         android:id="@+id/rl2"
         android:layout_marginTop="16dp"
+        android:layout_margin="@dimen/medium_horizontal_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text1">
@@ -51,7 +52,7 @@
             android:gravity="center"
             android:padding="5dp"
             android:text="1万条"
-            android:textSize="16dp" />
+            android:textSize="@dimen/medium_text_size" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_select2"
@@ -65,7 +66,7 @@
             android:padding="6dp"
             android:layout_centerHorizontal="true"
             android:text="2万条"
-            android:textSize="16dp" />
+            android:textSize="@dimen/medium_text_size" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_select3"
@@ -79,7 +80,7 @@
             android:padding="6dp"
             android:layout_alignParentRight="true"
             android:text="3万条"
-            android:textSize="16dp" />
+            android:textSize="@dimen/medium_text_size" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_select4"
@@ -92,21 +93,21 @@
             android:padding="6dp"
             android:text="4万条"
             android:textColor="@color/text_color"
-            android:textSize="16dp" />
+            android:textSize="@dimen/medium_text_size" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_select5"
             android:layout_width="100dp"
             android:layout_height="32dp"
-            android:layout_alignBaseline="@+id/ed_count"
-            android:layout_alignBottom="@+id/ed_count"
+            android:layout_below="@+id/tv_select1"
             android:layout_centerHorizontal="true"
             android:background="@drawable/selector_gray_true_b_withe_st_blue"
             android:gravity="center"
-            android:padding="5dp"
+            android:layout_margin="5dp"
             android:textColor="@color/text_color"
+            android:padding="6dp"
             android:text="其他："
-            android:textSize="16dp" />
+            android:textSize="@dimen/medium_text_size" />
 
 
 
@@ -122,12 +123,12 @@
             android:layout_alignParentRight="true"
             android:padding="5dp"
             android:text="万条"
-            android:textSize="16dp" />
+            android:textSize="@dimen/medium_text_size" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/ed_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="32dp"
             android:layout_toRightOf="@+id/tv_select5"
             android:layout_toLeftOf="@id/text3"
             android:background="@drawable/background_round_white_5"
@@ -135,6 +136,7 @@
             android:layout_margin="5dp"
             android:inputType="number"
             android:maxLength="4"
+            android:textSize="@dimen/medium_text_size"
             android:layout_below="@+id/tv_select3"/>
 
 
@@ -153,9 +155,9 @@
     <TextView
         android:id="@+id/text2"
         android:layout_marginTop="16dp"
-        android:textSize="16dp"
+        android:textSize="@dimen/medium_text_size"
         android:text="付款金额"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="@dimen/large_horizontal_margin_15"
         android:layout_below="@+id/line2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -163,8 +165,8 @@
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/order_price"
-        android:layout_marginTop="16dp"
-        android:textSize="16dp"
+        android:layout_marginTop="@dimen/large_horizontal_margin_15"
+        android:textSize="@dimen/medium_text_size"
         tools:text="¥ 850"
         android:layout_marginLeft="16dp"
         android:textColor="@color/light_red"
@@ -199,7 +201,7 @@
             android:gravity="center"
             android:text="提交订单"
             android:textColor="@color/colorPrimary"
-            android:textSize="16dp"
+            android:textSize="@dimen/medium_text_size"
             android:visibility="visible" />
 
     </RelativeLayout>

@@ -28,7 +28,6 @@ import java.util.List;
 
 public class NewsCommentAdapter extends BaseQuickAdapter<NewsCommentEntity, BaseViewHolder> {
 
-
     private OnCommunicationListener listener;
 
     NewsCommentsPre mPresenter;
@@ -60,11 +59,11 @@ public class NewsCommentAdapter extends BaseQuickAdapter<NewsCommentEntity, Base
 
 
         if(item.isThumb()){
-            holder.setViewDrawableLeft(thumb, R.mipmap.ic_thumbs_up);
+            holder.setImageResource(R.id.image_thumb, R.mipmap.ic_thumbs_up);
             thumb.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
         }else {
             thumb.setTextColor(mContext.getResources().getColor(R.color.text_color_4d4d4d));
-            holder.setViewDrawableLeft(thumb, R.mipmap.ic_thumbs_not_up);
+            holder.setImageResource(R.id.image_thumb, R.mipmap.ic_thumbs_not_up);
         }
 
         holder.setText(R.id.content, item.content);

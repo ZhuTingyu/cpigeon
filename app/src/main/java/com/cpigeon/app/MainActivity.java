@@ -25,7 +25,7 @@ import android.widget.Toast;
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.cpigeon.app.circle.ui.CircleFragment;
+import com.cpigeon.app.circle.ui.CircleHomeFragment;
 import com.cpigeon.app.commonstandard.AppManager;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
@@ -94,7 +94,7 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
     //个人中心
     private UserCenterFragment userCenterFragment;
     //足环查询
-    private CircleFragment friendCircleFragment;
+    private CircleHomeFragment friendCircleFragment;
     //鸽友圈
     private List<Fragment> mFragments = new ArrayList<>();
     private ContentFragmentAdapter mContentFragmentAdapter;
@@ -328,7 +328,7 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
         matchLiveFragment = new MatchLiveFragment();
         matchLiveFragment.setOnRefreshListener(onMatchInfoRefreshListener);
         userCenterFragment = new UserCenterFragment();
-        friendCircleFragment = new CircleFragment();
+        friendCircleFragment = new CircleHomeFragment();
 //        mCpigeonGroupFragment = new CpigeonGroupFragment();
         mFragments = new ArrayList<>();
         homeFragment.setArguments(bundle);
@@ -475,7 +475,7 @@ MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedLi
                 break;
             case 2:
                 if (friendCircleFragment == null) {
-                    friendCircleFragment = new CircleFragment();
+                    friendCircleFragment = new CircleHomeFragment();
                     transaction.add(R.id.viewpager, friendCircleFragment);
                 } else {
                     transaction.show(friendCircleFragment);

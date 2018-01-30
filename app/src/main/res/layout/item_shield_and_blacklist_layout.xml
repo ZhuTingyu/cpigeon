@@ -28,7 +28,7 @@
                 android:layout_height="match_parent"
                 android:text="Andy"
                 android:textColor="#f46200"
-                android:textSize="18sp"
+                android:textSize="@dimen/medium_text_size"
                 android:textStyle="bold" />
             <TextView
                 android:padding="16dp"

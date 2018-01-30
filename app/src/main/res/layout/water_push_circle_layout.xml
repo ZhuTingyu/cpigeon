@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
 
-
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:alpha="0.6"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/water_lcon"/>
 
     <RelativeLayout
-        android:id="@+id/rl1"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="20dp"
@@ -17,7 +22,7 @@
         <TextView
             android:id="@+id/time"
             tools:text="100"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -25,17 +30,13 @@
             android:id="@+id/location"
             tools:text="成都市四川省"
             android:layout_below="@+id/time"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
     </RelativeLayout>
-    <ImageView
-        android:id="@+id/image"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@id/rl1"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:alpha="0.6"
-        android:src="@mipmap/water_lcon"/>
+
+
+
+
 </RelativeLayout>

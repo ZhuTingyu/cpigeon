@@ -118,6 +118,7 @@
 
 
     <string name="api_forward_circle_message">ForwardCircleMessage</string>
+    <string name="api_home_message">GetAnnouncementList</string>
 
 
 </resources>

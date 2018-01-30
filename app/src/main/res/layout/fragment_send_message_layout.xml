@@ -13,7 +13,7 @@
 
         <TextView
             android:id="@+id/text1"
-            android:textSize="16dp"
+            android:textSize="@dimen/medium_text_size"
             android:text="收件人"
             android:layout_marginStart="10dp"
             android:textColor="@color/gray"
@@ -35,7 +35,7 @@
 
         <TextView
             android:id="@+id/phone_numbers"
-            android:textSize="16dp"
+            android:textSize="@dimen/medium_text_size"
             tools:text="1321321313131213213213123132131313"
             android:paddingLeft="16dp"
             android:paddingEnd="16dp"
@@ -55,12 +55,12 @@
 
 
 
-    <View
+    <include
         android:id="@+id/lin1"
         android:layout_below="@+id/rl1"
-        android:background="@color/line_color"
+        layout="@layout/item_line_view_layout"
         android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:layout_height="0.5dp"/>
 
     <RelativeLayout
         android:id="@+id/view1"
@@ -99,7 +99,7 @@
             android:maxLines="6"
             android:minLines="6"
             android:hint="短信"
-            android:textSize="16dp"
+            android:textSize="@dimen/medium_text_size"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginBottom="16dp"
@@ -156,6 +156,7 @@
         android:textColor="@color/black"
         tools:text="12314511235123"
         android:gravity="center"
+        android:textSize="@dimen/medium_text_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -168,7 +169,7 @@
         android:layout_below="@+id/balance"
         android:layout_marginTop="32dp"
         android:textColor="@color/gray"
-        android:textSize="12dp"
+        android:textSize="@dimen/small_text_size"
         tools:text="@string/string_sign_info" />
 
     <TextView
@@ -177,7 +178,7 @@
         android:layout_below="@+id/balance"
         android:textColor="@color/colorGreen"
         android:layout_alignParentRight="true"
-        android:textSize="12dp"
+        android:textSize="@dimen/small_text_size"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="10dp"
         android:layout_width="wrap_content"

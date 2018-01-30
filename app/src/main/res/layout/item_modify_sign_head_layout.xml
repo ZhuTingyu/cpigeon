@@ -19,7 +19,7 @@
             android:gravity="center_vertical"
             android:text="新签名"
             android:textColor="@color/black"
-            android:textSize="16dp" />
+            android:textSize="@dimen/medium_text_size" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/sign"
@@ -31,7 +31,7 @@
             android:background="@null"
             android:hint="签名为3-6个字符"
             android:maxLength="6"
-            android:textSize="16dp" />
+            android:textSize="@dimen/medium_text_size" />
     </RelativeLayout>
 
     <include
@@ -41,7 +41,7 @@
 
     <TextView
         android:id="@id/text2"
-        android:textSize="16dp"
+        android:textSize="@dimen/medium_text_size"
         android:textColor="@color/light_red"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"

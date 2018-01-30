@@ -25,6 +25,7 @@ public class GeCheJianKongOrgInfo {
     private String status;
     private String orgType;
     private String orgName;
+    public String weikaiqi;
     private List<GeCheJianKongRace> races;
 
 
@@ -92,7 +93,7 @@ public class GeCheJianKongOrgInfo {
     public int getEndMonitorCount() {
         int i = 0;
         for (GeCheJianKongRace g : races) {
-            if (g.getStateCode() == STATE_MONITORING){
+            if (g.getStateCode() == STATE_END_OF_MONITOR){
                 i++;
             }
         }

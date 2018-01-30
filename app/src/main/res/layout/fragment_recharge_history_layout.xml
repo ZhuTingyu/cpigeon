@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="短信充值记录查询"
-        android:textSize="16dp"/>
+        android:textSize="@dimen/medium_text_size"/>
 
 
     <include layout="@layout/item_line_view_layout"
@@ -37,7 +37,7 @@
             android:paddingRight="16dp"
             android:background="@drawable/shape_sd_black_1"
             tools:text="2017-17-13"
-            android:textSize="16dp"/>
+            android:textSize="@dimen/medium_text_size"/>
 
 
         <TextView
@@ -48,7 +48,7 @@
             android:padding="8dp"
             android:layout_centerHorizontal="true"
             android:text="至"
-            android:textSize="16dp"/>
+            android:textSize="@dimen/medium_text_size"/>
 
         <TextView
             android:id="@+id/date_right"
@@ -62,7 +62,7 @@
             android:layout_alignParentRight="true"
             android:background="@drawable/shape_sd_black_1"
             tools:text="2017-17-13"
-            android:textSize="16dp"/>
+            android:textSize="@dimen/medium_text_size"/>
 
     </RelativeLayout>
 

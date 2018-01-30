@@ -11,7 +11,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <LinearLayout
-
                 android:paddingLeft="@dimen/large_horizontal_margin_15"
                 android:paddingRight="@dimen/large_horizontal_margin_15"
                 android:layout_width="match_parent"
@@ -78,9 +77,8 @@
             </LinearLayout>
             <com.cpigeon.app.view.ExpandTextView
                 app:showLines="4"
-
-                android:paddingLeft="@dimen/large_horizontal_margin_15"
-                android:paddingRight="@dimen/large_horizontal_margin_15"
+                android:layout_marginLeft="@dimen/large_horizontal_margin"
+                android:layout_marginRight="@dimen/large_horizontal_margin"
                 android:id="@+id/content_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -116,8 +114,8 @@
                 <com.cpigeon.app.view.PraiseListView
                     android:paddingTop="@dimen/medium_vertical_margin"
                     android:paddingBottom="@dimen/medium_vertical_margin"
-                    android:paddingLeft="@dimen/large_horizontal_margin_15"
-                    android:paddingRight="@dimen/large_horizontal_margin_15"
+                    android:layout_marginLeft="@dimen/large_horizontal_margin_15"
+                    android:layout_marginRight="@dimen/large_horizontal_margin_15"
                     android:id="@+id/thumbs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -127,8 +125,8 @@
                 <android.support.v7.widget.RecyclerView
                     android:paddingTop="@dimen/medium_vertical_margin"
                     android:paddingBottom="@dimen/medium_vertical_margin"
-                    android:paddingLeft="@dimen/large_horizontal_margin_15"
-                    android:paddingRight="@dimen/large_horizontal_margin_15"
+                    android:layout_marginLeft="@dimen/large_horizontal_margin_15"
+                    android:layout_marginRight="@dimen/large_horizontal_margin_15"
                     android:id="@+id/comments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

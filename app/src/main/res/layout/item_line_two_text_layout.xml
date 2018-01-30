@@ -4,14 +4,15 @@
     android:layout_height="wrap_content"
     android:paddingTop="@dimen/large_vertical_margin"
     android:paddingBottom="@dimen/large_vertical_margin"
+    android:gravity="center_vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
         android:id="@+id/img"
         android:background="@drawable/shape_ovel_solid_blue"
-        android:layout_width="8dp"
-        android:layout_height="8dp"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
         android:layout_marginRight="@dimen/large_horizontal_margin"
         android:layout_centerVertical="true"/>
 
@@ -19,8 +20,8 @@
         android:id="@+id/title"
         android:textSize="@dimen/medium_text_size"
         tools:text="1231231231"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@id/img"
-
         android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

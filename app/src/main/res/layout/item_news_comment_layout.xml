@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/big_large_vertical_margin"
-    android:layout_marginBottom="@dimen/big_large_vertical_margin"
+    android:paddingTop="30dp"
+    android:paddingBottom="30dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -96,7 +96,7 @@
         tools:text="al;sdjkf;kgasdklfjjga;dkgja;kjghja;djgha;gj"
         android:layout_below="@id/ll1"
         android:layout_marginLeft="43dp"
-        android:layout_marginTop="@dimen/big_large_vertical_margin"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <ImageView

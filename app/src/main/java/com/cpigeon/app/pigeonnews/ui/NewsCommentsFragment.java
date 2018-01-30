@@ -118,7 +118,7 @@ public class NewsCommentsFragment extends BaseMVPFragment<NewsCommentsPre> {
                         entity.setCancelThumb();
                     }
                     adapter.notifyItemChanged(position);
-                    adapter.getViewByPosition(position,R.id.thumb).startAnimation(animation);
+                    adapter.getViewByPosition(position,R.id.image_thumb).startAnimation(animation);
                 });
             }
 

@@ -108,6 +108,7 @@ public class NewsCommentViewHolder extends BaseViewHolder {
 
     public void onlyComment() {
         thumb.setVisibility(View.GONE);
+        imgThumb.setVisibility(View.GONE);
         comment.setVisibility(View.GONE);
     }
 

@@ -39,7 +39,6 @@ import com.cpigeon.app.utils.ContactsUtil;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.RxUtils;
-import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.utils.customview.SaActionSheetDialog;
 import com.cpigeon.app.utils.http.LogUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -100,7 +99,7 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
 
         toolbar.setNavigationIcon(R.drawable.vector_home_message);
         toolbar.setNavigationOnClickListener(v -> {
-            ToastUtil.showShortToast(getContext(), "消息");
+            IntentBuilder.Builder().startParentActivity(getActivity(), HomeMessageFragment.class);
         });
 
         toolbar.getMenu().clear();

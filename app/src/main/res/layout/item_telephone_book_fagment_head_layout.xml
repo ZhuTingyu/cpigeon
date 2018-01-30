@@ -12,7 +12,7 @@
 
         <TextView
             android:id="@+id/text1"
-            android:textSize="16dp"
+            android:textSize="@dimen/medium_text_size"
             android:textColor="@color/black"
             android:text="导入手机联系人"
             android:gravity="center_vertical"
@@ -36,7 +36,7 @@
         android:layout_height="56dp">
 
         <TextView
-            android:textSize="16dp"
+            android:textSize="@dimen/medium_text_size"
             android:textColor="@color/black"
             android:text="我的群组"
             android:gravity="center_vertical"
@@ -44,8 +44,9 @@
             android:layout_height="match_parent" />
 
         <android.support.v7.widget.AppCompatImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="2dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             app:srcCompat="@mipmap/ic_add_group"/>

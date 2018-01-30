@@ -34,7 +34,7 @@ public class GeCheJianKongExpandListAdapter extends BaseMultiItemQuickAdapter<Mu
         super(data);
         addItemType(TYPE_ORG, R.layout.listitem_gechejiankong_title);
         addItemType(TYPE_RACE, R.layout.listitem_gechejiankong_race);
-        icons = Lists.newArrayList(R.mipmap.ic_vertical_blue, R.mipmap.ic_vertical_yellow
+        icons = Lists.newArrayList(R.mipmap.ic_vertical_yellow, R.mipmap.ic_vertical_blue
                 , R.mipmap.ic_vertical_withe);
     }
 
@@ -49,7 +49,7 @@ public class GeCheJianKongExpandListAdapter extends BaseMultiItemQuickAdapter<Mu
                 holder.setText(R.id.match_count, String.valueOf(data.getRaces().size()));
                 holder.setText(R.id.monitoring_count, String.valueOf(data.getMonitoringCount()));
                 holder.setText(R.id.end_count, String.valueOf(data.getEndMonitorCount()));
-                holder.setText(R.id.not_start_count, String.valueOf(data.getNotMonitorCount()));
+                holder.setText(R.id.not_start_count, data.weikaiqi);
                 holder.setText(R.id.title, data.getOrgName());
 
                 if (data.getMonitoringCount() != 0) {
@@ -63,12 +63,12 @@ public class GeCheJianKongExpandListAdapter extends BaseMultiItemQuickAdapter<Mu
 
                 if (((OrgItem) multiItemEntity).getPosition() % 2 == 0) {
                     holder.setImageResource(R.id.icon_image, icons.get(0));
-                    holder.setVisible(R.id.line_blue, true);
-                    holder.setVisible(R.id.line_yellow, false);
-                } else {
-                    holder.setImageResource(R.id.icon_image, icons.get(1));
                     holder.setVisible(R.id.line_blue, false);
                     holder.setVisible(R.id.line_yellow, true);
+                } else {
+                    holder.setImageResource(R.id.icon_image, icons.get(1));
+                    holder.setVisible(R.id.line_blue, true);
+                    holder.setVisible(R.id.line_yellow, false);
                 }
 
                 // holder.setTextColor(R.id.state, item.isExpanded() ? R.color.white : R.color.black);
@@ -86,9 +86,9 @@ public class GeCheJianKongExpandListAdapter extends BaseMultiItemQuickAdapter<Mu
                     holder.setTextColor(R.id.not_start_count, mContext.getResources().getColor(R.color.white));
                     holder.setImageResource(R.id.icon_image, icons.get(2));
                     if (holder.getAdapterPosition() % 2 == 0) {
-                        holder.setBackgroundColor(R.id.ll_parent, mContext.getResources().getColor(R.color.color_blue_57bbdfa));
-                    } else {
                         holder.setBackgroundColor(R.id.ll_parent, mContext.getResources().getColor(R.color.color_yellow_f49562));
+                    } else {
+                        holder.setBackgroundColor(R.id.ll_parent, mContext.getResources().getColor(R.color.color_blue_57bbdfa));
                     }
                 } else {
                     holder.setTextColor(R.id.state, mContext.getResources().getColor(R.color.black));

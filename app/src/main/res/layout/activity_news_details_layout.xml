@@ -60,8 +60,9 @@
 
             <TextView
                 android:id="@+id/text1"
-                android:textColor="@color/gray_m"
-                android:text="相关新闻"
+                android:textColor="@color/black"
+                android:text="相关鸽闻"
+                android:drawablePadding="6dp"
                 android:gravity="center"
                 android:visibility="gone"
                 android:layout_gravity="center_horizontal"

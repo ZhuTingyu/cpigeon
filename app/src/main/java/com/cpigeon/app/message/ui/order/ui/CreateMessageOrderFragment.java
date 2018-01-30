@@ -19,6 +19,7 @@ import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.ToastUtil;
+import com.cpigeon.app.utils.http.CommonUitls;
 
 import java.util.List;
 
@@ -82,7 +83,7 @@ public class CreateMessageOrderFragment extends BaseMVPFragment<MessageCreateOrd
         tvPrice = findViewById(R.id.order_price);
 
         edCount = findViewById(R.id.ed_count);
-        edCount.setEnabled(false);
+        edCount.setCursorVisible(false);
 
         btn = findViewById(R.id.text_btn);
 
@@ -111,12 +112,17 @@ public class CreateMessageOrderFragment extends BaseMVPFragment<MessageCreateOrd
             selectTvs.add(textView);
         }
 
-        for (int i = 0, len = selectTvs.size(); i < len; i++) {
+        for (int i = 0, len = selectTvs.size() - 1; i < len; i++) {
             int finalI = i;
             selectTvs.get(i).setOnClickListener(v -> {
                 setTvExplainListener(finalI);
             });
         }
+
+        edCount.setOnClickListener(v -> {
+            edCount.setCursorVisible(true);
+            setTvExplainListener(4);
+        });
 
 
 
@@ -138,11 +144,13 @@ public class CreateMessageOrderFragment extends BaseMVPFragment<MessageCreateOrd
     private void setTvExplainListener(int position){
 
         if(position == 4){
-            edCount.setEnabled(true);
             tvPrice.setText(String.valueOf(0.0)+"元");
             mPresenter.price = 0;
             mPresenter.messageCount = 0;
-        }else edCount.setEnabled(false);
+        }else {
+            edCount.setCursorVisible(false);
+        }
+
 
 
         for (int i = 0, len = selectTvs.size(); i < len; i++) {

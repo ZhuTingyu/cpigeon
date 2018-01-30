@@ -26,7 +26,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by Zhu TingYu on 2018/1/4.
  */
 
-public class CircleFragment extends BaseMVPFragment<CirclePre>{
+public class CircleHomeFragment extends BaseMVPFragment<CirclePre>{
 
     CircleImageView imgHeadIcon;
     TextView tvUserName;
