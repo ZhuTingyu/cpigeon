@@ -1,6 +1,7 @@
 package com.cpigeon.app.modular.matchlive.model.daoimpl;
 
 import com.cpigeon.app.R;
+import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongOrgInfo;
 import com.cpigeon.app.utils.http.PigeonHttpUtil;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchPigeonsGP;
 import com.cpigeon.app.modular.matchlive.model.bean.MatchPigeonsXH;
@@ -85,6 +86,19 @@ public class MatchModel {
                 .addBody("hcz", String.valueOf(1))
                 .addBody("pi", String.valueOf(page))
                 .addBody("ps", String.valueOf(100))
+                .request();
+    }
+
+    public static Observable<ApiResponse<List<GeCheJianKongOrgInfo>>> getApiPigeonList( String keyWord, String type, int page ,int count) {
+        return PigeonHttpUtil.<ApiResponse<List<GeCheJianKongOrgInfo>>>build()
+                .setToJsonType(new TypeToken<ApiResponse<List<GeCheJianKongOrgInfo>>>() {
+                }.getType())
+                .setType(HttpUtil.TYPE_POST)
+                .url(R.string.api_pigeon_race_list)
+                .addBody("key", keyWord)
+                .addBody("pi", String.valueOf(page))
+                .addBody("ps", String.valueOf(count))
+                .addBody("t", type)
                 .request();
     }
 

@@ -292,6 +292,15 @@ public class CircleMessageEntity extends SnsEntity {
         private int id;
         private String url;
         private String thumburl;
+        private String vid;
+
+        public String getVid() {
+            return vid;
+        }
+
+        public void setVid(String vid) {
+            this.vid = vid;
+        }
 
         public String getSub() {
             return sub;

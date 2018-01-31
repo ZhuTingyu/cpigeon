@@ -302,15 +302,14 @@ public class CircleMessageDetailsFragment extends BaseMVPFragment<CircleMessageP
             public void share(View view) {
                 ShareDialogFragment share = new ShareDialogFragment();
                 share.setDescription(entity.getMsg());
-                share.setShareType(ShareDialogFragment.TYPE_DEFALT);
+                share.setShareType(ShareDialogFragment.TYPE_DEFALTE);
                 if(finalImagesAdapter1 != null){
                     share.setShareType(ShareDialogFragment.TYPE_IMAGE_URL);
                     share.setShareContent(finalImagesAdapter1.getImagesUrl().get(0));
                 }
                 if(!entity.getVideo().isEmpty()){
                     share.setShareType(ShareDialogFragment.TYPE_VIDEO);
-                    share.setVideoTitle(entity.getMsg());
-                    share.setVideoUrl(entity.getVideo().get(0).getUrl());
+                    share.setShareUrl(getString(R.string.string_share_video) + entity.getVideo().get(0).getId());
                     share.setVideoThumb(entity.getVideo().get(0).getThumburl());
                 }
                 share.show(getActivity().getFragmentManager(),"share");

@@ -28,4 +28,9 @@ public class HomeMessageAdapter extends BaseQuickAdapter<HomeMessageEntity, Base
         WebView webView = holder.getView(R.id.content);
         webView.loadDataWithBaseURL(null, item.getContent(), "text/html", "utf-8", null);
     }
+
+    @Override
+    protected String getEmptyViewText() {
+        return "暂时没有公告";
+    }
 }

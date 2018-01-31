@@ -120,5 +120,7 @@
     <string name="api_forward_circle_message">ForwardCircleMessage</string>
     <string name="api_home_message">GetAnnouncementList</string>
 
+    <string name="api_pigeon_race_list">GetGYTRaceListGroupByOrg</string>
+
 
 </resources>

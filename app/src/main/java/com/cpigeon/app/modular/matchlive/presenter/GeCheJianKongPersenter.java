@@ -31,6 +31,7 @@ public class GeCheJianKongPersenter extends BasePresenter<IGeCheJianKongListView
     public void loadNext() {
         if (isDetached()) return;
         if (mView.getPageIndex() == 1) mView.showRefreshLoading();
+
         mDao.getGYTRaceListGroupByOrg(mView.getSearchKey(), mView.getOrgType(), mView.getPageIndex(), mView.getPageSize(), new IBaseDao.OnCompleteListener<List<GeCheJianKongOrgInfo>>() {
             @Override
             public void onSuccess(final List<GeCheJianKongOrgInfo> data) {

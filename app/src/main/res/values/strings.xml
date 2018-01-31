@@ -138,5 +138,7 @@
 
     <string name="string_pigeon_message_balance_count">剩余短信条数：%1$s</string>
 
+    <string name="string_share_video">http://118.123.244.89:818/Share?id=</string>
+
 
 </resources>

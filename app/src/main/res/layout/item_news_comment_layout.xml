@@ -63,7 +63,7 @@
             android:orientation="horizontal"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/comment"
-            android:layout_marginRight="32dp">
+            android:layout_marginRight="25dp">
 
             <ImageView
                 android:layout_centerVertical="true"

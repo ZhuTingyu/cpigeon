@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cpigeon.app.MyApp;
@@ -32,6 +34,7 @@ public class NewsCommentViewHolder extends BaseViewHolder {
     Activity activity;
 
     TextView input;
+    TextView input_center;
     TextView thumb;
     TextView comment;
 
@@ -50,6 +53,8 @@ public class NewsCommentViewHolder extends BaseViewHolder {
         thumb = getView(R.id.thumb);
         comment = getView(R.id.comment);
         imgThumb = getView(R.id.image_thumb);
+        input_center = getView(R.id.input_center);
+
         this.activity = activity;
         animation = AnimationUtils.loadAnimation(MyApp.getInstance().getBaseContext(), R.anim.anim_sign_box_rock);
         bindUi();
@@ -57,12 +62,11 @@ public class NewsCommentViewHolder extends BaseViewHolder {
 
     private void bindUi() {
         input.setOnClickListener(v -> {
-            dialog = new InputCommentDialog();
-            dialog.setHint("我的评论更精彩！");
-            dialog.setPushClickListener(content -> {
-                listener.commentPushClick(content);
-            });
-            dialog.show(activity.getFragmentManager(), "InputComment");
+            showInputDialog();
+        });
+
+        input_center.setOnClickListener(v -> {
+            showInputDialog();
         });
 
         getView(R.id.ll_thumb).setOnClickListener(v -> {
@@ -73,6 +77,15 @@ public class NewsCommentViewHolder extends BaseViewHolder {
             listener.commentClick();
         });
 
+    }
+
+    private void showInputDialog(){
+        dialog = new InputCommentDialog();
+        dialog.setHint("我的评论更精彩！");
+        dialog.setPushClickListener(content -> {
+            listener.commentPushClick(content);
+        });
+        dialog.show(activity.getFragmentManager(), "InputComment");
     }
 
     public void bindData(NewsDetailsEntity entity, boolean isFirst) {
@@ -110,6 +123,8 @@ public class NewsCommentViewHolder extends BaseViewHolder {
         thumb.setVisibility(View.GONE);
         imgThumb.setVisibility(View.GONE);
         comment.setVisibility(View.GONE);
+        input.setVisibility(View.GONE);
+        input_center.setVisibility(View.VISIBLE);
     }
 
     public interface OnViewClickListener {

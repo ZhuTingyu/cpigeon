@@ -29,7 +29,7 @@ public class MyFollowActivity extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.tab_view)
     SmartTabLayout viewpagertab;
-    @BindView(R.id.viewPager)
+    @BindView(R.id.view_pager)
     ViewPager viewPager;
 
     @Override

@@ -48,13 +48,15 @@ public class WaterMarkFilter extends NoFilter {
     @Override
     public void draw() {
         super.draw();
-        GLES20.glViewport(x, y, w == 0 ? mBitmap.getWidth() : w, h == 0 ? mBitmap.getHeight() : h);
-        GLES20.glDisable(GLES20.GL_DEPTH_TEST);
-        GLES20.glEnable(GLES20.GL_BLEND);
-        GLES20.glBlendFunc(GLES20.GL_SRC_COLOR, GLES20.GL_DST_ALPHA);
-        mFilter.draw();
-        GLES20.glDisable(GLES20.GL_BLEND);
-        GLES20.glViewport(0, 0, width, height);
+        if(mBitmap != null){
+            GLES20.glViewport(x, y, w == 0 ? mBitmap.getWidth() : w, h == 0 ? mBitmap.getHeight() : h);
+            GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+            GLES20.glEnable(GLES20.GL_BLEND);
+            GLES20.glBlendFunc(GLES20.GL_SRC_COLOR, GLES20.GL_DST_ALPHA);
+            mFilter.draw();
+            GLES20.glDisable(GLES20.GL_BLEND);
+            GLES20.glViewport(0, 0, width, height);
+        }
     }
 
     @Override

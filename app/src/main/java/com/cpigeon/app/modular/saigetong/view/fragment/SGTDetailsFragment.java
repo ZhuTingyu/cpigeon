@@ -37,7 +37,7 @@ public class SGTDetailsFragment extends BaseMVPFragment<SGTDetailsPre> {
     @BindView(R.id.list)
     RecyclerView mRecyclerView;
     private ZHNumAdapter mAdapter;
-    TextView tvCskh, tvGzxm, tvZhhm, tvDzhh, tvSgys, tvDq, tvRpsj;
+    TextView tvCskh, tvGzxm, tvDzhh, tvSgys, tvDq, tvRpsj;
     private View headView;
     ShareDialogFragment shareDialogFragment;
 
@@ -69,7 +69,6 @@ public class SGTDetailsFragment extends BaseMVPFragment<SGTDetailsPre> {
     private void bindData(SGTDetailsInfoEntity entity) {
         tvCskh.setText(entity.getCskh());
         tvGzxm.setText(entity.getXingming());
-        tvZhhm.setText(entity.getFoot());
         tvSgys.setText(entity.getColor());
         tvDq.setText(entity.getDiqu());
         tvRpsj.setText(entity.getRpsj());
@@ -91,7 +90,6 @@ public class SGTDetailsFragment extends BaseMVPFragment<SGTDetailsPre> {
         headView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_sg_headview, null, false);
         tvCskh =  headView.findViewById(R.id.tv_cskh);
         tvGzxm =  headView.findViewById(R.id.tv_gzxm);
-        tvZhhm =  headView.findViewById(R.id.tv_zhhm);
         tvDzhh =  headView.findViewById(R.id.tv_dzhh);
         tvSgys =  headView.findViewById(R.id.tv_sgys);
         tvDq =  headView.findViewById(R.id.tv_dq);

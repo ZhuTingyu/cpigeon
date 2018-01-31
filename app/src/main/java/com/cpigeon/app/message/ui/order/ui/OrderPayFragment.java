@@ -207,7 +207,7 @@ public class OrderPayFragment extends BaseMVPFragment<PayOrderPre> {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(WXPayResultEvent event) {
         if (WXPayResultEvent.CODE_OK == event.code) {
-            DialogUtils.createDialogWithLeft(getContext(), "支付成功", sweetAlertDialog -> {
+            DialogUtils.createDialog(getContext(), "支付成功", sweetAlertDialog -> {
                 sweetAlertDialog.dismiss();
                 finish();
             });

@@ -287,7 +287,7 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
             @Override
             public void share(View view) {
                 share.setDescription(item.getMsg());
-                share.setShareType(ShareDialogFragment.TYPE_DEFALT);
+                share.setShareType(ShareDialogFragment.TYPE_DEFALTE);
 
                 if(finalImagesAdapter1 != null){
                     share.setShareType(ShareDialogFragment.TYPE_IMAGE_URL);
@@ -296,8 +296,7 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
 
                 if(!item.getVideo().isEmpty()){
                     share.setShareType(ShareDialogFragment.TYPE_VIDEO);
-                    share.setVideoTitle(item.getMsg());
-                    share.setVideoUrl(item.getVideo().get(0).getUrl());
+                    share.setShareUrl(mContext.getString(R.string.string_share_video) + item.getVideo().get(0).getVid());
                     share.setVideoThumb(item.getVideo().get(0).getThumburl());
                 }
                 share.show(activity.getFragmentManager(),"share");

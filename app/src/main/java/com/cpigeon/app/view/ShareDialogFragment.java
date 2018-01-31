@@ -33,7 +33,7 @@ import java.io.File;
 
 public class ShareDialogFragment extends DialogFragment {
 
-    public static final int TYPE_DEFALT = -1;
+    public static final int TYPE_DEFALTE = -1;
     public static final int TYPE_URL = 1;
     public static final int TYPE_IMAGE_URL = 2;
     public static final int TYPE_IMAGE_FILE = 3;
@@ -94,7 +94,7 @@ public class ShareDialogFragment extends DialogFragment {
     };
 
     private void startShareApp(SHARE_MEDIA platform) {
-        if(shareType == TYPE_DEFALT){
+        if(shareType == TYPE_DEFALTE){
             new ShareAction(getActivity())
                     .setPlatform(platform)//传入平台
                     .withText(description)
@@ -106,7 +106,6 @@ public class ShareDialogFragment extends DialogFragment {
             UMWeb web = new UMWeb(shareUrl);
             web.setTitle("中鸽网");//标题
             web.setDescription("中鸽网分享");//描述
-
             new ShareAction(getActivity())
                     .setPlatform(platform)//传入平台
                     .withMedia(web)//分享内容
@@ -134,16 +133,15 @@ public class ShareDialogFragment extends DialogFragment {
                     .setCallback(umShareListener)//回调监听器
                     .share();
         } else if(shareType == TYPE_VIDEO){
-            UMVideo video = new UMVideo(videoUrl);
-            video.setTitle(videoTitle);//视频的标题
-            video.setThumb(new UMImage(getActivity(), videoThumb));//视频的缩略图
-            video.setDescription(description);//视频的描述
 
+            UMWeb web = new UMWeb(shareUrl);
+            web.setTitle("中鸽网");//标题
+            web.setDescription("中鸽网分享");//描述
+            web.setThumb(new UMImage(getActivity(), videoThumb));//file图片);
             new ShareAction(getActivity())
-                    .setPlatform(platform)
-                    .withText(description)
-                    .withMedia(video)
-                    .setCallback(umShareListener)
+                    .setPlatform(platform)//传入平台
+                    .withMedia(web)//分享内容
+                    .setCallback(umShareListener)//回调监听器
                     .share();
         }
     }

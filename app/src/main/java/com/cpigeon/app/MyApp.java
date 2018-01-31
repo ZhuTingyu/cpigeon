@@ -69,7 +69,7 @@ public class MyApp extends Application {
         initLocalCacheManager();
         Fresco.initialize(this);
         UMShareAPI.get(this);
-        Config.DEBUG = true;
+        //Config.DEBUG = true;
     }
 
     /**

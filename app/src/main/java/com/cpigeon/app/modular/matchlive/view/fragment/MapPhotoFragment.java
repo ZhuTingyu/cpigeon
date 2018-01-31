@@ -19,6 +19,7 @@ import com.cpigeon.app.modular.matchlive.view.adapter.TimeLinePhotoAdapter;
 import com.cpigeon.app.utils.CallAPI;
 import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.customview.CustomEmptyView;
+import com.cpigeon.app.view.ShareDialogFragment;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.facebook.imagepipeline.decoder.SimpleProgressiveJpegConfig;
@@ -51,6 +52,7 @@ public class MapPhotoFragment extends BaseFragment {
     private GeCheJianKongRace geCheJianKongRace;
     private List<LocalMedia> list = new ArrayList<>();
     private TimeLinePhotoAdapter mAdapter;
+    ShareDialogFragment shareDialogFragment;
 
     @Override
     public void onAttach(Context context) {
@@ -153,6 +155,9 @@ public class MapPhotoFragment extends BaseFragment {
     }
 
     public void initRecyclerView() {
+        shareDialogFragment = new ShareDialogFragment();
+        shareDialogFragment.setShareType(ShareDialogFragment.TYPE_IMAGE_URL);
+
         mAdapter = new TimeLinePhotoAdapter(null);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (list.size() > 0) {
@@ -163,6 +168,12 @@ public class MapPhotoFragment extends BaseFragment {
                 }
                 showImageDialog(getContext(), imgs, position);
             }
+        });
+        mAdapter.setOnItemLongClickListener((adapter, view, position) -> {
+            shareDialogFragment.setTitle(mAdapter.getItem(position).getTag());
+            shareDialogFragment.setShareUrl(mAdapter.getItem(position).getUrl());
+            shareDialogFragment.show(getActivity().getFragmentManager(), "share");
+            return false;
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);

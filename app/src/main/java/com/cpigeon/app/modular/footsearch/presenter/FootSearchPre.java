@@ -38,9 +38,9 @@ public class FootSearchPre extends BasePresenter {
     public FootSearchServiceInfoEntity serviceInfoEntity;
 
 
-    public FootSearchPre(BaseFragment baseFragment) {
-        super(baseFragment);
-        userId = CpigeonData.getInstance().getUserId(baseFragment.getActivity());
+    public FootSearchPre(Activity activity) {
+        super(activity);
+        userId = CpigeonData.getInstance().getUserId(activity);
     }
 
     @Override
@@ -51,12 +51,12 @@ public class FootSearchPre extends BasePresenter {
     public void searchFoot(Consumer<List<FootInfoEntity>> consumer){
 
         if(!StringValid.isStringValid(year)){
-            ToastUtil.showLongToast(getBaseFragment().getActivity(),"请选择年份");
+            DialogUtils.createHintDialog(getActivity(),"请选择年份");
             return;
         }
 
         if(!StringValid.isStringValid(keyWord)){
-            ToastUtil.showLongToast(getBaseFragment().getActivity(),"请输入关键字");
+            DialogUtils.createHintDialog(getActivity(),"请输入关键字");
             return;
         }
 

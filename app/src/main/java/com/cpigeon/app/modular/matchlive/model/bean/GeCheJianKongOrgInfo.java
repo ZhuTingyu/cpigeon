@@ -25,7 +25,7 @@ public class GeCheJianKongOrgInfo {
     private String status;
     private String orgType;
     private String orgName;
-    public String weikaiqi;
+    public int weikaiqi;
     private List<GeCheJianKongRace> races;
 
 

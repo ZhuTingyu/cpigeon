@@ -49,7 +49,7 @@ public class GeCheJianKongExpandListAdapter extends BaseMultiItemQuickAdapter<Mu
                 holder.setText(R.id.match_count, String.valueOf(data.getRaces().size()));
                 holder.setText(R.id.monitoring_count, String.valueOf(data.getMonitoringCount()));
                 holder.setText(R.id.end_count, String.valueOf(data.getEndMonitorCount()));
-                holder.setText(R.id.not_start_count, data.weikaiqi);
+                holder.setText(R.id.not_start_count, String.valueOf(data.weikaiqi));
                 holder.setText(R.id.title, data.getOrgName());
 
                 if (data.getMonitoringCount() != 0) {

@@ -93,7 +93,7 @@
                 <View
                     android:background="@color/color_default_bg"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/big_large_vertical_margin"/>
+                    android:layout_height="@dimen/large_vertical_margin"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/news_list"
@@ -107,7 +107,7 @@
                 <View
                     android:background="@color/color_default_bg"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/big_large_vertical_margin"/>
+                    android:layout_height="@dimen/large_vertical_margin"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/dynamic_list"

@@ -15,6 +15,7 @@ import com.cpigeon.app.modular.matchlive.view.activity.MapLiveActivity;
 import com.cpigeon.app.modular.matchlive.view.adapter.CarVideoAdapter;
 import com.cpigeon.app.utils.CallAPI;
 import com.cpigeon.app.utils.customview.CustomEmptyView;
+import com.cpigeon.app.view.ShareDialogFragment;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.orhanobut.logger.Logger;
@@ -42,6 +43,7 @@ public class MapVideoFragment extends BaseFragment{
     private GeCheJianKongRace geCheJianKongRace;
     private List<LocalMedia> list = new ArrayList<>();
     private CarVideoAdapter mAdapter;
+    ShareDialogFragment shareDialogFragment;
 
     @Override
     public void onAttach(Context context) {
@@ -131,11 +133,18 @@ public class MapVideoFragment extends BaseFragment{
     }
 
     public void initRecyclerView() {
+        shareDialogFragment = new ShareDialogFragment();
         mAdapter = new CarVideoAdapter(null);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (list.size() > 0) {
                 PictureSelector.create(MapVideoFragment.this).externalPicturePreview(position, list);
             }
+        });
+        mAdapter.setOnItemLongClickListener((adapter, view, position) -> {
+            shareDialogFragment.setShareType(ShareDialogFragment.TYPE_VIDEO);
+            shareDialogFragment.setShareUrl(getString(R.string.string_share_video) + mAdapter.getItem(position).getFid());
+            shareDialogFragment.setVideoThumb(mAdapter.getItem(position).getThumburl());
+            return false;
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter.bindToRecyclerView(mRecyclerView);

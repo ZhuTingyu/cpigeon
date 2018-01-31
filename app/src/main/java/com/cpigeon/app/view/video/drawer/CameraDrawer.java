@@ -11,7 +11,6 @@ import android.opengl.GLSurfaceView;
 import android.util.Log;
 
 import com.cpigeon.app.MyApp;
-import com.cpigeon.app.R;
 import com.cpigeon.app.utils.BitmapUtil;
 import com.cpigeon.app.utils.ScreenTool;
 import com.cpigeon.app.view.video.GetBitmap;
@@ -288,7 +287,7 @@ public class CameraDrawer implements GLSurfaceView.Renderer {
                     videoEncoder.setPreviewSize(mPreviewWidth, mPreviewHeight);
                     videoEncoder.startRecording(new TextureMovieEncoder.EncoderConfig(
                             savePath, mPreviewWidth, mPreviewHeight,
-                            1500000, EGL14.eglGetCurrentContext(),
+                            2500000, EGL14.eglGetCurrentContext(),
                             null));
                     recordingStatus = RECORDING_ON;
                     break;

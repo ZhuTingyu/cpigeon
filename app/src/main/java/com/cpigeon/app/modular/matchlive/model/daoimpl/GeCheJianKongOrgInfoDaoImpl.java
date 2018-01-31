@@ -11,6 +11,9 @@ import com.cpigeon.app.utils.CallAPI;
 
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 /**
  * Created by chenshuai on 2017/7/11.
  */
@@ -18,7 +21,7 @@ import java.util.List;
 public class GeCheJianKongOrgInfoDaoImpl implements IGeCheJianKongOrgInfoDao {
     @Override
     public void getGYTRaceListGroupByOrg(String searchkey, String orgType, int pageIndex, int pageSize, @NonNull final OnCompleteListener<List<GeCheJianKongOrgInfo>> onCompleteListener) {
-        CallAPI.getGYTRaceListGroupByOrg(searchkey, orgType, pageIndex, pageSize, new CallAPI.Callback<List<GeCheJianKongOrgInfo>>() {
+        /*CallAPI.getGYTRaceListGroupByOrg(searchkey, orgType, pageIndex, pageSize, new CallAPI.Callback<List<GeCheJianKongOrgInfo>>() {
             @Override
             public void onSuccess(List<GeCheJianKongOrgInfo> data) {
                 onCompleteListener.onSuccess(data);
@@ -28,6 +31,11 @@ public class GeCheJianKongOrgInfoDaoImpl implements IGeCheJianKongOrgInfoDao {
             public void onError(int errorType, Object data) {
                 onCompleteListener.onFail("获取失败");
             }
-        });
+        });*/
+        MatchModel.getApiPigeonList(searchkey, orgType, pageIndex, pageSize).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(listApiResponse -> {
+            onCompleteListener.onSuccess(listApiResponse.data);
+        }, throwable -> {onCompleteListener.onFail("获取失败");});
+
     }
 }

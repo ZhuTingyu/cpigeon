@@ -15,6 +15,7 @@ import com.cpigeon.app.modular.usercenter.model.bean.UserInfo;
 import com.cpigeon.app.pigeonnews.adpter.NewsCommentAdapter;
 import com.cpigeon.app.pigeonnews.presenter.NewsCommentsPre;
 import com.cpigeon.app.utils.CpigeonData;
+import com.cpigeon.app.utils.Lists;
 import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.ToastUtil;
 import com.cpigeon.app.viewholder.NewsCommentViewHolder;
@@ -94,6 +95,9 @@ public class NewsCommentsFragment extends BaseMVPFragment<NewsCommentsPre> {
                     NewsCommentEntity reply = new NewsCommentEntity();
                     reply.nicheng = usersNickName;
                     reply.content = mPresenter.content;
+                    if(entity.reply == null){
+                        entity.reply = Lists.newArrayList();
+                    }
                     entity.reply.add(reply);
                     entity.replycount += 1;
                     entity.isreply = true;

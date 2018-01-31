@@ -51,7 +51,7 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> {
 
     @Override
     protected FootSearchPre initPresenter() {
-        return new FootSearchPre(this);
+        return new FootSearchPre(getActivity());
     }
 
     @Override
@@ -114,12 +114,12 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> {
 
         searchBtn.setOnClickListener(v -> {
             mPresenter.searchFoot(s -> {
-                if(StringValid.isStringValid(mPresenter.serviceInfoEntity.brief)){
+                hideLoading();
+                if(StringValid.isStringValid(mPresenter.serviceInfoEntity.brief) && !s.isEmpty()){
                     mPresenter.serviceInfoEntity.numbers --;
                     remark.setText(getString(R.string.string_foot_search_remark,mPresenter.serviceInfoEntity.packageX,mPresenter.serviceInfoEntity.brief,String.valueOf(mPresenter.serviceInfoEntity.numbers)));
                     count.setText(getString(R.string.string_foot_search_count, String.valueOf(mPresenter.serviceInfoEntity.numbers)));
                 }
-                hideLoading();
                 if(!s.isEmpty()){
                     IntentBuilder.Builder()
                             .putParcelableArrayListExtra(IntentBuilder.KEY_DATA, (ArrayList<? extends Parcelable>) s)

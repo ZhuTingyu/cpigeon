@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginTop="@dimen/large_vertical_margin"
     android:paddingTop="@dimen/large_vertical_margin"
-    app:cardCornerRadius="@dimen/dp_4"
+    app:cardCornerRadius="3dp"
     app:cardElevation="0dp">
 
     <LinearLayout
@@ -16,19 +16,19 @@
         android:orientation="horizontal">
 
         <RelativeLayout
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_width="0dp"
             android:layout_height="match_parent">
             <ImageView
                 android:id="@+id/line_blue"
                 android:background="@color/color_blue_57bbdfa"
-                android:layout_width="4dp"
+                android:layout_width="3dp"
                 android:layout_height="match_parent"/>
 
             <ImageView
                 android:id="@+id/line_yellow"
                 android:background="@color/color_yellow_f49562"
-                android:layout_width="4dp"
+                android:layout_width="3dp"
                 android:layout_height="match_parent"/>
 
             <RelativeLayout
@@ -78,12 +78,13 @@
             android:id="@+id/icon_image"
             android:layout_width="6dp"
             android:layout_height="58dp"
+            android:layout_marginLeft="12dp"
             android:layout_marginTop="13dp"
             tools:src="@mipmap/ic_vertical_blue"/>
 
 
         <RelativeLayout
-            android:layout_weight="2"
+            android:layout_weight="5"
             android:layout_width="0dp"
             android:layout_marginLeft="42dp"
             android:layout_marginTop="@dimen/small_vertical_margin"
