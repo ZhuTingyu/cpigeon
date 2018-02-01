@@ -65,7 +65,7 @@ public class SGTGZAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, Bas
                 Log.d(TAG, "convert2: " + mContentData.getFoot() + "    " + mContentData.getCskh());
                 helper.setText(R.id.item_content1, mContentData.getFoot());
                 helper.setText(R.id.item_content2, mContentData.getColor());
-
+                helper.setText(R.id.item_content3, mContentData.getPic());
                 break;
         }
     }

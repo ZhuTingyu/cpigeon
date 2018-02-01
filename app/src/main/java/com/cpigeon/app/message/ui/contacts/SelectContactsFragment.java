@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.entity.ContactsGroupEntity;
 import com.cpigeon.app.message.ui.contacts.presenter.TelephoneBookPre;
+import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.ToastUtil;
@@ -43,19 +44,19 @@ public class SelectContactsFragment extends BaseContactsListFragment<TelephoneBo
         btn.setVisibility(View.VISIBLE);
         btn.setText("确定");
         btn.setOnClickListener(v -> {
-            if(!adapter.getSelectedPotion().isEmpty()){
-                if(type == TYPE_SEND_MESSAGE) {
+            if (!adapter.getSelectedPotion().isEmpty()) {
+                if (type == TYPE_SEND_MESSAGE) {
                     Intent intent = new Intent();
                     intent.putParcelableArrayListExtra(IntentBuilder.KEY_DATA
                             , (ArrayList<? extends Parcelable>) adapter.getSelectedEntity());
                     getActivity().setResult(0, intent);
                     finish();
-                }else if(type == TYPE_PHONE_SELECT) {
+                } else if (type == TYPE_PHONE_SELECT) {
                     IntentBuilder.Builder(getSupportActivity(), SelectPhoneActivity.class)
-                            .putExtra(IntentBuilder.KEY_DATA,adapter.getItem(adapter.getSelectedPotion().get(0)).fzid)
+                            .putExtra(IntentBuilder.KEY_DATA, adapter.getItem(adapter.getSelectedPotion().get(0)).fzid)
                             .startActivity();
                     finish();
-                }else if(type == TYPE_CONTACTS_ADD){
+                } else if (type == TYPE_CONTACTS_ADD) {
                     Intent intent = new Intent();
                     intent.putExtra(IntentBuilder.KEY_DATA, adapter.getSelectedEntity().get(0));
                     getActivity().setResult(0, intent);
@@ -67,9 +68,9 @@ public class SelectContactsFragment extends BaseContactsListFragment<TelephoneBo
         });
 
         adapter.setOnItemClickListener((adapter1, view, position) -> {
-            if(type == TYPE_SEND_MESSAGE){
+            if (type == TYPE_SEND_MESSAGE) {
                 adapter.setMultiSelectItem(adapter.getItem(position), position);
-            }else {
+            } else {
                 adapter.setSingleItem(adapter.getItem(position), position);
             }
         });
@@ -82,12 +83,20 @@ public class SelectContactsFragment extends BaseContactsListFragment<TelephoneBo
         showLoading();
         mPresenter.getContactsGroups(data -> {
             hideLoading();
-            adapter.setNewData(data);
-            for (ContactsGroupEntity entity : data) {
-                entity.isChooseVisible = !entity.isSystemGroup();
+            if (type != TYPE_SEND_MESSAGE) {
+                for (int i = 0; i < data.size();) {
+                    if (data.get(i).isSystemGroup()) {
+                        data.remove(i);
+                        continue;
+                    }
+                    i++;
+                }
             }
-            adapter.notifyDataSetChanged();
-            adapter.addFooterView(initFoodView());
+            adapter.setNewData(data);
+            adapter.setImgChooseVisible(true);
+            if(adapter.getFooterLayoutCount() == 0){
+                adapter.addFooterView(initFoodView());
+            }
         });
     }
 
@@ -119,17 +128,17 @@ public class SelectContactsFragment extends BaseContactsListFragment<TelephoneBo
         });
 
         btnRight.setOnClickListener(v -> {
-            if(mPresenter.groupName.length() < 3){
-                ToastUtil.showLongToast(getContext(),"分组名称长度不能小于3位");
+            if (mPresenter.groupName.length() < 3) {
+                ToastUtil.showLongToast(getContext(), "分组名称长度不能小于3位");
                 return;
             }
 
-            mPresenter.addContactsGroups(r ->{
+            mPresenter.addContactsGroups(r -> {
                 dialogPrompt.dismiss();
-                if(r.status){
+                if (r.status) {
                     bindData();
                     showTips("添加成功", TipType.Dialog);
-                }else {
+                } else {
                     error(r.msg);
                 }
             });

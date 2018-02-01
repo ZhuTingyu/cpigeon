@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.OrderInfoEntity;
+import com.cpigeon.app.event.GXTUserInfoEvent;
 import com.cpigeon.app.event.WXPayResultEvent;
 import com.cpigeon.app.viewholder.OderInfoViewHolder;
 import com.cpigeon.app.message.ui.order.adpter.OrderPayAdapter;
@@ -195,6 +196,7 @@ public class OrderPayFragment extends BaseMVPFragment<PayOrderPre> {
         mPresenter.payOrderByBalance(r -> {
             if (r.status) {
                 DialogUtils.createDialog(getContext(), r.msg, sweetAlertDialog -> {
+                    EventBus.getDefault().post(new GXTUserInfoEvent());
                     sweetAlertDialog.dismiss();
                     finish();
                 });

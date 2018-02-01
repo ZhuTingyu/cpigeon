@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.AbstractExpandableItem;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.chad.library.adapter.base.loadmore.LoadMoreView;
 import com.cpigeon.app.R;
 import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongOrgInfo;
 import com.cpigeon.app.modular.matchlive.model.bean.GeCheJianKongRace;
@@ -36,6 +37,27 @@ public class GeCheJianKongExpandListAdapter extends BaseMultiItemQuickAdapter<Mu
         addItemType(TYPE_RACE, R.layout.listitem_gechejiankong_race);
         icons = Lists.newArrayList(R.mipmap.ic_vertical_yellow, R.mipmap.ic_vertical_blue
                 , R.mipmap.ic_vertical_withe);
+        setLoadMoreView(new LoadMoreView() {
+            @Override
+            public int getLayoutId() {
+                return R.layout.item_adpter_load_more_layout;
+            }
+
+            @Override
+            protected int getLoadingViewId() {
+                return R.id.load_more;
+            }
+
+            @Override
+            protected int getLoadFailViewId() {
+                return R.id.load_more;
+            }
+
+            @Override
+            protected int getLoadEndViewId() {
+                return R.id.load_more;
+            }
+        });
     }
 
     @Override

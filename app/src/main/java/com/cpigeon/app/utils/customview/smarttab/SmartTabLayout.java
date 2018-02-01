@@ -594,6 +594,7 @@ public class SmartTabLayout extends HorizontalScrollView {
             if (viewPagerPageChangeListener != null) {
                 viewPagerPageChangeListener.onPageSelected(position);
             }
+
         }
 
     }

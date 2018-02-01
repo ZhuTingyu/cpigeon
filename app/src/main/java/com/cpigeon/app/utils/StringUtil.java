@@ -38,4 +38,8 @@ public class StringUtil {
          return Lists.newArrayList(string.split(split));
     }
 
+    public static String toUpperCase(String s){
+        return  s.trim().toUpperCase();
+    }
+
 }

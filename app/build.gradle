@@ -190,6 +190,7 @@ dependencies {
     compile 'com.wx.goodview:goodview:1.0.0'
     compile 'com.melnykov:floatingactionbutton:1.3.0'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    compile 'com.shuyu:GSYVideoPlayer:3.0.0'
     compile files('libs/open_sdk_r5788_lite.jar')
     compile files('libs/SocialSDK_WeiXin_Full.jar')
     compile files('libs/SocialSDK_QQ_Full.jar')

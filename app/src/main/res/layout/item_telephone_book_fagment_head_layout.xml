@@ -20,12 +20,12 @@
             android:layout_height="match_parent" />
 
         <android.support.v7.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/ic_arrow_right_size"
+            android:layout_height="@dimen/ic_arrow_right_size"
+            android:layout_marginEnd="5dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:rotation="-90"
-            app:srcCompat="@drawable/ic_arrow_down"/>
+            app:srcCompat="@mipmap/ic_info_r"/>
     </RelativeLayout>
 
     <include layout="@layout/item_line_view_layout"/>

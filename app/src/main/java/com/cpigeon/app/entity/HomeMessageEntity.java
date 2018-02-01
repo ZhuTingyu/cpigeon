@@ -1,5 +1,7 @@
 package com.cpigeon.app.entity;
 
+import java.util.Date;
+
 /**
  * Created by Zhu TingYu on 2018/1/30.
  */
@@ -33,7 +35,7 @@ public class HomeMessageEntity {
 
     private int istop;
     private String title;
-    private String time;
+    private Date time;
     private int id;
     private String content;
 
@@ -53,11 +55,11 @@ public class HomeMessageEntity {
         this.title = title;
     }
 
-    public String getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 

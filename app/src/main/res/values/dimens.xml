@@ -2,6 +2,7 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
 
     <dimen name="small_text_size">12sp</dimen>
+    <dimen name="small_text_size_2">13sp</dimen>
     <dimen name="medium_text_size">14sp</dimen>
     <dimen name="big_text_size">16sp</dimen>
     <dimen name="large_text_size">18sp</dimen>
@@ -23,6 +24,9 @@
     <dimen name="large_horizontal_margin">10dp</dimen>
     <dimen name="large_horizontal_margin_15">15dp</dimen>
     <dimen name="big_large_horizontal_margin">16dp</dimen>
+
+    <dimen name="list_item_high">60dp</dimen>
+    <dimen name="list_item_high_2">50dp</dimen>
 
 
     <!--layout common-->
@@ -446,12 +450,13 @@
     <dimen name="search_et_size">13sp</dimen>
 
 
-    <dimen name="item_sgt_zh_detail_h">50dp</dimen>
+    <dimen name="item_sgt_zh_detail_h">60dp</dimen>
     <dimen name="item_sgt_zh_detail_ml">28dp</dimen>
-    <dimen name="sgt_info_m">10dp</dimen>
+    <dimen name="sgt_info_m">15dp</dimen>
     <dimen name="sgt_img_upload_m">10dp</dimen>
 
     <dimen name="gyt_monitor_img_wh">80sp</dimen>
 
     <dimen name="water_img_tv_size">7sp</dimen>
+    <dimen name="ic_arrow_right_size">12dp</dimen>
 </resources>

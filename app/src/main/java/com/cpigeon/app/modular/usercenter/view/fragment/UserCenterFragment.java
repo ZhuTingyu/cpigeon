@@ -129,6 +129,19 @@ public class UserCenterFragment extends BaseMVPFragment<UserCenterPre> {
     public void finishCreateView(Bundle state) {
         refreshUserInfo(false);
         loadData();
+
+        fragmentUserCenterUserLogo.setOnClickListener(v -> {
+            if (!isNetworkConnected()) {
+                new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("无法连接网络")
+                        .setConfirmText("知道了")
+                        .show();
+                return;
+            }
+            if (checkLogin()) {
+                startActivity(new Intent(getActivity(), UserInfoActivity.class));
+            }
+        });
     }
 
     @OnClick({R.id.fragment_user_center_details, R.id.cv_sign, R.id.ll_user_center_msg, R.id.ll_user_center_focus, R.id.ll_user_center_order, R.id.ll_user_money, R.id.ll_user_jifen, R.id.ll_user_center_setting, R.id.ll_user_center_aboutus, R.id.ll_user_center_help,R.id.ll_user_center_message})

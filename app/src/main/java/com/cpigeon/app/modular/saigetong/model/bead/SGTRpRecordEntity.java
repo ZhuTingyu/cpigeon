@@ -59,15 +59,15 @@ public class SGTRpRecordEntity {
          * tid : 索引ID（数字类型，作为参数获取鸽主列表）
          */
 
-        private String tpcount;
+        private int tpcount;
         private String title;
         private String tid;
 
-        public String getTpcount() {
+        public int getTpcount() {
             return tpcount;
         }
 
-        public void setTpcount(String tpcount) {
+        public void setTpcount(int tpcount) {
             this.tpcount = tpcount;
         }
 

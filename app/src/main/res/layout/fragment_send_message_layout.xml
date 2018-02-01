@@ -15,8 +15,8 @@
             android:id="@+id/text1"
             android:textSize="@dimen/medium_text_size"
             android:text="收件人"
-            android:layout_marginStart="10dp"
-            android:textColor="@color/gray"
+            android:layout_marginStart="@dimen/large_horizontal_margin_15"
+            android:textColor="@color/black"
             android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
@@ -27,10 +27,10 @@
             android:id="@+id/ic_contacts_add"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="@dimen/large_horizontal_margin_15"
             app:srcCompat="@mipmap/ic_contacts_add"
-            android:layout_width="24dp"
-            android:layout_height="24dp" />
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
 
 
         <TextView
@@ -41,7 +41,7 @@
             android:paddingEnd="16dp"
             android:layout_toRightOf="@id/text1"
             android:layout_toLeftOf="@+id/ic_contacts_add"
-            android:textColor="@color/gray"
+            android:textColor="@color/black"
             android:maxLines="1"
             android:ellipsize="end"
             android:singleLine="true"
@@ -100,9 +100,9 @@
             android:minLines="6"
             android:hint="短信"
             android:textSize="@dimen/medium_text_size"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginRight="32dp"
             android:background="@color/white"
             android:layout_width="match_parent"

@@ -20,20 +20,22 @@
             android:orientation="vertical">
 
             <android.support.v7.widget.AppCompatImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="8dp"
-                android:background="@color/colorWhite"
+                android:scaleType="fitCenter"
+                android:background="@drawable/shape_solid_white_radius_3"
                 android:padding="16dp"
-                app:srcCompat="@drawable/vector_hide_message" />
+                app:srcCompat="@mipmap/ic_hide_message" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:textColor="@color/default_clickable_color"
                 android:text="隐藏此条动态"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -45,20 +47,22 @@
             android:orientation="vertical">
 
             <android.support.v7.widget.AppCompatImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="8dp"
-                android:background="@color/colorWhite"
+                android:background="@drawable/shape_solid_white_radius_3"
                 android:padding="16dp"
-                app:srcCompat="@drawable/vector_hide_his_message" />
+                android:scaleType="fitCenter"
+                app:srcCompat="@mipmap/ic_hide_his_message" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="屏蔽他的动态"
-                android:textSize="14sp" />
+                android:textSize="12sp"
+                android:textColor="@color/default_clickable_color"/>
         </LinearLayout>
 
         <LinearLayout
@@ -70,20 +74,22 @@
             android:orientation="vertical">
 
             <android.support.v7.widget.AppCompatImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="8dp"
-                android:background="@color/colorWhite"
+                android:background="@drawable/shape_solid_white_radius_3"
                 android:padding="16dp"
-                app:srcCompat="@drawable/vector_add_to_black_list" />
+                android:scaleType="fitCenter"
+                app:srcCompat="@mipmap/ic_hide_user" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="加入黑名单"
-                android:textSize="14sp" />
+                android:textSize="12sp"
+                android:textColor="@color/default_clickable_color" />
         </LinearLayout>
 
         <LinearLayout
@@ -95,20 +101,22 @@
             android:orientation="vertical">
 
             <android.support.v7.widget.AppCompatImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="8dp"
-                android:background="@color/colorWhite"
+                android:background="@drawable/shape_solid_white_radius_3"
                 android:padding="16dp"
-                app:srcCompat="@drawable/vector_report" />
+                android:scaleType="fitCenter"
+                app:srcCompat="@mipmap/ic_hide_report" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="举报"
-                android:textSize="14sp" />
+                android:textSize="12sp"
+                android:textColor="@color/default_clickable_color" />
         </LinearLayout>
 
     </LinearLayout>

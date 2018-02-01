@@ -43,7 +43,7 @@ public class PersonImageInfoAdapter extends BaseQuickAdapter<String, BaseViewHol
         imageView.setLayoutParams(params);
         if(StringValid.isStringValid(item)){
             File img = new File(mContext.getCacheDir() +"/" + item + ".jpg");
-            if(img.exists()){
+            if(img.length() > 0){
                 imageView.setImageBitmap(BitmapFactory.decodeFile(img.getPath()));
             }else {
                 imageView.setBackgroundResource(icList.get(holder.getAdapterPosition() - 1));

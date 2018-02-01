@@ -25,7 +25,7 @@ public class SGTUserListAdapter extends BaseQuickAdapter<SGTUserListEntity, Base
     protected void convert(BaseViewHolder helper, SGTUserListEntity item) {
 
         helper.setText(R.id.tv_content_title, item.getGpmc());
-        helper.setText(R.id.item_num, String.valueOf(item.getTpcount()));
+        helper.setText(R.id.item_num,item.getTpcount() > 9000 ? "9999+" : String.valueOf(item.getTpcount()));
         helper.getView(R.id.ll_sgt_home).setOnClickListener(view -> {
             IntentBuilder.Builder().putExtra(IntentBuilder.KEY_DATA, item.getUserid())
                     .putExtra(IntentBuilder.KEY_TITLE, item.getGpmc())

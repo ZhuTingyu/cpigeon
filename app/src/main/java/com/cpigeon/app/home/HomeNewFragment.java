@@ -258,9 +258,11 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
         dynamicList.setNestedScrollingEnabled(false);
         dynamicAdapter = new CircleDynamicAdapter(mPresenter);
         dynamicAdapter.setOnItemClickListener((adapter, view, position) -> {
-            IntentBuilder.Builder()
-                    .putExtra(IntentBuilder.KEY_DATA, dynamicAdapter.getItem(position).mid)
-                    .startParentActivity(activity, CircleMessageDetailsFragment.class);
+            if(checkLogin()){
+                IntentBuilder.Builder()
+                        .putExtra(IntentBuilder.KEY_DATA, dynamicAdapter.getItem(position).mid)
+                        .startParentActivity(activity, CircleMessageDetailsFragment.class);
+            }else LoginActivity.startActivity(getActivity());
         });
         dynamicList.setAdapter(dynamicAdapter);
     }

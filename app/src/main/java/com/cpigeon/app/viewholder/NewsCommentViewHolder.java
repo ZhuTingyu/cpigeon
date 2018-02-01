@@ -93,8 +93,8 @@ public class NewsCommentViewHolder extends BaseViewHolder {
         comment.setText(String.valueOf(entity.count));
 
         if (entity.ispl) {
-            setViewDrawableLeft(comment, R.mipmap.ic_new_comment_select);
-            comment.setTextColor(activity.getResources().getColor(R.color.colorPrimary));
+            setViewDrawableLeft(comment, R.mipmap.ic_new_comment);
+            comment.setTextColor(activity.getResources().getColor(R.color.text_color_4d4d4d));
         }else {
             setViewDrawableLeft(comment, R.mipmap.ic_new_comment);
             comment.setTextColor(activity.getResources().getColor(R.color.text_color_4d4d4d));
@@ -120,11 +120,7 @@ public class NewsCommentViewHolder extends BaseViewHolder {
 
 
     public void onlyComment() {
-        thumb.setVisibility(View.GONE);
-        imgThumb.setVisibility(View.GONE);
-        comment.setVisibility(View.GONE);
-        input.setVisibility(View.GONE);
-        input_center.setVisibility(View.VISIBLE);
+        itemView.setVisibility(View.GONE);
     }
 
     public interface OnViewClickListener {

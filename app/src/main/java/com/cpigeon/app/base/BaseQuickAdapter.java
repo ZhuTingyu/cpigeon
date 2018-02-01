@@ -25,7 +25,7 @@ import java.util.List;
 public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends com.chad.library.adapter.base.BaseQuickAdapter<T, K> {
     public BaseQuickAdapter(int layoutResId, List<T> data) {
         super(layoutResId, data);
-        /*setLoadMoreView(new LoadMoreView() {
+        setLoadMoreView(new LoadMoreView() {
             @Override
             public int getLayoutId() {
                 return R.layout.item_adpter_load_more_layout;
@@ -45,7 +45,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends com.
             protected int getLoadEndViewId() {
                 return R.id.load_more;
             }
-        });*/
+        });
 
     }
 

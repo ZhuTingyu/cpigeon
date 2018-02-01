@@ -6,8 +6,10 @@
 
 
     <LinearLayout
+        android:id="@+id/top_ll"
         android:gravity="center"
         android:padding="10dp"
+        android:visibility="gone"
         android:background="@color/color_default_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

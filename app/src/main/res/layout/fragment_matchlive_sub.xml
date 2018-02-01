@@ -27,7 +27,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
 
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:id="@+id/videoFullContainer"
+            android:layout_height="match_parent"/>
+
+
     </FrameLayout>
+
+
+
 </android.support.v4.widget.SwipeRefreshLayout>
 
 

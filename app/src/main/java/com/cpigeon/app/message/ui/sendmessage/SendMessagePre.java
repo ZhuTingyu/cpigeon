@@ -7,8 +7,11 @@ import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.IView;
 import com.cpigeon.app.entity.ContactsGroupEntity;
 import com.cpigeon.app.entity.PersonInfoEntity;
+import com.cpigeon.app.entity.UserGXTEntity;
 import com.cpigeon.app.message.ui.common.CommonModel;
 import com.cpigeon.app.message.ui.contacts.ContactsModel;
+import com.cpigeon.app.message.ui.home.PigeonHomePre;
+import com.cpigeon.app.message.ui.home.UserGXTModel;
 import com.cpigeon.app.message.ui.modifysign.PersonSignModel;
 import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.Lists;
@@ -33,6 +36,7 @@ public class SendMessagePre extends BasePresenter {
     public String groupId;
 
     String messageContent;
+    public int sendCount;
 
     public SendMessagePre(Activity activity) {
         super(activity);
@@ -101,7 +105,16 @@ public class SendMessagePre extends BasePresenter {
         for (int i = 0, len = entities.size(); i < len; i++) {
             count += entities.get(i).fzcount;
         }
+        sendCount = count;
         return count;
+    }
+
+    public void getUserInfo(Consumer<UserGXTEntity> consumer) {
+        submitRequestThrowError(UserGXTModel.getUserInfo(userId).map(r -> {
+            if(r.status){
+                return r.data;
+            }else throw new HttpErrorException(r);
+        }), consumer);
     }
 
     public Consumer<String> setMessageContent(){

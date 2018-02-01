@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.cpigeon.app.event.GXTUserInfoEvent;
 import com.cpigeon.app.event.WXPayResultEvent;
 import com.cpigeon.app.utils.CpigeonData;
 import com.orhanobut.logger.Logger;
@@ -65,6 +66,7 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
                 '}');// 支付结果码
         CpigeonData.getInstance().onWxPay(this, baseResp.errCode);
         EventBus.getDefault().post(new WXPayResultEvent(baseResp.errCode));
+        EventBus.getDefault().post(new GXTUserInfoEvent());
         this.finish();
     }
 }

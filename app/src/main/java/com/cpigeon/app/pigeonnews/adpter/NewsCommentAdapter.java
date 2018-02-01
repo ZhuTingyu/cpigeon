@@ -18,6 +18,7 @@ import com.cpigeon.app.entity.NewsEntity;
 import com.cpigeon.app.pigeonnews.presenter.NewsCommentsPre;
 import com.cpigeon.app.utils.DateTool;
 import com.cpigeon.app.utils.Lists;
+import com.cpigeon.app.utils.StringUtil;
 import com.cpigeon.app.view.LinearLayoutForRecyclerView;
 
 import java.util.List;
@@ -40,7 +41,7 @@ public class NewsCommentAdapter extends BaseQuickAdapter<NewsCommentEntity, Base
     @Override
     protected void convert(BaseViewHolder holder, NewsCommentEntity item) {
         holder.setSimpleImageView(R.id.icon, item.headurl);
-        holder.setText(R.id.name, item.nicheng);
+        holder.setText(R.id.name, StringUtil.toUpperCase(item.nicheng));
         holder.setText(R.id.time, DateTool.format(item.time, DateTool.FORMAT_DATETIME));
 
         TextView comment = holder.getView(R.id.comment);
@@ -121,7 +122,7 @@ public class NewsCommentAdapter extends BaseQuickAdapter<NewsCommentEntity, Base
 
     @Override
     protected String getEmptyViewText() {
-        return "暂时没有评论";
+        return "当前暂无评论，快快抢沙发";
     }
 
     @Override

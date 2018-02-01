@@ -56,7 +56,7 @@ public class OpenServiceActivity extends BaseActivity<OpenServicePresenter> impl
         mServiceName = getIntent().getStringExtra(INTENT_DATA_KEY_SERVICENAME);
         if (TextUtils.isEmpty(mServiceName))
             throw new NullPointerException("service name is empty");
-        toolbar.setTitle(String.format("开通%s", TextUtils.isEmpty(mServiceName) ? "服务" : mServiceName));
+        setTitle(String.format("开通%s", TextUtils.isEmpty(mServiceName) ? "服务" : mServiceName));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

@@ -6,7 +6,7 @@
     android:padding="8dp"
     android:id="@+id/card_message"
     app:cardCornerRadius="2dp"
-    app:cardElevation="4dp">
+    app:cardElevation="0dp">
 
     <include layout="@layout/item_circle_message_2_layout"/>
 

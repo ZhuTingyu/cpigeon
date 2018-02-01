@@ -109,6 +109,8 @@
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.TransparentStatusBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity

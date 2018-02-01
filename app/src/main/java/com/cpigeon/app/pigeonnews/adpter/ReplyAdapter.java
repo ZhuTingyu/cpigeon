@@ -64,7 +64,7 @@ public class ReplyAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.textView.setText(setColor(data.get(position).nicheng +":"+ data.get(position).content));
+        holder.textView.setText(setColor(StringUtil.toUpperCase(data.get(position).nicheng) +":"+ data.get(position).content));
 
         convertView.setOnClickListener(v -> {
             InputCommentDialog dialog = new InputCommentDialog();

@@ -5,6 +5,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cpigeon.app.R;
@@ -33,6 +35,7 @@ public class SGTRpRecordFragment extends BaseMVPFragment<SGTPresenter> {
     TextView tv2;
 
     private SGTRpRecordAdapter mAdapter;
+    LinearLayout top;
 
 
     @Override
@@ -61,7 +64,7 @@ public class SGTRpRecordFragment extends BaseMVPFragment<SGTPresenter> {
             }
         }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-
+        top = findViewById(R.id.top_ll);
 
         mAdapter = new SGTRpRecordAdapter();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -71,8 +74,11 @@ public class SGTRpRecordFragment extends BaseMVPFragment<SGTPresenter> {
         mPresenter.getSGTRpRecoudData(data -> {
             hideLoading();
             mAdapter.setSGTRpRecordEntity(data, getActivity());
-            tv1.setText(String.valueOf(data.getAllgzcount() + "羽  "));
-            tv2.setText(String.valueOf(data.getAlltpcount()) +"张照片");
+            if(data.getAllgzcount() != 0 && data.getAlltpcount() != 0){
+                top.setVisibility(View.VISIBLE);
+                tv1.setText(String.valueOf(data.getAllgzcount() + "羽  "));
+                tv2.setText(String.valueOf(data.getAlltpcount()) +"张照片");
+            }else top.setVisibility(View.GONE);
 
             if (data.getList() != null) {
                 mAdapter.setNewData(data.getList());
@@ -86,7 +92,9 @@ public class SGTRpRecordFragment extends BaseMVPFragment<SGTPresenter> {
             mPresenter.pi2 = 1;
             mPresenter.getSGTRpRecoudData(data -> {
                 mAdapter.setSGTRpRecordEntity(data, getActivity());
-                mAdapter.setNewData(data.getList());
+                if(data.getList() != null){
+                    mAdapter.setNewData(data.getList());
+                }
                 hideLoading();
             });
         });

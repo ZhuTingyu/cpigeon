@@ -18,7 +18,55 @@
 
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <include layout="@layout/item_tab_layout"/>
+            <LinearLayout
+                android:orientation="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <View
+                    android:layout_marginLeft="@dimen/large_horizontal_margin_15"
+                    android:layout_marginRight="@dimen/large_horizontal_margin_15"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/large_vertical_margin"/>
+
+                <!--app:stl_indicatorWidth="20dp"-->
+                <com.cpigeon.app.utils.customview.smarttab.SmartTabLayout
+                    android:layout_marginLeft="@dimen/large_horizontal_margin_15"
+                    android:layout_marginRight="@dimen/large_horizontal_margin_15"
+                    android:id="@+id/tab_view"
+                    app:stl_dividerColor="@color/white"
+                    android:background="@color/white"
+                    app:stl_dividerThickness="1dp"
+                    app:stl_customTabTextLayoutId="@layout/item_custom_tab"
+                    app:stl_customTabTextViewId="@+id/custom_text"
+                    app:stl_defaultTabTextSize="15dp"
+                    app:stl_defaultTabTextColor = "@color/gray_m"
+                    app:stl_distributeEvenly="true"
+                    app:stl_indicatorColor="@color/colorPrimary"
+                    app:stl_indicatorCornerRadius="1.5dp"
+                    app:stl_indicatorInterpolation="smart"
+                    app:stl_indicatorThickness="3dp"
+                    app:stl_underlineColor="@android:color/transparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"/>
+
+                <View
+                    android:layout_marginLeft="@dimen/large_horizontal_margin_15"
+                    android:layout_marginRight="@dimen/large_horizontal_margin_15"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/large_vertical_margin"/>
+
+                <android.support.v4.view.ViewPager
+
+                    android:id="@+id/view_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+
+            </LinearLayout>
 
         </LinearLayout>
 

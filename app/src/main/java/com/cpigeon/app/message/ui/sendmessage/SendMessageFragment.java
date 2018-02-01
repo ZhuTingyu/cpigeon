@@ -13,6 +13,8 @@ import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.ContactsGroupEntity;
 import com.cpigeon.app.entity.UserGXTEntity;
+import com.cpigeon.app.event.GXTUserInfoEvent;
+import com.cpigeon.app.event.PersonInfoEvent;
 import com.cpigeon.app.message.ui.common.CommonMessageFragment;
 import com.cpigeon.app.message.ui.contacts.SelectContactsFragment;
 import com.cpigeon.app.message.ui.modifysign.ModifySignFragment;
@@ -21,6 +23,10 @@ import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.RxUtils;
 import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -44,7 +50,6 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
     TextView tvSign;
     TextView tvBlanceCount;
 
-    String sign;
 
     UserGXTEntity userGXTEntity;
 
@@ -70,14 +75,6 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
                     return true;
                 }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         initView();
-        bindData();
-    }
-
-    private void bindData(){
-        mPresenter.getPersonSignName(s -> {
-            sign = "【" + s +"】";
-            tvSign.setText(getString(R.string.string_sign_info, s));
-        });
     }
 
     private void initView() {
@@ -92,7 +89,8 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
         tvSign = findViewById(R.id.text2);
         tvBlanceCount = findViewById(R.id.balance);
 
-        tvBlanceCount.setText(getString(R.string.string_pigeon_message_balance_count, userGXTEntity.syts));
+        tvBlanceCount.setText(getString(R.string.string_pigeon_message_balance_count, String.valueOf(userGXTEntity.syts)));
+        tvSign.setText(getString(R.string.string_sign_info, userGXTEntity.qianming));
 
         bindUi(RxUtils.textChanges(edContent),mPresenter.setMessageContent());
 
@@ -170,5 +168,10 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
                 });
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

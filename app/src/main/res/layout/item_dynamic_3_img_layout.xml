@@ -22,8 +22,8 @@
             android:id="@+id/content_img1"
             android:layout_width="0dp"
             android:layout_marginRight="3dp"
-            android:layout_height="match_parent"
             android:scaleType="centerCrop"
+            android:layout_height="match_parent"
             android:layout_weight="3"/>
 
         <LinearLayout
@@ -37,8 +37,8 @@
                 android:id="@+id/content_img2"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="2dp"
                 android:scaleType="centerCrop"
+                android:layout_marginBottom="2dp"
                 android:layout_weight="1"/>
 
             <ImageView

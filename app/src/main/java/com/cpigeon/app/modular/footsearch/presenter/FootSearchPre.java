@@ -6,6 +6,7 @@ import android.widget.EditText;
 
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
+import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.commonstandard.view.activity.IView;
 import com.cpigeon.app.commonstandard.view.fragment.BaseFragment;
 import com.cpigeon.app.entity.FootInfoEntity;
@@ -67,7 +68,7 @@ public class FootSearchPre extends BasePresenter {
             }
         }
 
-        getBaseFragment().showLoading();
+        ((BaseActivity)getActivity()).showLoading();
 
         submitRequestThrowError(FootSearchModel.searchFoot(keyWord,year,userId).map(r -> {
             if(r.status){

@@ -63,12 +63,13 @@
             android:id="@+id/img_2"
             android:layout_width="80dp"
             app:roundedCornerRadius="2.5dp"
-            android:layout_marginLeft="@dimen/large_horizontal_margin"
+            android:layout_marginLeft="20dp"
             android:layout_alignParentRight="true"
             android:layout_height="match_parent" />
 
-        <TextView
+        <com.cpigeon.app.view.MyTextView
             android:id="@+id/text_2"
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
@@ -99,17 +100,18 @@
             android:id="@+id/img_3"
             android:layout_width="80dp"
             app:roundedCornerRadius="2.5dp"
-            android:layout_marginLeft="@dimen/large_horizontal_margin"
+            android:layout_marginLeft="20dp"
             android:layout_alignParentRight="true"
             android:layout_height="match_parent" />
 
-        <TextView
+        <com.cpigeon.app.view.MyTextView
             android:id="@+id/text_3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:textColor="@color/black"
+            android:gravity="center_vertical"
             android:layout_toLeftOf="@id/img_3"
             android:minLines="2"
             android:maxLines="2"
@@ -135,11 +137,11 @@
             android:id="@+id/img_4"
             android:layout_width="80dp"
             app:roundedCornerRadius="2.5dp"
-            android:layout_marginLeft="@dimen/large_horizontal_margin"
+            android:layout_marginLeft="20dp"
             android:layout_alignParentRight="true"
             android:layout_height="match_parent" />
 
-        <TextView
+        <com.cpigeon.app.view.MyTextView
             android:id="@+id/text_4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -149,6 +151,7 @@
             android:layout_toLeftOf="@id/img_4"
             android:minLines="2"
             android:maxLines="2"
+            android:gravity="center_vertical"
             tools:text="123123123123123333333as1231231233333333333333333333333333333dfa333"
             android:textSize="@dimen/medium_text_size" />
 

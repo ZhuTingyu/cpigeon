@@ -115,7 +115,7 @@
     <string name="string_text_message_addressee_number">收信人数：%1$s</string>
 
     <string name="string_text_create_message_order_explain">鸽信通%1$s元/1万条，不限时间，发完为止。</string>
-    <string name="string_text_foot_search_hint">注：您当前尚未购买套餐，最多显示2条结果！</string>
+    <string name="string_text_foot_search_hint">您当前尚未购买套餐，最多显示2条结果！足环号码格式越准确，查询速度越快！推荐使用足环号码格式：2018-22-1234567</string>
     <string name="string_text_foot_search_hot_hint">温馨提示：您的查询记录已被我们保存，切勿将您查询到的数据提供给网鸽者利用！中鸽网提倡鸽友将查询到的赛鸽归还失主，大家一起创 建和谐，让爱鸽共翔蓝天！</string>
     <string name="previous">Go to previous</string>
     <string name="next">Go to next</string>
@@ -127,8 +127,8 @@
     <string name="string_foot_search_help2">足环查询套餐服务可以使用积分兑换，查询到结果后扣除次数。普通套餐查询100次，每次显示5条记录，不支持模糊搜索和显示鸽主姓名；VIP套餐查询200次，每次显示所有结果，可以搜索和显示鸽主姓名。</string>
     <string name="string_foot_search_help3">历史查询记录查看搜索结果不会扣除足环查询套餐服务次数。购买的最新足环查询套餐服务，会覆盖之前的足环套餐服务，请谨慎操作 </string>
 
-    <string name="string_foot_search_remark">当前为您使用%1$s，%2$s，剩余查询次数：%3$s次</string>
-    <string name="string_foot_search_count">剩余查询：%1$s次</string>
+    <string name="string_foot_search_remark">当前为您使用%1$s，%2$s，剩余查询次数：%3$s次。足环号码格式越准确，查询速度越快！推荐使用足环号码格式：2018-22-1234567、2018221234567</string>
+    <string name="string_foot_search_count">剩余查询：%1$s次 </string>
 
     <string name="string_circle_message_show_type_public">所有人可见</string>
     <string name="string_circle_message_show_type_friend">好友可见</string>

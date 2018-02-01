@@ -417,8 +417,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     protected void addItemDecorationLine(RecyclerView recyclerView){
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(recyclerView.getContext())
-                .colorResId(R.color.line_color).size(1)
-                .showLastDivider().build());
+                .colorResId(R.color.line_color).size(ScreenTool.dip2px(0.5f)).build());
     }
 
     protected void addItemDecorationLine(RecyclerView recyclerView, @ColorRes int colorId){

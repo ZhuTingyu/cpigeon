@@ -109,9 +109,9 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
 
     public static final String TYPE_VIDEO = "video";
 
-    View water;
+    View water;/*
     TextView waterTime;
-    TextView waterLocation;
+    TextView waterLocation;*/
     Disposable disposable;
 
     @Override
@@ -161,20 +161,20 @@ public class RecordedActivity extends Activity implements View.OnClickListener, 
 
         disposable = RxUtils.rollPoling(1, 1000, aLong -> {
 
-            waterTime.setText(DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_DATETIME));
+            //waterTime.setText(DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_DATETIME));
 
             mCameraView.mCameraDrawer.setBitmap(BitmapUtils.getViewBitmap(water));
         });
 
-        locationManager.setLocationListener(aMapLocation -> {
+        /*locationManager.setLocationListener(aMapLocation -> {
             waterLocation.setText(aMapLocation.getProvince() + aMapLocation.getCity() + aMapLocation.getDistrict() + aMapLocation.getStreet());
-        }).star();
+        }).star();*/
     }
 
     private void initWater() {
         water = findViewById(R.id.water_layout);
-        waterTime  = water.findViewById(R.id.time);
-        waterLocation =water.findViewById( R.id.location);
+        /*waterTime  = water.findViewById(R.id.time);
+        waterLocation =water.findViewById( R.id.location);*/
     }
 
 

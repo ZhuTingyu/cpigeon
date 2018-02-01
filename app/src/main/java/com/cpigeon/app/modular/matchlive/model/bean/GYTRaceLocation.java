@@ -18,7 +18,7 @@ public class GYTRaceLocation implements Parcelable {
      */
     private Long sj;
     private TqBean tq;
-    private int sd;
+    private double sd;
     private int lid;
     private double wd;
     private double jd;
@@ -48,11 +48,11 @@ public class GYTRaceLocation implements Parcelable {
         this.tq = tq;
     }
 
-    public int getSd() {
+    public double getSd() {
         return sd;
     }
 
-    public void setSd(int sd) {
+    public void setSd(double sd) {
         this.sd = sd;
     }
 
@@ -182,7 +182,7 @@ public class GYTRaceLocation implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(this.sj);
         dest.writeParcelable(this.tq, flags);
-        dest.writeInt(this.sd);
+        dest.writeDouble(this.sd);
         dest.writeInt(this.lid);
         dest.writeDouble(this.wd);
         dest.writeDouble(this.jd);

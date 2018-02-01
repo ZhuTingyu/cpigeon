@@ -27,7 +27,7 @@ public class SGTRpRecordAdapter extends BaseQuickAdapter<SGTRpRecordEntity.ListB
     protected void convert(BaseViewHolder helper, SGTRpRecordEntity.ListBean item) {
 
         helper.setText(R.id.tv_content_title, item.getTitle());
-        helper.setText(R.id.item_num, String.valueOf(item.getTpcount()));
+        helper.setText(R.id.item_num, item.getTpcount() > 9999 ? "9999+" : String.valueOf(item.getTpcount()));
         helper.getView(R.id.ll_sgt_home).setOnClickListener(view -> {
             if (mSGTRpRecordEntity != null) {
                 IntentBuilder.Builder()

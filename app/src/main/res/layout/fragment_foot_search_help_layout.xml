@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
         android:visibility="gone"
-        android:background="@color/bgColor_alertview_alert_start"
+        android:background="@color/bg_color_fafafa"
         android:layout_height="58dp">
 
         <TextView
@@ -40,7 +40,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
         android:layout_below="@id/icon"
-        android:layout_margin="16dp"
+        android:layout_marginLeft="@dimen/large_horizontal_margin_15"
+        android:layout_marginRight="@dimen/large_horizontal_margin_15"
         android:layout_above="@+id/rl1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

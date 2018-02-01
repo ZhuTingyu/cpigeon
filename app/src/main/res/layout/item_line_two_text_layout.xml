@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="@dimen/large_vertical_margin"
-    android:paddingBottom="@dimen/large_vertical_margin"
-    android:gravity="center_vertical"
+    android:layout_height="60dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -13,8 +10,8 @@
         android:background="@drawable/shape_ovel_solid_blue"
         android:layout_width="5dp"
         android:layout_height="5dp"
-        android:layout_marginRight="@dimen/large_horizontal_margin"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/large_horizontal_margin"/>
 
     <TextView
         android:id="@+id/title"
@@ -29,12 +26,23 @@
 
     <TextView
         android:id="@+id/content"
-        android:textSize="@dimen/medium_text_size"
+        android:textSize="13dp"
         tools:text="1231231231"
+        android:layout_centerVertical="true"
         android:gravity="center"
-        android:layout_alignParentRight="true"
-        android:drawableRight="@drawable/vector_arrow_right"
+        android:layout_toLeftOf="@id/ic_right"
+        android:textColor="@color/gray_m"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+
+    <com.cpigeon.app.view.ImageView
+        android:id="@+id/ic_right"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginStart="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/ic_info_r"/>
 
 </RelativeLayout>

@@ -49,8 +49,8 @@ public class PushCircleMessageFragment extends BaseMVPFragment<PushCircleMessage
 
     View water;
 
-    TextView wTime;
-    TextView wLocation;
+   /* TextView wTime;
+    TextView wLocation;*/
 
 
     @Override
@@ -130,8 +130,8 @@ public class PushCircleMessageFragment extends BaseMVPFragment<PushCircleMessage
 
     private void initWater() {
         water = LayoutInflater.from(getContext()).inflate(R.layout.water_push_circle_layout,null);
-        wTime  = findViewById(water, R.id.time);
-        wLocation = findViewById(water, R.id.location);
+        /*wTime  = findViewById(water, R.id.time);
+        wLocation = findViewById(water, R.id.location);*/
     }
 
     @Override
@@ -142,14 +142,14 @@ public class PushCircleMessageFragment extends BaseMVPFragment<PushCircleMessage
             List<ChooseImageEntity> entities = Lists.newArrayList();
             List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
             if(requestCode == PictureMimeType.ofImage()){
-                wTime.setText(DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_DATETIME));
+                //wTime.setText(DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_DATETIME));
                 for (LocalMedia localMedia : selectList) {
                     images.add(localMedia.getCompressPath());
                 }
-                if(StringValid.isStringValid(mPresenter.location)){
+                /*if(StringValid.isStringValid(mPresenter.location)){
                     wLocation.setText(mPresenter.location);
                     wLocation.setVisibility(View.VISIBLE);
-                }else wLocation.setVisibility(View.GONE);
+                }else wLocation.setVisibility(View.GONE);*/
                 images = BitmapUtils.addWaters(images, water, DateTool.format(System.currentTimeMillis(), DateTool.FORMAT_DATETIME));
 
                 for (String path : images) {
@@ -191,7 +191,7 @@ public class PushCircleMessageFragment extends BaseMVPFragment<PushCircleMessage
         if(requestCode == CODE_CHOOSE_LOCATION){
             if(data != null && data.hasExtra(IntentBuilder.KEY_DATA)){
                 location.setText(data.getStringExtra(IntentBuilder.KEY_DATA));
-                wLocation.setText(data.getStringExtra(IntentBuilder.KEY_DATA));
+                //wLocation.setText(data.getStringExtra(IntentBuilder.KEY_DATA));
             }
         }
     }

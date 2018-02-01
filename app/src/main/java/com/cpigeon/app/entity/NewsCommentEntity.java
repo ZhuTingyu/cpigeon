@@ -22,7 +22,7 @@ public class NewsCommentEntity extends SnsEntity {
     public int replycount;//回复次数
     public String headurl;
     public boolean isreply;
-    public boolean isExpand;
+    public boolean isExpand = false;
 
     public boolean icCanComment(Context context){
         return Integer.valueOf(userid).equals(CpigeonData.getInstance().getUserId(context));

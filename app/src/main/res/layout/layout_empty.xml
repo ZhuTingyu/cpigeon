@@ -16,7 +16,7 @@
             android:id="@+id/empty_img"
             android:layout_width="160dp"
             android:layout_height="100dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="16dp"
             tools:src="@drawable/ic_empty_img"/>
 
         <TextView

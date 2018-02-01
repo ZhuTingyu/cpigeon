@@ -187,7 +187,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        toolbar.setTitle("个人信息");
+        setTitle("个人信息");
         setSupportActionBar(this.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

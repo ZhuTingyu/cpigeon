@@ -36,6 +36,7 @@ public class SGTGzListEntity {
     private List<DataBean> data;
     private int tag = 1;//点击展开tag 1 收缩，2展开
 
+
     public int getTag() {
         return tag;
     }
@@ -103,6 +104,15 @@ public class SGTGzListEntity {
         private String id;//索引ID，数字类型
         private String foot;//足环号码
         private String color;//羽色
+        private String pic;//照片数量
+
+        public String getPic() {
+            return pic;
+        }
+
+        public void setPic(String pic) {
+            this.pic = pic;
+        }
 
         public String getCskh() {
             return cskh;

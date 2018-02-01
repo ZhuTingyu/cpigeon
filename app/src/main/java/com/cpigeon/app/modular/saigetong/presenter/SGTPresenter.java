@@ -26,7 +26,7 @@ public class SGTPresenter extends BasePresenter {
 
     public int pi = 1;
     public int pi2 = 1;
-    public int pi3 = 1;
+    public int pi3 = -1;
 
     public String guid;
     public String tID;

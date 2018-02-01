@@ -98,7 +98,7 @@ public class HomeModel {
 
     static Observable<ApiResponse<List<HomeMessageEntity>>> homeMessage() {
         return HttpUtil.<ApiResponse<List<HomeMessageEntity>>>builder()
-                .setHeadUrl(R.string.api_public_head_url)
+                .setHeadUrl(R.string.api_head_url)
                 .addHeader("auth", CommonTool.getUserToken(MyApp.getInstance().getBaseContext()))
                 .setUserId("uid", CpigeonData.getInstance().getUserId(MyApp.getInstance().getBaseContext()))
                 .setToJsonType(new TypeToken<ApiResponse<List<HomeMessageEntity>>>() {

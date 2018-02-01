@@ -10,15 +10,18 @@
     <com.cpigeon.app.utils.customview.SearchEditText
         android:id="@+id/search_edittext"
         style="@style/searchedittextstyle"
+        android:background = "@drawable/search_edit_bg"
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:layout_centerVertical="true"
         android:layout_marginTop="8dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:drawablePadding="5dp"
         android:layout_toRightOf="@id/iv_actionbar_logo"
         android:gravity="left|center_vertical"
         android:hint="  搜索"
+        android:textColorHint="@color/text_color_gray"
         android:paddingLeft="8dp" />
 
     <include layout="@layout/fragment_matchlive_sub"/>

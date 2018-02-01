@@ -11,11 +11,11 @@
         android:id="@+id/text1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:textSize="@dimen/medium_text_size"
+        android:layout_marginLeft="@dimen/large_horizontal_margin_15"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginBottom="23dp"
         android:textColor="@color/black"
         android:text="姓名"/>
 
@@ -26,12 +26,11 @@
         android:layout_alignBaseline="@+id/text1"
         android:layout_alignBottom="@+id/text1"
         android:layout_alignStart="@+id/ed2"
-        android:layout_marginRight="16dp"
         android:background="@color/white"
         android:gravity="left"
         android:maxLines="1"
         android:minLines="1"
-        android:textSize="16dp"
+        android:textSize="13sp"
         tools:text="333333334444231" />
 
     <include
@@ -45,9 +44,9 @@
         android:layout_below="@id/text1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
+        android:textSize="@dimen/medium_text_size"
 
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="@dimen/large_horizontal_margin_15"
         android:layout_marginRight="10dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
@@ -63,13 +62,14 @@
         android:layout_alignStart="@+id/ed3"
         android:background="@color/white"
         android:gravity="left"
+
         android:inputType="phone"
-        android:layout_marginRight="16dp"
+        android:layout_marginRight="@dimen/large_horizontal_margin_15"
 
         android:maxLength="11"
         android:maxLines="1"
         android:minLines="1"
-        android:textSize="16dp"
+        android:textSize="13dp"
         tools:text="21231231" />
 
     <include
@@ -83,9 +83,9 @@
         android:layout_below="@id/text2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
+        android:textSize="@dimen/medium_text_size"
 
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="@dimen/large_horizontal_margin_15"
         android:layout_marginRight="10dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
@@ -98,13 +98,13 @@
         android:background="@color/white"
         android:layout_toRightOf="@id/text1"
         android:gravity="left"
-        android:textSize="16dp"
+        android:textSize="13dp"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="32dp"
         android:maxLines="1"
         android:minLines="1"
         tools:text="21231231"
-        android:layout_marginRight="16dp"
+        android:layout_marginRight="@dimen/large_horizontal_margin_15"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -121,10 +121,8 @@
         android:layout_below="@id/text3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
-
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:textSize="@dimen/medium_text_size"
+        android:layout_marginLeft="@dimen/large_horizontal_margin_15"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:textColor="@color/black"
@@ -144,14 +142,15 @@
     <RelativeLayout
         android:id="@+id/rl2"
         android:layout_below="@id/text3"
-        android:layout_toRightOf="@id/text4"
+        android:layout_marginLeft="32dp"
+        android:layout_toRightOf="@id/text1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/ed4"
             android:gravity="left"
-            android:textSize="16dp"
+            android:textSize="13dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             tools:text="21231231"
@@ -163,13 +162,12 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
             android:layout_alignBottom="@+id/ed4"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="15dp"
-            android:rotation="-90"
-            app:srcCompat="@drawable/ic_arrow_down" />
+            app:srcCompat="@mipmap/ic_info_r" />
 
     </RelativeLayout>
 

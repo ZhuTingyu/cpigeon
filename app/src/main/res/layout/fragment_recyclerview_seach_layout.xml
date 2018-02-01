@@ -77,12 +77,13 @@
         android:id="@+id/widget_title_bar_search"
         style="@style/searchedittextstyle"
         android:layout_marginTop="16dp"
+        android:background="@drawable/search_edit_bg_2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/search_edittext_height"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:dropDownHeight="12dp"
-        android:hint="搜索"
+        android:hint="      搜索"
         android:paddingRight="@dimen/dp_10"
         android:textColor="@color/light_black2"
         android:textColorHint="@color/search_edit_gray"
@@ -101,7 +102,6 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list"
-
             android:overScrollMode="never"
             android:scrollbars="none"
             android:layout_width="match_parent"

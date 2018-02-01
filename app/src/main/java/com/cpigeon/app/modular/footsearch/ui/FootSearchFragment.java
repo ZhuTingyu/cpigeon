@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
+import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.FootSearchServiceInfoEntity;
 import com.cpigeon.app.modular.footsearch.presenter.FootSearchPre;
@@ -45,7 +46,6 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> {
     private TextView count;
 
     private int datePosition;
-
     RelativeLayout cotent;
 
 
@@ -114,11 +114,13 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> {
 
         searchBtn.setOnClickListener(v -> {
             mPresenter.searchFoot(s -> {
-                hideLoading();
+                ((BaseActivity)getActivity()).hideLoading();
                 if(StringValid.isStringValid(mPresenter.serviceInfoEntity.brief) && !s.isEmpty()){
                     mPresenter.serviceInfoEntity.numbers --;
                     remark.setText(getString(R.string.string_foot_search_remark,mPresenter.serviceInfoEntity.packageX,mPresenter.serviceInfoEntity.brief,String.valueOf(mPresenter.serviceInfoEntity.numbers)));
                     count.setText(getString(R.string.string_foot_search_count, String.valueOf(mPresenter.serviceInfoEntity.numbers)));
+                }else {
+                    count.setText("你尚未开通套餐");
                 }
                 if(!s.isEmpty()){
                     IntentBuilder.Builder()
@@ -137,7 +139,7 @@ public class FootSearchFragment extends BaseMVPFragment<FootSearchPre> {
         AppCompatImageView imageView = findViewById(R.id.icon_title);
 
         int w = ScreenTool.getScreenWidth(getContext());
-        int h = (int) (w * 0.46f);
+        int h = (int) (w * 0.42f);
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(w,h);
         imageView.setLayoutParams(layoutParams);

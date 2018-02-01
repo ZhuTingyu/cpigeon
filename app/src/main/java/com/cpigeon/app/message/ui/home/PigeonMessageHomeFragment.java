@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.cpigeon.app.R;
 import com.cpigeon.app.commonstandard.view.fragment.BaseMVPFragment;
 import com.cpigeon.app.entity.UserGXTEntity;
+import com.cpigeon.app.event.GXTUserInfoEvent;
 import com.cpigeon.app.message.adapter.PigeonMessageHomeAdapter;
 import com.cpigeon.app.base.BaseWebViewActivity;
 import com.cpigeon.app.message.ui.order.ui.CreateMessageOrderFragment;
@@ -26,6 +27,10 @@ import com.cpigeon.app.utils.CpigeonData;
 import com.cpigeon.app.utils.DialogUtils;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.Lists;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -52,7 +57,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
 
     @Override
     public PigeonHomePre initPresenter() {
-        return new PigeonHomePre(this);
+        return new PigeonHomePre(getActivity());
     }
 
     @Override
@@ -118,6 +123,8 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
 
 
         setTitle("鸽信通");
+
+        EventBus.getDefault().register(this);
 
         mPresenter.userId = CpigeonData.getInstance().getUserId(getContext());
 
@@ -237,6 +244,17 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
         });
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(GXTUserInfoEvent event) {
+        getUserData();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -247,7 +265,7 @@ public class PigeonMessageHomeFragment extends BaseMVPFragment<PigeonHomePre> {
             }
         }else if(requestCode == CODE_SEND_MESSAGE){
             if(data != null){
-             getUserData();
+                getUserData();
             }
         }
     }

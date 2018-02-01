@@ -11,9 +11,9 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingBottom="8dp"
-        android:paddingTop="16dp"
+        android:paddingTop="15dp"
         android:text="请选择套餐"
-        android:textColor="@color/textColor_gray"
+        android:textColor="@color/gray_m"
         android:textSize="@dimen/sp_18" />
 
     <include

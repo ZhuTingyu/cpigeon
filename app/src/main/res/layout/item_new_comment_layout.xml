@@ -3,8 +3,6 @@
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/bg_color_fafafa"
-    android:paddingLeft="@dimen/large_horizontal_margin_15"
-    android:paddingRight="@dimen/large_horizontal_margin_15"
     android:layout_height="56dp">
 
     <View
@@ -14,6 +12,7 @@
 
     <TextView
         android:id="@+id/input"
+        android:layout_marginLeft="@dimen/large_horizontal_margin_15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -23,7 +22,8 @@
         android:paddingBottom="@dimen/small_vertical_margin"
         android:paddingLeft="@dimen/big_large_horizontal_margin"
         android:paddingRight="@dimen/big_large_horizontal_margin"
-        android:paddingTop="@dimen/small_vertical_margin"
+        android:textColor="@color/text_color_gray"
+        android:paddingTop="8dp"
         android:text="写写你的看法"
         android:textSize="@dimen/medium_text_size" />
 
@@ -38,14 +38,16 @@
         android:paddingBottom="@dimen/small_vertical_margin"
         android:paddingLeft="@dimen/big_large_horizontal_margin"
         android:paddingRight="@dimen/big_large_horizontal_margin"
-        android:paddingTop="@dimen/small_vertical_margin"
+        android:paddingTop="8dp"
         android:text="写写你的看法"
+        android:textColor="@color/text_color_gray"
         android:visibility="gone"
         android:textSize="@dimen/medium_text_size" />
 
 
     <TextView
         android:id="@+id/comment"
+        android:layout_marginRight="@dimen/large_horizontal_margin_15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"

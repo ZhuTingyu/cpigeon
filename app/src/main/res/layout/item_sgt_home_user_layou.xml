@@ -32,23 +32,22 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:src="@mipmap/ic_list_sgt_img" />
 
             <TextView
                 android:id="@+id/item_num"
-                android:layout_width="40dp"
+                android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:textColor="@color/gray_m"
                 android:textSize="12dp"
-                tools:text="133323" />
+                tools:text="9999+" />
 
             <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:layout_marginLeft="10dp"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
                 android:src="@mipmap/ic_info_r" />
 
         </LinearLayout>

@@ -68,7 +68,7 @@ public class PigeonMessageFragment extends BaseMVPFragment<PigeonMessagePre> {
             BaseViewHolder holder1 = new BaseViewHolder(findViewById(suns, R.id.img_layout_1));
             TextView textView1 = holder1.getView(R.id.title);
             textView1.setTextColor(getResources().getColor(R.color.gray_m));
-            textView1.setTextSize(14);
+            textView1.setTextSize(13);
             textView1.setText("太阳磁场像");
             holder1.setImageResource(R.id.icon, R.mipmap.ic_solar_storm_1);
 
@@ -78,13 +78,13 @@ public class PigeonMessageFragment extends BaseMVPFragment<PigeonMessagePre> {
             TextView textView2 = holder2.getView(R.id.title);
             textView2.setTextColor(getResources().getColor(R.color.gray_m));
             textView2.setText("太阳黑子像");
-            textView2.setTextSize(14);
+            textView2.setTextSize(13);
             holder2.setImageResource(R.id.icon, R.mipmap.ic_solar_storm_2);
 
             BaseViewHolder holder3 = new BaseViewHolder(findViewById(suns, R.id.img_layout_3));
             TextView textView3 = holder3.getView(R.id.title);
             textView3.setTextColor(getResources().getColor(R.color.gray_m));
-            textView3.setTextSize(14);
+            textView3.setTextSize(13);
             textView3.setText("全日面色球单色像");
             holder3.setImageResource(R.id.icon, R.mipmap.ic_solar_storm_3);
 

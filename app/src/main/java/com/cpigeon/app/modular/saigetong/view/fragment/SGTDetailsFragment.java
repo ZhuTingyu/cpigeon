@@ -85,7 +85,7 @@ public class SGTDetailsFragment extends BaseMVPFragment<SGTDetailsPre> {
      * 初始化RecyclerView
      */
     public void initView() {
-        mAdapter = new ZHNumAdapter();
+        mAdapter = new ZHNumAdapter(getContext());
         mAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         headView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_sg_headview, null, false);
         tvCskh =  headView.findViewById(R.id.tv_cskh);

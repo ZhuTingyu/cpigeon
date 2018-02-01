@@ -109,6 +109,7 @@ public class CallAPI {
                 try {
                     ApiResponse<UseDevInfo> apiResponse = JSON.parseObject(result, new TypeReference<ApiResponse<UseDevInfo>>() {
                     });
+                    com.cpigeon.app.utils.http.LogUtil.print("login: "+apiResponse.toJsonString());
                     if (apiResponse.isStatus()) {
                         callback.onSuccess(apiResponse.getData());
                     } else {

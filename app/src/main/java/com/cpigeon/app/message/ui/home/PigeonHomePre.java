@@ -1,5 +1,7 @@
 package com.cpigeon.app.message.ui.home;
 
+import android.app.Activity;
+
 import com.cpigeon.app.commonstandard.model.dao.IBaseDao;
 import com.cpigeon.app.commonstandard.presenter.BasePresenter;
 import com.cpigeon.app.commonstandard.view.activity.IView;
@@ -25,8 +27,8 @@ public class PigeonHomePre extends BasePresenter {
 
     public UserGXTEntity userGXTEntity;
 
-    public PigeonHomePre(IView mView) {
-        super(mView);
+    public PigeonHomePre(Activity activity) {
+        super(activity);
     }
 
     @Override

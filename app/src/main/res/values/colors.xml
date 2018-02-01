@@ -18,9 +18,10 @@
     <color name="svg_icon_gray">#7A7E83</color>
     <color name="light_green">#34A556</color>
     <color name="colorGreen">#0fa701</color>
+    <color name="color_82b7e9">#82b7e9</color>
     <!--页面背景颜色-->
     <color name="color_default_bg">#F5F5F5</color>
-    <color name="color_line">#e5e5e5</color>
+    <color name="color_line">#f0f0f0</color>
     <color name="colorLayoutGray">#d8d8d9</color>
     <color name="colorLayoutGray2">#ececec</color>
     <color name="colorLayoutGray3">#E3E3E3</color>
@@ -158,5 +159,6 @@
 
     <color name="color_blue_57bbdfa">#57bbfa</color>
     <color name="color_yellow_f49562">#f49562</color>
+    <color name="color_text_b3b3b3">#b3b3b3</color>
 
 </resources>

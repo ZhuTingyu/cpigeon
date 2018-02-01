@@ -15,26 +15,28 @@
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/icon"
             app:roundedCornerRadius = "2.5dp"
+            android:layout_centerVertical="true"
             android:layout_width="38dp"
             android:layout_height="38dp" />
 
 
         <TextView
             android:id="@+id/name"
-            tools:text="小朱"
-            android:layout_marginLeft="@dimen/medium_horizontal_margin"
-            android:textSize="@dimen/medium_text_size"
-            android:textColor="@color/gray_m"
-            android:layout_toRightOf="@id/icon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/time"
+            android:textColor="@color/gray_m"
+            android:textSize="@dimen/medium_text_size"
+            tools:text="小朱" />
 
         <TextView
             android:id="@+id/time"
             tools:text="2分钟之前"
             android:layout_below="@id/name"
-            android:textSize="@dimen/medium_text_size"
-            android:textColor="@color/gray_m"
+            android:textSize="13dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/color_text_b3b3b3"
             android:layout_marginLeft="@dimen/medium_horizontal_margin"
             android:layout_toRightOf="@id/icon"
             android:layout_width="wrap_content"
@@ -101,7 +103,7 @@
         android:layout_height="wrap_content" />
     <ImageView
         android:id="@+id/img1"
-        android:layout_marginTop="@dimen/big_large_vertical_margin"
+        android:layout_marginTop="10dp"
         android:layout_below="@id/content"
         android:layout_marginLeft="60dp"
         android:layout_width="10dp"
@@ -121,8 +123,6 @@
         <com.cpigeon.app.view.LinearLayoutForRecyclerView
             android:id="@+id/reply_list"
             android:orientation="vertical"
-            android:paddingTop="@dimen/small_vertical_margin"
-            android:paddingBottom="@dimen/small_vertical_margin"
             android:paddingLeft="@dimen/big_large_horizontal_margin"
             android:paddingRight="@dimen/big_large_horizontal_margin"
             android:visibility="visible"

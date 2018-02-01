@@ -10,6 +10,10 @@ import android.os.Parcelable;
 public class UserGXTEntity implements Parcelable {
     public int tyxy; //是否已同意使用协议
     public int syts; //短信剩余条数
+    public String qianming;
+
+    public UserGXTEntity() {
+    }
 
     @Override
     public int describeContents() {
@@ -20,17 +24,16 @@ public class UserGXTEntity implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.tyxy);
         dest.writeInt(this.syts);
-    }
-
-    public UserGXTEntity() {
+        dest.writeString(this.qianming);
     }
 
     protected UserGXTEntity(Parcel in) {
         this.tyxy = in.readInt();
         this.syts = in.readInt();
+        this.qianming = in.readString();
     }
 
-    public static final Parcelable.Creator<UserGXTEntity> CREATOR = new Parcelable.Creator<UserGXTEntity>() {
+    public static final Creator<UserGXTEntity> CREATOR = new Creator<UserGXTEntity>() {
         @Override
         public UserGXTEntity createFromParcel(Parcel source) {
             return new UserGXTEntity(source);

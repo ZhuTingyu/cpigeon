@@ -45,12 +45,11 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/iv_right"
-            android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_20"
+            android:layout_width="@dimen/ic_arrow_right_size"
+            android:layout_height="@dimen/ic_arrow_right_size"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/tv_service_item_price"
-            android:rotation="270"
-            app:srcCompat="@drawable/ic_arrow_down" />
+            app:srcCompat="@mipmap/ic_info_r" />
 
         <TextView
             android:id="@+id/tv_service_item_prompt"
