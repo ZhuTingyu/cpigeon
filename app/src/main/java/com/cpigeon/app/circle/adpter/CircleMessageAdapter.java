@@ -82,6 +82,11 @@ public class CircleMessageAdapter extends BaseQuickAdapter<CircleMessageEntity, 
 
         ExpandTextView content = holder.getView(R.id.content_text);
         content.setText(item.getMsg());
+        content.setOnClickListener(v -> {
+            IntentBuilder.Builder()
+                    .putExtra(IntentBuilder.KEY_DATA, item.getMid())
+                    .startParentActivity(activity, CircleMessageDetailsFragment.class);
+        });
 
         /**
          * 屏蔽取消

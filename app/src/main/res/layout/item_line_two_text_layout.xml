@@ -35,8 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-
-    <com.cpigeon.app.view.ImageView
+    <ImageView
         android:id="@+id/ic_right"
         android:layout_width="12dp"
         android:layout_height="12dp"

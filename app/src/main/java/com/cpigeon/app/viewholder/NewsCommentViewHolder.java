@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -16,7 +17,9 @@ import android.widget.TextView;
 import com.cpigeon.app.MyApp;
 import com.cpigeon.app.R;
 import com.cpigeon.app.base.BaseViewHolder;
+import com.cpigeon.app.commonstandard.view.activity.BaseActivity;
 import com.cpigeon.app.entity.NewsDetailsEntity;
+import com.cpigeon.app.modular.usercenter.view.activity.LoginActivity;
 import com.cpigeon.app.pigeonnews.ui.InputCommentDialog;
 import com.cpigeon.app.utils.CommonTool;
 import com.cpigeon.app.utils.IntentBuilder;
@@ -31,7 +34,7 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventList
 
 public class NewsCommentViewHolder extends BaseViewHolder {
 
-    Activity activity;
+    BaseActivity activity;
 
     TextView input;
     TextView input_center;
@@ -55,26 +58,34 @@ public class NewsCommentViewHolder extends BaseViewHolder {
         imgThumb = getView(R.id.image_thumb);
         input_center = getView(R.id.input_center);
 
-        this.activity = activity;
+        this.activity = (BaseActivity) activity;
         animation = AnimationUtils.loadAnimation(MyApp.getInstance().getBaseContext(), R.anim.anim_sign_box_rock);
         bindUi();
     }
 
     private void bindUi() {
         input.setOnClickListener(v -> {
-            showInputDialog();
+            if(activity.checkLogin()){
+                showInputDialog();
+            }else LoginActivity.startActivity(activity);
         });
 
         input_center.setOnClickListener(v -> {
-            showInputDialog();
+            if(activity.checkLogin()){
+                showInputDialog();
+            }else LoginActivity.startActivity(activity);
         });
 
         getView(R.id.ll_thumb).setOnClickListener(v -> {
-            listener.thumbClick();
+            if(activity.checkLogin()){
+                listener.thumbClick();
+            }else LoginActivity.startActivity(activity);
         });
 
         comment.setOnClickListener(v -> {
-            listener.commentClick();
+            if(activity.checkLogin()){
+                listener.commentClick();
+            }else LoginActivity.startActivity(activity);
         });
 
     }

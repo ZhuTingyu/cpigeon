@@ -9,17 +9,16 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/icon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_centerVertical="true"
-        tools:src="@drawable/svg_ic_pay_weixin"/>
+        tools:src="@drawable/svg_ic_pay_balance"/>
 
     <TextView
         android:id="@+id/order_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        tools:src="@drawable/svg_ic_pay_weixin"/>
+        android:layout_centerVertical="true"/>
 
     <RelativeLayout
         android:id="@+id/rl1"
@@ -37,12 +36,11 @@
             tools:text="adfasdfasdfasfasfasfasdfasfasdfasdfaaaaaaaaaaaaaaaaaaafa付"/>
 
         <android.support.v7.widget.AppCompatImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:rotation="-90"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
             android:id="@+id/icon_right"
             android:layout_centerVertical="true"
-            app:srcCompat="@drawable/ic_arrow_down"
+            app:srcCompat="@mipmap/ic_info_r"
             android:layout_alignParentRight="true"/>
 
     </RelativeLayout>

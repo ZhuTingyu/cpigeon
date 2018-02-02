@@ -125,8 +125,9 @@ public class CreateMessageOrderFragment extends BaseMVPFragment<MessageCreateOrd
         });
 
 
-
+        showLoading();
         mPresenter.getGXTMessagePrice(r -> {
+            hideLoading();
             if(r.status){
                 price = r.data;
                 tvExplain.setText(getString(R.string.string_text_create_message_order_explain,String.valueOf(price.money)));

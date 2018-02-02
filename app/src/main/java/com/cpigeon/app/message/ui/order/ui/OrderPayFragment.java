@@ -195,8 +195,8 @@ public class OrderPayFragment extends BaseMVPFragment<PayOrderPre> {
     private void payByBalance() {
         mPresenter.payOrderByBalance(r -> {
             if (r.status) {
+                EventBus.getDefault().post(new GXTUserInfoEvent());
                 DialogUtils.createDialog(getContext(), r.msg, sweetAlertDialog -> {
-                    EventBus.getDefault().post(new GXTUserInfoEvent());
                     sweetAlertDialog.dismiss();
                     finish();
                 });

@@ -2,6 +2,7 @@ package com.cpigeon.app.message.ui.sendmessage;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.cpigeon.app.message.ui.modifysign.ModifySignFragment;
 import com.cpigeon.app.message.ui.order.ui.CreateMessageOrderFragment;
 import com.cpigeon.app.utils.IntentBuilder;
 import com.cpigeon.app.utils.RxUtils;
+import com.cpigeon.app.utils.StringUtil;
 import com.cpigeon.app.utils.StringValid;
 import com.cpigeon.app.utils.ToastUtil;
 
@@ -66,6 +68,7 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
 
     @Override
     public void finishCreateView(Bundle state) {
+        EventBus.getDefault().register(this);
         setTitle("发送短信");
         userGXTEntity = getActivity().getIntent().getParcelableExtra(IntentBuilder.KEY_DATA);
         toolbar.getMenu().clear();
@@ -92,7 +95,7 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
         tvBlanceCount.setText(getString(R.string.string_pigeon_message_balance_count, String.valueOf(userGXTEntity.syts)));
         tvSign.setText(getString(R.string.string_sign_info, userGXTEntity.qianming));
 
-        bindUi(RxUtils.textChanges(edContent),mPresenter.setMessageContent());
+        bindUi(RxUtils.textChanges(edContent), mPresenter.setMessageContent());
 
         bindUi(RxUtils.click(tvPhoneNumbers), o -> {
 
@@ -112,9 +115,9 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
 
         bindUi(RxUtils.click(btnLeft), o -> {
             mPresenter.addCommonMessage(r -> {
-                if(r.status){
+                if (r.status) {
                     showTips(r.msg, TipType.Dialog);
-                }else {
+                } else {
                     showTips(r.msg, TipType.DialogError);
                 }
             });
@@ -124,13 +127,15 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
             showLoading();
             mPresenter.sendMessage(r -> {
                 hideLoading();
-                if(r.status){
-                    ToastUtil.showLongToast(MyApp.getInstance().getBaseContext(),r.msg);
+                if (r.status) {
+                    ToastUtil.showLongToast(MyApp.getInstance().getBaseContext(), r.msg);
                     Intent intent = new Intent();
                     intent.putExtra(IntentBuilder.KEY_BOOLEAN, true);
                     getActivity().setResult(0, intent);
-                    finish();
-                }else {
+
+                    cleanData();
+
+                } else {
                     showTips(r.msg, TipType.DialogError);
                 }
             });
@@ -140,6 +145,14 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
             IntentBuilder.Builder().startParentActivity(getActivity(), ModifySignFragment.class);
         });
 
+    }
+
+    private void cleanData() {
+        mPresenter.cleanData();
+        tvPhoneNumbers.setText("");
+        edContent.setText("");
+        contactsNumber.setVisibility(View.GONE);
+        getUserInfo();
     }
 
     @Override
@@ -156,15 +169,15 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
                 edContent.setText(content);
                 edContent.setSelection(content.length());
             }
-        }else if (CODE_CONTACTS_LIST == requestCode){
-            if(data != null && data.hasExtra(IntentBuilder.KEY_DATA)){
+        } else if (CODE_CONTACTS_LIST == requestCode) {
+            if (data != null && data.hasExtra(IntentBuilder.KEY_DATA)) {
                 List<ContactsGroupEntity> groupEntities = data.getParcelableArrayListExtra(IntentBuilder.KEY_DATA);
                 contactsNumber.setVisibility(View.VISIBLE);
                 contactsNumber.setText(getString(R.string.string_text_select_contacts_number
-                        ,String.valueOf(mPresenter.getContactsCount(groupEntities))));
+                        , String.valueOf(mPresenter.getContactsCount(groupEntities))));
                 mPresenter.setGroupIds(groupEntities);
                 mPresenter.getSendNumber(s -> {
-                    tvPhoneNumbers.setText(s);
+                    tvPhoneNumbers.setText(s.length() > 40 ? StringUtil.getCutString(s, 0, 40) : s);
                 });
             }
         }
@@ -173,5 +186,24 @@ public class SendMessageFragment extends BaseMVPFragment<SendMessagePre> {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(GXTUserInfoEvent event) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //do something
+                getUserInfo();
+
+            }
+        }, 600);    //延时1s执行
+    }
+
+    private void getUserInfo(){
+        mPresenter.getUserInfo(r -> {
+            tvBlanceCount.setText(getString(R.string.string_pigeon_message_balance_count, String.valueOf(r.syts)));
+        });
     }
 }

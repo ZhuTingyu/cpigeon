@@ -7,16 +7,20 @@
 
     <RelativeLayout
         android:id="@+id/ll_parent"
+        android:background="@color/black"
         android:layout_width="match_parent"
         android:layout_height="200dp">
 
-        <TextView
-            android:id="@+id/title"
-            tools:text = "12311231241234123"
-            android:layout_margin="10dp"
-            android:textColor="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+
+
+
+
+        <FrameLayout
+            android:id="@+id/ff"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
 
         <ImageView
             android:id="@+id/play"
@@ -27,12 +31,13 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/video_click_play_selector" />
 
-        <FrameLayout
-            android:id="@+id/ff"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </FrameLayout>
+        <TextView
+            android:id="@+id/title"
+            tools:text = "12311231241234123"
+            android:layout_margin="10dp"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </RelativeLayout>
 

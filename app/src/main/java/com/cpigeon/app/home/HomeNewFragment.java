@@ -105,10 +105,12 @@ public class HomeNewFragment extends BaseMVPFragment<HomePre> {
         toolbar.getMenu().clear();
         toolbar.getMenu().add("签到")
                 .setOnMenuItemClickListener(item -> {
-                    Intent intent = new Intent(getActivity(), WebActivity.class);
-                    intent.putExtra(WebActivity.INTENT_DATA_KEY_BACKNAME, "我的");
-                    intent.putExtra(WebActivity.INTENT_DATA_KEY_URL, CPigeonApiUrl.getInstance().getServer() + CPigeonApiUrl.APP_SIGN_URL + "?uid=" + CpigeonData.getInstance().getUserId(getActivity()));
-                    startActivity(intent);
+                    if(checkLogin()){
+                        Intent intent = new Intent(getActivity(), WebActivity.class);
+                        intent.putExtra(WebActivity.INTENT_DATA_KEY_BACKNAME, "我的");
+                        intent.putExtra(WebActivity.INTENT_DATA_KEY_URL, CPigeonApiUrl.getInstance().getServer() + CPigeonApiUrl.APP_SIGN_URL + "?uid=" + CpigeonData.getInstance().getUserId(getActivity()));
+                        startActivity(intent);
+                    }else LoginActivity.startActivity(getActivity());
                     return false;
                 }).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 

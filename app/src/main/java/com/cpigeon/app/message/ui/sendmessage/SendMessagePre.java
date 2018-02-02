@@ -123,4 +123,10 @@ public class SendMessagePre extends BasePresenter {
         };
     }
 
+    public void cleanData(){
+        groupId = "";
+        messageContent = "";
+        sendCount = 0;
+    }
+
 }

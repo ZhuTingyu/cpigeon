@@ -39,10 +39,10 @@ public class MessageHistoryPre extends BasePresenter {
             if(r.isOk()){
                 if(r.isHaveDate()){
                     this.data = r.data;
-                    return data;
                 }else {
-                    return Lists.newArrayList();
+                    this.data = Lists.newArrayList();
                 }
+                return data;
             }else throw new HttpErrorException(r);
         }),consumer);
     }
@@ -51,7 +51,7 @@ public class MessageHistoryPre extends BasePresenter {
         int count = 0;
         if(data != null){
             for(MessageEntity messageEntity : data){
-                count =+ messageEntity.fscount;
+                count = count + messageEntity.fscount;
             }
         }
         return count;

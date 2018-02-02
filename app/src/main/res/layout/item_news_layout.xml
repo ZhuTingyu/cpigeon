@@ -67,7 +67,7 @@
             android:layout_alignParentRight="true"
             android:layout_height="match_parent" />
 
-        <com.cpigeon.app.view.MyTextView
+        <TextView
             android:id="@+id/text_2"
             android:gravity="center_vertical"
             android:layout_width="match_parent"
@@ -104,7 +104,7 @@
             android:layout_alignParentRight="true"
             android:layout_height="match_parent" />
 
-        <com.cpigeon.app.view.MyTextView
+        <TextView
             android:id="@+id/text_3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -141,7 +141,7 @@
             android:layout_alignParentRight="true"
             android:layout_height="match_parent" />
 
-        <com.cpigeon.app.view.MyTextView
+        <TextView
             android:id="@+id/text_4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
